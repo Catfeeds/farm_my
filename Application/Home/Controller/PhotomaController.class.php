@@ -9,6 +9,7 @@
 
 namespace Home\Controller;
 use OT\DataDictionary;
+use Common\Controller\Sms;
 
 /**
  * 前台首页控制器
@@ -30,52 +31,36 @@ class PhotomaController extends HomeController
         $mi = $this->strFilter(I('cipher_code')) ? $this->strFilter(I('cipher_code')) : $mimi;
         $yanzheng_num = $this->strFilter(I('yanzheng_num')) ? $this->strFilter(I('yanzheng_num')) : $yanzheng_num;
         if (check_verify($yanzheng_num, "")) {
-            $host = "http://sms.market.alicloudapi.com";
-            $path = "/singleSendSms";
-            $method = "GET";
-            $mobile_code = $this->random(6, 1);
-            $appcode = "f0a8a55f3c0042859fc4cd4cf7037e7f";
-            $headers = array();
-            array_push($headers, "Authorization:APPCODE " . $appcode);
-            $querys = "ParamString={\"no\":\"$mobile_code\"}&RecNum=$phone&SignName=冰火科技&TemplateCode=SMS_71185231";
-            $bodys = "";
-            $url = $host . $path . "?" . $querys;
-//获取手机号
-            $mobile = $phone;//$_POST['phone_num'];
-//获取验证码
-            $send_code = $mi;//$_POST['cipher_code'];
-//生成的随机数
-            if (empty($mobile)) {
-                $this->error("手机号码不能为空");
-                exit();
-            }
-            $session = session('send_code');
-//            if(empty($session) or $send_code!=$session){
-//                $this->error("请求超时，请刷新页面后重试");
-//                exit();
-//            }
-            $curl = curl_init();
-            curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $method);
-            curl_setopt($curl, CURLOPT_URL, $url);
-            curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
-            curl_setopt($curl, CURLOPT_FAILONERROR, false);
-            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($curl, CURLOPT_HEADER, true);
-            if (1 == strpos("$" . $host, "https://")) {
-                curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-                curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
-            }
-            $jie = curl_exec($curl);
-
-            $add = strstr($jie, '{"success":true}');
-            session('send_code', null);
-            if ($add) {
-                session("yanzenci", 0);
-                session("phone", array("mobile" => $mobile, "mobile_code" => $mobile_code));
-                $this->success("短信已发送");
+            if ($phone == null) {
+                $this -> error("手机号不能为空", 2);
             } else {
+                $sms = new Sms();
 
-                $this->error("短信发送失败，请刷新页面后重试");
+                if (!preg_match("/^1[34578]\d{9}$/", $phone)) {                    //正则匹配手机号是否正确
+                    $this -> error("请输入正确的手机号", 2);
+                } else {
+                    $cfg = $sms -> getSmsCfg();                              //获取配置
+
+                    $code_number = rand(100000, 999999);                                   //获取随机验证码
+
+                    set_time_limit(0);
+                    header('Content-Type: text/plain; charset=utf-8');
+
+                    $response = $sms -> sendSms($phone, $code_number, $cfg);
+                    
+                    if ($response -> Code == "OK") {                                        //发送成功，存入redis
+                        $expire = $cfg['expire'] * 60;                                      //查询验证码过期时间
+
+                        session("yanzenci",5);
+                        session("phone",array("mobile"=>$phone,"mobile_code"=>$code_number));
+
+                        $this -> success("发送成功", 1);
+                    } elseif ($response -> Code == "isv.MOBILE_NUMBER_ILLEGAL") {
+                        $this -> error("请输入正确的手机号", 2);         //发送失败，根据返回码返回提示
+                    } else {
+                        $this -> error("发送失败", 2);
+                    }
+                }
             }
         } else {
             $this->error("请输入正确验证码");
