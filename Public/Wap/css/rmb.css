@@ -1,0 +1,675 @@
+/*充值*/
+.charge{
+	padding: 10px;
+	background: #fff;
+	/*margin-bottom: 50px;*/
+	margin: 10px;
+	margin-top: 50px;
+} 
+.charge dl{
+	text-align: center; 
+}
+.charge dl dt  {
+	line-height: 14px ;
+	margin-top: 5px;
+}
+.charge dl dt  span>img{
+	width: 15px;
+	height: 15px;
+	vertical-align: -3px;
+}
+.czhint{
+	height: 30px;
+	line-height: 30px;
+	font-size: 16px;
+}
+.charge ul li{}
+/*.charge ul li*/
+.cff8c00{
+	color:#FF8C00;
+}
+.chargedl-hint{
+	margin-top: 20px !important;
+}
+.c999{
+	color: #999 !important;
+}
+.gathering{
+	text-align:  left;
+	margin-top: 15px !important;
+	border: 1px rgb(225,225,225) solid;
+	border-radius: 10px;
+	display: -webkit-box; /* Chrome 4+, Safari 3.1, iOS Safari 3.2+ */
+    display: -moz-box; /* Firefox 17- */
+    display: -webkit-flex; /* Chrome 21+, Safari 6.1+, iOS Safari 7+, Opera 15/16 */
+    display: -moz-flex; /* Firefox 18+ */
+    display: -ms-flexbox; /* IE 10 */
+    display: flex;
+	justify-content: center;
+}
+.gathering p{
+	height: 40px;
+	line-height: 40px;
+}
+.gathering p span:nth-child(1){
+	display: inline-block;
+	width: 60px;
+}
+.gathering p span:nth-child(2){
+	margin-left: 5px;
+}
+.charge ul{
+	margin-top: 20px;
+	font-size: 12px;
+	line-height: 150%;
+}
+.fontsize12{
+	font-size: 12px !important;
+}
+/*充值记录*/
+.charge-record{
+	background: #F6F6F6;
+	margin-top: 50px;
+	margin-bottom: 20px;
+}
+.charge-record ul li{
+	height: 135px;
+	background: #fff;
+	padding-left: 10px;
+	margin-bottom:10px;
+}
+.charge-record ul li a{
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+.charge-record-time{
+	height: 50px;
+	line-height: 50px;
+	border: 0px;
+	border-bottom: 1px rgb(225,225,225) solid;
+}
+.charge-record-time span:nth-child(1){
+	float: left;
+	margin-right: 5px;
+}
+.record-flag{
+	float: right !important;
+	margin-right: 15px;
+}
+.cffc700{
+	color: #ffc700;
+}
+.record-info{
+	display: -webkit-box; /* Chrome 4+, Safari 3.1, iOS Safari 3.2+ */
+    display: -moz-box; /* Firefox 17- */
+    display: -webkit-flex; /* Chrome 21+, Safari 6.1+, iOS Safari 7+, Opera 15/16 */
+    display: -moz-flex; /* Firefox 18+ */
+    display: -ms-flexbox; /* IE 10 */
+    display: flex;
+}
+.record-info dl{
+	flex: 2;
+}
+.record-info dl{
+	padding: 20px 0px;
+}
+.record-info dl dt:nth-child(1){
+	margin-bottom: 5px;
+	
+}
+.record-info dl:nth-child(4){
+	flex: 1;
+	line-height: 40px;
+	text-align: center;
+}
+.record-info dl:nth-child(4) dt img{
+	width: 8px;
+	height: 12px;
+}
+.record-info dl dt:nth-child(2){
+	color: #999999;
+}
+/*转账记录状态*/
+.charge-record-state{
+	margin:10px;
+	margin-top: 50px;
+	background: #fff;
+	height: 100%;
+}
+.charge-record-state ul li{
+	overflow: hidden;
+	height: 50px;
+	line-height: 50px;
+	margin: 0px 10px;
+	border-bottom: 1px rgb(225,225,225) solid;
+}
+.charge-record-state ul li span:nth-child(1){
+	float: left;
+}
+.charge-record-state ul li span:nth-child(2){
+	float: right;	
+}
+
+.fetch{
+	background: #fff;
+	padding: 10px;
+	margin-top: 40px;
+	
+}
+.cgreen{color: #66cd00;}
+.fetchh2{
+	height: 30px;
+	line-height: 30px;
+	font-size: 16px;
+	color: #000;
+	text-indent: 10px;
+	
+}
+.fetch-select-bank{
+	height: 38px;
+	display: -webkit-box; /* Chrome 4+, Safari 3.1, iOS Safari 3.2+ */
+    display: -moz-box; /* Firefox 17- */
+    display: -webkit-flex; /* Chrome 21+, Safari 6.1+, iOS Safari 7+, Opera 15/16 */
+    display: -moz-flex; /* Firefox 18+ */
+    display: -ms-flexbox; /* IE 10 */
+    display: flex;
+}
+.fetch-select-bank select{
+	display: inline-block;
+	height: 40px;
+	width: 80%;
+	color: #333;
+	/*float: left;*/
+	-webkit-appearance: none;
+	background: #fff url(../img/xiala.png) no-repeat 98% center;
+	border: 0px;
+	border: rgb(225,225,225) 1px solid;
+	text-indent: 10px;
+	border-radius: 0px;
+	flex: 7;
+	outline: none;
+	box-sizing: border-box;
+}
+.fetch-select-bank a{
+	line-height: 40px;
+	margin-left: 10px;
+	background: #999;
+	float: right;
+	width: 100px;
+	text-align: center;
+	height: 40px;
+	display: inline-block;
+	border: 0px;
+	border:1px rgb(225,225,225) solid;
+	color: #fff;
+	border: 0px;
+	font-size: 13px;
+	box-sizing: border-box;
+}
+.fetch-in{
+	margin-top: 10px;
+}
+.fetch-select-fillout{
+	overflow: hidden;
+}
+.fetch-select-fillout input{
+	-webkit-appearance: none;
+	width: 100%;
+	height: 40px;
+	border: 0px;       
+	outline: none;
+	/*margin-top: 10px;*/
+	border-bottom: 1px rgb(225,225,225) solid;
+	border-radius: 0px;
+	padding: 10px;
+	box-sizing: border-box;
+	margin-bottom: 10px;
+}
+.fetch-select-yzm{
+	margin-top: 20px;
+	position: relative;
+	width: 100%;
+}
+.fetch-select-yzm input{
+	width: 100%;                   
+	padding: 10px;
+	box-sizing: border-box;
+	border: 0px;
+	border-bottom:  1px rgb(225,225,225) solid;
+	border-radius: 0px;
+	outline: none;
+	box-sizing: border-box;
+}
+.fetch-select-yzm input:focus{
+	outline: none;
+}
+.fetch-select-yzm button{
+	color: #fff;
+    background: #FF8C00;
+    outline: none;
+    height: 40px;
+    border: 0px;
+    border-radius: 0px;
+    -webkit-appearance: none;
+    position: absolute;
+    right: 0px;
+    bottom: 5px;
+    font-size: 14px;
+   	width: 100px;
+}
+.fetch-select-txyzm{
+	position: relative;
+	width: 100%;
+	margin-top: 10px;
+}
+.fetch-select-txyzm input{
+	width: 100%;                   
+	padding: 10px;
+	box-sizing: border-box;
+	border: 0px;
+	border-bottom:  1px rgb(225,225,225) solid;
+	border-radius: 0px;
+	outline: none;
+	box-sizing: border-box;
+}
+.fetch-select-txyzm img{
+	color: #fff;
+    background: #999;
+    outline: none;
+    height: 50px;
+    border: 0px;
+    border-radius: 0px;
+    -webkit-appearance: none;
+    position: absolute;
+    right: 0px;
+    bottom: 5px;
+   	/*width: 100px;*/
+}
+@media only screen and (max-width: 360px) {
+	.fetch-select-txyzm img{width: 180px;}
+}
+@media only screen and (min-width:360px ) {
+	/*.fetch-select-txyzm img{width: 110px;}*/
+	.fetch-select-yzm button{width: 110px;}
+}
+@media only screen and (min-width:400px ) {
+	/*.fetch-select-txyzm img{width: 120px;}*/
+	.fetch-select-yzm button{width: 120px;}
+}
+.fetch-choice{
+	margin-bottom: 20px;
+}
+.fetch-choice dl dt span{
+	font-size: 11px;
+}
+@media only screen and (max-width: 360px ) {
+	.fetch-choice dl dt span{font-size: 10px;}
+	.fetch-choice dl dt h2{margin-left: 5px !important;}
+}
+.fetch-choice dl dt{
+	display: -webkit-box; /* Chrome 4+, Safari 3.1, iOS Safari 3.2+ */
+    display: -moz-box; /* Firefox 17- */
+    display: -webkit-flex; /* Chrome 21+, Safari 6.1+, iOS Safari 7+, Opera 15/16 */
+    display: -moz-flex; /* Firefox 18+ */
+    display: -ms-flexbox; /* IE 10 */
+    display: flex;
+	margin-top: 20px;
+}
+.fetch-choice dl dt img{
+	line-height: 40px;
+	vertical-align: 0px;
+	outline: none;
+	width: 20px;
+	height: 20px;
+
+}
+.fetch-choice dl dt h2{
+	margin-left: 10px;
+	font-size: 14px;
+	flex: 2.4;
+}
+.fetch-choice dl dt span{
+	flex: 6.5;
+	
+}
+.fetch-carry{
+	width: 100%;
+	
+}
+.fetch-carry input{
+	width: 100%;
+	height: 40px;
+	border: 0px ;
+	background: #FF8C00;
+	color: #FFFFFF;
+	border-radius: 0px;
+	outline: none;
+}
+.fetch-notice{
+	margin-top: 10px;
+}
+/*银行卡*/
+.bank{
+	margin: 20px;
+	background: #F6F6F6;
+	margin-top: 50px;
+}
+/*银行卡管理*/
+.bank{
+	
+}
+.bank ul li{
+	background: #fff;
+	margin-bottom: 10px;
+}
+.bank ul li .bank-handle{
+	margin-left: 10px;
+	padding: 10px 0px;
+	border-bottom: 1px rgb(225,225,225) solid;
+	overflow: hidden;
+}
+.bank-handle .bank-name{
+	float: left;
+}
+.bank-handle .bank-del{
+	float: right;
+	width: 20px;
+	height: 20px;
+	margin-right: 10px;
+}
+.bank ul li dl{
+	padding: 0px 10px;
+}
+.bank ul li dl dt{
+	height: 30px;
+	line-height: 30px;
+}
+.add-bank{
+	height: 50px;
+	margin-top: 20px;
+}
+.add-bank a{
+	font-size: 16px;
+	display: inline-block;
+	height: 50px;
+	line-height: 50px;
+	width: 100%;
+	background: #FF8C00;
+	color: #fff;
+	text-align: center;
+}
+
+/*红包*/
+.red-packet{
+	margin-top: 40px;
+	padding: 20px;
+}
+.red-packet input{
+	width: 100%;
+	height: 40px;
+	-webkit-appearance: none;
+	border: 1px rgb(225,225,225) solid;
+	outline: none;
+	text-indent: 10px;
+}
+.red-packet p{
+	margin-top: 10px;
+	margin-bottom: 20px;
+}
+.packet-draw{
+	width: 100%;
+	border: 0px;
+	border-radius: 0px;
+	height: 40px;
+	background: #FF8C00;
+	color: #fff;
+	outline: none;
+}
+
+.add-bank{
+	margin-top: 40px;
+	padding: 20px;
+}
+.select-bank{
+	
+}
+.select-bank select{
+	width: 100%;
+	height: 40px;
+	-webkit-appearance: none;
+	margin-top: 10px;
+	border: 0px;
+	border: 1px rgb(225,225,225) solid;
+	color: #999;
+	text-indent: 10px;
+	outline: none;	
+	background: url(../img/xiala.png) no-repeat 98% center;
+}
+.in-bank{
+	
+}
+.in-bank input{
+	outline: none;	
+	text-indent: 10px;
+	width: 100%;
+	height: 40px;
+	margin-top: 10px;
+	border: 0px;
+	border: 1px rgb(225,225,225) solid;
+	color: #999;
+}
+.affirm-add{
+	width: 100%;
+	height: 40px;
+	margin-top: 20px;
+}
+.affirm-add button{
+	font-size: 16px;
+	outline: none;	
+	width: 100%;
+	height: 40px;
+	border: 0px;
+	border-radius: 0px;
+	-webkit-appearance: none;
+	background: #FF8C00;
+	color: #fff;
+}
+.red{color: #FF0000;}
+
+.account-name{
+	outline: none;
+    text-indent: 10px;
+    width: 100%;
+    height: 40px;
+    margin-top: 10px;
+    border: 0px;
+    border: 1px rgb(225,225,225) solid;
+    color: #999;
+}
+
+.fetch-record{
+	margin-top: 40px;
+	padding: 10px;
+	background: #F6F6F6;
+}
+.fetch-record ul li{
+	background: #fff;
+	padding: 0px 10px;
+	position: relative;
+	margin-bottom: 10px;
+}
+.fetch-record ul li>div{
+	display: -webkit-box; /* Chrome 4+, Safari 3.1, iOS Safari 3.2+ */
+    display: -moz-box; /* Firefox 17- */
+    display: -webkit-flex; /* Chrome 21+, Safari 6.1+, iOS Safari 7+, Opera 15/16 */
+    display: -moz-flex; /* Firefox 18+ */
+    display: -ms-flexbox; /* IE 10 */
+    display: flex;
+	height: 35px;
+	line-height: 35px;
+	border-bottom: 1px rgb(225,225,225) solid;
+	/*line-height: 30px;*/
+}
+.fetch-record ul li>div:nth-child(2){
+	border: 0px !important;
+}
+.fetch-record ul li>div>p{
+	flex: 1;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	/*word-break: break-word;*/
+}
+.fetch-record ul li>div>p span{
+	margin-right: 5px;
+}
+.fetch-record ul li>div:nth-child(1){
+	color: #999;
+}
+.fetch-record ul li>div:nth-child(3){
+	border-bottom: 0px;
+}
+.withdrawal-state{
+	position: relative;
+	position: absolute;
+	bottom: 10px;
+	right: 10px;
+}
+.cbuy{
+	color: red;
+}
+.csell{
+	color: green;
+}
+.recordid{
+	color: #C0C0C0;
+}
+.Nameremitter{
+	height: 30px;
+    line-height: 30px;
+    font-size: 16px;
+    color: #000;
+    margin-top: 10px;
+    text-indent: 10px;
+    
+}
+.Nameremitter span{
+	color: #999;
+}
+.charge_0{
+	
+}
+.charge_0_title{
+	text-align: center;
+	height: 50px;
+	line-height: 50px;
+	color: #FF8C00;
+}
+.charge_0_title img{
+	width: 16px;
+	height: 16px;
+	vertical-align: middle;
+	margin-right: 5px;
+}
+.charge_0_con{
+	display: -webkit-box; /* Chrome 4+, Safari 3.1, iOS Safari 3.2+ */
+    display: -moz-box; /* Firefox 17- */
+    display: -webkit-flex; /* Chrome 21+, Safari 6.1+, iOS Safari 7+, Opera 15/16 */
+    display: -moz-flex; /* Firefox 18+ */
+    display: -ms-flexbox; /* IE 10 */
+    display: flex;
+	justify-content: center;
+}
+.charge_0_con p{
+	margin-bottom: 5px;
+	font-size: 12px;
+}
+.charge_0_btn{
+	width: 100%;
+	height: 35px;
+	border: 0px;
+	line-height: 35px;
+	text-align: center;
+	display: block;
+	background: #c5c5c5;
+	color: #fff;
+	border-radius: 4px;
+	margin-top: 30px;
+}
+.charge_1{
+	display: none;
+}
+.charge_2{
+	display: none;
+}
+.charge_1_title{
+	font-size: 16px;
+}
+.charge_1_in{
+	display: -webkit-box; /* Chrome 4+, Safari 3.1, iOS Safari 3.2+ */
+    display: -moz-box; /* Firefox 17- */
+    display: -webkit-flex; /* Chrome 21+, Safari 6.1+, iOS Safari 7+, Opera 15/16 */
+    display: -moz-flex; /* Firefox 18+ */
+    display: -ms-flexbox; /* IE 10 */
+    display: flex;
+	height: 40px;
+	line-height: 40px;
+	margin-top: 20px;
+}
+
+.charge_1_in label{
+	flex: 3;
+}
+.charge_1_in select{
+	flex: 7;
+	outline: none;
+	padding:0px 10px;
+	box-sizing: border-box;
+	-webkit-appearance: none;
+	border: 1px rgb(225,225,225) solid;
+	color: #333;
+	background: #fff url(../img/xiala.png) no-repeat 98% center;
+}
+.charge_1_in input{
+	flex: 7;
+	border: 1px rgb(225,225,225) solid;
+	outline: none;
+	padding: 10px;
+	box-sizing: border-box;
+	-webkit-appearance: none;
+	color: #333;
+}
+.charge_1_btn{
+	margin-top: 20px;
+}
+.charge_1_btn a{
+	width: 100%;
+	height: 40px;
+	border: 0px;
+	line-height: 40px;
+	text-align: center;
+	display: block;
+	background: #FF8C00;
+	color: #fff;
+	
+}
+.withdrawal-state .delete{
+	width: 20px;
+	height: 20px;
+	position: absolute;
+	right: 0px;
+	top: -20px;
+}
+.bdyhc{
+	width: 100%;
+    height: 40px;
+    border: 0px;
+    line-height: 40px;
+    text-align: center;
+    display: block;
+    background: #FF8C00;
+    color: #fff;
+    margin: 20px 0px;
+}
+

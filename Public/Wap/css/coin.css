@@ -1,0 +1,509 @@
+.join-coin{
+	background: #F6F6F6;
+	padding: 10px 10px 0px 10px;
+	margin-top: 40px;
+}
+.join-coin ul{
+	background: #F6F6F6;
+	overflow: hidden;
+}
+.join-coin ul li{
+	float: left;
+	width: 48%;
+	height: 40px;
+	line-height: 40px;
+	background: #fff;
+	margin-bottom: 10px;
+}
+.join-coin ul li:nth-child(even){
+	float: right;
+}
+.join-coin ul li
+.join-coin ul li a{
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+
+.join-coin ul li a .coin-head{
+	margin-top: 7.5px;
+	float: left;
+	width: 25px;
+	height: 25px;
+	margin-left: 10px;
+	margin-right: 5px;
+}
+.join-coin ul li a .coin-character{
+	float: left;
+	width: 110px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	
+}
+
+
+@media only screen and (max-width: 370px) {
+	.join-coin ul li a .coin-character{width: 100px;}
+}
+@media only screen and (max-width: 360px) {
+	.join-coin ul li a .coin-character{width: 95px;}
+}
+@media only screen and (max-width: 350px) {
+	.join-coin ul li a .coin-character{width: 90px;}
+}
+@media only screen and (max-width: 340px) {
+	.join-coin ul li a .coin-character{width: 85px;}
+}
+@media only screen and (min-width: 400px) {
+	.join-coin ul li a .coin-character{width: 120px;}
+}
+.join-coin ul li a .coin-right{
+	float: right;
+	width: 8px;
+	height: 12px;
+	vertical-align: -2px;
+	margin-top: 14px;
+	margin-right: 10px;
+}
+/*转入详情*/
+.join-coin-detail{
+	background: #fff;
+	margin-top: 50px;
+}
+.coin-detail-shift{
+	padding: 20px;
+}
+.coin-detail-shift dl dt{
+	margin-bottom: 10px;
+}
+.coin-detail-site{
+	padding: 10px;
+	background: #FF504B;
+	color: #fff;
+}
+.coin-detail-site p:nth-child(1){
+	margin-bottom: 10px;
+}
+.coin-detail-site p:nth-child(2){
+	font-size: 12px;
+}
+.coin-detail-hint{
+	margin-top: 10px;
+}
+
+.coin-out-location{
+	position: relative;
+}
+.coin-out-location input{
+	outline: none;
+	-webkit-appearance: none;
+	text-indent: 10px;
+	width: 100%;
+	height: 40px;
+	border: 0px;
+	border-radius: 0px;
+	border: 1px rgb(225,225,225) solid;
+}
+.coin-out-location a{
+	display: block;
+	width: 40px;
+	height: 40px;
+	position: absolute;
+	right: 0px;
+	top: 0px;
+	border-left: 1px rgb(225,225,225) solid;
+}
+.coin-out-location a img{
+	width: 22px;
+	height: 22px;
+	margin: 10px;
+}
+.input100{
+	text-indent: 10px;
+	margin-top: 10px;
+	width: 100%;
+	height: 40px;
+	border: 0px;
+	border-radius: 0px;
+	outline: none;
+	border: 1px rgb(225,225,225) solid !important;
+	-webkit-appearance: none;
+}
+.coin-out-hint{
+	margin-top: 5px;
+	margin-bottom: 10px;
+	color: #FF504B;
+	font-size: 12px;
+}
+.coin-out-yzm{
+	display: -webkit-box; /* Chrome 4+, Safari 3.1, iOS Safari 3.2+ */
+    display: -moz-box; /* Firefox 17- */
+    display: -webkit-flex; /* Chrome 21+, Safari 6.1+, iOS Safari 7+, Opera 15/16 */
+    display: -moz-flex; /* Firefox 18+ */
+    display: -ms-flexbox; /* IE 10 */
+    display: flex;
+	margin-top: 10px;
+	margin-bottom: 20px;
+}
+.coin-out-yzm input{
+	text-indent: 10px;
+	flex: 7;
+	height: 40px;
+	border: 0px;
+	border-radius: 0px;
+	-webkit-appearance: none;
+	outline: none;
+	border: 1px rgb(225,225,225) solid;
+}
+.coin-out-yzm a{
+	flex: 3;
+	height: 40px;
+	line-height: 40px;
+	background: #FF8C00;
+	text-align: center;
+	color: #fff;
+	margin-left: 10px;
+}
+.coin-out-btm{
+	width: 100%;
+	height: 40px;
+	text-align: center;
+	color: #fff;
+	font-size: 16px;
+	background: #FF8C00;
+	border: 0px;
+	border-radius: 0px;
+	outline: none;
+}
+
+
+/*委托管理*/
+.entrust-coin{
+	background: #F6F6F6;
+	padding: 10px 10px 0px 10px;
+	margin-top: 110px;
+}
+.entrust-coin-detail{
+	background: #F6F6F6;
+	padding: 10px 10px 0px 10px;
+	margin-top: 40px;
+}
+.entrust-coin ul{
+	overflow: hidden;
+}
+.entrust-coin ul li{
+	float: left;
+	height: 40px;
+	line-height: 40px;
+	background: #fff;
+	margin-bottom: 10px;
+	width: 48%;
+}
+.entrust-coin ul li:nth-child(even){
+	float: right;
+}
+.entrust-coin ul li a{
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+
+.entrust-coin ul li a .coin-head{
+	margin-top: 7.5px;
+	float: left;
+	width: 25px;
+	height: 25px;
+	margin-left: 10px;
+	margin-right: 5px;
+}
+.entrust-coin ul li a .coin-character{
+	float: left;
+	width: 110px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+@media only screen and (max-width: 370px) {
+	.entrust-coin ul li a .coin-character{width: 100px;}
+}
+@media only screen and (max-width: 360px) {
+	.entrust-coin ul li a .coin-character{width: 95px;}
+}
+@media only screen and (max-width: 350px) {
+	.entrust-coin ul li a .coin-character{width: 90px;}
+}
+@media only screen and (max-width: 340px) {
+	.entrust-coin ul li a .coin-character{width: 85px;}
+}
+@media only screen and (min-width: 400px) {
+	.entrust-coin ul li a .coin-character{width: 120px;}
+}
+.entrust-coin ul li a .coin-right{
+	float: right;
+	width: 8px;
+	height: 12px;
+	vertical-align: -2px;
+	margin-top: 14px;
+	margin-right: 10px;
+}
+
+
+.tab-entrust{
+	width: 100%;
+	position: fixed;
+	top: 50px;
+	background: #F6F6F6;
+	max-width: 640px;
+}
+.tab-entrust .swiper-container{
+	margin: 0px 10px;
+	border-radius: 4px;
+	overflow: hidden;
+}
+.tab-entrust .tab-entrustlist{
+	background: #fff;
+	box-sizing: border-box;
+	
+}
+.tab-entrust .tab-entrustlist a{
+	height: 50px;
+	line-height: 50px;
+	text-align: center;
+	background: #fff;
+	display: inline-block;
+	width: 50%;
+}
+#entrust_puyin{
+	display: none;
+}
+		
+.entrust-record{
+	background: #fff;
+}
+.record-title{
+	display: -webkit-box; /* Chrome 4+, Safari 3.1, iOS Safari 3.2+ */
+    display: -moz-box; /* Firefox 17- */
+    display: -webkit-flex; /* Chrome 21+, Safari 6.1+, iOS Safari 7+, Opera 15/16 */
+    display: -moz-flex; /* Firefox 18+ */
+    display: -ms-flexbox; /* IE 10 */
+    display: flex;
+	height: 40px;
+	line-height: 40px;
+	padding: 0px 10px;
+	box-sizing: border-box;
+}
+.record-title>span:nth-child(1){
+	flex: 2;
+}
+.record-title>span:nth-child(2){
+	flex: 3.5;
+}
+.record-title>span:nth-child(3){
+	flex: 3.5;
+}
+.record-title>span:nth-child(4){
+	flex: 3;
+}
+.record-content ul li{
+	display: -webkit-box; /* Chrome 4+, Safari 3.1, iOS Safari 3.2+ */
+    display: -moz-box; /* Firefox 17- */
+    display: -webkit-flex; /* Chrome 21+, Safari 6.1+, iOS Safari 7+, Opera 15/16 */
+    display: -moz-flex; /* Firefox 18+ */
+    display: -ms-flexbox; /* IE 10 */
+    display: flex;
+	width: 100%;
+	margin-bottom: 0px;
+	background: #e2e2e2;
+	padding: 0px 10px;
+	box-sizing: border-box;
+}
+.record-content ul li span{
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.record-content ul li>span:nth-child(1){
+	flex: 2;
+	line-height: 40px;
+}
+.record-content ul li>span:nth-child(2){
+	flex: 3.5;
+	margin-top: 5px;
+}
+.record-content ul li>span:nth-child(3){
+	flex: 3.5;
+	line-height: 40px;
+	
+}
+.record-content ul li>span:nth-child(4){
+	flex: 3;
+	line-height: 40px;
+}
+
+.record-content ul li:nth-child(even){
+	background: #fff;
+}
+.commissioned-detail{
+	background: #F6F6F6;
+	padding: 10px 10px 0px 10px;
+	margin-top: 40px;
+}
+.commissioned-detail ul li{
+	width: 100%;
+	box-sizing: border-box;
+	height: 60px;
+	background: #fff;
+	padding: 0px 20px;
+	margin-bottom: 10px;
+	position: relative;
+}
+.add-title{
+	height: 30px;
+	border-bottom: 1px rgb(225,225,225) solid;
+	overflow: hidden;
+}
+.add-title span:nth-child(1){
+	float: left;
+	line-height: 30px;
+	margin-left: 20px;
+}
+.add-title span:nth-child(2){
+	float: right;
+	/*width: 18px;
+	height: 18px;*/
+	margin-top: 5px;
+}
+.add-title img{
+	width: 18px;
+	height: 18px;
+	vertical-align: middle;
+}
+.add-amount{
+	overflow: hidden;
+	height: 30px;
+	line-height: 30px;
+}
+.add-amount p:nth-child(1){
+	float: left;
+	margin-left: 10px;
+}
+.add-amount p:nth-child(2){
+	float: right;
+	margin-right: 20px;
+}
+.addstatus{
+	position: absolute;
+	top: 5px;
+	left: 5px;
+	line-height: 14px;
+}
+.join-coin-record{
+	margin-top: 50px;
+	padding: 10px;
+}
+.join-coin-record ul li{
+	background: #fff;
+	padding:0px 10px;
+	margin-bottom: 10px;
+}
+.join-coin-record ul li>div{
+	display: -webkit-box; /* Chrome 4+, Safari 3.1, iOS Safari 3.2+ */
+    display: -moz-box; /* Firefox 17- */
+    display: -webkit-flex; /* Chrome 21+, Safari 6.1+, iOS Safari 7+, Opera 15/16 */
+    display: -moz-flex; /* Firefox 18+ */
+    display: -ms-flexbox; /* IE 10 */
+    display: flex;
+	height: 30px;
+	line-height: 30px;
+}
+.join-coin-record ul li>div p{
+	/*text-align: center;*/
+}
+.join-coin-record ul li>div p:nth-child(1){
+	text-align: left;
+}
+.coin-record-info p{
+	flex: 3;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.coin-record-info p:nth-child(1){
+	flex: 3;
+}
+.coin-record-info p:nth-child(2){
+	flex: 2;
+}
+.coin-record-info p:nth-child(3){
+	flex: 2;
+}
+.coin-record-condition p:nth-child(1){
+	width: 70%;
+	display: inline-block;
+	text-align: left;
+}
+.coin-record-condition p:nth-child(2){
+	width: 30%;
+	display: inline-block;
+	text-align: center;
+	
+}
+
+/*转出记录*/
+.out-coin-record{
+	margin-top: 50px;
+	padding: 10px;
+}
+.out-coin-record ul li{
+	background: #fff;
+	padding:0px 10px;
+	margin-bottom: 10px;
+}
+.out-coin-record ul li>div{
+	height: 30px;
+	line-height: 30px;
+}
+.out-coin-record ul li>div p{
+}
+.out-coin-record ul li>div p span{
+	margin-right: 2px;
+}
+.out-coin-record ul li>div p:nth-child(1){
+	/*float: left;*/
+}
+.out-coin-record ul li>div p:nth-child(2){
+	/*float: right;*/
+}
+
+.out-record-condition p:nth-child(1){
+}
+
+.out-record-num{
+	display: -webkit-box; /* Chrome 4+, Safari 3.1, iOS Safari 3.2+ */
+    display: -moz-box; /* Firefox 17- */
+    display: -webkit-flex; /* Chrome 21+, Safari 6.1+, iOS Safari 7+, Opera 15/16 */
+    display: -moz-flex; /* Firefox 18+ */
+    display: -ms-flexbox; /* IE 10 */
+    display: flex;
+}
+.out-record-num p:nth-child(1){
+	flex: 6;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.out-record-num p:nth-child(2){
+	flex: 4;
+}
+.coin-record-num{
+	display: -webkit-box; /* Chrome 4+, Safari 3.1, iOS Safari 3.2+ */
+    display: -moz-box; /* Firefox 17- */
+    display: -webkit-flex; /* Chrome 21+, Safari 6.1+, iOS Safari 7+, Opera 15/16 */
+    display: -moz-flex; /* Firefox 18+ */
+    display: -ms-flexbox; /* IE 10 */
+    display: flex;
+}
+.coin-record-num p{
+	flex: 1;
+}

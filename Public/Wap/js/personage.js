@@ -1,0 +1,14 @@
+$(function(){
+	$(".applyshow").click(function(){
+		$(".applyfor-box").show();
+		$(".cover").show();
+	})
+	$(".applyforclose").click(function(){
+		$(".applyfor-box").hide();
+		$(".cover").hide();
+	})
+	$(".cover").click(function(){
+		$(".applyfor-box").hide();
+		$(".cover").hide();
+	})
+})

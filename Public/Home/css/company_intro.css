@@ -1,0 +1,120 @@
+
+body{
+    overflow-x: hidden;
+}
+.center_content  .pull-left #nav_left ul li a{
+    padding-left: 30px;
+}
+#news_main{
+    min-height: 600px;
+    position: relative;
+    padding-bottom: 100px;
+}
+#news_main .big_title{
+    padding: 15px 20px;
+    border-bottom: 1px dashed rgb(250, 66, 35);
+}
+#news_main .big_title h4{
+    float: left;
+}
+
+#news_main .intro_content{
+    padding: 15px 30px 15px 20px;
+}
+#news_main .intro_content dl{
+margin-bottom: 50px;
+}
+#news_main .intro_content dl dt{
+    font-size: 16px;
+    font-weight: bold;
+    border-left: 3px solid #FA4223;
+    margin: 20px 0;
+    padding-left: 20px;
+    color: #555555;
+}
+#news_main .intro_content dl dd{
+    line-height: 25px;
+    color: #666666;
+    text-align: justify;
+    text-indent: 29px;
+}
+#news_main .intro_content dl dd span{
+   color: #FA4223;
+}
+#news_main .intro_content dl dd span:hover{
+   text-decoration: underline;
+}
+#news_main .intro_content dl dd strong{
+    padding-top: 10px;
+    display: inline-block;
+    margin-left: -30px;
+
+}
+#news_main .intro_content dl dd table{
+    width: 100%;
+    border: 1px solid #dddddd;
+}
+#news_main .intro_content dl dd table thead{
+    background-color: #f8f8f8;
+}
+#news_main .intro_content dl dd table td{
+    padding: 5px 0;
+}
+#news_main .intro_content dl dd table td:first-child{
+    width: 15%;
+}
+#news_main .intro_content dl dd table tbody tr{
+    border-top: 1px solid #dddddd;
+}
+#news_main .intro_content dl dd table tbody tr:hover{
+    background-color: #fcf8e3;
+}
+#news_main .intro_content ol{
+    list-style-type: decimal;
+    margin-left: -20px;
+}
+#news_main .intro_content ol>li{
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #555555;
+}
+#news_main .intro_content ol>li ul{
+    font-weight: normal;
+    list-style-type: lower-latin;
+    margin-left: -20px;
+}
+#news_main .intro_content table.friend_link{
+    width:100%;
+}
+#news_main .intro_content table.friend_link td{
+        width:20%;
+    height: 40px;
+}
+#news_main .intro_content table.friend_link td a{
+   color: #666666;
+}
+#news_main .intro_content table.friend_link td a:hover{
+    color: #FA4223;
+}
+/*leader_team*/
+.intro_list li{
+    margin-bottom: 60px;
+}
+.intro_list li img{
+    max-width: 18%;
+    max-height: 155px;
+}
+.person_intro{
+    width: 80%;
+    float: right;
+}
+.person_intro h4{
+    color: rgb(250, 66, 35);
+}
+.person_intro h5 span{
+    color: #999999;
+}
+.person_intro p{
+    color: #555555;
+    text-align: justify;
+}

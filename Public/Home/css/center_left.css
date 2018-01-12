@@ -1,0 +1,108 @@
+/*left nav media*/
+
+.center_content .pull-left.fix_left{
+    min-width: 218px;
+}
+
+@media (max-width: 1199px){
+    .center_content .pull-left.fix_left{
+        width:218px
+    }
+}
+
+@media (min-width:1200px){
+    .center_content .pull-left.fix_left{
+        width:234px
+    }
+}
+/*center left*/
+.center_content{
+    background-color: #eeeeee;
+    border: 1px solid #dddddd;
+    min-height: 600px;
+}
+.center_content .pull-left{
+    width: 20%;
+    position: relative;
+    z-index: 10;
+}
+.center_content .pull-left ul{
+    margin-bottom: 0;
+}
+.center_content .pull-left ul li{
+    margin-bottom: 5px;
+    background-color: rgba(0, 0, 0, 0.35);
+    position: relative;
+}
+.center_content .pull-left ul li .right_icon {
+    width: 14px;
+    height: 14px;
+    position: absolute;
+    right: 20px;
+    top: 13px;
+    color: #FA4223;
+    display: none;
+    background: url("../images/safe_center/right_arrow.png") no-repeat;
+}
+
+.center_content .pull-left ul li.selected .right_icon {
+    display: inline-block;
+}
+.center_content .pull-left h5{
+    margin: 0;
+    padding: 10px 20px;
+    background-color: rgba(0, 0, 0, 0.6);
+    font-size: 16px;
+    color: #dddddd;
+    font-weight: bold;
+    margin-bottom: 5px;
+    cursor: pointer;
+}
+.center_content .pull-left h5 span{
+    font-size: 12px;
+    float: right;
+    top: 4px;
+}
+.center_content .pull-left ul li a{
+    background-color: #4B4B4B;
+    color:#dddddd;
+    text-decoration:none;
+    display: block;
+    padding: 8px 20px;
+    width: 100%;
+    font-size: 15px;
+    background-color: rgba(0, 0, 0, 0.35);
+}
+.center_content .pull-left ul li a:hover{
+    color:#FA4223;
+}
+.center_content .pull-left ul li.selected a{
+    color:#FA4223;
+    font-weight: bold;
+    background-color: #FFFFFF;
+}
+/*center right*/
+.center_content .pull-right{
+    width: 80%;
+    min-height: 600px;
+    background-color: white;
+    padding-left: 30px;
+}
+.big_title{
+    padding: 15px 20px;
+    border-bottom: 1px dashed #FA4223;
+}
+ .big_title h4{
+    float: left;
+     font-size: 18px;
+     margin: 10px 0;
+}
+
+ @media (max-width: 1199px) {
+     .center_content .pull-right{
+         width: 78%;
+     }
+     .center_content .pull-left{
+         width: 22%;
+     }
+ }

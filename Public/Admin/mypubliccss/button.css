@@ -1,0 +1,30 @@
+.btns{
+    width: 65px;
+    height: 35px;
+    border: 0px;
+    border-radius: 3px;
+    color: white;
+    font-size: 15px;
+}
+
+.btns-red{
+    background: #CC3900;
+}
+.btns-red:hover{
+    background: #ff2918;
+}
+
+.btns-green{
+    background: #1ABC9C;
+}
+
+.btns-green:hover{
+    background: #0c9e69;
+}
+
+.btn-form{
+    width: 500px;
+    text-align: center;
+    margin-top: 15px;
+    margin-left: 70px;
+}

@@ -1,0 +1,462 @@
+body{
+	background: #fff;
+}
+input{box-sizing: border-box;}
+.designation{
+	background: #fff;
+	margin-top: 40px;
+	padding: 20px 0px;
+	text-align: center;
+}
+.designation img{
+	/*width: 88px;*/
+	height: 43px;
+}
+.enter{
+	padding: 0px 20px;
+}
+.enter input{
+	width: 100%;
+	border: 0px;
+	outline: none;
+	border-bottom: 1px rgb(225,225,225) solid;
+}
+.enter input[type=tel]{
+	height: 40px;
+	background: #fff;
+	text-indent: 10px;
+	color: #333;
+	margin-bottom: 20px;
+	border-radius: 0px;
+	/*border:1px #3 solid;*/
+}
+.enter input[type=text]{
+	height: 40px;
+	background: #fff;
+	text-indent: 10px;
+	color: #333;
+	margin-bottom: 20px;
+	border-radius: 0px;
+	/*border:1px #3 solid;*/
+}
+.pass{
+	height: 40px;
+	background: #fff;
+	text-indent: 10px;
+	color: #333;
+	margin-bottom: 20px;
+	border-radius: 0px;
+}
+.login{
+	height: 45px;
+	border: 0px;
+	background: #FF8C00;
+	color: #fff;
+	font-size: 16px;
+	border-radius: 0px;
+}
+.register-forget{
+	margin-top: 12px;
+	padding: 0px 20px;
+	/*text-align: right;*/
+	color: #ff504b;
+	display: flex;
+	justify-content: space-between;
+}
+.register-forget a{
+	color: #e85316;
+	text-decoration: underline;
+	
+}
+/*注册*/
+.register{
+	padding:0 20px;
+	margin-top: 50px;
+}
+.register-write {
+}
+.register-write input{
+	text-indent: 10px;
+	border-radius: 0px;
+	height: 40px;
+}
+.register-write .feedin{
+	width: 100%;
+	margin-top: 10px;
+	outline: none;
+	border: 0px;
+	border-bottom:1px rgb(225,225,225) solid; 
+	-webkit-appearance: none;
+}
+.register-yz{
+	margin-top: 12px;
+	position: relative;
+}
+.register-yz input{
+	width: 100%;
+	border: 0px;
+	border-bottom:1px rgb(225,225,225) solid; 
+	/*margin-top: 10px;*/
+	outline: none;
+}
+
+.register-yz a{
+	color: #fff;
+	display: inline-block;
+	height: 40px;
+	line-height: 40px;
+	background: #FF8C00;
+	text-align: center;
+	width: 100px;
+	border: 0px;
+	position: absolute;
+	right: 0px;
+	bottom: 5px;
+}
+.register-agreement{
+	padding: 15px 0px;
+	height: 14px;
+	line-height: 14px;
+}
+.register-agreement input{
+	height: 14px;
+	vertical-align: bottom;
+	line-height: 14px;
+}
+.register-agreement a{
+	color: #FF8C00;
+	height: 14px;
+	line-height: 14px;
+}
+.register-next{
+	display: block;
+	background: #FF8C00;
+	height: 40px;
+	line-height: 40px;
+	width: 100%;
+	color: #fff;
+	text-align: center;
+	outline: none;
+	border: 0px;
+	user-select:none;
+}
+/*忘记密码*/
+.retrieve-password{
+	margin-top: 40px;
+	padding: 10px;
+	background: #F6F6F6;
+}
+#retrievetab{
+	height: 40px;
+	line-height: 40px;
+	background: #fff;
+	color: #333;
+	display: -webkit-box; /* Chrome 4+, Safari 3.1, iOS Safari 3.2+ */
+    display: -moz-box; /* Firefox 17- */
+    display: -webkit-flex; /* Chrome 21+, Safari 6.1+, iOS Safari 7+, Opera 15/16 */
+    display: -moz-flex; /* Firefox 18+ */
+    display: -ms-flexbox; /* IE 10 */
+    display: flex;
+}
+#retrievetab li{
+	flex: 1;
+	text-align: center;
+}
+/*邮箱找回*/
+.retrieve-method{
+	background: #FFFFFF;
+	height: 350px;
+}
+#iphone_find{
+	background: #FFFFFF;
+	/*height: 330px;*/
+}
+.retrieve-email-hint{
+	text-indent: 10px;
+	margin-top: 20px;
+	height: 50px;
+	line-height: 50px;
+	background: #fff;
+}
+.retrieve-email-hint img{
+	width: 18px;
+	height: 18px;
+	vertical-align: -4px;
+}
+.email-row{
+	display: -webkit-box; /* Chrome 4+, Safari 3.1, iOS Safari 3.2+ */
+    display: -moz-box; /* Firefox 17- */
+    display: -webkit-flex; /* Chrome 21+, Safari 6.1+, iOS Safari 7+, Opera 15/16 */
+    display: -moz-flex; /* Firefox 18+ */
+    display: -ms-flexbox; /* IE 10 */
+    display: flex;
+	padding: 10px 20px;
+	position: relative;
+}
+.email-row label{
+	flex: 2.5;
+	height: 40px;
+	line-height: 40px;
+}
+.email-row input{
+	height: 40px;
+	border-radius: 0px;
+	border: 0px;
+	border-bottom:1px rgb(225,225,225) solid; 
+	flex: 7;
+	outline: none;
+	box-sizing: border-box;
+	padding: 10px;
+}
+.email-row img{
+	width: 160px;
+	height: 48px;
+	position: absolute;
+	bottom: 15px;
+	right: 20px;
+	
+}
+.email-row a{
+	display: inline-block;
+	width: 100px;
+	height: 40px;
+	line-height: 40px;
+	position: absolute;
+	bottom: 15px;
+	right: 20px;
+	color: #fff;
+	background: #FF8C00;
+	text-align: center;
+	font-size: 14px;
+}
+@media only screen and (max-width: 410px) {
+	.email-row img{width: 130px !important;}
+}
+@media only screen and (max-width:360px ) {
+	.email-row a{
+		width: 85px !important;
+		font-size: 12px !important;
+		right: 15px !important;
+	} 
+	.email-row img{
+			width: 110px !important;
+			right: 15px !important;
+	}
+	input::-webkit-input-placeholder{
+		font-size: 12px !important;
+		right: 15px !important;
+	}
+	.email-hqyz button{
+		width: 85px !important;
+		font-size: 12px !important;
+		right: 15px !important;
+	}
+	.register-yz a{
+		width: 85px !important;
+		font-size: 12px !important;
+		/*right: 15px !important;*/
+	}
+	.register-tx img{width: 150px !important;}
+	.email-row label{font-size: 12px;}
+	.email-row{padding: 10px 15px;}
+	.find{margin: 15px !important;}
+}
+
+
+.find{
+	margin: 20px;
+	height: 40px;
+}
+.find input{
+	color: #fff;
+	background: #FF8C00;
+	outline: none;
+	height: 40px;
+	width: 100%;
+	border: 0px;
+	border-radius: 0px;
+	-webkit-appearance: none;
+}
+.retrieve-email-re{
+	text-align: center;
+}
+#email_find{
+	display: none;
+}
+
+.registration-protocol{
+	margin-top: 40px;
+	padding: 0px 10px;
+}
+.registration-protocol h2{
+	font-size: 20px;
+	height: 50px;
+	line-height: 50px;
+	font-weight: 600;
+	text-align: center;
+}
+.registration-protocol p{
+	margin-bottom: 10px;
+	line-height: 150%;
+}
+
+.register-write select{
+	display: inline-block;
+	height: 40px;
+	line-height: 40px;
+	width: 100%;
+	color: #999;
+	/*float: left;*/
+	-webkit-appearance: none;
+	background: #fff url(../img/xiala.png) no-repeat 98% center;
+	border: 0px;
+	border:1px rgb(225,225,225) solid;
+	text-indent: 10px;
+	border-radius: 0px;
+	margin-top: 10px;
+}
+.martop20{margin-top: 20px;}
+.register-write-hint{
+	margin-bottom: 5px;
+	color: #FF0000;
+	font-size: 13px;
+}
+.register-write-hint img{
+	width: 13px;
+	height: 13px;
+	vertical-align: -2px;
+}
+.register-write-hint2{
+	margin-bottom: 5px;
+	color: green;
+	font-size: 16px;
+	margin-left: 22%;
+}
+.register-write-hint2 img{
+	width: 16px;
+	height: 16px;
+	vertical-align: -2px;
+}
+.register-prosperity{
+	margin-left: 25%;
+	margin-top: 20px;
+}
+.register-walk{
+	padding: 20px;
+}
+.register-walk a{
+	margin-left: 18%;
+	display: inline-block;
+	height: 40px;
+	width: 200px;
+	background: #FF8C00;
+	border-radius: 25px;
+	text-align: center;
+	line-height: 40px;
+	color: #fff;
+	font-size: 16px;
+}
+@media only screen and (max-width: 360px) {
+	.register-walk a{margin-left: 14%;}
+}
+.sryzm{
+	
+}
+
+.register-tx{
+	height: 40px;
+	width: 100%;
+	position: relative;
+	margin-top: 10px;
+}
+
+.register-tx input{
+	width: 100%;
+	height: 40px;
+	border: 0px;
+	border-radius: 0px;
+	-webkit-appearance: none;
+	outline: none;
+}
+.register-tx img{
+	/*width: 100px;*/
+	height: 49px;
+    position: absolute;
+    right: -1px;
+    bottom: 1px;
+}
+.sryzm{
+	position: relative;
+}
+.sryzm input{
+	border-bottom: 1px rgb(225,225,225) solid;
+}
+.sryzm img{
+	
+}
+.email-hqyz button{
+	color: #fff;
+    background: #FF8C00;
+    outline: none;
+    height: 40px;
+    border: 0px;
+    border-radius: 0px;
+    -webkit-appearance: none;
+    position: absolute;
+    right: 20px;
+    bottom: 15px;
+    width: 100px;
+}
+.email-hqyz input{
+	flex: 7;
+}
+
+
+
+.qiwen_poput_form{
+	width: 90% !important;
+	display: block !important;
+	top: 40% !important;
+	margin-top: -105.5px !important;
+	right: 50% !important;
+	margin-left: -45% !important;
+}
+#set_pw{
+	background: #fff;
+	margin-top: 10px;
+	padding: 10px;
+}
+#set_pw .form-group{
+	margin-bottom: 20px;
+}
+#set_pw .form-group .input_width_9 label{
+	height: 30px;
+	line-height: 30px;
+	font-size: 15px;
+}
+#set_pw .form-group .input_width_9 input{
+	width:100%;
+	height:40px;
+	border: 0px;
+	-webkit-appearance: none;
+	outline: none;
+	border-bottom: 1px rgb(225,225,225) solid;
+	padding: 10px;
+	box-sizing: border-box;
+}
+
+#set_pw   .tips{
+	font-size: 12px;
+	margin-bottom: 5px;
+}
+.input_width_9 button{
+	background: #FF8C00;
+	color: #fff;
+	width: 100%;
+	height:40px;
+	border: 0px;
+	-webkit-appearance: none;
+	outline:none;
+}
+
+

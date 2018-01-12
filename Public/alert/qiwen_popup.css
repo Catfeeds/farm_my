@@ -1,0 +1,122 @@
+/**
+ * 
+ */
+
+#qiwen_poput {
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	z-index: 200000000;
+	display: none;
+}
+#delay_form_out{
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	z-index: 200000000;
+}
+/*锁屏背景色*/
+.qiwen_poput_div {
+	position: absolute;
+	background: rgba(0, 0, 0, 0.5);
+	/*background: url(/public/images/qiwen_poput_back_ie8.png) \0;*/
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	z-index: 999;
+/*	display: none;*/
+}
+
+/*弹出框*/
+.qiwen_poput_form {
+	border-bottom: 1px solid #eee;
+	position: absolute;
+	margin-left: -225px;
+	width: 450px;
+	background: #fff;
+	z-index: 999999999;
+	border-radius: 5px;
+	left: 50%;
+	top: 30%;
+	/*display: none;*/
+}
+.qiwen_poput_form_delay{
+	position: fixed;
+	display: block;
+}
+.qiwen_poput_title_close:hover,.qiwen_poput_title_close_delay:hover {
+	color: #000;
+}
+
+.qiwen_poput_title_close,.qiwen_poput_title_close_delay {
+	float: right;
+	display: block;
+	margin: 16px 20px;
+	color: #797878;
+	cursor: pointer;
+}
+
+.qiwen_poput_form .qiwen_poput_title {
+	border-bottom: 1px solid #eee;
+	font-size: 16px;
+	padding-left: 20px;
+	height: 50px;
+	line-height: 50px;
+	color: #504d4d;
+	margin: 0;
+	background: #fdfdfd;
+	border-radius: 5px 5px 0 0;
+	font-weight: bold;
+}
+
+.qiwen_poput_form p span {
+	font-size: 15px;
+	margin: 20px;
+	display: inline-block;
+	border-left: 4px solid #FA4223;
+	padding-left: 15px;
+	font-weight: bold;
+}
+
+.qiwen_poput_code {
+/*	z-index: 1900;
+	position: fixed;
+	top: 0;
+	left: 50%;
+	width: 600px;
+	margin-left: -320px;
+	border-radius: 0 0 3px 3px;
+	padding: 12px 20px;
+	background: #45bf4a;
+	text-align: center;
+	font-weight: bold;
+	font-size: 14px;
+	color: #fff;
+	display: none;*/
+	display: inline-block;
+	margin-bottom: 80px;
+}
+.tips_content_alert{
+	margin-left: 30px;
+	text-align: center;
+}
+.tips_content_alert_delay{
+	 margin-left: 30px;
+	 text-align: center;
+	margin-bottom: 60px;
+	color: #FA4223;
+ }
+.tips_content_alert span{
+	margin-right: 3px;
+}
+#qiwen_poput_iframe {
+	border: 0;
+	width: auto;
+	min-width: 500px;
+	min-height: 300px;
+}

@@ -1,0 +1,88 @@
+/*文章*/
+.main_body{
+    padding-top: 125px;
+    background-color: rgb(248,248,248);
+}
+
+.main_body .container{
+    background-color: #E8E8E8;
+}
+/*目前网页所在位置*/
+.passion_now{
+    padding-left: 30px;
+    background-color: rgb(248,248,248);
+    padding-bottom: 15px;
+}
+.passion_now a{
+    color: red;
+}
+/*左侧导航*/
+.nav_left{
+    min-width: 250px;
+    width: 125%;
+    height: inherit;
+}
+
+.nav_left p{
+    height: 50px;
+    width: 125%;
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 50px;
+    /*background-color: #46b8da;*/
+}
+.nav_left p a{
+    padding-left: 30px;
+}
+
+/*文章内容*/
+.passage_article{
+    min-width: 750px;
+    padding-left: 20px;
+    padding-right: 20px;
+    text-indent: 1.5em;
+    background-color: #ffffff;
+}
+/*导航激活*/
+.passage_nav_active{
+    background-color: #ffffff!important;
+    border-left: 1px solid rgb(229,86,0);
+}
+.passage_nav_active a{
+    /*color: black;*/
+}
+/*猜你喜欢*/
+.your_like{
+    border-top: 1px dotted gray;
+    padding-bottom: 20px;
+}
+.your_like a{
+    color: black;
+    line-height: 1.5em;
+    width: 100%;
+    display: block;
+}
+.your_like a:hover{
+    color: rgb(234,115,0);
+}
+.your_like div{
+    width: 50%;
+    padding: 10px;
+    float: left;
+}
+.your_like div:first-child{
+    border-right: 1px dotted gray;
+}
+
+
+/*跳转按钮*/
+.pageTurn span:nth-child(odd){
+    float: left;
+}
+.pageTurn span:nth-child(even)
+{
+    float: right;
+}
+.pageTurn input{
+    outline: none;
+}

@@ -1,0 +1,30 @@
+.span{
+    font-size: 15px;
+    color: rgb(52, 73, 94);
+    font-weight: bold;
+    display: block;
+    text-align: right;
+    float: right;
+    width: 170px!important;
+}
+.tables{
+    width: 500px;
+
+    /*border: 1px solid black;*/
+}
+
+.tables tr td input{
+    width: 70%;
+    margin-left: 25px;
+    height: 30px;
+    border-radius: 5px;
+    border: 1px solid grey;
+    padding: 5px 15px;
+}
+
+.tables tr{
+    height: 60px;
+}
+.btn-form{
+margin-left: 70px;
+}
