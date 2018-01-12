@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=1">
+		<meta name="format-detection" content="telephone=no,address=no">
+		<title></title>
+		<link rel="stylesheet" href="__CSS__/base.css" />
+		<link rel="stylesheet" href="__CSS__/setting.css" />
+		<script type="text/javascript" src="__JS__/jquery-1.12.3.min.js" ></script>
+		<script type="text/javascript" src="__JS__/fastclick.js" ></script>
+		<script type="text/javascript" src="__JS__/base.js" ></script>
+	</head>
+	<body class="backgroundf6">
+		<header class="top">
+			<a class="top-left" id="back">
+				<img src="__IMG__/back.png"/>
+				<span>返回</span>
+			</a>
+			<h2>设置</h2>
+		</header>
+		<section class="setting">
+			<ul>
+				<foreach name="data" item="vo">
+				<li>
+					<a href="{:U('Safety/nameIdenty')}">
+						<div class="setting-list-left">
+							<img src="__IMG__/top_cz.png"/>
+							<span>实名认证</span>
+						</div>
+						<div class="setting-list-right">
+							<if condition="($vo.yanze eq 1)">
+								<span class="c1cd245">已认证</span>
+								<else/><span style="color: red;">未认证</span>
+							</if>
+
+							<img src="__IMG__/right1.png" />
+						</div>
+					</a>
+				</li>
+				<li>
+					<a href="{:U('Safety/phoneBind')}">
+					<div class="setting-list-left">
+						<img src="__IMG__/bdsj.png"/>
+						<span>绑定手机</span>
+					</div>
+					<div class="setting-list-right">
+						<if condition="($vo.phone eq null)">
+							<span style="color: red;">未绑定</span>
+							<else/><span class="c1cd245">已绑定</span>
+						</if>
+
+						<img src="__IMG__/right1.png" />
+					</div>
+					</a>
+				</li>
+				</foreach>
+			</ul>
+			
+			<ul>
+				<li>
+					<a href="{:U('Safety/changeLoginPw')}">
+						<div class="setting-list-left">
+							<img src="__IMG__/dlmm.png"/>
+							<span>修改登录密码</span>
+						</div>
+						<div class="setting-list-right">
+							<span class="c999">修改</span>
+							<img src="__IMG__/right1.png" />
+						</div>
+					</a>
+				</li>
+				<li>
+					<a href="{:U('Safety/changeTradePw')}">
+						<div class="setting-list-left">
+							<img src="__IMG__/jymm.png"/>
+							<span>修改交易密码</span>
+						</div>
+						<div class="setting-list-right">
+							<span class="c999">修改</span>
+							<img src="__IMG__/right1.png" />
+						</div>
+					</a>
+				</li>
+			</ul>
+			
+			<ul>
+				<li>
+					<a href="{:U('Content/about')}">
+						<div class="setting-list-left">
+							<img src="__IMG__/gy.png"/>
+							<span>关于我们</span>
+						</div>
+						<div class="setting-list-right">
+							<img src="__IMG__/right1.png" />
+						</div>
+					</a>
+				</li>
+				<li>
+					<a href="{:U('Profile/costExplain')}">
+						<div class="setting-list-left">
+							<img src="__IMG__/fysm.png"/>
+							<span>费用说明</span>
+						</div>
+						<div class="setting-list-right">
+							<img src="__IMG__/right1.png" />
+						</div>
+					</a>
+				</li>
+				<li>
+					<a href="{:U('Profile/opinionTickling')}">
+						<div class="setting-list-left">
+							<img src="__IMG__/yjfk.png"/>
+							<span>意见反馈</span>
+						</div>
+						<div class="setting-list-right">
+							<img src="__IMG__/right1.png" />
+						</div>
+					</a>
+				</li>
+			</ul>
+			<div class="secede">
+				<button class="secede-btn" id="lift">安全退出</button>
+			</div>
+		</section>
+		<script type="text/javascript">
+			$('#lift').click(function () {
+				$.ajax({
+					url:"{:U('Profile/lift')}",
+					type:"POST",
+					success:function (data) {
+						location.href="{:U('Index/index')}"
+					}
+				})
+			});
+		</script>
+		<include file="Public:footer" />
+	</body>
+
+</html>

@@ -1,0 +1,114 @@
+<extend name="Public/base"/>
+<block name="style">
+    <link rel="stylesheet" type="text/css" href="./Public/Admin/Entrust/index.css" media="all">
+    <link rel="stylesheet" type="text/css" href="./Public/Admin/mypubliccss/button.css" media="all">
+    <link rel="stylesheet" type="text/css" href="__CSS__/jquery.editable-select.min.css" media="all">
+</block>
+<block name="body">
+    <!-- 标题栏 -->
+    <div class="main-title">
+        <h2>虚拟币转入记录</h2>
+        <div>
+            <!--<button class="btn ajax-post confirm" target-form="ids" url="">删 除</button>-->
+            <!-- 高级搜索 -->
+            <form action="{:U('Recharge/xnllinewater')}" method="post">
+                <div class="difference">
+                    <input type="hidden" name="xnbid" value="{:I('xnbid')}" id="xnbid">
+                    <select name="search_xnb" class="market" id="xnb_select"  placeholder="币种" style="background-color: white;border: 1px solid #BBBBBB;width: 120px;height:32px">
+                        <volist name="xnb_list" id="xnb_list">
+                            <option value="{$xnb_list.id}" class="option">{$xnb_list.name}({$xnb_list.brief})</option>
+                        </volist>
+                    </select>&nbsp; &nbsp;
+                    <input name="name" class="username" value="{:I('name')}" placeholder="用户名/订单号/审核人"/> &nbsp; &nbsp;
+                    <button class="send" type="submit" id="submit">确定</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- 数据列表 -->
+
+    <div class="data-table">
+        <table class="">
+            <thead>
+            <tr>
+                <th class="row-selected row-selected"><input class="check-all" type="checkbox"/></th>
+                <th class="">订单号</th>
+                <th class="">用户名</th>
+                <th class="">币种</th>
+                <th class="">转入地址</th>
+                <th class="">转入数量</th>
+                <th class="">实际到账</th>
+                <th class="">审核人</th>
+                <th class="">申请时间</th>
+                <th class="">审核时间</th>
+                <th class="">审核状态</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            <foreach name="data" item="vo">
+                <tr>
+                    <td><input class="ids" type="checkbox" name="ids[]" value="{$vo.id}" /></td>
+                    <td>{$vo.orderfor}</td>
+                    <td>{$vo.username}</td>
+                    <td>{$vo.currency_xnb_name}</td>
+                    <td>{$vo.addr}</td>
+                    <td>{$vo.allnumber}</td>
+                    <td>{$vo.number}</td>
+                    <td>{$vo.admin}</td>
+                    <td>{$vo.addtime|date="Y-m-d H:i:s",###}</td>
+                    <td>{$vo.endtime|date="Y-m-d H:i:s",###}</td>
+                    <td><if condition="$vo['status'] eq 3">通过<elseif condition="$vo['status'] eq 4" />拒绝</if></td>
+                </tr>
+            </foreach>
+            </tbody>
+        </table>
+
+    </div>
+    <!-- 分页 -->
+    <div class="page">{$page}</div>
+    <!-- /分页 -->
+
+</block>
+<block name="script">
+    <script type="text/javascript" src="__JS__/jquery.editable-select.min.js"></script>
+    <script type="text/javascript">
+        highlight_subnav('{:U('xnllinewater')}');
+
+        $(function () {
+            //是否有查询的币种
+            var xnbid = $("#xnbid").val();
+            $(".option").each(function () {
+                var txt = $(this).text();
+                var val = $(this).val();
+                if (val == xnbid) {
+                    $("#xnb_select").val(txt);
+                }
+            });
+        });
+       $("#xnb_select").editableSelect({
+            effects:'slide'
+        });
+        $(function(){
+            $("#action_add").click(function(){
+                window.location.href = $(this).attr('url');
+            })
+        });
+
+        $("#submit").click(function () {
+            var xnbname = $("#xnb_select").val();
+            var xnbid = 0;
+            $(".option").each(function () {
+                var txt = $(this).text();
+                var val = $(this).val();
+                if (txt == xnbname) {
+                    xnbid = val;
+                }
+            });
+            $("#xnbid").val(xnbid);
+        })
+
+    </script>
+</block>

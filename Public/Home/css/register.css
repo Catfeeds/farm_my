@@ -1,0 +1,403 @@
+main{
+    background-color: #f8f8f8;
+ min-width: 990px;
+}
+.register_step{
+    display: none;
+}
+.register_step.selected{
+    display: block;
+}
+.reg_steps{
+    height: 110px;
+    padding-top: 30px;
+    width: 990px;
+    margin: 0 auto;
+    text-align: center;
+}
+.reg_steps li{
+    position: relative;
+    width: 295px;
+    padding: 0;
+    float: left;
+    color: #888;
+    zoom: 1;
+}
+.reg_steps li.selected{
+    color: rgb(250, 66, 35);
+}
+.reg_steps li:last-child{
+    width: 100px;
+}
+.reg_steps li .step_line{
+/*    width: 195px;*/
+    width: 58%;
+    border: 2px solid #e9e9e9;
+    position: absolute;
+    top: 20px;
+    left: 100px;
+}
+.reg_steps li .step_panel{
+    position: relative;
+    text-align: center;
+    width: 100px;
+    height: 80px;
+    padding-top: 50px;
+}
+.reg_steps .step_panel .step_num{
+    position: absolute;
+    left: 46px;
+    top: 8px;
+    color: white;
+    z-index: 100;
+}
+.reg_steps .step_icon{
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    background: #888;
+
+    /* Rotate */
+    -webkit-transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+    /* Rotate Origin */
+    -webkit-transform-origin: 0 100%;
+    -moz-transform-origin: 0 100%;
+    -ms-transform-origin: 0 100%;
+    -o-transform-origin: 0 100%;
+    transform-origin: 0 100%;
+    box-shadow: 1px 1px 2px #dddddd,1px 1px 2px #dddddd ;
+    border-radius: 5px;
+    position: absolute;
+    left: 50px;
+    top: 10px;
+    z-index: 1;
+}
+
+@media \0screen\,screen\9 {
+/*    .reg_steps{
+        width: 990px;
+        margin:0 auto;
+    }
+    .reg_steps li{
+        width: 247px;
+    }*/
+    .reg_steps .step_icon {
+        left: 36px;
+        top: 5px;
+    }
+}
+.reg_steps li.selected .step_icon{
+    background: rgb(250, 66, 35);
+}
+
+
+/*register form*/
+.register_step .form-input {
+    padding: 60px;
+    margin: 20px auto 10px auto;
+    background-color: #ffffff;
+    border: 1px solid #e3e3e3;
+    min-width: 990px;
+}
+.register_step  .reg_form{
+       width: 700px;
+/*    height: 550px;*/
+    padding: 60px;
+    margin: 20px auto 30px auto;
+    background-color: #eeeeee;
+    border: 1px solid #e3e3e3;
+    border-radius: 10px;
+}
+
+.register_step  .reg-title {
+    text-align: center;
+    font-family: Arial, 微软雅黑, Verdana, 黑体, sans-serif;
+    font-size: 1.2em;
+    color: #999999;
+    margin-bottom: 30px;
+}
+
+#register-step1 .reg-title span {
+    cursor: pointer;
+}
+
+.register_step  .reg-title span.selected {
+    font-weight: bold;
+    color: #333333;
+}
+
+#register-step1 #register-title strong {
+    color: #DDDDDD;
+    padding: 0 5px;
+}
+
+#register-step1 #out-register {
+    width: 450px;
+    margin: 0 auto;
+    overflow: hidden;
+    *position: relative;
+    min-height: 700px;
+}
+
+#register-step1 #register_form {
+    width: 450px;
+    position: relative;
+}
+
+.register_step  form {
+    width: 450px;
+    margin: 0 auto;
+}
+.register_step  form .form-group{
+    margin-left: 0;
+    margin-right: 0;
+}
+.register_step  form label.control-label{
+    font-size: 15px;
+    padding-top: 14px;
+    width: 25%;
+    text-align: right;
+}
+.register_step  form div.input_width_9{
+    width: 70%;
+    float: right;
+}
+.register_step  form .input-lg{
+    font-size: 15px;
+}
+#register-step1 form a{
+    color: #FA4223;
+    padding-left: 5px;
+}
+#register-step1 form a:hover{
+    color: rgb(250, 66, 35);
+    text-decoration: underline;
+}
+.register_step  form .register_btn{
+    background-color: rgb(250, 66, 35);
+    color: white;
+    border: none;
+    width: 160px;
+    outline: none;
+    box-shadow: 1px 2px 2px #666666;
+    margin-top: 15px;
+    margin-left: 30px;
+    margin-bottom: 20px;
+}
+.register_step  form .register_btn:hover{
+    background-color: rgb(224, 41, 10);
+}
+#input_identify_code{
+    color: #690;
+    background:#F8F8F8 url("../images/register_images/yuyin.png") no-repeat 60px 4px;
+}
+/*register form*/
+#register_form #email_form {
+    position: absolute;
+    right: -450px;
+    top: 0;
+}
+/*register step2*/
+.register_step .reg_form .reg-title .notice{
+    font-size: 13px;
+    color: rgb(250, 66, 35);
+    margin: 30px 0 50px 0;
+}
+/*register step3*/
+#register-step3 .reg_form .reg-title .notice{
+    margin-top: 0;
+}
+/*#register-step3 .reg_form  .yzm_zj{
+  	border: 1px solid red;
+    margin: 15px 0;
+    line-height: 33px;
+}
+
+#register-step3 .reg_form  .yzm_zj span{
+    width: 100px;
+    height: 33px;
+    margin-right: 15px;
+    display: inline-block;
+    border: 1px solid green;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    user-select: none;
+}
+#register-step3 .reg_form  .yzm_zj small{
+    color: rgb(250, 66, 35);
+}*/
+/*register step4*/
+#register-step4{
+    height: 520px;
+}
+#register-step4 .reg-title{
+    color: green;
+    font-size: 25px;
+}
+#register-step4 .reg-title span{
+    color: green;
+    padding-right: 10px;
+    margin-top: 5px;
+}
+#register-step4 .success_content{
+    width: 390px;
+    margin: 0 auto;
+}
+#register-step4 .success_content .user_info{
+    margin-bottom: 30px;
+    padding-left: 50px;
+}
+#register-step4 .success_content .user_info li{
+   margin-bottom: 6px;
+}
+#register-step4 .success_content .user_info li i{
+    font-style: normal;
+}
+#register-step4 .success_content .go_to{
+    padding-left: 50px;
+}
+#register-step4 .success_content .go_to a{
+    padding: 5px 20px;
+    border: 1px solid rgb(250, 66, 35);
+    -webkit-border-radius: 25px;
+    -moz-border-radius: 25px;
+    border-radius: 25px;
+    margin-right: 10px;
+    text-decoration: none;
+}
+#register-step4 .success_content .go_to a:hover{
+   text-decoration: none;
+}
+#register-step4 .success_content .go_to a:first-child{
+background-color: rgb(250, 66, 35);
+    color: white;
+}
+#register-step4 .success_content .go_to a:first-child:hover{
+    background-color: rgb(224, 41, 10);
+}
+#register-step4 .success_content .go_to a:last-child{
+ color: rgb(250, 66, 35);
+}
+#register-step4 .success_content .go_to a:last-child:hover{
+    color: #ffffff;
+    background-color: rgb(250, 66, 35);
+}
+#register-step4 .success_content .other_identy{
+    margin-top: 50px;
+}
+#register-step4 .success_content .other_identy dt{
+    float: left;
+}
+#register-step4 .success_content .other_identy dd{
+    float: left;
+    margin-right: 15px;
+}
+#register-step4 .success_content .other_identy dd a{
+    color: rgb(250, 66, 35);
+}
+/*danger_notice*/
+.danger_notice p{
+    text-align: center;
+ /*   display: inline-block;
+    margin: 0 auto 40px auto;*/
+    line-height: 25px;
+    color: rgb(250, 66, 35);
+}
+
+/*findPw*/
+#register-step1 #out-register.out-find_pw{
+    min-height: 400px;
+}
+.out-find_pw .yzm_zj{
+    margin-top: 15px;
+}
+.out-find_pw .yzm_zj span{
+    color: #FA4223;
+    margin-left: 5px;
+    cursor: pointer;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    user-select: none;
+}
+.out-find_pw .yzm_zj span:hover{
+    text-decoration: underline;
+}
+.out-find_pw .yzm_zj .left15{
+    width: 60%;
+    height: 40px;
+}
+/*.out-find_pw .yzm_zj.bank_yzm{
+    margin-left: 26%;
+    margin-bottom: 15px;
+}
+.out-find_pw .yzm_zj.bank_yzm span{
+    font-size: 13px;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    user-select: none;
+}*/
+.register_step.findPw{
+    display: block;
+}
+.register_step.findPw  .reg_form{
+    padding: 60px 60px 100px 60px;
+}
+.reg_form .form-group{
+	overflow: hidden;
+}
+.register_step.findPw .form-input{
+    margin: 0 auto;
+}
+#register-step1 #findPw_form{
+    width: 450px;
+    position: relative;
+    margin-top: 20px;
+}
+#findPw_form .form-group{
+    margin-bottom: 20px;
+}
+#findPw_form #emailFind_form {
+    position: absolute;
+    right: -450px;
+    top: 0;
+}
+.dt_yzm{
+    height: 40px;
+}
+#change_yzm{
+    cursor: pointer;
+}
+/*change form*/
+#set_pw{
+    margin: 60px auto;
+    display: none;
+}
+.form-group{
+	overflow: hidden;
+}
+.tips{
+	/*color: red;*/
+	/*display: none;*/
+}
+/*register tips*/
+.register_step span.tips{
+    margin-top: 7px;
+    display: none;
+}
+.register_step span.tips i{
+   margin-right: 3px;
+}
+.register_step span.tips.red_tips{
+    color:#FA4223;
+}
+.register_step span.tips.green_tips{
+    color:green;
+}
+
+#input_identify_email{
+    color: #690;
+}

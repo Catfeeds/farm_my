@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<!--	<meta name="viewport" content="width=device-width, initial-scale=1">-->
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta http-equiv="X-UA-Compatible" content="IE=9" />
+		<meta charset="UTF-8">
+		<meta name="renderer" content="webkit">
+		<meta name="description" content="农畜产品交易平台">
+		<meta name="keywords" content="数字货币交易平台,数字货币,虚拟币,虚拟币新闻资讯">
+		<meta name="author" content="lihuijie">
+		<title>转入资产-农畜商品交易平台</title>
+		<link rel="shortcut icon" href="__IMG__/base_images/bd_safe4.png">
+		<link rel="stylesheet" type="text/css" href="__CSS__/bootstrap.min.css"/>
+		<link rel="stylesheet" href="__CSS__/bae.css">
+		<link rel="stylesheet" href="__CSS__/default.css" />
+		<link rel="stylesheet" href="__CSS__/center_left.css">
+		<link rel="stylesheet" href="__CSS__/center_header.css">
+		<link rel="stylesheet" type="text/css" href="__CSS__/finance.css"/>
+		<script type="text/javascript" src="__JS__/jquery.js" ></script>
+		<script src="__JS__/base.js"></script>
+		<script src="__JS__/center_left.js"></script>
+		<script type="text/javascript" src="__JS__/finance.js" ></script>
+		<script type="text/javascript" src="__JS__/Property/join.js" ></script>
+		<script type="text/javascript" src="/Public/zz/z.js"></script>
+	</head>
+
+	<body>
+	<include file="Public:header"/>
+	<main>
+		<div class="container">
+			<ol class="breadcrumb">
+				<li><a href="{:U('Index/index')}">首页</a></li>
+				<li><a href="{:u('Property/finance')}">财务中心</a></li>
+				<li class="active">
+					转入资产
+				</li>
+			</ol>
+		</div>
+
+
+		<div class="container center_content">
+			<include file="Public:finance_left"/>
+
+			<div class="pull-right finance-content">
+				<div class="big_title">
+					<h4>转入资产</h4>
+					<div class="clearfix"></div>
+				</div>
+				<div class="currency-type form-group">
+					<div id='xnb' class="xnb_panel sendxnb"  xnb="{$xnb_name[0]['id']}">
+						<span class="xnb_content">
+						<img src="{$xnb_name[0]['imgurl']}" alt="图标">
+							<span>{$xnb_name[0]['name']}<span class="iindex_brief">({$xnb_name[0]['brief']})</span></span>
+						</span>
+						<i></i>
+					</div>
+					<div id="xnb_table">
+						<table id="case">
+							<foreach name="xnb_name" item="vo">
+								<php>$k=$key+1;</php>
+								<eq name="k+2" value="0"><tr></eq>
+								<td class="xnb_panel" xnb="{$vo.id}">
+									<img src="{$vo.imgurl}" alt="图标"><span>{$vo.name}</span><span>({$vo.brief})</span>
+								</td>
+								<eq name="k%3" value="0"></tr></eq>
+							</foreach>
+						</table>
+					</div>
+
+					<div class="currency-type-hint">
+						<label class="currency-type-usable"><strong>可用本类资产：</strong>
+							<span  id="buy_xnb" class="C669900">
+								<if condition="$xnb_prop['property'] neq 0 ">{$xnb_prop.property}
+										<else/><span>0.00</span>
+								</if>
+							</span>
+						</label>
+						<label class="currency-type-usable"><strong>冻结本类资产：</strong>
+							<span  id="no_xnb" class="c55600">
+								<if condition="$xnb_prop['property_d'] neq 0 ">{$xnb_prop.property_d}
+									<else/><span>0.00</span>
+								</if>
+							</span>
+						</label>
+					</div>
+				</div>
+
+				<div class="purse-site" id="packet_url">
+					<div class="purse-site-left">
+						<div class="purse-site-hint">这是您的钱包地址,请将您的<b id="dizhi">{$xnb}</b>转入此地址 : </div>
+						<p id="address" class="purse-site-id">{$address}</p>
+					</div>
+					<div class="purse-site-ewm">
+						<div class="qrcodeCanvas"></div>
+						<p class="dizhi">{$xnb_name[0]['name']}</p>
+					</div>
+				</div>
+				<div class="out-info" id="in_curr_form">
+					<h4 class="join_title">转入资产</h4>
+					<div class="form-group">
+						<label>转入数量 : </label>
+						<input class="form-control"  name="number" type="number"  placeholder="转入数量"/>
+					</div>
+					<div class="form-group">
+						<label>交易密码 : </label>
+						<input class="form-control"  name="password" type="password" onkeyup="tradePwReg(this)" onblur="tradePwReg(this)" placeholder="交易密码"/>
+						<a class="out-info-hint" href="{:U('Safety/changePw?tag=3&pane=1')}">忘记密码?</a>
+						<span class="tips red_tips"><i class="glyphicon glyphicon-info-sign"></i>交易密码必须是6位数字</span>
+						<span class="tips green_tips"><i class="glyphicon glyphicon-ok-sign"></i>交易密码格式正确</span>
+					</div>
+					<div class="out-info-present">
+						<input type="submit" value="确认"  id="in_curr_submit"/>
+					</div>
+				</div>
+				<div class="purse-explain">
+					<p><span class="glyphicon glyphicon-info-sign"></span><strong>转入说明：</strong></p>
+					<p>1、此地址是您唯一且独自使用的转入地址，您可以同时进行多次充值。</p>
+					<p>2、本地址禁止充值除<span class="dizhi">{$xnb_name[0]['name']}</span>之外的其他资产，任何其他资产充值将不可找回。</p>
+				</div>
+				<div class="currency-record-hint">转入记录</div>
+				<div class="currency-mold in_xnb">
+					<ul>
+						<li>转入ID</li>
+						<li>资产类型</li>
+						<li>实付</li>
+						<li>到账</li>
+						<li>申请时间</li>
+						<li class="static_curr">
+							<php>$status=I('status')</php>
+							<select class="status">
+								<option value=""   <eq name="status" value="">selected="selected"</eq> >状态</option>
+								<option value="1"  <eq name="status" value="1">selected="selected"</eq> >等待</option>
+								<option value="2"  <eq name="status" value="2">selected="selected"</eq> >处理中</option>
+								<option value="3"  <eq name="status" value="3">selected="selected"</eq> >成功</option>
+								<option value="4"  <eq name="status" value="4">selected="selected"</eq> >失败</option>
+							</select>
+						</li>
+					</ul>
+				</div>
+				<div class="currency-record in_xnb">
+					<foreach name="water" item="ti">
+					<ul>
+						<li>{:session('user.id')}</li>
+						<li>{$ti.name}</li>
+						<li>{$ti.allnumber}</li>
+						<li>{$ti.number}</li>
+						<li>{$ti.addtime|date="Y-m-d H:i:s",###}</li>
+						<li class="static_curr">
+							<eq name="ti.status" value="1">等待</eq>
+							<eq name="ti.status" value="2">处理中</eq>
+							<eq name="ti.status" value="3">成功</eq>
+							<eq name="ti.status" value="4">失败</eq>
+						</li>
+					</ul>
+					</foreach>
+				</div>
+				<div class="white"></div>
+			</div>
+		</div>
+
+	</main>
+
+	<include file="Public:footer"/>
+	</body>
+	<script type="text/javascript" src='__QRACDE__/jquery.qrcode.js'></script>
+
+</html>

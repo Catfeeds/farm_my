@@ -1,0 +1,109 @@
+<extend name="Public/base"/>
+<block name="style">
+    <link rel="stylesheet" type="text/css" href="__CSS__/sys_stat.css" media="all">
+    <link rel="stylesheet" type="text/css" href="__CSS__/jquery.editable-select.min.css" media="all">
+</block>
+
+<block name="body">
+<!--    <div class="main-title">
+        <h2></h2>
+    </div>-->
+<!-- 内容区 -->
+<div id="main-content">
+    <div id="main" class="main">
+        <!--标题-->
+        <div class="second_title">
+            <strong class="big_title">币种统计</strong>
+            <input type="hidden" id="xnbid" value="{$xnbid}">
+            <select name="" id="xnb_select" placeholder="选择虚拟币" <notempty name="xnbname">value="{$xnbname.name}({$xnbname.brief})" </notempty> style="padding-left:10px;background-color: white;border: 1px solid #BBBBBB;width: 120px;height:32px;border-radius: 5px">
+                <volist name="xnb" id="xnb">
+                    <option value="{$xnb.id}" class="option">{$xnb.name}({$xnb.brief})</option>
+                </volist>
+            </select>
+            <button id="refresh">重新初始化当前币种统计</button>
+        </div>
+        <!--用户信息-->
+        <ul class="user_info curr_stat">
+            <li class="li_left">
+                <div class="img_bg">
+                    <img src="__IMG__/sys_image/scan_1.png" alt="图标">
+                </div>
+                <div class="value">
+                    <p><strong>{$users}</strong></p>
+                    <p><span>注册总人数</span></p>
+                    <p class="small"><small>正常 <span>{$users_usual}</span></small></p>
+                    <p class="small"><small>冻结 <span>{$users_freeze}</span></small></p>
+                </div>
+            </li>
+            <li class="top_li">
+                <div class="img_bg">
+                    <img src="__IMG__/sys_image/curr_3.png" alt="图标">
+                </div>
+                <div class="value">
+                    <p><strong>{$number}</strong></p>
+                    <p><span>累计成交量</span></p>
+                </div>
+            </li>
+            <li class="li_left top_li">
+                <div class="img_bg">
+                    <img src="__IMG__/sys_image/scan_3.png" alt="图标">
+                </div>
+                <div class="value">
+                    <p><strong>{$allmoney}</strong></p>
+                    <p><span>累计交易额</span></p>
+                </div>
+            </li>
+            <li class="top_li">
+                <div class="img_bg">
+                    <img src="__IMG__/sys_image/scan_4.png" alt="图标">
+                </div>
+                <div class="value">
+                    <p><strong>{$contents}</strong></p>
+                    <p><span>文章总数</span></p>
+                </div>
+            </li>
+        </ul>
+        <!--报表-->
+        <div class="curr_report">
+                <p class="title red">手续费走势图(30天)</p>
+                <div >
+                    <canvas id="kxiantu" width="1000" height="450"></canvas>
+                </div>
+        </div>
+    </div>
+
+</div>
+</block>
+
+<block name="script">
+    <script type="text/javascript" src="__JS__/jquery.editable-select.min.js"></script>
+    <script type="text/javascript" src="__ROOT__/Public/Home/js/Chart.js"></script>
+    <!--<script type="text/javascript" src="__ROOT__/Public/Home/js/echarts.js"></script>-->
+    <script type="text/javascript" src="__JS__/marketk.js"></script>
+    <script type="text/javascript">
+        $("#xnb_select").editableSelect({
+            effects:'slide'
+        });
+        //导航高亮
+        highlight_subnav('{:U('curr_statistics')}');
+
+		window.addEventListener("resize",function(){
+		      	 myChart1.resize();
+		 });
+		 
+
+		window.addEventListener("resize",function(){
+		      	 myChart2.resize();
+		 });
+    </script>
+    <script>
+        $("#refresh").click(function () {
+            window.location.reload();
+        });
+        $(".option").click(function () {
+            var xnbid = $(this).val();
+            window.location.href = "{:U('curr_statistics', array('id' => "+ xnbid +"))}" ;
+        });
+    </script>
+</block>
+

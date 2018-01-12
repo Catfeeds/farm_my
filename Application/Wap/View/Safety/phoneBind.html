@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=1">
+		<meta name="format-detection" content="telephone=no,address=no">
+		<title></title>
+		<link rel="stylesheet" href="__CSS__/base.css" />
+		<link rel="stylesheet" href="__CSS__/setting.css" />
+		<script type="text/javascript" src="__JS__/jquery-1.12.3.min.js" ></script>
+		<script type="text/javascript" src="__JS__/fastclick.js" ></script>
+		<script type="text/javascript" src="__JS__/base.js" ></script>
+		<script type="text/javascript" src="__JS__/verify.js"></script>
+	</head>
+	<body>
+		<header class="top">
+			<a class="top-left" id="back">
+				<img src="__IMG__/back.png"/>
+				<span>返回</span>
+			</a>
+			<h2>绑定手机</h2>
+		</header>
+		<section class="bind-ihpone">
+			<if condition="($shiphone eq null)">
+				<h2 class="ihpone-hint c1cd245">
+					绑定手机
+				</h2>
+				<form action="{:U('Safety/reg')}" class="ajaxa_form" onsubmit="return false">
+					<p class="c999"><input class="iphone-yzm-in" style="border: 1px solid #e6e6e6;margin-bottom: 5%;width: 100%" type="text" onblur="Renphone(this)" id="phone_num" name="phone_num" placeholder="请输入手机号"/></p>
+					<input type="text" class="iphone-yzm-in" style="border: 1px solid #e6e6e6;margin-bottom: 5%;width: 100%"  name="yanzheng_num" id="yanzheng_num" placeholder="请输入您的验证码">
+					<span class="tips"></span>
+					<div class="yzm_zj"><img class="left15" alt="验证码" style="width: 55%;margin-right: 5%;vertical-align: bottom;" src="{:U('Photoma/checkphoto')}"><span style="padding-bottom:2px;border-bottom: 1px #333 solid;">看不清楚换一张？</span></div>
+					<div class="iphone-yzm">
+						<input class="iphone-yzm-in" style="width: 100%;border: 1px solid #e6e6e6" type="text" name="cipher_code" id="cipher_code" placeholder="请输入验证码"/>
+						<a class="iphone-yzm-fs" id="get_identify_code" onclick="phoneyanzheng()">发送验证码</a>
+					</div>
+					<div class="ihpone-relieve">
+						<button class="ihpone-relieve-btn" type="submit" onclick="addWap()">绑定手机</button>
+					</div>
+				</form>
+
+				<else/>
+				<h2 class="ihpone-hint c1cd245">
+					你已绑定手机
+				</h2>
+				<form action="{:U('Safety/jiechu')}" class="unbind_form_tel ajax_jiechu_phone" onsubmit="return false">
+					<p class="c999">手机号码 :{$phone}</p>
+					<div class="form_input_9">
+						<input type="text" class="iphone-yzm-in" style="border: 1px solid #e6e6e6;margin-bottom: 5%;margin-top: 5%;width: 100%" name="yanzheng_num_unbind" id="yanzheng_num_unbind" placeholder="请输入验证码">
+						<span class="tips"></span>
+						<div class="yzm_zj"><img class="left15" alt="验证码" style="width: 55%;margin-right: 5%;vertical-align: bottom;" src="{:U('Photoma/checkphoto')}"><span style="padding-bottom:2px;border-bottom: 1px #333 solid;">看不清楚换一张？</span></div>
+					</div>
+					<div class="iphone-yzm">
+						<input class="iphone-yzm-in" style="width: 100%;border: 1px solid #e6e6e6" type="text" placeholder="请输入您的验证码"/>
+						<a class="iphone-yzm-fs" name="get_identify_code_unbind" value="{$shiphone}"  id="get_identify_code_unbind" onclick="phonejiechu()">发送验证码</a>
+					</div>
+					<span class="notice" style="display: none"></span>
+					<div class="ihpone-relieve">
+						<button class="ihpone-relieve-btn" type="submit" id="unbind_tel" onclick="jiechuWap()">解除绑定</button>
+					</div>
+				</form>
+			</if>
+		</section>
+		<include file="Public:footer" />
+	</body>
+
+	<script type="text/javascript">
+		var captcha_img = $('.yzm_zj').find('img');
+		var span= $('.yzm_zj').find('span');
+		var verifyimg = captcha_img.attr("src");
+		span.click(function(){
+			if( verifyimg.indexOf('?')>0){
+				captcha_img.attr("src", verifyimg+'&random='+Math.random());
+			}else{
+				captcha_img.attr("src", verifyimg.replace(/\?.*$/,'')+'?'+Math.random());
+			}
+		});
+	</script>
+</html>

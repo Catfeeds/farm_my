@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=1">
+		<meta name="format-detection" content="telephone=no,address=no">       
+		<title></title>
+		<link rel="stylesheet" href="__CSS__/base.css" />
+		<link rel="stylesheet" href="__CSS__/rmb.css" />
+		<script type="text/javascript" src="__JS__/jquery-1.12.3.min.js" ></script>
+		<script type="text/javascript" src="__JS__/fastclick.js" ></script>
+		<script type="text/javascript" src="__JS__/base.js" ></script>
+		<script type="text/javascript" src="__JS__/rmb.js" ></script>
+		<script type="text/javascript" src="/Public/zz/z.js" ></script>
+	</head>
+	<body>
+		<header class="top">
+			<a class="top-left" id="back">
+				<img src="__IMG__/back.png"/>
+				<span>返回</span>
+			</a>
+			<h2>人民币提现</h2>
+			<a class="top-right character" href="{:U('Property/rmbwithdrawal_record')}">提现记录</a>
+		</header>
+		<section class="fetch">
+			<div class="fetch-in">
+				<div class="fetch-select-bank">
+					<select id="banks">
+						<option>请选择提现银行卡</option>
+						<option value="{$back_data[0]['id']}">
+							<eq name="back_data[0]['bankname']" value="">
+							<else/>
+								{$back_data[0]['bankname']}
+							</eq>
+						</option>
+					</select>
+				</div>
+				<div class="Nameremitter">
+					汇款人姓名 : <span>{:session('truename_wap')}</span>
+				</div>
+				<h2 class="fetchh2">可用人民币 : <span class="cgreen">￥<span class="allmoney">{:floatval($usermoney['cny'])}</span></span></h2>
+				<div class="fetch-select-fillout">
+					<input type="tel" name="takeout" onkeyup="clearNoNum(this)" onchange="clearNoNum(this)" placeholder="提现金额"/>
+					<input type="password" name="takepassword" placeholder="交易密码" />
+				</div>
+				<div class="fetch-select-txyzm">
+					<input type="text" maxlength="6" name="yan_num" id="yan_num" placeholder="请输入验证码"/>
+					<div class="yzm_zj"><img class="left15" alt="验证码" src="{:U('Photoma/checkphoto')}"></div>
+				</div>
+				<div class="fetch-select-yzm">
+					<input type="text" id="input_identity" name="input_identity"  placeholder="请输入手机验证码"/>
+					<button onclick="rmbphone()" value="{$phone}" id="phone">获取验证码</button>
+				</div>
+				<div class="fetch-choice">
+					<dl>
+						<dt class="fetch-choice-che">
+							<img src="__IMG__/radio1.png"/>
+							<h2>普通提现</h2>
+							<span>手续费{$cnyconfigure_data['slowpoundage']}%,正常24小时内到账,具体到账时间银收款银行略有不同,节假日会略有延迟 </span>
+						</dt>
+						<dt class="fetch-choice-che">
+							<img src="__IMG__/radio0.png"/>
+							<h2>快速提现</h2>
+							<span>手续费{$cnyconfigure_data['fastpoundage']}%,正常24小时内到账,具体到账时间银收款银行略有不同,节假日会略有延迟 </span>
+						</dt>
+					</dl>
+				</div>
+				<div class="fetch-carry">
+					<input type="button" value="确认提现" />
+				</div>
+			</div>
+			<div class="fetch-notice">
+				<ul>
+					<li>提现须知</li>
+					<li>1.每笔提现最低收费0.2元</li>
+					<li>2.每笔提现限额{$cnyconfigure_data['minmoney']}元--{$cnyconfigure_data['maxmoney']}万元</li>
+					<li>3.具体到账时间因收款银行略有不同, 节假日到账时间略有延迟</li>
+				</ul>
+			</div>
+			
+		</section>
+		<include file="Public:footer" />
+	</body>
+</html>
+<script>
+	var type=1;
+
+	$(".fetch-choice-che").click(function(){
+		$(this).find("img").attr("src",'Public/Wap/img/radio1.png');
+		$(this).siblings().find("img").attr("src",'Public/Wap/img/radio0.png');
+		type= type == 1 ? 2 : 1;
+	})
+
+	$('input[type=button]').click(function () {
+		var i=$('[name=takeout]').val();
+		var k=parseInt($('.allmoney').text());
+
+		if (isNaN($('#banks').val())){
+			ShowHintBox('请输入正确的银行卡',false);
+			return false;
+		}
+
+		if (isNaN(i)){
+			ShowHintBox('请输入正确的数量',false);
+			return false;
+		}
+
+		if(i>k){
+			ShowHintBox('余额不足！',false);
+			return false;
+		}
+		if (i==""){
+			ShowHintBox('提现金额不能为空！',false);
+			return false;
+		}
+
+		if ($('[name=takepassword]').val()==""){
+			ShowHintBox('交易密码不能为空！',false);
+			return false;
+		}
+		if ($('#input_identity').val()==""){
+			ShowHintBox('手机验证码不能为空！',false);
+			return false;
+		}
+
+		$.ajax({
+			url:"{:U('rmbwithdrawal_add')}",
+			type:"post",
+			data:{bank:$('#banks').val(),password:$('[name=takepassword]').val(),money:$('[name=takeout]').val(),type:type,phonenum:$('#input_identity').val()},
+			success:function (data) {
+				if (data.status!=true){   //请求失败
+					ShowHintBox(data.info,false);
+					return false
+				}
+				ShowHintBox(data.info,true);
+			}
+		})
+
+
+	})
+	//手机获取验证码
+	function rmbphone() {
+		console.log($('#phone').attr("value"))
+		$.ajax({
+			url:"{:U('Photoma/sms')}",
+			type:"post",
+			data:{phone_num:$('#phone').attr("value"),yanzheng_num:$('#yan_num').val()},
+			success:function (data) {
+				if (data.status!=true){   //请求失败
+					ShowHintBox(data.info,false);
+					$('.yzm_zj').find('img').trigger('click');
+					return false
+				}
+				ShowHintBox(data.info);
+			}
+		})
+	}
+	//验证码
+	var captcha_img = $('.yzm_zj').find('img');
+	var span= $('.yzm_zj').find('span');
+	var verifyimg = captcha_img.attr("src");
+	captcha_img.click(function(){
+		if( verifyimg.indexOf('?')>0){
+			captcha_img.attr("src", verifyimg+'&random='+Math.random());
+		}else{
+			captcha_img.attr("src", verifyimg.replace(/\?.*$/,'')+'?'+Math.random());
+		}
+	});
+</script>

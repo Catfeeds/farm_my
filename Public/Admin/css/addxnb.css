@@ -1,0 +1,40 @@
+.display{
+    display: none;
+
+}
+.files{
+    width: 100px;
+    height: 35px;
+    border-radius: 5px;
+    background: #eab515;
+    border: 0px;
+    color: white;
+    font-size: 15px;
+    position: relative;
+    top: -15px;
+}
+
+.tb{
+    width: 55px;
+    height: 55px;
+    border: 1px solid black;
+    position: relative;
+    top: 7px;
+    left: 20px;
+}
+
+
+/*日历*/
+.ui-datepicker-append{
+	display: none;
+}
+/*日历UI的今天单元格样式*/
+.ui-datepicker-today .ui-state-highlight {
+	border:1px solid #eee;
+	color:#f60;
+}
+/*日历UI的选定单元格样式*/
+.ui-datepicker-current-day .ui-state-active {
+	border:1px solid #eee;
+	color:#06f;
+}

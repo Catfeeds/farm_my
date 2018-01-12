@@ -1,0 +1,212 @@
+/*system scan*/
+body{
+    min-width: 990px;
+    background-color: #f6f6f6;
+}
+.clearfix{
+    clear: both;
+    height: 50px;
+}
+.main{
+    padding: 0 20px;
+}
+.main ul{
+    padding-left: 0;
+    width: 100%;
+    margin-top: 20px;
+    margin-left: 0;
+}
+.main ul li{
+    width: 49%;
+    border: 1px solid #dddddd;
+    margin-bottom: 15px;
+    padding: 0;
+    float: right;
+    color: #666666;
+}
+@media (max-width: 1199px){
+    .main ul.scale_ul li{
+      width: 100%;
+        float: left;
+    }
+}
+.main ul li.li_left{
+    float: left;
+}
+.main .user_info li{
+    height: 94px;
+}
+.main .user_info.market_stat li{
+    height: 118px;
+}
+.main .user_info.curr_stat li{
+    height: 100px;
+}
+.main .user_info li:first-child{
+    background-color: #ff822a;
+}
+.main .user_info li:nth-of-type(2){
+    background-color: #fcf346;
+}
+.main .user_info li:nth-of-type(3){
+    background-color: #75d2ff;
+}
+.main .user_info li:nth-of-type(4){
+    background-color: #f85e89;
+}
+
+.main .user_info li div.img_bg{
+    float: left;
+    width: 50%;
+    height: 94px;
+    box-sizing: border-box;
+    text-align: center;
+    display: inline-block;
+}
+.main .user_info li div.img_bg img{
+    max-width: 100%;
+    max-height: 50px;
+    vertical-align: middle;
+    margin-top: 20px;
+}
+.main .user_info.market_stat li div.img_bg img{
+    margin-top: 33px;
+}
+.main .user_info li div.value{
+    float: right;
+    width: 50%;
+    padding: 5px;
+    background-color: white;
+    box-sizing: border-box;
+    height: 94px;
+}
+.valuepadding{
+	padding: 20px !important;
+}
+.main .user_info li p {
+    text-align: center;
+    margin-bottom: 0;
+}
+.main .user_info li p strong{
+   font-size: 22px;
+}
+.main .system_info {
+    margin-bottom: 50px;
+}
+.main .system_info li table{
+    width: 100%;
+}
+.main .system_info li table tr{
+     border-bottom: 1px solid #dddddd;
+ }
+.main .system_info li table tr:last-child{
+  border: none;
+}
+.main .system_info li table tr td{
+    padding: 10px 0;
+}
+.main .system_info li table tr td:first-child{
+    padding-left: 10px;
+}
+.main .system_info li table tr td:last-child{
+    padding-right: 10px;
+}
+.report_statistics li p.title{
+    padding: 10px 20px ;
+}
+.report_statistics li p.title.red{
+    color: #ff3333;
+}
+.report_statistics li p.title.green{
+    color: green;
+}
+.report_statistics li>div{
+    min-height: 300px;
+    padding: 20px 20px;
+}
+/*report_statistics */
+.report_statistics li{
+    background-color: white;
+}
+    /*curr statistics*/
+.main .curr_stat{
+    height: 240px;
+}
+.main .curr_stat  li div.value{
+    height: 100px;
+}
+.market_stat{
+    height: 280px;
+}
+.main .market_stat  li div.value{
+    height: 118px;
+}
+.main .user_info li p.small{
+    margin-bottom: 0;
+    line-height: 15px;
+}
+.main .curr_stat li div.img_bg{
+    height: 100px;
+}
+.main .curr_stat li div.img_bg img{
+    max-width: 100%;
+    max-height: 50px;
+    vertical-align: middle;
+    margin-top: 25px;
+}
+.main .user_info li.top_li div.value{
+    padding-top: 20px;
+}
+.main .user_info.market_stat li.top_li div.value{
+    padding-top: 33px;
+}
+ .curr_report{
+    width: 100%;
+    border: 1px solid #dddddd;
+    margin-bottom: 80px;
+    background-color: white;
+}
+.curr_report p.title{
+    padding: 10px 20px ;
+    color: green;
+}
+.curr_report>div{
+    width: 100%;
+    min-height: 300px;
+    box-sizing: border-box;
+    padding: 20px;
+}
+.second_title{
+    border-bottom: 1px solid green;
+    padding-bottom: 20px;
+    margin-top: 20px;
+}
+.second_title strong{
+   font-size: 20px;
+}
+.second_title select{
+    margin: 0 10px;
+     padding: 5px 15px;
+    height: 34px;
+    line-height: 34px;
+     border: 1px solid #ccc;
+     border-radius: 3px;
+     font-size: 15px;
+ }
+.second_title button{
+    background-color: #1abc9c;
+    color: white;
+    border: none;
+    padding: 7px 20px;
+    border-radius: 5px;
+}
+.second_title button:hover{
+    background-color: #16a488;
+}
+
+/*k线图*/
+/*#box1 div {width: 100% !important;height: 100% !important;}
+#box1 div canvas{width: 100% !important;height: 100% !important;}
+
+#box2 div {width: 100% !important;height: 100% !important;}
+#box2 div canvas{width: 100% !important;height: 100% !important;}*/

@@ -1,0 +1,113 @@
+<extend name="Public/base"/>
+
+<block name="body">
+    <div class="main-title">
+        <h2>用户认证详情</h2>
+    </div>
+    <form action="{:U('Userbank/join')}" method="post" class="form-horizontal ajax_picture_shen" onsubmit="return false">
+        <foreach name="data" item="vo">
+        <div class="form-item">
+            <label class="item-label">用户ID</label>
+            <div class="controls">
+                <div type="text" class="text input-large" name="userid" value="{$vo.userid}">{$vo.userid}</div>
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">用户名</label>
+            <div class="controls">
+                <div type="text" class="text input-large" name="name" value="{$vo.users}">{$vo.users}</div>
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">真实姓名</label>
+            <div class="controls">
+                <div type="text" class="text input-large" name="bank" value="{$vo.username}">{$vo.username}</div>
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">用户手机号</label>
+            <div class="controls">
+                <div type="text" class="text input-large" name="bankprov" value="{$vo.phone}">{$vo.phone}</div>
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">用户身份证号</label>
+            <div class="controls">
+                <div type="text" class="text input-large" name="bancity" value="{$vo.idcard}">{$vo.idcard}</div>
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">身份证正面照片</label>
+            <div class="controls">
+                <img src="{$vo.topurl}" alt="" style="width: 150px;height: 150px;">
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">身份证反面照片</label>
+            <div class="controls">
+                <img src="{$vo.bankurl}" alt="" style="width: 150px;height: 150px;">
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">手持照片</label>
+            <div class="controls">
+                <img src="{$vo.takeurl}" alt="" style="width: 150px;height: 150px;">
+            </div>
+        </div>
+
+        <div class="form-item">
+            <a value="{$vo.id}" class="btn submit-btn ajax-get">确认审核</a>
+            <a value="{$vo.id}"  class="btn btn-return ajax-get">拒绝审核</a>
+            <!--<button class="btn submit-btn ajax-post" id="submit" type="submit" target-form="form-horizontal">确 定</button>-->
+            <button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+        </div>
+        </foreach>
+    </form>
+</block>
+
+<block name="script">
+    <script type="text/javascript">
+        $('.submit-btn').click(function () {
+            var status=1;
+            var id=$(this).attr("value");
+            $.ajax({
+                url:"{:U('Usercertification/real')}",
+                type:"post",
+                data:{status:status,id:id},
+                dataType:"json",
+                success:function (data) {
+                    if (data.status!=true){  //失败
+                        set_poput_code(data.info,false);
+                        return false;
+                    }
+                    set_poput_yanzhen(data.info,true)
+                    setTimeout(function () {
+                        location.href="{:U('Userrecord/index')}"
+                    },2000)
+                }
+            })
+        })
+        $('.btn-return').click(function () {
+            var status=0;
+            var id=$(this).attr("value");
+            $.ajax({
+                url:"{:U('Usercertification/real')}",
+                type:"post",
+                data:{status:status,id:id},
+                dataType:"json",
+                success:function (data) {
+                    if (data.status!=true){  //失败
+                        set_poput_code(data.info,false);
+                        return false;
+                    }
+                    set_poput_yanzhen(data.info,true)
+                    setTimeout(function () {
+                        location.href="{:U('Userrecord/index')}"
+                    },2000)
+                }
+            })
+        })
+        //导航高亮
+        highlight_subnav('{:U('User/index')}');
+    </script>
+</block>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=1">
+		<meta name="format-detection" content="telephone=no,address=no">
+		<title></title>
+		<link rel="stylesheet" href="__CSS__/base.css" />
+		<link rel="stylesheet" href="__CSS__/coin.css" />
+		<link rel="stylesheet" href="__CSS__/swiper-3.4.2.min.css" />
+		<script type="text/javascript" src="__JS__/jquery-1.12.3.min.js" ></script>
+		<script type="text/javascript" src="__JS__/swiper-3.4.2.jquery.min.js" ></script>
+		<script type="text/javascript" src="__JS__/slide.js" ></script>
+		<script type="text/javascript" src="__JS__/fastclick.js" ></script>
+		<script type="text/javascript" src="__JS__/base.js" ></script>
+		<script type="text/javascript" src="__JS__/coin.js" ></script>
+	</head>
+	<body class="backgroundf6">
+		<header class="top">
+			<a class="top-left" id="back">
+				<img src="__IMG__/back.png"/>
+				<span>返回</span>
+			</a>
+			<h2>委托管理</h2>
+		</header>
+		<div class="tab-entrust swiper2">
+			<div class="swiper-container swiper-container-horizontal swiper-container-free-mode">
+				<div class="tab-entrustlist swiper-wrapper">
+					<foreach name="market_data" item="vo">
+						<a  href="{:U('',['Market'=>$vo['id']])}" <eq name="Market" value="$vo['id']"> class="swiper-slide pitch"<else/> class="swiper-slide " </eq> >{$vo.name}</a>
+					</foreach>
+				</div>
+				<div class="swiper-button-next"></div>
+		        <div class="swiper-button-prev"></div>
+			</div>
+		</div>
+		<section class="entrust-coin">
+
+			<foreach name="xnb_data" item="vo">
+				<eq name="key%2" value="0">
+					<ul id="entrust_rmb">
+				</eq>
+					<li>
+						<a href="{:U('Property/commissioned_detail',['Market'=>$Market,'xnb'=>$vo['id']])}">
+							<img class="coin-head" src="{$vo.imgurl}"/>
+							<span class="coin-character">{$vo.name}({$vo.brief})</span>
+							<img class="coin-right" src="__IMG__/right1.png"/>
+						</a>
+					</li>
+				<eq name="key-1%2" value="0">
+					</ul>
+				</eq>
+			</foreach>
+
+		</section>
+		<include file="Public:footer" />
+	</body>
+</html>

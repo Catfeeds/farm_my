@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=1">
+		<meta name="format-detection" content="telephone=no,address=no">
+		<title></title>
+		<link rel="stylesheet" href="__CSS__/base.css" />
+		<link rel="stylesheet" href="__CSS__/setting.css" />
+		<script type="text/javascript" src="__JS__/jquery-1.12.3.min.js" ></script>
+		<script type="text/javascript" src="__JS__/fastclick.js" ></script>
+		<script type="text/javascript" src="__JS__/base.js" ></script>
+	</head>
+	<body>
+		<header class="top">
+			<a class="top-left" id="back">
+				<img src="__IMG__/back.png"/>
+				<span>返回</span>
+			</a>
+			<h2>设置</h2>
+		</header>
+				<section class="setting-approve">
+					<volist name="_list" id="out">
+						<if condition="($out.yanze eq 1) ">
+					<h2 class="approve-hint">
+						<img src="__IMG__/dagou.png"/>
+						<span>已通过区块链实名认证</span>
+					</h2>
+					<ul>
+						<li>您的身份信息</li>
+						<li>姓名 :{$out.username} </li>
+						<li>证件类型 : 身份证</li>
+						<li>身份证号 : {$out.idcard}</li>
+						<li>认证时间 :{$time|time_format} </li>
+					</ul>
+
+					<h2 class="approve-hint">
+						<img src="__IMG__/dagou.png"/>
+						<span>已通过区块链照片认证</span>
+					</h2>
+					<volist name="photo" id="data">
+						<div class="approve-head">
+							<img src="{$data.topurl}"/>
+							<img src="{$data.bankurl}"/>
+							<img src="{$data.takeurl}"/>
+						</div>
+					</volist>
+					<else/>
+					<div class="tag_info red_color">
+						<p><span class="glyphicon glyphicon-question-sign"></span>您还未进行照片实名认证!<a class="msrz" href="{:U('Safety/photoIdenty', array('tag' => 2))}">马上认证</a></p>
+					</div>
+					</if>
+				</volist>
+				</section>
+		<include file="Public:footer" />
+
+	</body>
+</html>

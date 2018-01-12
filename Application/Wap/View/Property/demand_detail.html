@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=1">
+		<meta name="format-detection" content="telephone=no,address=no">
+		<title></title>
+		<link rel="stylesheet" href="__CSS__/base.css" />
+		<link rel="stylesheet" href="__CSS__/coin.css" />
+		<link rel="stylesheet" href="__CSS__/dropload.css" />
+		<script type="text/javascript" src="__JS__/jquery-1.12.3.min.js" ></script>
+		<script type="text/javascript" src="__JS__/jquery.min.js" ></script>
+		<script type="text/javascript" src="__JS__/dropload.min.js"></script>
+		<script type="text/javascript" src="__JS__/fastclick.js" ></script>
+		<script type="text/javascript" src="__JS__/base.js" ></script>
+		<script type="text/javascript" src="__JS__/coin.js" ></script>
+		<!--<script type="text/javascript" src="__JS__/jquery.loadmore.js"></script>-->
+	</head>
+	<body class="backgroundf6">
+		<header class="top">
+			<a class="top-left" id="back">
+				<img src="__IMG__/back.png"/>
+				<span>返回</span>
+			</a>
+			<h2>成交记录</h2>
+		</header>
+		<section class="entrust-coin-detail inner">
+			<div class="entrust-record">
+				<div class="record-title">
+					<span>
+						买/卖
+					</span>
+					<span>
+						成交时间
+					</span>
+					<span>
+						成交价(¥)
+					</span>
+					<span>成交量</span>
+				</div>
+				<div class="record-content">
+					<span id="uid" style="display: none">{:session('user_wap.id')}</span>
+					<span id="xnbid" style="display: none">{:I('xnbid')}</span>
+					<ul class="lists">
+						<volist name="list" id="data">
+							<li>
+								<if condition="$data['buy'] eq $uid"><span class="cbuy">买</span><elseif condition="$data['sell'] eq $uid" /><span class="csell">卖</span></if>
+							<span>
+								<p>{$data.time|date="Y-m-d",###}</p>
+								<p>{$data.time|date="H:m:s",###}</p>
+							</span>
+								<span>{$data.price}</span>
+								<span>{$data.number}</span>
+							</li>
+						</volist>
+					</ul>
+				</div>
+			</div>
+		</section>
+		<include file="Public:footer" />
+	</body>
+	<script>
+		$(function(){
+			var xnbid = $("#xnbid").text();
+			var uid = $("#uid").text();
+			var groupNumber = 1;
+			var status = 0;
+
+			// dropload
+			var dropload = $('.inner').dropload({
+				autoLoad:true,
+				threshold:5,
+				scrollArea : window,
+				domDown : {
+					domClass   : 'dropload-down',
+					domRefresh : '<div class="dropload-refresh">↑上拉加载更多</div>',
+					domLoad    : '<div class="dropload-load"><span class="loading"></span>加载中...</div>',
+					domNoData  : '<div class="dropload-noData">暂无数据</div>'
+				},
+				loadDownFn : function(me){
+					if (status < 0) {
+						me.noData(true);
+						me.resetload();
+						return false;
+					}
+					$.ajax({
+						type: 'POST',
+						url: '{:U("demand_detail_more")}',
+						dataType: 'json',
+						data: {xnbid:xnbid,groupNumber:groupNumber},
+						success: function(data){
+							if (data == 2) {
+								status = -1;
+								me.noData(true);
+								me.resetload();
+								return false;
+							} else {
+								var text = '';
+								var result = '';
+								var classname = '';
+								var time = '';
+								var date = '';
+
+								$.each(data, function (i, value) {
+									if (value.buy == uid) {
+										text = '买';
+										classname = "cbuy";
+									} else {
+										text = '卖';
+										classname = "csell";
+									}
+									time = formatTime(value.time);
+									date = formatDate(value.time);
+									result += '<li>'+
+											'<span class='+ classname +'>'+ text +'</span>' +
+											'<span><p>'+ date +'</p>'+
+											'<p>'+ time +'</p>'+
+											'</span>'+
+											'<span>'+ value.price +'</span>'+
+											'<span>' + value.number + '</span>'+
+											'</li>'
+								});
+								// 为了测试，延迟1秒加载
+								groupNumber ++;
+//							setTimeout(function(){
+								$('.lists').append(result);
+								// 每次数据加载完，必须重置
+								dropload.resetload();
+//							},1000);
+							}
+						},
+						error: function(xhr, type){
+							me.noData(true);
+							// 即使加载出错，也得重置
+							dropload.resetload();
+						}
+					});
+				}
+			});
+		});
+		function   formatDate(time)   {
+			var date = new Date(time*1000);
+			var Y = date.getFullYear() + '-';
+			var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+			var D = date.getDate();
+
+			return Y+M+D;
+//			return   year+"-"+month+"-"+dates+"   "+hour+":"+minute+":"+second;
+		}
+		 function formatTime(time) {
+			 var date = new Date(time*1000);
+			 var h = date.getHours() + ':';
+			 var m = date.getMinutes() + ':';
+			 var s = date.getSeconds();
+
+			 return h+m+s;
+		 }
+	</script>
+</html>

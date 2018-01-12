@@ -1,0 +1,101 @@
+<extend name="Public/base" />
+<block name="style">
+    <link rel="stylesheet" type="text/css" href="/Public/Admin/Entrust/index.css" media="all">
+    <link rel="stylesheet" type="text/css" href="/Public/Admin/mypubliccss/button.css" media="all">
+    <link rel="stylesheet" type="text/css" href="__CSS__/property.css"/>
+    
+</block>
+<block name="body">
+	<div class="property">
+		<div class="property-title">
+			用户资产
+		</div>
+		<div class="reveal">
+				<div class="reveal-exhibition">
+					<div class="reveal-title">
+						<!--<img src="../images/bg_icon.png"/>-->
+						<span>{$xnb}</span>
+			    		<span class="reveal-exhibition-v">∨</span>
+					</div>
+		    		<div class="reveal-box">
+		   			<ul>
+		   				<li>
+							<foreach name="xiang" item="vo" >
+								<if condition="($vo eq id) ">
+									<elseif condition="$vo eq userid"/>
+									<elseif condition="$vo eq username"/>
+									<else/><a href="{:U('Userproperty/property',array('id'=>$id, 'xnb'=>$vo))}">{$vo}</a>
+								</if>
+							</foreach>
+		   				</li>
+		   			</ul>
+   				</div>
+	    		</div>
+	    		
+   		</div>
+
+   		<div class="reveal-info">
+   			<div class="reveal-row">
+   				<label>用户id</label>
+   				<span>{$yoona.0.currency_userproperty_userid}</span>
+   			</div>
+   			<div class="reveal-row">
+   				<label>用户名</label>
+   				<span>{$yoona.0.currency_userproperty_username}</span>
+   			</div>
+   			<div class="reveal-row">
+   				<label>统计币种</label>
+				<span>{$xnb}</span>
+   			</div>
+   		</div>
+
+   		<div class="reveal-info">
+   			<div class="reveal-row">
+   				<label>正常余额</label>
+   				<span class="reveal-row-money">{$yoona.keyong}</span>
+   				<span class="reveal-row-hint">用户账户里面实际显示余额</span>
+   			</div>
+   			<div class="reveal-row">
+   				<label>冻结余额</label>
+   				<span class="reveal-row-money">{$yoona.dongjie}</span>
+   				<span class="reveal-row-hint">用户账户里面实际显示余额</span>
+   			</div>
+   			<div class="reveal-row">
+   				<label>总计余额</label>
+   				<span class="reveal-row-money">{$yoona.zong}</span>
+   				<span class="reveal-row-hint">用户账户里面实际显示余额</span>
+   			</div>
+   		</div>
+
+	</div>
+
+</block>
+
+<block name="script">
+	<script src="__JS__/jquery.mousewheel.js"></script>
+    <script type="text/javascript">
+
+        //搜索功能
+        $("#search").click(function(){
+            var url = $(this).attr('url');
+            var query  = $('.search-form').find('input').serialize();
+            query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g,'');
+            query = query.replace(/^&/g,'');
+            if( url.indexOf('?')>0 ){
+                url += '&' + query;
+            }else{
+                url += '?' + query;
+            }
+            window.location.href = url;
+        });
+        //回车搜索
+        $(".search-input").keyup(function(e){
+            if(e.keyCode === 13){
+                $("#search").click();
+                return false;
+            }
+        });
+        //导航高亮
+        highlight_subnav("{:U('Userqian/index')}");
+    </script>
+</block>

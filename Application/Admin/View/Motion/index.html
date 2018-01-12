@@ -1,0 +1,95 @@
+<extend name="Public/base" />
+<block name="style">
+    <link rel="stylesheet" type="text/css" href="/Public/Admin/Entrust/index.css" media="all">
+    <link rel="stylesheet" type="text/css" href="/Public/Admin/mypubliccss/button.css" media="all">
+    <link rel="stylesheet" type="text/css" href="__CSS__/jquery.editable-select.min.css" media="all">
+</block>
+<block name="body">
+    <div class="main-title">
+        <h2>推广奖励</h2>
+        <form action="{:U('Motion/index')}" method="post">
+            <div class="difference">
+                <select name="type" class="market" id=""  placeholder="币种" style="background-color: white;border: 1px solid #BBBBBB;width: 120px;height:32px">
+                    <option value="0">操作类型</option>
+                    <option value="1" <if condition="I('type') eq 1">selected</if>>买入虚拟币</option>
+                    <option value="2" <if condition="I('type') eq 2">selected</if>>卖出虚拟币</option>
+                </select>&nbsp; &nbsp;
+                <input type="hidden" name="xnbid" value="{:I('xnbid')}" id="xnbid">
+                <select name="search_xnb" class="market" id="xnb_select"  placeholder="币种" style="background-color: white;border: 1px solid #BBBBBB;width: 120px;height:32px">
+                    <volist name="xnb_list" id="xnb_list">
+                        <option value="{$xnb_list.id}" class="option">{$xnb_list.name}({$xnb_list.brief})</option>
+                    </volist>
+                </select>&nbsp; &nbsp;
+                <input name="name" class="username" value="" placeholder="用户名/用户ID"> &nbsp; &nbsp;
+                <button class="send" type="submit" id="submit">确定</button>
+            </div>
+        </form>
+    </div>
+    <div class="data-table table-striped">
+        <table class="">
+            <thead>
+                <tr>
+                    <th class="">ID</th>
+                    <th class="">用户名</th>
+                    <th class="">推荐的用户</th>
+                    <th class="">奖励名称</th>
+                    <th class="">操作类型</th>
+                    <th class="">奖励金额</th>
+                    <th class="">奖励时间</th>
+                </tr>
+            </thead>
+            <tbody>
+                <notempty name="data">
+                    <foreach name="data" item="vo">
+                       <tr>
+                           <td>{$vo.id}</td>
+                           <td>{$vo.username}</td>
+                           <td>{$vo.childname}</td>
+                           <td>{$vo.name}</td>
+                           <td>{$vo.type}</td>
+                           <td>{$vo.number}</td>
+                           <td>{:date('Y-m-d H:i:s',$vo['time'])}</td>
+                       </tr>
+                    </foreach>
+                    <else/>
+                    <td colspan="13" class="text-center"> aOh! 暂时还没有内容! </td>
+                </notempty>
+            </tbody>
+        </table>
+    </div>
+    <div class="page">{$page}</div>
+</block>
+<block name="script">
+    <script type="text/javascript" src="__JS__/jquery.editable-select.min.js"></script>
+    <script type="text/javascript">
+        highlight_subnav('{:U('index')}');
+
+        $(function () {
+            //是否有查询的币种
+            var xnbid = $("#xnbid").val();
+            $(".option").each(function () {
+                var txt = $(this).text();
+                var val = $(this).val();
+                if (val == xnbid) {
+                    $("#xnb_select").val(txt);
+                }
+            });
+        });
+        $("#xnb_select").editableSelect({
+            effects:'slide'
+        });
+        $("#submit").click(function () {
+            var xnbname = $("#xnb_select").val();
+            var xnbid = 0;
+            $(".option").each(function () {
+                var txt = $(this).text();
+                var val = $(this).val();
+                if (txt == xnbname) {
+                    xnbid = val;
+                }
+            });
+            $("#xnbid").val(xnbid);
+        })
+
+    </script>
+</block>

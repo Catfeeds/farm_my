@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1">-->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=9" />
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta name="description" content="农畜商品交易平台">
+    <meta name="keywords" content="数字货币交易平台,数字货币,虚拟币,虚拟币新闻资讯">
+    <meta name="author" content="lihuijie">
+    <title>手机APP下载-农畜商品交易平台</title>
+    <link rel="shortcut icon" href="__IMG__/base_images/bd_safe4.png">
+    <link rel="stylesheet" href="__CSS__/bootstrap.min.css">
+    <link rel="stylesheet" href="__CSS__/bae.css">
+    <link rel="stylesheet" href="__CSS__/center_left.css">
+    <link rel="stylesheet" href="__CSS__/center_header.css">
+    <link rel="stylesheet" href="__CSS__/download_center.css">
+    <link rel="stylesheet" href="__ALERT__/qiwen_popup.css">
+</head>
+<body>
+<include file="Public:header"/>
+<main>
+    <section>
+        <div class="container">
+            <ol class="breadcrumb">
+                <li><a href="{:U('Index/index')}">首页</a></li>
+                <li><a href="{:U('DownLoadCenter/AppDownload')}">下载中心</a></li>
+                <li class="active">
+                    <span>手机APP下载</span>
+                </li>
+            </ol>
+        </div>
+    </section>
+    <!--内容-->
+    <div class="container center_content" id="help_content">
+
+        <!--左侧导航-->
+        <include file="Public:down_left"/>
+
+        <!--正文内容-->
+        <div class="pull-right passage_article" id="right_content">
+            <!--标题-->
+            <h5 class="title">手机APP下载</h5>
+            <div class="download_content app_download">
+                <div class="pull-left iphone_img">
+                    <ul class="list-unstyled" id="panel_img">
+                        <volist name="appphoto" id="data">
+                            <li><img src="{$data.imgurl}" alt="{$data.name}" class="img-responsive"></li>
+                        </volist>
+                    </ul>
+                </div>
+                <div class="pull-right app_content">
+                    <div class="app_info">
+                        <h5><span class="span_left"></span>移动APP<span class="span_right"></span></h5>
+                        <h6>随时随地把握行情</h6>
+                        <ul class="dec_info">
+                            <li>交易资产随时看，下单操作更安全，订单历史一目了然</li>
+                            <li>安全快捷的农畜商品交易市场</li>
+                        </ul>
+                    </div>
+                    <div class="app_ewm">
+                        <h3>软件下载</h3>
+                        <ul class="list-inline">
+                            <li>
+                                <!--<p id="qrcode_android"></p>-->
+                                <p><img src="/{$app_url['APP_IOS_CODE']}" alt="图片"></p>
+                                <p><span class="iphones_img"></span></p>
+                            </li>
+                            <li>
+                                <!--<p id="qrcode_ios"></p>-->
+                                <p><img src="/{$app_url['APP_ANDROID_CODE']}" alt="图片"></p>
+                                <p><span class="android_img"></span></p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+
+</main>
+<include file="Public:footer"/>
+<script src="__JS__/jquery.js"></script>
+<script src="__JS__/base.js"></script>
+<script src="__JS__/center_left.js"></script>
+<script src="__JS__/download_center.js"></script>
+<script src="/Public/jquery.qrcode/jquery.qrcode.js"></script>
+
+</body>
+</html>

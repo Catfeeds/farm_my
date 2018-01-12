@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=1">
+		<meta name="format-detection" content="telephone=no,address=no">
+		<title></title>
+		<link rel="stylesheet" href="__CSS__/base.css" />
+		<link rel="stylesheet" href="__CSS__/index.css" />
+		<link rel="stylesheet" href="__CSS__/swiper-3.4.2.min.css" />
+		<script type="text/javascript" src="__JS__/jquery-1.12.3.min.js" ></script>
+		<script type="text/javascript" src="__JS__/fastclick.js" ></script>
+		<!--<script type="text/javascript" src="__JS__/resize.js" ></script>-->
+		<script type="text/javascript" src="__JS__/swiper-3.4.2.jquery.min.js" ></script>
+		<!--<script type="text/javascript" src="__JS__/slide.js" ></script>-->
+		<!--<script type="text/javascript" src="__JS__/vue.min.js" ></script>-->
+		<script type="text/javascript" src="__JS__/base.js" ></script>
+		<script type="text/javascript" src="__JS__/index.js" ></script>
+	</head>
+
+	<body>
+		<header class="top">
+			<a class="top-logo" href="#">
+				<img src="../Public/Wap/img/logo.png"/>
+			</a>
+			<h2>首页</h2>
+			<!--<a class="top-right" id="remind"><img src="__IMG__/naozhong.png"/></a>-->
+			<a class="top-right" href="{:U('Communication/service')}"><img src="__IMG__/indexkf.png"/></a>
+		</header>
+		<section class="index-content">
+			<div class ="banner">
+				<div class="swiper1">
+					<div class="swiper-container">
+						 <div class="swiper-wrapper">
+							 <volist name="ad" id="addata">
+								 <div class="swiper-slide"><a href="{$addata.url}"><img src="{$addata.img}"/></a></div>
+							 </volist>
+						 </div>
+						 <div class="swiper-pagination"></div>
+					</div>
+				</div>
+			</div>
+			<div class="hint">
+				<a href="{:U('Information/ardetail', array('id' => $new_notice['id'], 'type' => $new_notice['type']))}">
+					<img src="__IMG__/shengying2.png" />
+					<span>{$new_notice.title}</span>
+				</a>
+			</div>
+			<!--<div class="switchover">
+				<div class="swiper2">
+					<div class="tabcut swiper-container swiper-container-horizontal swiper-container-free-mode">
+						<div class="tabcut_list swiper-wrapper">
+						<foreach name="market_data" item="vo">
+							<a  href="{:U('index',['Market'=>$vo['id']])}" <eq name="Market" value="$vo['id']">class="swiper-slide pitch" <else/>class="swiper-slide"</eq> >
+								<span id="tab_rmb" >{$vo.name}</span></a>
+							</a>
+						</foreach>
+						</div>
+						<div class="swiper-button-next"></div>
+		        		<div class="swiper-button-prev"></div>
+					</div>
+				</div>
+			</div>-->
+			<!--<div class="district" id="rmb">
+				<ul>
+					<foreach name="xnb_data" item="vo">
+						<li>
+							<a href="{:U('Trade/trade',['xnb'=>$vo['id'],'marke'=>$Market])}">
+								<div class="district-title">
+									<div class="district-title-left">
+										<img src="{$vo.imgurl}"/>
+										<span>{$vo.name}({$vo.brief})</span>
+									</div>
+									<div class="district-title-right">
+										<img src="__IMG__/right1.png"/>
+									</div>
+								</div>
+								<div class="district-cost">
+									<span class="district-cost-price">￥<eq name="vo['new_price']" value="">0.00<else/>{:floatval($vo['new_price'])}</eq></span>
+									<span class="district-grow ce34c48">
+										<php>$zd=($vo['new_price']-$vo['oldprice'])/$vo['oldprice']/100; echo $zd !="" ? $zd.'%' : '0.00%'; </php>
+									</span>
+								</div>
+								<dl class="district-info">
+									<dt>
+										<p>最高价</p>
+										<p>￥<eq name="vo.max(price)" value="">0.00<else/>{:floatval($vo.max(price))}</eq></p>
+									</dt>
+									<dt>
+										<p>最低价</p>
+										<p>￥<eq name="vo.min(price)" value="">0.00<else/>{:floatval($vo.min(price))}</eq></p>
+									</dt>
+									<dt>
+										<p>成交量</p>
+										<p><eq name="vo['smum_number']" value="">0.00<else/>{:getUnit($vo['smum_number'])}</eq></p>
+									</dt>
+									<dt>
+										<p>成交额</p>
+
+										<p><eq name="vo['avg_price']*$vo['smum_number']" value="">0.00<else/>{:getUnit($vo['avg_price']*$vo['smum_number'])}</eq></p>
+									</dt>
+								</dl>
+							</a>
+						</li>
+					</foreach>
+				</ul>
+			</div>-->
+			<div class="information">
+				<div class="infotitle">
+					<span class="infotitlehe"><img src="__IMG__/icon_info.png" /><span>行内资讯</span></span>
+					<a href="{:U('information/moreInfo')}">查看更多</a>
+				</div>
+				<div class="infocon">
+					<ul>
+						<volist name="arlist" id="data">
+							<li>
+								<a href="{:U('Information/ardetail', array('id' => $data['id'], 'type' => $data['type']))}"><span class="infotext">{$data.title}</span><span class="infotime">{$data.addtime|date="m-d",###}</span></a>
+							</li>
+						</volist>
+					</ul>
+				</div>
+			</div>
+			<div class="terrace">
+				<h3 class="terraceti">安全可靠的交易平台</h3>
+				<ul>
+					<li>
+						<a>
+							<img src="__IMG__/index_trust1.png"/>
+							<p>系统可靠</p>
+						</a>
+					</li>
+					<li>
+						<a>
+							<img src="__IMG__/index_trust2.png"/>
+							<p>资金安全</p>
+						</a>
+					</li>
+					<li>
+						<a>
+							<img src="__IMG__/index_trust3.png"/>
+							<p>快捷方便</p>
+						</a>
+					</li>
+					<li>
+						<a>
+							<img src="__IMG__/index_trust4.png"/>
+							<p>服务专业</p>
+						</a>
+					</li>
+				</ul>
+			</div>
+			<if condition="session('openid')">
+				<div class="appxz">
+					<div class="appxzimg">
+						<img src="__IMG__/easy-phone.png"/>
+					</div>
+					<div class="appxztext">
+						<p class="appxzt-title">移动APP，轻松交易</p>
+						<ul>
+							<li>交易资产随时看，操作更安全</li>
+							<li>苹果、安卓双平台支持</li>
+							<li>安全快捷的农畜交易平台</li>
+						</ul>
+						<div class="appxzt-btn">
+							<a class="ifbtn" href="http://app.icefeu.com/down/?20404">iPhone 下载</a>
+							<a href="http://app.icefeu.com/down/?20404">Android 下载</a>
+						</div>
+					</div>
+				</div>
+			</if>
+			<!--<div class="servea">
+				<a>在线客服</a>
+			</div>-->
+			<div class="indexfooter">
+				<div>
+					<p><img src="__IMG__/icon_contact1.png"/>{$number.tel}</p>
+					<p><img src="__IMG__/icon_contact2.png"/>{$number.mail}</p>
+				</div>
+				<p class="banquan">农畜商品交易市场</p>
+			</div>
+		</section>
+		<include file="Public:footer" />
+	</body>
+
+</html>

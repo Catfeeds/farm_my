@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=1">
+		<meta name="format-detection" content="telephone=no,address=no">              
+		<title></title>
+		<link rel="stylesheet" href="__CSS__/base.css" />
+		<link rel="stylesheet" href="__CSS__/rmb.css" />
+		<link rel="stylesheet" href="__CSS__/dropload.css" />
+		<script type="text/javascript" src="__JS__/jquery-1.12.3.min.js" ></script>
+		<script type="text/javascript" src="__JS__/jquery.min.js" ></script>
+		<script type="text/javascript" src="__JS__/dropload.min.js" ></script>
+		<script type="text/javascript" src="__JS__/fastclick.js" ></script>
+		<script type="text/javascript" src="__JS__/base.js" ></script>
+		<script type="text/javascript" src="__JS__/rmb.js" ></script>
+	</head>
+	<body class="backgroundf6">
+		<header class="top">
+			<a class="top-left" id="back">
+				<img src="__IMG__/back.png"/>
+				<span>返回</span> 
+			</a>
+			<h2>人民币充值记录</h2>
+		</header>
+		<section class="charge-record">
+			<ul class="us">
+
+			</ul>
+	 	</section>
+		<include file="Public:footer" />
+	</body>
+
+	<script>
+		$(function(){
+			// dropload
+			var start=0;
+			var dropload = $('.charge-record').dropload({
+				scrollArea:window,
+				threshold:5,
+				autoLoad:true,
+				domUp : {
+					domClass   : 'dropload-up',
+					domRefresh : '<div class="dropload-refresh">↓下拉刷新</div>',
+					domUpdate  : '<div class="dropload-update">↑释放更新</div>',
+					domLoad    : '<div class="dropload-load"><span class="loading"></span>加载中...</div>'
+				},
+				domDown : {
+					domClass   : 'dropload-down',
+					domRefresh : '<div class="dropload-refresh">↑上拉加载更多</div>',
+					domLoad    : '<div class="dropload-load"><span class="loading"></span>加载中...</div>',
+					domNoData  : '<div class="dropload-noData">暂无数据</div>'
+				},
+
+				loadDownFn : function(me){
+					if(start<0){
+						me.noData(true);
+						me.resetload();
+						return false;
+					}
+					$.ajax({
+						type: 'post',
+						url: "{:U('Property/rmbchang')}",
+						dataType: 'json',
+						data:{start:start},
+						success: function(data){
+							//如果返回空就不在发起请求
+							if (data==""){
+								start=-1;
+								me.noData(true);
+								me.resetload();
+								return false;
+							}
+							var li=" ";
+							$.each(data,function (k,v) {
+								var time=getTime(v.addtime);
+								var money=getmoney(parseInt(v.status),v.allmoney)
+								var type=gettype(parseInt(v.status),v.orderfor)
+								var  vid=v.id;
+								console.log(vid)
+								li+='<li>';
+								li+='<a class="xiang" onclick="asde(this)" value='+vid+' type='+v.status+'>';
+								li+='<div class="charge-record-time">';//1
+								li+='<span>'+time+'</span>';
+								li+='<span class="c999">银行转账</span>';
+//
+								li+='<span class="record-flag cbuy">'+type+'</span>';
+								li+='</div>';//1
+								li+='<div class="record-info">';
+								li+='<dl>';
+								li+='<dt>'+v.userid+'</dt>';
+								li+='<dt>充值ID</dt>';
+								li+='</dl>';
+								li+='<dl>';
+								li+='<dt>￥'+v.money+'</dt>';
+								li+='<dt>充值金额</dt>';
+								li+='</dl>';
+								li+='<dl>';
+								li+='<dt>'+money+'</dt>';
+								li+='<dt>到账金额</dt>';
+								li+='</dl>';
+								li+='<dl>';
+								li+='<dt><img src="__IMG__/right1.png"/></dt>';
+								li+='</dl>';
+								li+='</div>';
+								li+='</a>';
+								li+='</li>';
+								$('.xiang').attr("href",'{:U("Property/chargeRecordState",['id'=>'v.id'])}')
+							})
+
+
+							$('.us').append(li)
+							start+=4;
+							me.resetload();
+						},
+						error: function(xhr, type){
+							me.noData(true);
+							// 即使加载出错，也得重置
+							dropload.resetload();
+						}
+					});
+				}
+			});
+
+		});
+		function getTime(int) {
+			int=int*1000
+			var date=new Date();
+			date.setTime(int);
+			return date.getFullYear()+"-"+(date.getMonth()+1)+'-'+date.getDate()+" "+date.getHours()+':'+date.getMinutes()+':'+date.getSeconds();
+		}
+
+		function gettype(int,orderfor) {
+			switch (int){
+				case 1:
+					return '<span class="record-flag cwait">处理中</span>';
+					break;
+				case 3:
+					return '<span class="record-flag csell">成功</span>';
+					break;
+				case 2:
+					return "失败";
+					break;
+				case 0:
+					return '<span class="record-flag cwait">等待</span>';
+					break;
+			}
+		}
+		function getmoney(int,orderfor) {
+			switch (int){
+				case 1:
+					return '<dt>￥0.00</dt>';
+					break;
+				case 3:
+					return '<span >￥'+orderfor+'</span>';
+					break;
+				case 2:
+					return '<dt>￥0.00</dt>';
+					break;
+				case 0:
+					return '<dt>￥0.00</dt>';
+					break;
+			}
+		}
+		function asde(ss) {
+			var ids=$(ss).attr("value");
+			var idas=$(ss).attr("type");
+			location.href='/Wap`Property`chargeRecordState`id`'+ids+'`type`'+idas+''
+		}
+</script>
+</html>
+ 

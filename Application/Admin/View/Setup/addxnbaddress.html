@@ -1,0 +1,107 @@
+<extend name="Public/base"/>
+<block name="style">
+    <link rel="stylesheet" type="text/css" href="__CSS__/jquery.ui.css" media="all">
+    <link rel="stylesheet" type="text/css" href="__CSS__/addxnb.css" media="all">
+    <link rel="stylesheet" type="text/css" href="__CSS__/jquery.editable-select.min.css" media="all">
+
+</block>
+<block name="body">
+    <div class="main-title">
+        <empty name="data">
+            <h2>虚拟币配置>>添加虚拟币地址</h2>
+            <else/>
+            <h2>虚拟币配置>>修改虚拟币地址</h2>
+        </empty>
+
+    </div>
+    <form  class="form-horizontal">
+        <notempty>
+            <input type="hidden" value="{$data.id}" name="id" id="id">
+        </notempty>
+        <div class="form-item">
+            <label class="item-label">选择虚拟币</label>
+            <select name="xnbid" id="xnbselect" placeholder="选择虚拟币" style="background-color: white;border: 1px solid #BBBBBB;width: 100px;height:30px">
+                <option value="0">选择虚拟币</option>
+                <volist name="xnblist" id="xnbdata">
+                    <option class="option" value="{$xnbdata.id}" <eq name="data['xnbid']" value="$xnbdata['id']">selected</eq>>{$xnbdata.name}</option>
+                </volist>
+            </select>
+        </div>
+
+        <div class="form-item">
+            <label class="item-label">下载地址</label>
+            <div class="controls">
+                <input  class="text input-large" name="downadd" value="{:base64_decode($data['downadd'])}">
+            </div>
+        </div>
+
+        <div class="form-item">
+            <label class="item-label">官网地址</label>
+            <div class="controls">
+                <input  class="text input-large" name="webadd" value="{:base64_decode($data['webadd'])}">
+            </div>
+        </div>
+
+        <div class="form-item">
+            <label class="item-label">状态</label>
+            <div class="controls">
+                <select name="status" id="status">
+                    <option value="1" <eq name="data['status']" value="1"> selected </eq>>启用</option>
+                    <option value="0" <eq name="data['status']" value="0"> selected </eq>>禁用</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-item">
+            <button class="btn submit-btn" type="button">确 定</button>
+            <button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+        </div>
+    </form>
+</block>
+
+<block name="script">
+    <script type="text/javascript" src="__JS__/jquery.ui.js"></script>
+    <script type="text/javascript" src="__JS__/jquery.editable-select.min.js"></script>
+    <script type="text/javascript">
+        highlight_subnav('{:U('xnbaddress')}');
+
+        $("#xnbselect").editableSelect({
+            effects:'slide'
+        });
+        $(".submit-btn").click(function () {
+            var xnbid = 0;
+            var id = $("#id").val();
+            var xnbname = $("#xnbselect").val();
+            var downadd = $("input[name='downadd']").val();
+            var webadd = $("input[name='webadd']").val();
+            var status = $("#status").val();
+
+            $(".option").each(function () {
+                var txt = $(this).text();
+                var val = $(this).val();
+                if (txt == xnbname) {
+                    xnbid = val;
+                }
+            });
+
+            $.ajax({
+                url:"{:U('Setup/addxnbaddress')}",
+                type:"POST",
+                data:{
+                    "id":id,
+                    "xnbid":xnbid,
+                    "downadd":downadd,
+                    "webadd":webadd,
+                    "status":status
+                },
+                success:function (data) {
+                    if (data.status != true) {
+                        set_poput_code(data.info, false);
+                    } else {
+                        set_poput_code(data.info, true);
+                    }
+                }
+            })
+        })
+    </script>
+</block>

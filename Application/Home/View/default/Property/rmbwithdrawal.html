@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<!--	<meta name="viewport" content="width=device-width, initial-scale=1">-->
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta http-equiv="X-UA-Compatible" content="IE=9" />
+		<meta charset="UTF-8">
+		<meta name="renderer" content="webkit">
+		<meta name="description" content="农畜商品交易平台">
+		<meta name="keywords" content="数字货币交易平台,数字货币,虚拟币,虚拟币新闻资讯">
+		<meta name="author" content="lihuijie">
+		<title>人民币提现-农畜商品交易平台</title>
+		<link rel="shortcut icon" href="__IMG__/base_images/bd_safe4.png">
+		<link rel="stylesheet" type="text/css" href="__CSS__/bootstrap.min.css"/>
+		<link rel="stylesheet" href="__CSS__/bae.css">
+		<link rel="stylesheet" href="__CSS__/default.css" />
+		<link rel="stylesheet" href="__CSS__/center_left.css">
+		<link rel="stylesheet" href="__CSS__/center_header.css">
+		<link rel="stylesheet" type="text/css" href="__CSS__/finance.css"/>
+		<link rel="stylesheet" href="__ALERT__/qiwen_popup.css"/>
+		<script type="text/javascript" src="__JS__/jquery.js" ></script>
+		<script src="__JS__/base.js"></script>
+		<script src="__JS__/center_left.js"></script>
+		<script type="text/javascript" src="__JS__/Property/rmbwuthdrawal.js" ></script>
+		<script type="text/javascript" src="__JS__/finance.js" ></script>
+	</head>
+	<body>
+	<include file="Public:header"/>
+	<main>
+		<div class="container">
+			<ol class="breadcrumb">
+				<li><a href="{:U('Index/index')}">首页</a></li>
+				<li><a href="{:u('Property/finance')}">财务中心</a></li>
+				<li class="active">
+					人民币提现
+				</li>
+			</ol>
+		</div>
+		<div class="container center_content">
+
+			<include file="Public:finance_left"/>
+
+			<div class="pull-right finance-content">
+				<div class="big_title">
+					<h4>人民币提现</h4>
+					<div class="clearfix"></div>
+				</div>
+
+				<div class="notice" id="name_ident_notice">
+					<p><span class="glyphicon glyphicon-exclamation-sign"></span>暂不支持微信和支付宝提现，目前仅支持银行卡提现。
+					</p>
+				</div>
+				<div class="withdraw">
+					<if condition="($phone eq null)" >    <!--手机号码为空时候出来-->
+						<h5 class="charge_tips"><span class="glyphicon glyphicon-exclamation-sign"></span>请先绑定手机号</h5>
+						<div class="form-group add_bind_card">
+							<p><a href="{:U('Safety/phoneBind?tag=4')}"><span class="glyphicon glyphicon-plus"></span>绑定手机</a></p>
+						</div>
+						<else/><form  method="post" onsubmit="return false">
+							<h4 class="charge_title">人民币提现</h4>
+							<div class="form-group">
+								<label for="bankname">汇款人姓名 : </label>
+								<input id="bankname" readonly="readonly" class=" withdraw-special form-control" type="text"  value="{:session('truename')}">
+							</div>
+							<div class="form-group">
+								<label for="banks">选择银行 : </label>
+								<select id="banks" name="bank" class="form-control">
+									<foreach name="back_data" item="vo">
+										<option  value="{$vo.id}">{$vo.bankname}</option>
+									</foreach>
+								</select>
+							</div>
+
+							<empty name="back_data" >    <!--银行卡为空的时候才出来-->
+								<div class="form-group add_card">
+									<p><a href="{:U('Safety/cardManage?tag=5')}"><span class="glyphicon glyphicon-plus"></span>添加银行卡</a></p>
+								</div>
+							</empty>
+
+							<div class="form-group">
+								<label class="c333 label-hint">可用金额 :</label><label class="c55600">&yen;<span class="allmoney"><eq name="usermoney['cny']" value="0">0.00<else/>{$usermoney['cny']}</eq></span></label>
+							</div>
+							<div class="form-group">
+								<label for="recharge_num">提现金额 : </label>
+								<input type="number" style=" -moz-appearance: textfield;" class="form-control" name="takeout" placeholder="请输入提现金额" id="recharge_num" step="{$cnyconfigure_data.times}" min="{$cnyconfigure_data.minmoney}" max="{$cnyconfigure_data.maxmoney}">
+							</div>
+							<div class="form-group">
+								<label for="recharge_password">交易密码 : </label>
+								<input type="password" onkeyup="tradePwReg(this)" onblur="tradePwReg(this)" class="form-control" name="takepassword" placeholder="请输入密码" id="recharge_password" >
+								<span class="tips red_tips"><i class="glyphicon glyphicon-info-sign"></i>交易密码必须是6位数字</span>
+								<span class="tips green_tips"><i class="glyphicon glyphicon-ok-sign"></i>交易密码格式正确</span>
+							</div>
+							<div class="form-group">
+								<div class="input_width_9_a">
+									<label for="yanzheng_num" class="control-label form_input_3">验证码:</label>
+									<input style="margin-left: 38px;" type="text" class="form-control input-lg"  name="yanzheng_num" id="yanzheng_num" placeholder="请输入您的验证码">
+								</div>
+
+								<div class="input_width_9" style="width: 100%;">
+									<span class="tips"></span>
+									<div class="yzm_zj"><img class="left15" alt="验证码" src="{:U('Photoma/checkphoto')}" title="点击刷新"><span>换一张？</span></div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label" style="margin-left: 10px;">获取验证码:</label>
+								<div class="input_width_9">
+									<button type="button" class="form-control input-lg" value="{$phone}" onclick="yanzhen()" name="input_identify_code" id="input_identify_code">免费获取验证码</button>
+									<span class="tips"></span>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="input_identity" class="control-label">手机验证码:</label>
+								<div class="input_width_9">
+									<input type="text" style="margin-left: 10px;" class="form-control input-lg" value=""   name="input_identity" id="input_identity" placeholder="请输入手机验证码">
+									<span class="tips"></span>
+								</div>
+							</div>
+							<!--<div class="clear"></div>-->
+							<div class="form-group radio_check">
+								<input  type="radio" checked="checked" value="1" name="type" id="quick_out" ><label for="quick_out">普通提现：手续费 <span>{$cnyconfigure_data['slowpoundage']}%</span>，正常24小时内到帐，具体到账时间因收款银行略有不同，节假日会略有延迟</label>
+								<input  type="radio"  value="2" name="type" id="normal_out" ><label for="normal_out">快速提现：手续费 <span>{$cnyconfigure_data['fastpoundage']}%</span>，工作日9：00--18：00，1小时内到帐，其他时间段12小时内到帐</label>
+								<div class="clearfix"></div>
+							</div>
+
+							<div class="add-bank-affirm marleft30" >
+								<input type="button" value="确认提现"/>
+							</div>
+
+						</form>
+					</if>
+
+				</div>
+				<div class="purse-explain">
+					<p><span class="glyphicon glyphicon-info-sign"></span><strong>提现说明：</strong></p>
+					<p>1、只能使用实名认证或者第三方认证的本人账号进行提现。</p>
+					<p>2、手机短信验证码24小时内不能获取超过15次。</p>
+					<p><span class="red">3、单笔提现不超过5万元，提现申请间隔两小时，周期内3次提现。</span></p>
+				</div>
+				<div class="currency-record-hint">提现记录</div>
+				<div class="currency-mold rmb_out">
+					<ul>
+						<li>提现ID</li>
+						<li>时间</li>
+						<li>提现金额</li>
+						<li>到账金额</li>
+						<li>手续费</li>
+						<li>
+							<select name="type" id="status" onchange="window.location=this.value">
+								<option  value="{:U('Property/rmbwithdrawal',array('tag'=>'2.html','type'=>''))}" <eq name="type" value="">selected="selected"</eq> >状态</option>
+								<option  value="{:U('Property/rmbwithdrawal',array('tag'=>'2.html','type'=>1))}" <eq name="type" value="1">selected="selected"</eq>>等待</option>
+								<option  value="{:U('Property/rmbwithdrawal',array('tag'=>'2.html','type'=>2))}" <eq name="type" value="2">selected="selected"</eq>>处理中</option>
+								<option  value="{:U('Property/rmbwithdrawal',array('tag'=>'2.html','type'=>3))}" <eq name="type" value="3">selected="selected"</eq> >成功</option>
+								<option  value="{:U('Property/rmbwithdrawal',array('tag'=>'2.html','type'=>4))}" <eq name="type" value="4">selected="selected"</eq>>失败</option>
+								<option  value="{:U('Property/rmbwithdrawal',array('tag'=>'2.html','type'=>5))}" <eq name="type" value="5">selected="selected"</eq>>撤销</option>
+							</select>
+						</li>
+						<li>操作</li>
+					</ul>
+				</div>
+				<div class="currency-record rmb_out">
+					<foreach name="water" item="vo">
+						<ul>
+							<li>{$vo.userid}</li>
+							<li>{:date('Y-m-d:H:i:s',$vo['addtime'])}</li>
+							<li>{$vo.allmoney}</li>
+							<li>{$vo.money}</li>
+							<li>
+								{$vo.poundage}
+							</li>
+							<li>
+								<switch name="vo['status']" >
+									<case value="1" >等待</case>
+									<case value="2">处理中</case>
+									<case value="3">成功</case>
+									<case value="4">失败</case>
+									<case value="5">已撤销</case>
+								</switch>
+							</li>
+							<li class="examine">
+								<if condition="$vo.status eq 1" >
+									<button onclick="black(this)" value="{$vo.orderfor}">撤销</button>
+								<else/>
+									-
+								</if>
+							</li>
+						</ul>
+					</foreach>
+
+				</div>
+				<div class="white"></div>
+				<div class="show-details" id="withdrawal_record">
+					<div class="prepaid-box-box">
+						<div class="prepaid-box-top" >
+				<span> 银行卡转账汇款
+				<span class="c55600">( 成功 )</span>
+				</span><span class="prepaid-box-close glyphicon glyphicon-remove" id="curr_close_out"></span>
+						</div>
+						<p class="prepaid-box-hint c55600">＊请您通过网银或柜台向以下银行账户转账汇款</p>
+						<div class="prepaid-box-info">
+							<p><label style="margin-right: 40px;">收款人 : </label><span>hengzongwl@foxmail.com</span></p>
+							<p><label>银行账号 ：</label><span>	1109  2108  4910  806</span></p>
+							<p><label style="margin-right: 25px;">开户行 ：</label><span>	招商银行北京分行 工体支行</span></p>
+							<p><label style="margin-right: 15px;">到账金额 ：</label><span class="cred">111</span></p>
+							<p><label style="margin-right: 45px;">备注 ：</label><span class="cred">mm793291</span></p>
+						</div>
+
+						<div class="prepaid-box-info2">
+							请在汇款［备注/附言］中严格按要求填写充值订单编号：<span class="cred">NM793291</span></br>
+							不要填写其它字符（比特币、莱特币等），否则不能正确到账！</br>
+							我们会在收到汇款后20分钟内为您入账，在此期间无需联系客服，如有问题我们会主动联系您。</br>
+						</div>
+						<!--<div class="gathering-ewm">
+                            <img src="../../images/finance_images/erweima.png"/>
+                            <p>官网收款支付宝账号</p>
+                            <p>扫描二维码进行转账</p>
+                        </div>-->
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</main>
+
+
+
+	<include file="Public:footer"/>
+	</body>
+<script type="text/javascript">
+	function black(ss) {
+		var id=$(ss).attr("value");
+		$.ajax({
+			url:"{:U('Property/black')}",
+			type:"post",
+			data:{order:id},
+			dataType:'json',
+			success:function (data) {
+				if (data.status!=true){   //请求失败
+					set_poput_code(data.info,false);
+					return false
+				}
+				set_poput_code(data.info,true);
+			}
+		});
+	}
+	//验证码刷新
+    var captcha_img = $('.yzm_zj').find('img');
+    var span= $('.yzm_zj').find('span');
+    var verifyimg = captcha_img.attr("src");
+    captcha_img.attr('title', '点击刷新');
+    span.click(function(){
+        if( verifyimg.indexOf('?')>0){
+            captcha_img.attr("src", verifyimg+'&random='+Math.random());
+        }else{
+            captcha_img.attr("src", verifyimg.replace(/\?.*$/,'')+'?'+Math.random());
+        }
+    });
+
+
+
+</script>
+	<!--/提现功能的实现-->
+<script>
+	/*验证表单*/
+	$('input[type=number]').each(function () {
+		$(this).blur(function () {
+			if( $(this).val().match(/^[1-9]\d*$|^[1-9]\d*\.\d{1,}|0\.\d*[1-9]{1,}$/) != $(this).val()) {
+				$(this).val("");
+			}
+		})
+	})
+	$('input[type=button]').click(function () {
+		var i=$('[name=takeout]').val();
+		var k=parseInt($('.allmoney').text());
+
+		if(i>k){
+			ShowHintBox('余额不足！',false);
+			return false;
+		}
+		if (i==""){
+			ShowHintBox('提现金额不能为空！',false);
+			return false;
+		}
+
+		if ($('takepassword').val()==""){
+			ShowHintBox('交易密码不能为空！',false);
+			return false;
+		}
+		if ($('input_identity').val()==""){
+			ShowHintBox('手机验证码不能为空！',false);
+			return false;
+		}
+		var type=1;
+		$('[name=type]').each(function () {
+			if ($(this).is(':checked')){
+				type=$(this).attr('value');
+			}
+		});
+
+		$.ajax({
+			url:"{:U('record')}",
+			type:"post",
+			data:{bank:$('#banks').val(),password:$('[name=takepassword]').val(),money:$('[name=takeout]').val(),type:type,phonenum:$('#input_identity').val()},
+			success:function (data) {
+				if (data.status!=true){   //请求失败
+					set_poput_code(data.info,false);
+					return false
+				}
+				set_poput_code(data.info,true);
+			}
+		})
+
+
+	})
+
+</script>
+
+</html>

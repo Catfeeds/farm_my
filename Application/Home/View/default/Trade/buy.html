@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!--  <meta name="viewport" content="width=device-width, initial-scale=1">-->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=9" />
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta name="description" content="农畜商品交易平台">
+    <meta name="keywords" content="数字货币交易平台,数字货币,虚拟币,虚拟币新闻资讯">
+    <meta name="author" content="lihuijie">
+    <title>交易中心-农畜商品交易平台</title>
+    <link rel="shortcut icon" href="__IMG__/base_images/bd_safe4.png">
+    <link rel="stylesheet" href="__CSS__/bootstrap.min.css">
+    <link rel="stylesheet" href="__CSS__/bae.css">
+    <link rel="stylesheet" href="__CSS__/trade_center.css">
+
+    <!--[if lt IE 9]>
+    <script src="__JS__/html5shiv.min.js"></script>
+    <script src="__JS__/respond.min.js"></script>
+
+    <![endif]-->
+</head>
+<body>
+<include file="Public:header"/>
+
+<main>
+    <div id="danger_notice" class="container" style="text-align: center">
+        <p><span>温馨提示：</span>请您投资前对本次投资充分认知，理性判断自己的投资能力，审慎做出投资决策。</p>
+    </div>
+    <div id="trading_area">
+        <ul class="nav nav-tabs container">
+
+            <foreach name="marke_data" item="vo">
+                    <li market="{$vo.id}" <eq name="markethouse" value="$vo.id" data-toggle="tab" >class="active" </eq> value="{$vo.id}" >
+                     <a href="{:U('buy',['markethouse'=>$vo['id']])}" data-toggle="">{$vo.name}</a>
+                    </li>
+            </foreach>
+
+        </ul>
+        <div class="tab-content">
+            <div id="table_title">
+                <ul class="container list-unstyled" id="trade_info_title">
+                    <li>币种名称</li>
+                    <li class="double_arrow selected order" types="newprice"><i>最新成交价</i>
+                        <span class="gly_parent">
+                        <span class="glyphicon glyphicon-triangle-top"></span>
+                        <span class="glyphicon glyphicon-triangle-bottom selected"></span>
+                    </span>
+                    </li>
+                    <li class="double_arrow order" types="allmoney"><i>24H成交额</i>
+                        <span class="gly_parent">
+                        <span class="glyphicon glyphicon-triangle-top"></span>
+                        <span class="glyphicon glyphicon-triangle-bottom"></span>
+                    </span>
+                    </li>
+                    <li class="double_arrow order" types="allnumber"><i>24H成交量</i>
+                        <span class="gly_parent">
+                        <span class="glyphicon glyphicon-triangle-top"></span>
+                        <span class="glyphicon glyphicon-triangle-bottom"></span>
+                    </span>
+                    </li>
+                    <li class="double_arrow order" types="top_up"><i>日涨跌</i>
+                        <span class="gly_parent">
+                        <span class="glyphicon glyphicon-triangle-top"></span>
+                        <span class="glyphicon glyphicon-triangle-bottom"></span>
+                    </span>
+                    </li>
+                    <li>价格趋势(3日)</li>
+                    <li>&nbsp;</li>
+                </ul>
+            </div>
+            <input type="hidden" name="market" value="{$markethouse}">
+            <ul class="list-unstyled tab-pane active" style="overflow: auto" id="RMB_area" >
+                <foreach name="xnb_data" item="vo">
+                    
+                        <li id="bitebi_lhj" style="height: 40px!important;"  <eq name="key%2" value="0">class="rmb_classify grey_bg"<else/>class="rmb_classify" </eq> name="{$vo.brief}" >
+                          <a href="{:U('trade',array('id'=>$vo['currency_xnb_id'],'markethouse'=>$markethouse))}" market="{$vo.currency_xnb_market}">
+                          <ol class="container list-unstyled">
+                           <li><img src="{$vo.imgurl}" alt="" style="width: 24px;height: 24px;">&nbsp;&nbsp;&nbsp;{$vo.currency_xnb_name}&nbsp; <span style="color: #a29898" class="xnb" name="xnb_brief" value="{$vo.brief}"> {$vo.brief}</span></li>
+
+                                <li><eq name="vo.currency_transactionrecords_price" value="">-<else/> <eq name="pd" value="1">&yen;<else/> </eq> <span class="newprice" value="{:floatval($vo['currency_transactionrecords_price'])}">{:floatval($vo['currency_transactionrecords_price'])}</span></eq></li>
+                                <li><eq name="vo['sum(number)']*$vo['avg(price)']" value="">-<else/> <eq name="pd" value="1">&yen;<else/></eq><span class="allmoney" value="{:floatval($vo['sum(number)']*$vo['avg(price)'])}">{:getUnit($vo['sum(number)']*$vo['avg(price)'])}</span></eq></li>
+
+                                <li><eq name="vo['sum(number)']" value="">-<else/><span class="allnumber" value="{:floatval($vo['sum(number)'])}">{:getUnit($vo['sum(number)'])}</span></eq></li>
+                                <li><php> $zd=($vo['now_price']-$vo['close_price'])/$vo['close_price'];$zd= floatval($zd) ==0  ?  "0.00" : floatval($zd) ; </php><span class="top_up" value="{:round($zd*100,2)}">{:round($zd*100,2)}</span>%</li>
+                                <li>
+                                    <canvas id="{$vo.brief}"  width="200" height="40" box-shadow="white"></canvas>
+                                </li>
+                                <li>
+                                    <button class="btn">去交易</button>
+                                </li>
+                             </ol>
+                             </a>
+                         </li>
+                    
+                </foreach>
+            </ul>
+        </div>
+    </div>
+</main>
+
+
+<include file="Public:footer"/>
+<script src="__JS__/bootstrap.min.js"></script>
+<script src="__JS__/base.js"></script>
+<script src="__JS__/trade_center.js"></script>
+<script src="__JS__/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="__JS__/Chart.js"></script>
+<script type="text/javascript" src="__JS__/buykline.js"></script>
+<script type="text/javascript" src="__JS__/trade/buy.js"></script>
+<script>
+
+//var htmlObj = $.ajax({url:"/Public/Tradeline/BTC.text",async:false});//$.ajax() 返回其创建的 XMLHttpRequest 对象
+//$("#myDiv").html(htmlObj.responseText);
+
+    $(function () {
+
+            $('.order').toggle(
+                    function(){
+
+                        var ths=$(this);
+                        order(ths,1);
+                        var $span = $(this).find("span.glyphicon");
+                        if ($(this).hasClass("selected")) {
+                            $span.toggleClass("selected")
+                        } else {
+                            $(this).parent().find(".selected").removeClass("selected");
+                            $(this).addClass("selected");
+                            $($span[1]).addClass("selected")
+                        }
+                    },
+                    function(){
+
+                        var ths=$(this);
+                        order(ths,2);
+                        var $span = $(this).find("span.glyphicon");
+                        if ($(this).hasClass("selected")) {
+                            $span.toggleClass("selected")
+                        } else {
+                            $(this).parent().find(".selected").removeClass("selected");
+                            $(this).addClass("selected");
+                            $($span[1]).addClass("selected")
+                        }
+                    }
+            );
+
+        //排序方法的实现
+        function order(ths,type) {
+            //序列化li，用户排序
+            var li=[];
+            $('#RMB_area').children('li').each(function () {
+                li.push($(this));
+            });
+
+            //删除元素
+            $('#RMB_area').children('li').remove();
+
+            //冒泡排序开始
+            for (var l=0;l<li.length;l++){
+                $.each(li,function (k,v) {
+
+                    if (k+1<li.length){
+                        var next_i=li[k+1];
+                        var item_i=v;
+                        var item=v.find('.'+ths.attr('types')).attr('value')>0 ? v.find('.'+ths.attr('types')).attr('value') : 0;  //自己的值
+                        var next=next_i.find('.'+ths.attr('types')).attr('value')>0 ? next_i.find('.'+ths.attr('types')).attr('value') : 0;  //下一个的值
+                        if (type==1){   //从大到小
+                            if (parseFloat(item)<parseFloat(next)){
+                                li[k]=next_i;
+                                li[k+1]=item_i;
+                            }
+                        }
+                        if (type==2){   //从小到大
+                            if (parseFloat(item)>parseFloat(next)){
+                                li[k]=next_i;
+                                li[k+1]=item_i;
+                            }
+                        }
+
+                    }
+
+                })
+
+            }
+            //将元素添加回去
+            $.each(li,function (k,v) {
+                $('#RMB_area').append(v);
+            })
+        }
+
+
+    })
+</script>
+
+
+
+</body>
+</html>

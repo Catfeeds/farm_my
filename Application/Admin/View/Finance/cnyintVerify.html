@@ -1,0 +1,94 @@
+<extend name="Public/base"/>
+<block name="style">
+    <link rel="stylesheet" type="text/css" href="/Public/Admin/Entrust/index.css" media="all">
+    <link rel="stylesheet" type="text/css" href="/Public/Admin/mypubliccss/button.css" media="all">
+</block>
+
+<block name="body">
+    <div class="main-title">
+        <h2>人民币充值复审</h2>
+        <form action="" method="post">
+            <div class="difference">
+                <select name="rechargetype" id="" class="market">
+                    <option value="0">充值方式</option>
+                    <option value="1" <if condition="I('rechargetype') eq 1"> selected </if>>支付宝</option>
+                    <option value="2" <if condition="I('rechargetype') eq 2"> selected </if>>微信</option>
+                    <option value="3" <if condition="I('rechargetype') eq 3"> selected </if>>银行卡</option>
+                </select>
+                &nbsp; &nbsp;
+                <input name="name" class="username" value="{:I('name')}" placeholder="订单号/用户名/充值账号/收款账号"/> &nbsp; &nbsp;
+                <button class="send" type="submit">确定</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="data-table table-striped">
+        <table class="">
+            <thead>
+            <tr>
+                <th class="">订单号</th>
+                <!--<th class="">用户ID</th>-->
+                <th class="">用户名</th>
+                <th class="">充值金额</th>
+                <th class="">到账金额</th>
+                <th class="">充值方式</th>
+                <th class="">充值账号</th>
+                <th class="">收款账号</th>
+                <th class="">充值时间</th>
+                <th class="">状态</th>
+                <th class="">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <notempty name="data">
+
+                <foreach name="data" item="vo">
+                    <tr>
+                        <td class="">{$vo.order}</td>
+                        <!--<td class="">{$vo.userid}</td>-->
+                        <td class="">{$vo.username}</td>
+                        <td class="">{$vo.money}</td>
+                        <td class="">{$vo.realitymoney}</td>
+                        <td class="">
+                            <eq name="vo['rechargetype']" value="1">支付宝</eq>
+                            <eq name="vo['rechargetype']" value="2">微信</eq>
+                            <eq name="vo['rechargetype']" value="3">银行卡</eq>
+                        </td>
+                        <td class="">{$vo.paymentcard}</td>
+                        <td class="">{$vo.collectionaccount}</td>
+                        <td class="">{$vo.addtime|time_format}</td>
+                        <td class="">
+                            <eq name="vo.status" value="0">待审核</eq>
+                            <eq name="vo.status" value="1">已初核</eq>
+                        </td>
+                        <td class="">
+                            <form class="ajax_form" method="post" style="display: inline-block">
+                                <input type="hidden" name="id" value="{$vo.id}">
+                                <button class="btns btns-green" type="submit">确认</button>
+                            </form>
+
+                            <form class="ajax_form" action="{:U('cnyintfase')}" method="post" style="display: inline-block">
+                                <input type="hidden" name="id" value="{$vo.id}" >
+                                <button class="btns btns-green" type="submit">拒绝</button>
+                            </form>
+                        </td>
+                    </tr>
+                </foreach>
+
+                <else/>
+                <td colspan="13" class="text-center"> aOh! 暂时还没有内容! </td>
+            </notempty>
+            </tbody>
+        </table>
+    </div>
+    <div class="page">
+        {$page}
+    </div>
+</block>
+
+<block name="script">
+    <script type="text/javascript">
+        //导航高亮
+        highlight_subnav('{:U('cnyintVerify')}');
+    </script>
+</block>
