@@ -1,0 +1,95 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1">-->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=9" />
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta name="description" content="农畜产品交易平台">
+    <meta name="keywords" content="数字货币交易平台,数字货币,虚拟币,虚拟币新闻资讯">
+    <meta name="author" content="lihuijie">
+    <title>产品上线申请-农畜商品交易平台</title>
+    <link rel="shortcut icon" href="__IMG__/base_images/bd_safe4.png">
+    <link rel="stylesheet" href="__CSS__/bootstrap.min.css">
+    <link rel="stylesheet" href="__CSS__/bae.css">
+    <link rel="stylesheet" href="__CSS__/center_left.css">
+    <link rel="stylesheet" href="__CSS__/center_header.css">
+    <link rel="stylesheet" href="__CSS__/download_center.css">
+    <link rel="stylesheet" href="__ALERT__/qiwen_popup.css">
+</head>
+<body>
+<include file="Public:header"/>
+<main>
+    <section>
+        <div class="container">
+            <ol class="breadcrumb">
+                <li><a href="{:U('Index/index')}">首页</a></li>
+                <li><a href="{:U('DownLoadCenter/AppDownload')}">下载中心</a></li>
+                <li class="active">
+                    <span>产品上线申请</span>
+                </li>
+            </ol>
+        </div>
+    </section>
+    <!--内容-->
+    <div class="container center_content" id="help_content">
+
+        <!--左侧导航-->
+        <include file="Public:down_left"/>
+
+        <!--正文内容-->
+        <div class="pull-right passage_article" id="right_content">
+            <!--标题-->
+            <h5 class="title">产品上线申请</h5>
+            <div class="download_content">
+                <dl>
+                    <dt>
+                        若您有意向将新的产品上线本网站，欢迎您通过以下方式和流程递交申请。
+                    </dt>
+                    <dd>
+                    <strong>申请流程：</strong>
+                    <ol>
+                        <li>
+                            下载 <a href="#"  onclick="window.open('./Public/newcoin-sheet.docx')">“产品上线申请表”</a>，按要求填写并发送至邮箱{$mail}。
+                        </li>
+                        <li>
+                            若申请资料填写齐全并符合本网站上线条件，我们将和申请人或官方团队联系并确定产品上线可行性。
+                        </li>
+                        <li>
+                            确定上线产品后，本网站会安排技术进行钱包、交易相关开发，我们将至少提前1天通知上线产品 。
+                        </li>
+                    </ol>
+                </dd>
+                    <dd>
+                        <strong>另：若在本网站已上线的产品出现下列情况之一，我们将考虑下线该产品。</strong>
+                        <ol>
+                            <!-- <li>
+                                官方团队解散或者不再有正常维护更新，导致该币种不能进行正常挖矿、转币、区块查询等；
+                            </li> -->
+                            <li>
+                                该产品已经没有用户进行交易或者使用、持有；
+                            </li>
+                            <li>
+                                该产品出现重大问题，影响网站正常功能及用户正常使用；
+                            </li>
+                            <li>
+                                官方团队涉嫌传销诈骗、坐庄圈钱等欺诈行为。
+                            </li>
+                        </ol>
+                    </dd>
+                </dl>
+                <p class="notice"><span>注：为了维护广大用户的财产安全我们将尽量避免产品下线。</span></p>
+                <button class="btn btn-danger" onclick="window.open('./Public/newcoin-sheet.docx')">下载产品上线申请表</button>
+            </div>
+        </div>
+    </div>
+
+</main>
+<include file="Public:footer"/>
+<script src="__JS__/jquery.js"></script>
+<script src="__JS__/base.js"></script>
+<script src="__JS__/center_left.js"></script>
+<script src="__JS__/download_center.js"></script>
+</body>
+</html>

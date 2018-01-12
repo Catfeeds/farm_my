@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=1">
+		<meta name="format-detection" content="telephone=no,address=no">
+		<title></title>
+		<link rel="stylesheet" href="__CSS__/base.css" />
+		<link rel="stylesheet" href="__CSS__/message.css" />
+		<link rel="stylesheet" href="__CSS__/dropload.css" />
+		<script type="text/javascript" src="__JS__/jquery-1.12.3.min.js" ></script>
+		<script type="text/javascript" src="__JS__/jquery.min.js" ></script>
+		<script type="text/javascript" src="__JS__/dropload.min.js"></script>
+		<script type="text/javascript" src="__JS__/fastclick.js" ></script>
+		<script type="text/javascript" src="__JS__/base.js" ></script>
+		<script type="text/javascript" src="__JS__/message.js" ></script>
+	</head>
+	<body class="backgroundf6">
+		<header class="top">
+			<a class="top-left" id="back">
+				<img src="__IMG__/back.png"/>
+				<span>返回</span>
+			</a>
+			<h2>资讯</h2>
+		</header>
+		<section class="infomore">
+			<div class="information inner">
+				<ul class="lists">
+					<!--<volist name="list" id="data">-->
+						<!--<li>-->
+							<!--<a href="{:U('ardetail', array('id' => $data['id'], 'type' => $data['type']))}">-->
+								<!--<p class="info-name">{$data.title}</p>-->
+								<!--<div class="info-time">-->
+									<!--<span>{$data.addtime|date="Y-m-d",###}</span>-->
+									<!--<img src="__IMG__/right1.png"/>-->
+								<!--</div>-->
+								<!--<div class="info-synopsis">-->
+									<!--<p>{$data.brief}</p>-->
+								<!--</div>-->
+							<!--</a>-->
+						<!--</li>-->
+					<!--</volist>-->
+				</ul>
+			</div>
+		</section>
+		<include file="Public:footer" />
+	</body>
+	<script>
+		$(function(){
+
+//			$("#tab_currency").click(function () {
+//				$(".choice").attr("data", 2);
+//			});
+//			$("#tab_message").click(function () {
+//				$(".choice").attr("data", 1);
+//			});
+//			var choice = $(".choice").attr("data");
+
+			var groupNumber = 1;
+			var status = 0;
+
+			var dropload = $('.inner').dropload({
+				autoLoad:true,
+				scrollArea : window,
+				threshold:5,
+				domDown : {
+					domClass   : 'dropload-down',
+					domRefresh : '<div class="dropload-refresh">↑上拉加载更多</div>',
+					domLoad    : '<div class="dropload-load"><span class="loading"></span>加载中...</div>',
+					domNoData  : '<div class="dropload-noData">暂无数据</div>'
+				},
+				domUp : {
+					domClass   : 'dropload-up',
+					domRefresh : '<div class="dropload-refresh">↓下拉刷新</div>',
+					domUpdate  : '<div class="dropload-update">↑释放更新</div>',
+					domLoad    : '<div class="dropload-load"><span class="loading"></span>加载中...</div>'
+				},
+				loadUpFn : function(me){
+					$.ajax({
+						type: 'POST',
+						url: '{:U("moreInfo_more")}',
+						dataType: 'json',
+						data:{reload:1},
+						success: function(data){
+							var result = '';
+							var time = '';
+							$.each(data, function (i, value) {
+								time = formatDate(value.addtime);
+								result += '<li><a href="/Wap`Information`ardetail`id`'+ value.id +'`type`'+ value.type +'">' +
+										'<p class="info-name">' + value.title + '</p>'+
+										'<div class="info-time"><span>' + time +  '</span><img src="__IMG__/right1.png"/></div>'+
+										'<div class="info-synopsis"><p>' + value.brief + '</p></div>' +
+										'</a></li>'
+							});
+							$('.lists').prepend(result);
+							// 每次数据加载完，必须重置
+							dropload.resetload();
+						},
+						error: function(xhr, type){
+							// 即使加载出错，也得重置
+							dropload.resetload();
+						}
+					});
+//						window.href.reload(true);
+				},
+				loadDownFn : function(me){
+					if (status < 0) {
+						me.noData(true);
+						me.resetload();
+						return false;
+					}
+					$.ajax({
+						type: 'POST',
+						url: '{:U("moreInfo_more")}',
+						dataType: 'json',
+						data: {groupNumber:groupNumber},
+						success: function(data){
+							if (data == 2) {
+								status = -1;
+								me.noData(true);
+								me.resetload();
+								return false;
+							} else {
+								var result = '';
+								var time = '';
+								$.each(data, function (i, value) {
+									time = formatDate(value.addtime);
+									result += '<li><a href="/Wap`Information`ardetail`id`'+ value.id +'`type`'+ value.type +'">' +
+											'<p class="info-name">' + value.title + '</p>'+
+											'<div class="info-time"><span>' + time +  '</span><img src="__IMG__/right1.png"/></div>'+
+											'<div class="info-synopsis"><p>' + value.brief + '</p></div>' +
+											'</a></li>'
+								});
+								// 为了测试，延迟1秒加载
+								groupNumber ++;
+//							setTimeout(function(){
+								$('.lists').append(result);
+								// 每次数据加载完，必须重置
+								dropload.resetload();
+//							},1000);
+							}
+						},
+						error: function(xhr, type){
+//								alert('Ajax error!');
+							// 即使加载出错，也得重置
+							dropload2.resetload();
+						}
+					});
+				}
+			});
+		});
+		function   formatDate(time)   {
+			var date = new Date(time*1000);
+			var Y = date.getFullYear() + '-';
+			var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+			var D = date.getDate() + ' ';
+			var h = date.getHours() + ':';
+			var m = date.getMinutes() + ':';
+			var s = date.getSeconds();
+			return Y+M+D+h+m+s;
+//			return   year+"-"+month+"-"+dates+"   "+hour+":"+minute+":"+second;
+		}
+	</script>
+</html>

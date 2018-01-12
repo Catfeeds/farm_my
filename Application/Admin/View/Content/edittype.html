@@ -1,0 +1,88 @@
+<extend name="Public/base"/>
+
+<block name="body">
+	<!-- 标题 -->
+	<div class="main-title">
+		<h2>编辑分类</h2>
+	</div>
+    <div class="tab-content">
+            <form action="{:U('updatetype')}" method="post" class="form-horizontal">
+                <div class="form-item">
+                        <label class="item-label">上级分类</label>
+                        <div class="controls">
+                            <select name="toptype">
+                                <volist name="Menus" id="menu"> <eq name="menu.id" value="$toptype['id']">selected</eq>
+                                    <option value="{$menu.id}"  >{$menu.title_show}</option>
+                                </volist>
+                                    
+                            </select> 
+
+                            <!-- <input type="text" class="text input-large" disabled="disabled" value="{$toptype['title']|default='无'}"/>
+                            <input type="hidden" name="toptype" value="{$toptype['id']}"> -->
+                        </div>
+                    </div>
+                    <div class="form-item">
+                        <label class="item-label">
+                            分类名称<span class="check-tips">（名称不能为空）</span>
+                        </label>
+                        <div class="controls">
+                            <input type="text" name="title" class="text input-large" value="{$type.title|default=''}">
+                            <input type="hidden" name="id" value="{$type.id}">
+                        </div>
+                    </div>
+                    <div class="form-item">
+                        <label class="item-label">
+                            状态<span class="check-tips">（是否允许发布内容）</span>
+                        </label>
+                        <div class="controls">
+                            <label class="inline radio"><input type="radio" name="status" value="0" <eq name='type.status' value='0'>checked</eq>>禁用</label>
+                            <label class="inline radio"><input type="radio" name="status" value="1" <eq name='type.status' value='1'>checked</eq>>正常</label>
+                            
+                        </div>
+                    </div>
+                    <div class="form-item">
+                        <label class="item-label">
+                            头部显示<span class="check-tips">（头部是否显示）</span>
+                        </label>
+                        <div class="controls">
+                            <label class="inline radio"><input type="radio" name="header" value="0" <eq name='type.header' value='0'>checked</eq> >不显示</label>
+                            <label class="inline radio"><input type="radio" name="header" value="1" <eq name='type.header' value='1'>checked</eq>  >显示</label>
+                        </div>
+                    </div>
+                    <div class="form-item">
+                        <label class="item-label">
+                            底部显示<span class="check-tips">（底部是否显示）</span>
+                        </label>
+                        <div class="controls">
+                            <label class="inline radio"><input type="radio" name="footer" value="0" <eq name='type.footer' value='0'>checked</eq> >不显示</label>
+                            <label class="inline radio"><input type="radio" name="footer" value="1" <eq name='type.footer' value='1'>checked</eq> >显示</label>
+                        </div>
+                    </div>
+                    <div class="form-item">
+                        <label class="item-label">
+                            排序
+                        </label>
+                        <div class="controls">
+                           <input type="text" name="sort" value="{$type['sort']}">
+                           <input type="hidden" name="addtime"  value="{$type['addtime']}">
+                        </div>
+                    </div>
+                    <div class="form-item">
+                        <input type="submit" value="确定"  class="btn submit-btn ">
+                        <button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+                    </div>
+            </form>
+    </div>        
+	
+	
+    
+</div>
+
+</block>
+<block name="script">
+
+<script type="text/javascript">
+    highlight_subnav("{:U('typelist')}");
+
+</script>
+</block>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <!--   <meta name="viewport" content="width=device-width, initial-scale=1">-->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=9" />
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta name="description" content="农畜商品交易平台">
+    <meta name="keywords" content="数字货币交易平台,数字货币,虚拟币,虚拟币新闻资讯">
+    <meta name="author" content="lihuijie">
+    <title>找回交易密码-农畜商品交易平台</title>
+    <link rel="shortcut icon" href="__IMG__/base_images/bd_safe4.png">
+    <link rel="stylesheet" href="__CSS__/bootstrap.min.css">
+    <link rel="stylesheet" href="__CSS__/bae.css">
+    <link rel="stylesheet" href="__CSS__/center_left.css">
+    <link rel="stylesheet" href="__CSS__/center_header.css">
+    <link rel="stylesheet" href="__CSS__/safe_center.css">
+    <link rel="stylesheet" href="__ALERT__/qiwen_popup.css">
+    <!--[if lt IE 9]>
+    <script src="__JS__/html5shiv.min.js"></script>
+    <script src="__JS__/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<include file="Public:header"/>
+<main>
+    <div class="container">
+        <ol class="breadcrumb">
+            <li><a href="{:U('Index/index')}">首页</a></li>
+            <li><a href="{:U('Safety/safeCenter')}">安全中心</a></li>
+            <li class="active">
+                <span>找回交易密码</span>
+            </li>
+        </ol>
+    </div>
+
+
+    <div class="container center_content">
+
+        <include file="Public:safe_left"/>
+
+        <div class="pull-right">
+            <div id="find_tradePw">
+                <div class="big_title">
+                    <h4>找回交易密码</h4>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="right_body">
+                    <div class="notice">
+                        <p class="selected"><span class="glyphicon glyphicon-exclamation-sign"></span>温馨提示：为确保您的顺利交易，请牢记交易密码!！</p>
+                    </div>
+                    <form action="{:U('Safety/tijiao')}" id="find_tradePw_form" class="form-horizontal ajaxpass_form" role="form" onsubmit="return false">
+                        <div class="form-group">
+                            <label for="id_card" class="form_input_3 control-label">手机号:</label>
+                            <div class="form_input_9">
+                                <div class="form-control input-lg" id="id_card"
+                                     name="id_card" value="{$shiphone}">
+                                    {$phone}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="yanzheng_num" class="control-label form_input_3">验证码:</label>
+                            <div class="form_input_9">
+                                <input type="text" class="form-control input-lg"  name="yanzheng_num" id="yanzheng_num" placeholder="请输入您的验证码">
+                                <div class="yzm_zj"><img width="60%" class="left15" height="40px" alt="验证码" src="{:U('Photoma/checkphoto')}"><span>看不清楚换一张？</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="get_identify_code_id" class="form_input_3 control-label">获取验证码:</label>
+                            <div class="form_input_9">
+                                <button type="button" class="form-control input-lg" name="get_identify_code_id"
+                                        value="{$code}"   id="get_identify_code_id" onclick="rest()">免费获取验证码
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="cipher_code_id" class="form_input_3 control-label">手机验证码:</label>
+                            <div class="form_input_9">
+                                <input type="text" class="form-control input-lg" name="cipher_code_id" id="cipher_code_id"
+                                       placeholder="请输入手机验证码">
+                                <span class="tips red_tips"><i class="glyphicon glyphicon-info-sign"></i>手机验证码输入错误</span>
+                                <span class="tips green_tips"><i class="glyphicon glyphicon-ok-sign"></i>手机验证码输入正确</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group submit_btn">
+                            <!--<div class="col-sm-offset-3 col-sm-9">-->
+                            <button type="submit" class="btn btn-default safe_center_btn" id="find_tradePw_btn">立即找回</button>
+                            <!--       </div>-->
+                        </div>
+                    </form>
+                    <form  action="{:U('Safety/resetdeal')}" class="ajaxa_form" onsubmit="return false">
+                        <div id="reset_trade_pw">
+                            <h4>设置新交易密码</h4>
+                            <div class="form-group">
+                                <label for="new_trade_num" class="control-label">设置新交易密码:</label>
+                                <div class="form_input_9">
+                                    <input type="password" class="form-control input-lg" id="new_trade_num" placeholder="设置新交易密码"
+                                           onblur="newdealReg(this,'#re_new_trade')"  onkeyup="newdealReg(this,'#re_new_trade')"   name="new_trade_num" autocomplete="off">
+                                    <span class="tips red_tips"><i class="glyphicon glyphicon-info-sign"></i>交易密码必须是6位数字</span>
+                                    <span class="tips green_tips"><i class="glyphicon glyphicon-ok-sign"></i>密码格式正确</span>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="re_new_trade" class="control-label">确认新交易密码:</label>
+                                <div class="form_input_9">
+                                    <input type="password" class="form-control input-lg" id="re_new_trade" placeholder="请再次输入新交易密码"
+                                           onblur="renewdealReg(this,'#new_trade_num')"  onkeyup="renewdealReg(this,'#new_trade_num')"  name="re_new_trade" autocomplete="off">
+                                    <span class="tips red_tips"><i class="glyphicon glyphicon-info-sign"></i><span>交易密码必须是6位数字</span></span>
+                                    <span class="tips green_tips"><i class="glyphicon glyphicon-ok-sign"></i>交易密码一致</span>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="form-group text-center">
+                                <button type="submit" class="btn safe_center_btn" onclick="returndeal()" id="reset_trade_btn">重置</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</main>
+<include file="Public:footer"/>
+
+
+
+
+<script src="__JS__/jquery.js"></script>
+<script src="__STATIC__/jquery-1.10.2.min.js"></script>
+<script src="__JS__/bootstrap.min.js"></script>
+<script src="__JS__/base.js"></script>
+<script src="__JS__/center_left.js"></script>
+<script src="__JS__/safe_center.js"></script>
+<script type="text/javascript" src="__JS__/picture.js"></script>
+<script type="text/javascript" src="__JS__/Safety/verification.js"></script>
+<script type="text/javascript">
+    var captcha_img = $('.yzm_zj').find('img');
+    var span= $('.yzm_zj').find('span');
+    var verifyimg = captcha_img.attr("src");
+    span.click(function(){
+        if( verifyimg.indexOf('?')>0){
+            captcha_img.attr("src", verifyimg+'&random='+Math.random());
+        }else{
+            captcha_img.attr("src", verifyimg.replace(/\?.*$/,'')+'?'+Math.random());
+        }
+    });
+
+</script>
+</body>
+</html>

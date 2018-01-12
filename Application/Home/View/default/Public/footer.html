@@ -1,0 +1,347 @@
+﻿<meta charset="UTF-8">
+<div id="Communication" class="container">
+    <!--<div class="container">
+        <div class="panel service_online">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    在线客服
+                </h3>
+            </div>
+            <div class="panel-body">
+                官方客服
+            </div>
+        </div>
+        <div class="panel sina_wb">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    新浪微博
+                </h3>
+            </div>
+            <div class="panel-body">
+                官方微博
+            </div>
+        </div>
+        <div class="panel qq_group">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    群号：{:market_cooperation()[1]['value']}
+                </h3>
+            </div>
+            <div class="panel-body">
+                QQ交流群
+            </div>
+        </div>
+        <div class="clearfix"></div>-->
+       <div class="relation container">
+        	<div class="relationdiv" >
+        		<a onclick="showService()">
+	        		<img class="relationimg" src="./Public/Home/images/base_images/service_01.png"/>
+	        		<div class="relation-text">
+	        			<p>在线客服</p>
+	        			<p>官方客服</p>
+	        		</div>
+        		</a>
+        	</div>
+        	<div class="relationdiv">
+        		<a>
+	        		<img class="relationimg" src="./Public/Home/images/base_images/service_02.png"/>
+	        		<div class="relation-text">
+	        			<p>新浪微博</p>
+	        			<p>官方微博</p>
+	        		</div>
+        		</a>
+        	</div>
+        	<div class="relationdiv">
+        		<img class="relationimg" src="./Public/Home/images/base_images/service_03.png"/>
+        		<div class="relation-text">
+        			<p>
+        				 群号：{:market_cooperation()[1]['value']}
+        				
+        			</p>
+        			<p>QQ交流群</p>
+        		</div>
+        	</div>
+        </div>
+    </div>
+<footer>
+    <div class="backtoTopBox" id="right_float">
+
+        <div class="t-hand" id="contact_wid"><a href="#"></a></div>
+        <article id="contact_enter">
+            <p class="title">聊天室<span class="glyphicon glyphicon-remove" id="contact_wid_close"></span></p>
+            <section class="contact_body">
+                <p class="notice"><span class="glyphicon glyphicon-info-sign"></span>请遵守聊天室规则！</p>
+                <article class="content">
+                    <p>本群成员须知，应遵守国家有关法律，网络礼仪，遵守爱聊网站的规定，使用恰当的语言文明聊天。</p>
+                    <ul class="list-unstyled">
+                        <li>(1).不得传播违反宪法所确定的基本原则的信息；</li>
+                        <li>(2).不得传播危害国家安全、泄露国家秘密、损害国家荣誉和利益、颠覆国家政权、破坏国家统一的信息；</li>
+                        <li>(3).不得传播散布淫秽、色情、赌博、暴力、凶杀、恐怖或者教唆犯罪的的信息；</li>
+                        <li>(4).不得传播扰乱社会秩序、破坏社会稳定的谣言、言论；</li>
+                        <li>(5).不得传播宣扬种族歧视、煽动民族仇恨、破坏民族团结的言论；</li>
+                        <li>(6).不得传播破坏国家宗教政策，宣扬邪教和封建迷信的言论；</li>
+                        <li>(7).不得发表漫骂、辱骂、对他人进行人身攻击、人格侮辱、侵害他人隐私、侵害他人合法权益的言论；</li>
+                        <li>(8).不得传播含有法律禁止的其他内容的的言论。</li>
+                    </ul>
+                </article>
+            </section>
+            <!--<p class="bottom" <if condition="havlogin() eq true"> style="display:none" </if>>-->
+                <!--<button class="btn showlock" id="chat_login_btn">登录</button>-->
+            <!--</p>-->
+        </article>
+        <div class="t-hand" id="weixin_ewm"><a href="#"></a></div>
+        <article id="ewm_img">
+            <img src="{:public_code()}" alt="二维码" class="img-responsive">
+            <p>微信公众号</p>
+        </article>
+        <div class="t-hand" id="footerConnect" onclick="showService()" >
+            <a target="_blank"  href="#"><b>在线客服</b></a>
+        </div>
+        <div class="t-hand" id="footerHelp"><b>{:market_cooperation()[2]['value']}</b></div>
+        <div class="t-hand footerBack" id="to_top"></div>
+ <!--       <i class="footerNum"><img src="__IMG__/base_images/footertoolnum.png"></i>-->
+    </div>
+    <!--聊天室-->
+    <div class="chat-room">
+		<div class="chat-room-title">
+			<div class="room-title-name">农畜商品交易平台聊天室</div>
+			<div class="room-title-shrink">
+				<span class="room-title-shrink-box"></span>
+			</div>
+		</div>
+		<ul class="room-list">
+			<li class="mychat">
+				<p class="room-list-info">
+					<span class="room-list-name">我是帅哥 : </span>
+					<span>新手的钱还没到你想的价位就被庄家吃光了。还等新手解套</span>
+				</p>
+				<p class="room-list-time">2017-07-14 11:06:38</p>
+			</li>
+		</ul>
+
+		<php>
+			 $screennames=session('screennames');
+			 $user=session('user')['id'];
+		</php>
+
+		<eq name="user" value="">
+			<div class="room-send-name">
+				<button  class="showlock chatlog" onclick="lock();">登录</button>
+			</div>
+        <else/>
+            <eq name="screennames" data-value="">
+                <div class="room-send-name">
+                    <input type="text" name="screennames" placeholder="请输入昵称" />
+                    <p>昵称保存后不可更改</p>
+                    <button onclick="sendtime();">确定</button>
+                </div>
+                <else/>
+                <div class="room-send-message" style="">
+                    <input class="room-send-in" type="text" placeholder="输入聊天内容" />
+                    <input class="room-send-btn sendxx" type="button" value="发送消息" />
+                </div>
+            </eq>
+
+		</eq>
+
+	</div>
+	
+    <div class="container">
+        <div class="company_info">
+            <div class="similar">
+                <h4><a href="{:U('Content/about')}">关于我们</a></h4>
+                <div class="sim_body">
+                    <volist name=":about_us()" id="data1">
+                        <p><a href="{:U('Content/about',array('id'=> $data1['id']))}">{$data1['title']}</a></p>
+                    </volist>
+                         <p><a href="{:U('Content/about')}">更多…</a></p>
+                   <!--  <p><a href="#">公司简介</a></p>
+                    <p><a href="#">管理团队</a></p>
+                    <p><a href="#">联系我们</a></p> -->
+                </div>
+
+            </div>
+
+            <div class="similar">
+                <h4><a href="{:U('Help/help')}">服务帮助</a></h4>
+                <div class="sim_body">
+					<volist name=":service_help()" id="data2">
+						<p><a href="{:U('Help/help', array('id' => $data2['id']))}">{$data2.title}</a></p>
+					</volist>
+					<p><a href="{:U('Help/help')}">更多…</a></p>
+                </div>
+            </div>
+            <div class="similar">
+                <h4><a href="####">市场合作</a></h4>
+                <div class="sim_body">
+                    <volist name=":market_cooperation()" id="market">
+                        <p><span>{$market.title}:</span>{$market.value}</p>
+                    </volist>
+                </div>
+
+            </div>
+            <div class="similar">
+                <h4><a href="{:U('DownLoadCenter/APPDownload')}">下载中心</a></h4>
+                <div class="sim_body">
+                    <p><a href="{:U('DownLoadCenter/walletDown', array('tag' => 1))}">资产钱包下载</a></p>
+                    <p><a href="{:U('DownLoadCenter/llqDown', array('tag' => 2))}">浏览器下载</a></p>
+                    <p><a href="{:U('DownLoadCenter/newDown', array('tag' => 3))}">产品上线申请</a></p>
+                    <p><a href="{:U('DownLoadCenter/APPDownload', array('tag' => 0))}">APP下载</a></p>
+                </div>
+
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <div id="foot_bottom">
+        <div class="container" id="friend_link">
+            <div class="link_body">
+                <span class="title">友情链接：</span>
+                <volist name=":friend_link()" id="data3" >
+                    <span><a href="{$data3.url}">{$data3.name}</a></span>
+                </volist>
+               <!--  <span><a href="http://www.btctrade.com/">比特币</a></span>
+                <span><a href="https://www.btctrade.com/eth/">以太坊</a></span>
+                <span><a href="https://www.btctrade.com/eth/">以太币</a></span>
+                <span><a href="http://www.8btc.com/">巴比特资讯</a></span>
+                <span><a href="http://www.btc798.com/">比特币之家</a></span>
+                <span><a href="http://www.bitcoin86.com">比特币资讯网</a></span>
+                <span><a href="http://www.btc114.com/">比特币导航 </a></span>
+                <span><a href="http://www.dmlei.com">数字营销</a></span>
+                <span><a href="http://www.huobi.com ">火币网</a></span>
+                <span><a href="http://www.bxd365.com">保险网</a></span>
+                <span><a href="http://www.wanbizu.com/">玩币族</a></span>
+                <span><a href="http://www.cnaidai.com">p2p理财</a></span>
+                <span><a href="https://www.tuandai.com/">团贷网</a></span>
+                <span><a href="http://d.com.cn">钱多多</a></span> -->
+            </div>
+        </div>
+        <div class="container" id="other_info">
+            <p> 华联全球商贸   版权所有     苏ICP备15050956号-1</p>
+        </div>
+    </div>
+    <script>
+      /*  $(function () {
+            //聊天室
+            var mydata;
+            $('#contact_wid').click(function () {
+                $('.chat-room').show();
+                $('.room-list').scrollTop( $('.room-list')[0].scrollHeight );
+            })
+            
+            $('.room-title-shrink').click(function () {
+                $('.chat-room').hide();
+            })
+
+            // 假设服务端ip为127.0.0.1
+            ws = new WebSocket("ws://47.92.125.176:8282");
+            ws.onopen = function() {
+//            alert("连接成功");
+                ws.send('{"room_id":"15"}');
+
+            };
+            ws.onmessage = function(e) {
+//            alert("收到服务端的消息：" + e.data);
+                var data=JSON.parse(e.data);
+                var li="";
+                if (data.length>1){
+                    $.each(data,function (k,v) {
+                        v=JSON.parse(v);
+
+                        li+="<li>"+
+                                "<p class='room-list-info'>"+
+                                "<span class='room-list-name'>"+v.name+": </span>"+
+                                "<span>"+v.data+"</span>"+
+                                "</p>"+
+                                "<p class='room-list-time'>"+v.time+"</p>"+
+                                "</li>";
+
+                    })
+
+
+                }else {
+                    li="<li>"+
+                            "<p class='room-list-info'>"+
+                            "<span class='room-list-name'>"+data.name+": </span>"+
+                            "<span>"+data.data+"</span>"+
+                            "</p>"+
+                            "<p class='room-list-time'>"+data.time+"</p>"+
+                            "</li>"
+                }
+                $('.room-list').append(li);
+                $('.room-list').scrollTop( $('.room-list')[0].scrollHeight );
+            };
+			//发送按钮
+            $('.sendxx').click(function () {
+            	mydata=$('.room-send-in').val();
+                if(mydata!=""){
+                	ws.send('{"data":"'+mydata+'","time":"'+getTime()+'","name":"'+<?php  $name=$screennames?$screennames:1;echo '"'.$name.'"';?>+'","my_room_id":"15"}');
+               		$('.room-send-in').val("");
+                }
+                else{
+                	return false;
+                }
+            })
+            //回车键
+			 $(".room-send-in").keydown(function(event) {
+			 	mydata=$('.room-send-in').val();
+                    if (event.keyCode == 13) {    
+                        if(mydata!=""){
+		                	ws.send('{"data":"'+mydata+'","time":"'+getTime()+'","name":"'+<?php  $name=$screennames?$screennames:1;echo '"'.$name.'"';?>+'","my_room_id":"15"}');
+		               		$('.room-send-in').val("");
+		                }
+		                else{
+		                	return false;
+		                }   
+                    }    
+                })    
+            function getTime() {
+                var d= new Date();
+                return d.getFullYear()+"-"+d.getMonth()+"-"+ d.getDay()+" "+d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();
+            }
+        })
+        */
+    </script>
+
+    <script>
+        $('#chat_login_btn').click(function () {
+            $.ajax({
+                url:"{:U('Session/ifsession')}",
+                type:"POST",
+                success:function(data) {
+                    var href=window.location.href;
+                    if(data!=true){
+                        lock();
+                        return false
+                    }
+                    location.href=href
+                }
+            })
+            return false
+        })
+		function sendtime() {
+			$.ajax({
+				url:"{:U('Index/screennames')}",
+				type:'post',
+				data:{name:$('input[name=screennames]').val()},
+				success:function (data) {
+					if (data.status==false){
+						set_poput_code(data.info,false);
+						return false
+					}
+					set_poput_code(data.info,true);
+				}
+			})
+		}
+    </script>
+    <script>
+    	function showService(){
+			var openUrl = "{:U('Communication/customer')}";//弹出窗口的url
+			var iWidth=620; //弹出窗口的宽度;
+			var iHeight=600; //弹出窗口的高度;
+			var iTop = (window.screen.availHeight-30-iHeight)/2; //获得窗口的垂直位置;
+			var iLeft = (window.screen.availWidth-10-iWidth)/2; //获得窗口的水平位置;
+			window.open(openUrl,"","height="+iHeight+", width="+iWidth+", top="+iTop+", left="+iLeft); 
+		}
+    </script>
+</footer>

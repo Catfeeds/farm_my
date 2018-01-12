@@ -1,0 +1,76 @@
+<extend name="Public/base" />
+
+<block name="body">
+    <div class="main-title cf">
+        <h2>编辑链接</h2>
+    </div>
+    <!-- 标签页导航 -->
+<div class="tab-wrap">
+    <div class="tab-content">
+    <!-- 表单 -->
+    <form id="form" action="{:U('updatelink')}" method="post" class="form-horizontal" enctype="multipart/form-data"  >
+        <div class="form-item cf">
+             <label class="item-label">链接名称</label> 
+             <input type="text" class="text input-medium" name="name" value="{$link.name}">
+             <input type="hidden" name="id" value="{$link.id}">
+        </div>
+        <div class="form-item cf">
+             <label class="item-label">链接标题</label> 
+             <input type="text" class="text input-medium" name="title" value="{$link.title}" >
+        </div>
+        <div class="form-item cf">
+             <label class="item-label">链接地址</label> 
+             <input type="text" class="text input-medium" name="url" value="{$link.url}" >
+        </div>
+        <div class="form-item cf">
+             <label class="item-label">排序<span>(按数字大小排序)</span></label> 
+             <input type="text" class="text input-medium" name="sort" value="{$link.sort}" >
+        </div>                     
+        <div class="form-item cf">
+             <label class="item-label">状态</label> 
+             <input type="text" class="text input-medium" name="status" value="{$link.status}">
+        </div>
+        <div class="form-item cf">
+             <label class="item-label">添加时间</label> 
+             <input type="text" value="{$link.addtime|date='Y-m-d H-i-s',###}" disabled>
+             <input type="hidden"  name="addtime" value="{$link.addtime}">
+        </div>
+        <div class="form-item cf">
+             <label class="item-label">上次更新时间</label> 
+             <input type="text"   value="{$link.endtime|date='Y-m-d H-i-s',###}" disabled>
+        </div>
+        <div class="form-item cf">
+            <button class="btn submit-btn ajax-post hidden" id="submit" type="button" target-form="form-horizontal">确 定</button>
+            <a class="btn btn-return" href="javascript:history.back(-1);">返 回</a>
+        </div>
+    </form>
+    </div>
+</div>
+</block>
+
+<block name="script">
+<script type="text/javascript">
+    highlight_subnav("{:U('links')}");
+
+    $('#submit').click(function(){
+    var formData= new FormData($('form').get(0));
+    
+        $.ajax({
+            url:"{:U('updatelink')}",
+            type:"post",
+            data:formData,
+            processData:false,
+            contentType:false,
+            dataType:"json",
+            success:function (data) {
+                if (data.status!=1){  //失败
+                    set_poput_code(data.info,false)
+                    return false;
+                }
+                    set_poput_code(data.info,true)
+            }
+        })
+});
+
+</script>
+</block>

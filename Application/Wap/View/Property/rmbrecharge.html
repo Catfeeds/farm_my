@@ -1,0 +1,157 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=1">
+		<meta name="format-detection" content="telephone=no,address=no">              
+		<title></title>
+		<link rel="stylesheet" href="__CSS__/base.css" />
+		<link rel="stylesheet" href="__CSS__/rmb.css" />
+		<script type="text/javascript" src="__JS__/jquery-1.12.3.min.js" ></script>
+		<script type="text/javascript" src="__JS__/fastclick.js" ></script>
+		<script type="text/javascript" src="__JS__/base.js" ></script>
+		<script type="text/javascript" src="__JS__/rmb.js" ></script>
+	</head>
+	<body>
+		<header class="top">
+			<a class="top-left" id="back">
+				<img src="__IMG__/back.png"/>
+				<span>返回</span>
+			</a>
+			<h2>人民币充值</h2>
+			<a class="top-right" href="{:U('chargerecord')}"><img src="__IMG__/czjl.png"/></a>
+		</header>
+		<section class="charge">
+			<div class="charge_0">
+				<p class="charge_0_title">
+					<img src="__IMG__/cztx.png"/>充值提醒
+				</p>
+				<div class="charge_0_con">
+					<div>
+						<p>1.本平台可支持银行卡转账充值，暂不支持ATM机进行汇款。</p>
+						<p>2.请使用已绑定的银行卡进行转账充值，并确认卡号正确。</p>
+						<p>3.请按页面提示进行汇款，无需备注信息，系统自动入账。</p>
+					</div>
+				</div>
+				<empty name="data">
+					<a class="bdyhc" href="{:U('Safety/cardManage')}">绑定银行卡</a>
+					<else/>
+					<a class="charge_0_btn">05秒 知道了</a>
+				</empty>
+			</div>
+			<div class="charge_1">
+<!--				<p class="charge_1_title">充值</p>-->
+				<div class="charge_1_in">
+					<label>充值方式 : </label>
+					<select>
+						<option>银行卡充值</option>
+					</select>
+				</div>
+				<div class="charge_1_in">
+					<label>充值金额: </label>
+					<input type="text" onkeyup="clearNoNum(this)" onchange="clearNoNum(this)" name="cny_money" id="cny_money" placeholder="请输入充值金额" />
+				</div>
+				<div class="charge_1_btn">
+					<a>确认</a>
+				</div>
+			</div>
+			<div class="charge_2">
+				<dl>
+					<dt>请使用已绑定的银行卡转账充值</dt>
+					<dt class="c999 fontsize12">快速充值(7*24小时)</dt>
+					<dt class="chargedl-hint red">
+						<span>
+							&nbsp;&nbsp;请勿使用支付宝转账 
+						</span>
+						<span >
+							&nbsp;&nbsp;请勿代充值
+						</span>
+					</dt>
+					<dt class="gathering">
+						<div class="gatherdiv">
+							<foreach name="shoubank" item="vo">
+								<p>
+									<span>收款银行</span> : 
+									<span id="bankname">{$vo.bankname}</span>
+								</p> 
+								<p>
+									<span>收 款 人</span> : 
+									<span id="bankren">{$vo.payee}</span>
+								</p>
+								<p>
+									<span>收款帐号 </span> :
+									<span id="bankcard">{$vo.bankcard}</span>
+								</p>
+							</foreach>
+						</div>
+					</dt>
+				</dl>
+				<ul>
+					<li class="red czhint">充值提示 : </li>
+					<li>1、平台接受已绑定大个人银行卡汇款,
+						<span>请勿用他人或未绑定的银行卡汇款</span>	
+						,否则 无法入账;
+					</li>
+					<li>2、请使用已绑定大银行卡进行转账充值;</li>
+					<li>3、工作日17:00之前可以完成5万以上大跨行汇款,17：00以后及非工作日每笔请拆分
+						成5万以内进行跨行汇款;
+					</li>
+					<li>4、未按要求的汇款,平台会在7个工作日内完成退款。</li>
+				</ul>
+			</div>
+		</section>
+		<include file="Public:footer" />
+	</body>
+	<script type="text/javascript" src="./Public/zz/z.js"></script>
+	<script>
+		$(function(){
+			var $gotit=$(".charge_0_btn");
+			timekonw=05;
+			var timeset=setInterval(function(){
+				timekonw--;
+				$gotit.html("0"+timekonw+"秒 知道了");
+				if(timekonw==0){
+					clearInterval(timeset);
+					$gotit.html("知道了");
+					$gotit.css("background","#FF8C00");
+					$gotit.click(function(){
+						$(".charge_0").hide();
+						$(".charge_1").show();
+						
+					})
+				}
+				
+			},1000);
+			
+		})
+		$('.charge_1_btn').click(function () {
+			var cny=$('#cny_money').val();
+			var reg = new RegExp(/(^[1-9]\d*$|^[1-9]\d*\.\d*[1-9]{1,6}$|0\.\d*[1-9]{1,6}$)/);
+			if(!reg.test(cny)){
+				ShowHintBox("输入充值正确金额",false);
+				return false
+			}
+			if(cny<200){
+				ShowHintBox("充值金额不能低于200",false);
+				return false
+			}
+			$.ajax({
+//				url:"/Wap_Property_bomm",
+				url:"{:U('Property/bomm')}",
+				type:"POST",
+				dataType:'json',
+				data:{cny_money:cny},
+				success:function (data) {
+					if(data.status==0){
+						$('.charge_2').css({"display":"block"});
+						$('.charge_1').css({"display":"none"});
+//						$('#bankname').html(data.collbankname);
+//						$('#bankcard').html(data.collectionaccount)
+					}
+				}
+			});
+		})
+		
+	</script>
+</html>

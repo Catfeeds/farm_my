@@ -1,0 +1,35 @@
+<nav class="railing">
+    <ul>
+        <li>
+            <a class="skip" <eq name="CONTROLLER_NAME" value="Index">id="home"</eq> href="{:U('Index/index')}">
+                <img src="__IMG__/shouye1.png"/>
+                <p>首页</p>
+            </a>
+        </li>
+        <li>
+            <a class="skip" <eq name="CONTROLLER_NAME" value="Trade"> id="deal" </eq>  href="{:U('Wap/Trade/buy')}">
+                <img src="__IMG__/jiaoyi1.png"/>
+                <p>交易</p>
+            </a>
+        </li>
+        <li>
+            <a class="skip" <eq name="CONTROLLER_NAME" value="Information"> id="message" </eq> <eq name="CONTROLLER_NAME" value="Content"> id="message" </eq> href="{:U('Information/arlist')}">
+                <img src="__IMG__/zixun1.png"/>
+                <p>公告</p>
+            </a>
+        </li>
+        <li>
+            <a class="skip" <eq name="CONTROLLER_NAME" value="Profile"> id="personage" </eq> <eq name="CONTROLLER_NAME" value="Register">id="personage"</eq> <eq name="CONTROLLER_NAME" value="Property">id="personage"</eq> <eq name="CONTROLLER_NAME" value="Safety">id="personage"</eq>  <eq name="CONTROLLER_NAME" value="Public">id="personage"</eq>href="{:U('Profile/profile')}">
+                <img src="__IMG__/geren1.png"/>
+                <p>我的</p>
+            </a>
+        </li>
+    </ul>
+</nav>
+<!--遮罩-->
+<div class="cover"></div>
+<!--提示弹框-->
+<div class="prompt_box">
+	<p class="prompt_box_hint">挂单成功</p>
+	<a class="prompt_box_btn">知道了</a>
+</div>

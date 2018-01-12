@@ -1,0 +1,132 @@
+<extend name="Public/base" />
+<block name="style">
+    <link href="__SELECT__/jquery.searchableSelect.css" rel="stylesheet" type="text/css">
+    <style>
+        .titles{
+            font-size: 20px;
+            margin-top: 20px;
+        }
+        .select{
+            margin-left: 15px;
+        }
+        .files{
+            width: 65px;
+            height: 50px;
+
+        }
+        .filename{
+            font-size: 18px;
+        }
+
+        .send{
+            width: 73px;
+            height: 40px;
+            border: 1px solid white;
+            border-radius: 5px;
+            background: #6fc172;
+
+        }
+    </style>
+</block>
+<block name="body">
+    <!-- 标题栏 -->
+
+    <div class="main-title">
+        <h2>钱包地址配置</h2>
+    </div>
+
+    <form>
+        <div class="titles">
+         虚拟币类型：
+        </div>
+        <div class="num" style="width: 220px;height: 50px">
+            <span style="color:red;">已使用/</span><span style="color:green;">未使用/</span><span>总数</span>
+        </div>
+        <div style="margin-left: 15px;margin-top: 10px;">
+            <select  class="select" onchange="addrnum(this)" id="mySelect" name="xnb" style="float: left;">
+                <foreach name="xnb_data" item="vo">
+                    <option  value="{$vo.id}">{$vo.name}</option>
+                </foreach>
+            </select>
+        </div>
+
+        <div class="titles">
+            请选择文件：
+        </div>
+        <div style="margin-left: 15px;margin-top: 10px;text-align: center;width: 180px;height: 60px;">
+           <img src="/Public/Admin/images/wj.png" class="files">
+            <input type="file" style="display: none" name="file">
+            <div class="filename"></div>
+        </div>
+
+        <div style="width: 200px;text-align: center;margin-top: 50px">
+         <input type="button" value="提交" class="send">
+        </div>
+    </form>
+</block>
+
+<block name="script">
+    <script src="__STATIC__/thinkbox/jquery.thinkbox.js"></script>
+    <script type="text/javascript" src="__SELECT__/jquery.searchableSelect.js"></script>
+    <script>
+        highlight_subnav('{:U('xnbaddr/index')}');
+
+        $(function(){
+            setInterval(function () {
+                var xnb=$('.select').val();
+                $.ajax({
+                    url:"{:U('addrnum')}",
+                    type:'post',
+                    dataType:'json',
+                    data:{xnb:xnb},
+                    success:function(data){
+                        var li="";
+                        li+='<span style="color:red;">'+
+                                '已使用'+data.yes+'个'+'/'+
+                                '</span>'+
+                                '<span style="color:green;">'+
+                                '未使用'+data.no+'个'+'/'+
+                                '</span>'+
+                                '<span >'+
+                                '总数'+data.zong+'个'+
+                                '</span>';
+                        $('.num').html(li);
+                    }
+                })
+            },1000);
+
+            $('.select').searchableSelect();
+            //选择文件的功能
+            $('.files').click(function () {
+                $('input[name=file]').trigger('click');
+            })
+
+            $('input[name=file]').change(function () {
+
+                var file = $(this).val();
+                var strFileName=file.replace(/^.+?\\([^\\]+?)(\.[^\.\\]*?)?$/gi,"$1");  //正则表达式获取文件名，不带后缀
+                var FileExt=file.replace(/.+\./,"");   //正则表达式获取后缀
+                $('.filename').text(strFileName+"."+FileExt);
+            })
+
+            $('.send').click(function () {
+                var formData= new FormData($('form').get(0))
+                console.log(formData);
+                $.ajax({
+                    url:"{:U('topfile')}",
+                    type:'post',
+                    processData:false,
+                    contentType:false,
+                    data:formData,
+                    success:function(data){
+                        if (data.status!=true){   //请求失败
+                            set_poput_code(data.info,false);
+                            return false
+                        }
+                        set_poput_code(data.info,true);
+                    }
+                })
+            })
+        });
+    </script>
+</block>

@@ -1,0 +1,107 @@
+<extend name="Public/base"/>
+<block name="style">
+    <link rel="stylesheet" type="text/css" href="__CSS__/sys_stat.css" media="all">
+</block>
+
+<block name="body">
+   <!-- <div class="main-title">
+        <h2></h2>
+    </div>-->
+<!-- 内容区 -->
+<div id="main-content">
+    <div id="main" class="main">
+        <!--标题-->
+        <div class="second_title">
+            <strong class="big_title">市场统计</strong>
+            <select name="" id="market_select">
+                <volist name="market" id="market">
+                    <option <eq name="marketid" value="$market['id']"> selected </eq> value="{$market.id}">{$market.name}</option>
+                </volist>
+            </select>
+            <button id="refresh">重新初始化当前市场统计</button>
+        </div>
+        <!--用户信息-->
+        <ul class="user_info market_stat">
+            <li class="li_left top_li">
+                <div class="img_bg">
+                    <img src="__IMG__/sys_image/curr_2.png" alt="图标">
+                </div>
+                <div class="value">
+                    <p><strong>{$count}</strong></p>
+                    <p><span>累计成交次数</span></p>
+                </div>
+            </li>
+            <li class="top_li">
+                <div class="img_bg">
+                    <img src="__IMG__/sys_image/curr_3.png" alt="图标">
+                </div>
+                <div class="value">
+                    <p><strong>{$number}</strong></p>
+                    <p><span>累计成交量</span></p>
+                </div>
+            </li>
+            <li class="li_left">
+                <div class="img_bg">
+
+                    <img src="__IMG__/sys_image/curr_4.png" alt="图标">
+                </div>
+                <div class="value">
+                    <p><strong>{$poundageall}</strong></p>
+                    <p><span>累计手续费</span></p>
+                    <p class="small"><small>买入： <span>{$poundagebuy}</span></small></p>
+                    <p class="small"><small>卖出： <span>{$poundagesell}</span></small></p>
+                    <p class="small"><small>转出： <span>{$poundagerollout}</span></small></p>
+                </div>
+            </li>
+            <li class="top_li">
+                <div class="img_bg">
+
+                    <img src="__IMG__/sys_image/curr_1.png" alt="图标">
+                </div>
+                <div class="value">
+                    <p><strong>{$allmoney}</strong></p>
+                    <p><span>累计交易额</span></p>
+                </div>
+            </li>
+        </ul>
+        <!--报表-->
+        <div class="curr_report">
+            <p class="title red">手续费走势图(30天)</p>
+            <div >
+                <canvas id="kxiantu" width="1000" height="450"></canvas>
+            </div>
+        </div>
+    </div>
+
+</div>
+</block>
+
+<block name="script">
+    <script type="text/javascript" src="__ROOT__/Public/Home/js/Chart.js"></script>
+	<!--<script type="text/javascript" src="__ROOT__/Public/Home/js/echarts.js"></script>-->
+	<script type="text/javascript" src="__JS__/markethouse.js"></script>
+    <script type="text/javascript">
+        //导航高亮
+        highlight_subnav('{:U('market_statistics')}');
+        
+//		myChart1.setOption(option1);
+//		window.addEventListener("resize",function(){
+//		      	 myChart1.resize();
+//		 });
+//
+//		myChart2.setOption(option2);
+//		window.addEventListener("resize",function(){
+//		      	 myChart2.resize();
+//		 });
+    </script>
+    <script>
+        $("#market_select").change(function () {
+            var id = $(this).children('option:selected').val();
+            window.location.href = "{:U('market_statistics', array('id' => "+ id +"))}";
+        });
+        $("#refresh").click(function () {
+            window.location.reload();
+        })
+    </script>
+</block>
+

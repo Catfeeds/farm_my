@@ -1,0 +1,94 @@
+2<extend name="Public/base"/>
+<block name="style">
+    <link rel="stylesheet" type="text/css" href="/Public/Admin/Entrust/index.css" media="all">
+    <link rel="stylesheet" type="text/css" href="/Public/Admin/mypubliccss/button.css" media="all">
+    <link rel="stylesheet" type="text/css" href="__CSS__/jquery.ui.css" media="all">
+    <link rel="stylesheet" type="text/css" href="__CSS__/jquery.editable-select.min.css" media="all">
+</block>
+<block name="body">
+    <!-- 标题栏 -->
+    <div class="main-title">
+        <h2>用户反馈</h2>
+        <div>
+            <!--<button class="btn ajax-post confirm" target-form="ids" url="">删 除</button>-->
+            <!-- 高级搜索 -->
+            <form action="{:U('Content/opinion')}" method="post">
+                <div class="difference">
+                    <select name="status" class="market" id="status" style="width: 200px">
+                        <option value="">回复状态</option>
+                        <option value="2" <if condition="I('status')  eq 2"> selected </if>>未回复</option>
+                        <option value="1" <if condition="I('status') eq 1"> selected </if>>已回复</option>
+                    </select>&nbsp; &nbsp;
+                    <button class="send" type="submit" id="submit">确定</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- 数据列表 -->
+    <div class="data-table">
+        <table class="">
+            <thead>
+            <tr>
+                <th class="">用户名</th>
+                <th class="" style="width: 500px">反馈内容</th>
+                <th class="" style="width: 500px">回复内容</th>
+                <th class="">回复状态</th>
+                <th class="">时间</th>
+                <th class="">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <volist name="_list" id="vo">
+                <tr>
+                    <td>{$vo.users}</td>
+                    <td>{$vo.text}</td>
+                    <td>{$vo.reply}</td>
+                    <td><if condition="$vo['status'] eq 1">已回复<else />未回复</if></td>
+                    <td>{$vo.time|date="Y-m-d H:m:s", ###}</td>
+                    <td><if condition="$vo['status'] eq 1"><span style="color: green;">已回复</span><else /><a href="{:U('opinionReply', array('id' => $vo['id']))}" style="color: red;">去回复</a></if></td>
+                </tr>
+            </volist>
+            </tbody>
+        </table>
+
+    </div>
+    <!-- 分页 -->
+    <div class="page">{$_page}</div>
+    <!-- /分页 -->
+
+</block>
+<block name="script">
+    <script type="text/javascript" src="__JS__/jquery.ui.js"></script>
+    <script type="text/javascript" src="__JS__/jquery.editable-select.min.js"></script>
+    <script type="text/javascript">
+        highlight_subnav("{:U('opinion')}");
+
+        $(function(){
+            $("#action_add").click(function(){
+                window.location.href = $(this).attr('url');
+            })
+        });
+    </script>
+    <script>
+        $(function () {
+            $('#start_time,#end_time').datepicker({
+                dateFormat : 'yy-mm-dd',
+                //dayNames : ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'],
+                //dayNamesShort : ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'],
+                dayNamesMin : ['日','一','二','三','四','五','六'],
+                monthNames : ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'],
+                //monthNamesShort : ['一','二','三','四','五','六','七','八','九','十','十一','十二'],
+                altField : '#abc',
+                altFormat : 'dd/mm/yy',
+//	        appendText : '日历',
+                showWeek : true,
+                weekHeader : '周',
+                firstDay : 1,
+                changeYear: true
+            });
+        });
+
+    </script>
+</block>

@@ -1,0 +1,112 @@
+<extend name="Public/base"/>
+
+<block name="body">
+    <!-- 标题 -->
+    <div class="main-title">
+        <h2>APP页面展示列表</h2>
+    </div>
+
+    <!-- 按钮工具栏 -->
+    <div class="cf">
+        <div class="fl">
+            <empty name="model.extend">
+                <div class="tools">
+                    <a class="btn" href="{:U('addappphoto')}">新 增</a>
+                    <button class="btn ajax-post confirm" target-form="ids" url="{:U('deleteappphoto')}">删 除</button>
+                </div>
+            </empty>
+        </div>
+        <!-- 高级搜索 -->
+        <!-- <div class="search-form fr cf">
+            <div class="sleft">
+                <input type="text" name="{$model['search_key']|default='title'}" class="search-input" value="{:I('title')}" placeholder="请输入关键字">
+                <a class="sch-btn" href="javascript:;" id="search" url="{:U('Think/lists','model='.$model['name'],false)}"><i class="btn-search"></i></a>
+            </div>
+
+        </div> -->
+    </div>
+
+    <!-- 数据表格 -->
+    <div class="data-table">
+        <table>
+            <!-- 表头 -->
+            <thead>
+            <tr>
+                <th class="row-selected row-selected">
+                    <input class="check-all" type="checkbox">
+                </th>
+                <th>排序</th>
+                <th>ID</th>
+                <th>页面名称</th>
+                <th>图片</th>
+                <th>添加时间</th>
+                <th>更新时间</th>
+                <th>状态</th>
+                <th>操作</th>
+
+
+            </tr>
+            </thead>
+
+            <!-- 列表 -->
+            <tbody>
+            <volist name="list" id="data">
+                <tr>
+                    <td><input class="ids" type="checkbox" value="{$data['id']}" name="ids[]"></td>
+                    <td><input type="text" name="sort" class="text input-mini" value="{$data.sort}"   tid="{$data.id}" />
+                    </td>
+                    <td>{$data.id}</td>
+                    <td>{$data.name}</td>
+                    <td><img src="__ROOT__/{$data['imgurl']}" width="35" height="50"></td>
+                    <td>{$data.addtime|date="Y-m-d H-i-s",###}</td>
+                    <td>{$data.endtime|date="Y-m-d H-i-s",###}</td>
+                    <td><eq name="data.status" value="1">正常</eq></td>
+                    <td>
+                        <a href="{:U('addappphoto', ['id'=>$data['id']])}">修改</a>
+                    </td>
+                </tr>
+            </volist>
+            </tbody>
+        </table>
+    </div>
+    <!-- 分页 -->
+    <div class="page">
+        {$_page}
+    </div>
+    </div>
+
+</block>
+<block name="script">
+
+    <script type="text/javascript">
+        highlight_subnav("{:U('appphotolist')}");
+
+        $(function(){
+
+
+
+            $("input[name='sort']").blur(function(){
+                var id=$(this).attr('tid');
+                var val=$(this).val();
+                $.ajax({
+                    type: "POST",
+                    url: "{:U('appsort')}",
+                    data: {id:id, sort:val},
+                    dataType: "json",
+                    success: function(data){
+                        if (data.status!=1){  //失败
+                            set_poput_code(data.info,false)
+                            return false;
+                        }
+                        set_poput_code(data.info,true)
+                    }
+                });
+            })
+
+
+
+
+
+        })
+    </script>
+</block>

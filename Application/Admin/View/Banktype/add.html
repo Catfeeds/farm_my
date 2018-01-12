@@ -1,0 +1,63 @@
+<extend name="Public/base"/>
+<block name="style">
+    <link rel="stylesheet" type="text/css" href="__CSS__/addxnb.css" media="all">
+</block>
+<block name="body">
+    <div class="main-title">
+        <empty name="data">
+            <h2>虚拟币配置>>添加银行卡</h2>
+            <else/>
+            <h2>虚拟币配置>>修改银行卡</h2>
+        </empty>
+    </div>
+    <form  class="form-horizontal">
+        <volist name="data" id="vo">
+
+        </volist>
+        <notempty>
+            <input type="hidden" value="{$vo.id}" name="id">
+        </notempty>
+        <div class="form-item">
+            <label class="item-label">银行名称</label>
+            <div class="controls">
+                <input type="text" class="text input-large" name="bankname" value="{$vo.bankname}">
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">银行图标</label>
+            <input type="file" name="bankimg" class="display">
+            <input type="button" class="files"  value="请选择文件">
+            <a href="{$vo.bankimg}" class="nonea"><img src="{$vo.bankimg}" alt="" class="tb"></a>
+        </div>
+
+        <div class="form-item">
+            <label class="item-label">银行官网</label>
+            <div class="controls">
+                <input type="text" class="text input-large" name="bankurl" value="{:base64_decode($vo['bankurl'])}">
+            </div>
+        </div>
+
+        <div class="form-item">
+            <label class="item-label">状态</label>
+            <div class="controls">
+                <select name="status" value="{$vo.status}">
+                    <option value="1" <?php if($data['status']==1){echo 'selected=selected';} ?> >启用</option>
+                    <option value="2" <?php if($data['status']==2){echo 'selected=selected';} ?>>禁用</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-item">
+            <button class="btn submit-btn" type="button">确 定</button>
+            <button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+        </div>
+    </form>
+</block>
+
+<block name="script">
+    <script type="text/javascript" src="__JS__/addbank.js"></script>
+    <script>
+        highlight_subnav('{:U('index')}');
+
+    </script>
+</block>

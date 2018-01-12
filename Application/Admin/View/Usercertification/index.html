@@ -1,0 +1,121 @@
+<extend name="Public/base" />
+<block name="style">
+    <link rel="stylesheet" type="text/css" href="/Public/Admin/Entrust/index.css" media="all">
+    <link rel="stylesheet" type="text/css" href="/Public/Admin/mypubliccss/button.css" media="all">
+</block>
+<block name="body">
+    <!-- 标题栏 -->
+    <div class="main-title">
+        <h2>客户认证列表  </h2>
+        <div class="cf">
+            <!--<div class="fl">-->
+            <!--<a class="btn" href="{:U('Userbank/add')}">新 增</a>-->
+            <!--<button class="btn ajax-post" url="{:U('Userbank/changeStatus',array('method'=>'resumeUser'))}" target-form="ids">启 用</button>-->
+            <!--<button class="btn ajax-post" url="{:U('Userbank/changeStatus',array('method'=>'forbidUser'))}" target-form="ids">禁 用</button>-->
+            <!--<button class="btn ajax-post confirm" url="{:U('Userbank/changeStatus',array('method'=>'deleteUser'))}" target-form="ids">删 除</button>-->
+            <!--</div>-->
+            <!-- 高级搜索 -->
+            <form action="" method="post">
+                <div class="difference">
+                    <input name="name" class="username" value="{:I('name')}" placeholder="用户名"/> &nbsp; &nbsp;
+                    <button class="send" type="submit">确定</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 数据列表 -->
+    <div class="data-table table-striped">
+        <table >
+            <thead>
+            <tr>
+                <th class="row-selected row-selected " ><input class="check-all" type="checkbox"/></th>
+                <th  style="text-align:center;">认证申请时间</th>
+                <th  style="text-align:center;">用户ID</th>
+                <th  style="text-align:center;">用户名</th>
+                <th  style="text-align:center;">真实姓名</th>
+                <th  style="text-align:center;">身份证正面</th>
+                <th  style="text-align:center;">身份证反面</th>
+                <th  style="text-align:center;">手持时间照片</th>
+                <th  style="text-align:center;">状态</th>
+                <th  style="text-align:center;">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <notempty name="_list">
+                <foreach name="_list" item="vo">
+                    <tr>
+                        <td><input class="ids" type="checkbox" name="id[]" value="{$vo.id}" /></td>
+                        <td class="titlecenter">{$vo.addtime|time_format}</td>
+                        <td class="titlecenter">{$vo.userid} </td>
+                        <td class="titlecenter">{$vo.users}</td>
+                        <td class="titlecenter">
+                            {$vo.username}
+                        </td>
+                        <td class="titlecenter">
+                            <a href="{$vo.topurl}" target="blank">
+                                <img src="{$vo.topurl}" alt="" style="width: 50px;height: 50px;">
+                            </a>
+                        </td>
+                        <td class="titlecenter">
+                            <a href="{$vo.bankurl}" target="blank">
+                                <img src="{$vo.bankurl}" alt="" style="width: 50px;height: 50px;">
+                            </a>
+                        </td >
+                        <td class="titlecenter">
+                            <a href="{$vo.takeurl}" target="blank">
+                                <img src="{$vo.takeurl}" alt="" style="width: 50px;height: 50px;">
+                            </a>
+                        </td>
+                        <td class="titlecenter">
+                            <if condition="($vo.status eq -1) "> <span style="color: red;">审核失败</span>
+                                <elseif condition="$vo.status eq 0"/><span style="color: green;">待审核</span>
+                                <elseif condition="$vo.status eq 1"/><span style="color: green;">审核通过</span>
+                            </if>
+                        </td>
+                        <td class="titlecenter">
+                                <!--<a href="{:U('Usercertification/real?status=1&id='.$vo['id'])}" class="ajax-get">确认审核</a>-->
+                                <!--<a href="{:U('Usercertification/real?status=0&id='.$vo['id'])}" class="ajax-get">拒绝审核</a>-->
+                            <a href="{:U('Usercertification/lookreal?id='.$vo['id'])}" >查看</a>
+                        </td>
+                    </tr>
+                </foreach>
+                <else/>
+                <td colspan="9" class="text-center"> aOh! 暂时还没有内容! </td>
+            </notempty>
+            </tbody>
+        </table>
+    </div>
+    <div class="page">
+        {$_page}
+    </div>
+</block>
+
+<block name="script">
+    <script src="__STATIC__/thinkbox/jquery.thinkbox.js"></script>
+
+    <script type="text/javascript">
+        //搜索功能
+        $("#search").click(function(){
+            var url = $(this).attr('url');
+            var query  = $('.search-form').find('input').serialize();
+            query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g,'');
+            query = query.replace(/^&/g,'');
+            if( url.indexOf('?')>0 ){
+                url += '&' + query;
+            }else{
+                url += '?' + query;
+            }
+            window.location.href = url;
+        });
+        //回车搜索
+        $(".search-input").keyup(function(e){
+            if(e.keyCode === 13){
+                $("#search").click();
+                return false;
+            }
+        });
+        //导航高亮
+        highlight_subnav("{:U('Usercertification/Index')}");
+    </script>
+</block>

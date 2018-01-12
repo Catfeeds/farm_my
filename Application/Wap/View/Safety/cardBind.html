@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=1">
+		<meta name="format-detection" content="telephone=no,address=no">              
+		<title></title>
+		<link rel="stylesheet" href="__CSS__/base.css" />
+		<link rel="stylesheet" href="__CSS__/setting.css" />
+		<link rel="stylesheet" href="__CSS__/rmb.css" />
+		<script type="text/javascript" src="__JS__/jquery-1.12.3.min.js" ></script>
+		<script type="text/javascript" src="__JS__/fastclick.js" ></script>
+		<script type="text/javascript" src="__JS__/base.js" ></script>
+		<script type="text/javascript" src="__JS__/rmb.js" ></script>
+	</head>
+	<body>
+		<header class="top">
+			<a class="top-left" id="back">
+				<img src="__IMG__/back.png"/>
+				<span>返回</span>
+			</a>
+			<h2>银行卡添加</h2>
+		</header>
+		<if condition="($status eq 1)">
+			<form action="{:U('Safety/addbank')}"  class="form-horizontal ajaxbank_form add-bank" role="form" onsubmit="return false">
+				<!--<div type="text" class="text input-large add-bank-name account-name form-control" style="border: 1px solid #e6e6e6" id="deposit_name" name="deposit_name" value="{$name}">{$name}</div>-->
+				<input type="text"  class="form-control add-bank-name account-name" style="border: 1px solid #e6e6e6" name="deposit_name" id="deposit_name" placeholder="请输入您的开户姓名">
+				<!--<p class="add-bank-name">刘德华</p>-->
+				<div class="select-bank">
+					<select name="bank">
+						<option>选择银行</option>
+						<foreach name="type" item="data">
+							<option value="{$data.id}" data-code="COMM">{$data.bankname}</option>
+						</foreach>
+					</select>
+					<div>
+						<select id="province" size=1 class="form-control" name="bankprov">
+							<option value= 北京 >北京</option>
+							<option value= 上海 >上海</option>
+							<option value= 天津 >天津</option>
+							<option value= 重庆 >重庆</option>
+							<option value= 河北 >河北</option>
+							<option value= 山西 >山西</option>
+							<option value= 内蒙古 >内蒙古</option>
+							<option value= 辽宁 >辽宁</option>
+							<option value= 吉林 >吉林</option>
+							<option value= 黑龙江 >黑龙江</option>
+							<option value= 江苏 >江苏</option>
+							<option value= 浙江 >浙江</option>
+							<option value= 安徽 >安徽</option>
+							<option value= 福建 >福建</option>
+							<option value= 江西 >江西</option>
+							<option value= 山东 >山东</option>
+							<option value= 河南 >河南</option>
+							<option value= 湖北 >湖北</option>
+							<option value= 湖南 >湖南</option>
+							<option value= 广东 >广东</option>
+							<option value= 广西 >广西</option>
+							<option value= 海南 >海南</option>
+							<option value= 四川 >四川</option>
+							<option value= 贵州 >贵州</option>
+							<option value= 云南 >云南</option>
+							<option value= 西藏 >西藏</option>
+							<option value= 陕西 >陕西</option>
+							<option value= 甘肃 >甘肃</option>
+							<option value= 宁夏 >宁夏</option>
+							<option value= 青海 >青海</option>
+							<option value= 新疆 >新疆</option>
+							<option value= 香港 >香港</option>
+							<option value= 澳门 >澳门</option>
+							<option value= 台湾 >台湾</option>
+						</select>
+						<select id="city" class="form-control" name="bancity"></select>
+					</div>
+				</div>
+				<div class="in-bank">
+					<input type="text" name="bank_number" onchange="Regbankss(this)" id="bank_number" placeholder="请输入银行卡号" />
+					<input type="text" name="bank_number_new" onchange="Regbanknew(this,'#bank_number')" id="bank_number_new" placeholder="确认银行卡号" />
+					<input type="password"  class="form-control" name="bank_trade_pw" onchange="Reg(this)" id="bank_trade_pw" placeholder="请输入您的交易密码">
+				</div>
+				<span class="notice" style="display: none"></span>
+				<div class="affirm-add">
+					<button type="submit" value="确认" onclick="tijiaobankphone()" class="btn btn-default safe_center_btn" id="ajaxbank">确认添加</button>
+				</div>
+			</form>
+			<script type="text/javascript" src="__JS__/verify.js"></script>
+			<else />
+
+			<div class="zprz tag_info red_color" style="width:150px;height: 300px;">
+				<p><span class="glyphicon  glyphicon-question-sign"></span>您还未通过照片实名认证!<a class="msrz" href="{:U('Safety/photoIdenty?tag=2')}">马上认证</a></p>
+			</div>
+		</if>
+
+		<include file="Public:footer" />
+
+	</body>
+</html>
+ 

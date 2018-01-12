@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1">-->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=9" />
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta name="description" content="农畜商品交易平台">
+    <meta name="keywords" content="数字货币交易平台,数字货币,虚拟币,虚拟币新闻资讯">
+    <meta name="author" content="lihuijie">
+    <title>实名认证-农畜商品交易平台</title>
+    <link rel="shortcut icon" href="__IMG__/base_images/bd_safe4.png">
+    <link rel="stylesheet" href="__CSS__/bootstrap.min.css">
+    <link rel="stylesheet" href="__CSS__/bae.css">
+    <link rel="stylesheet" href="__CSS__/center_left.css">
+    <link rel="stylesheet" href="__CSS__/center_header.css">
+    <link rel="stylesheet" href="__CSS__/safe_center.css">
+    <link rel="stylesheet" href="__ALERT__/qiwen_popup.css">
+    <!--[if lt IE 9]>
+    <script src="__JS__/html5shiv.min.js"></script>
+    <script src="__JS__/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<include file="Public:header"/>
+<main>
+    <div class="container">
+        <ol class="breadcrumb">
+            <li><a href="{:U('Index/index')}">首页</a></li>
+            <li><a href="{:U('Safety/safeCenter')}">安全中心</a></li>
+            <li class="active">
+                <span>实名认证</span>
+            </li>
+        </ol>
+    </div>
+    <div class="container center_content">
+        <include file="Public:safe_left"/>
+        <div class="pull-right">
+            <div id="name_identy">
+                <div class="big_title">
+                    <h4>实名认证</h4>
+                    <div class="clearfix"></div>
+                </div>
+                <foreach name="_list" item="out">
+                    <eq  name="out.yanze" value="1">
+                        <div class="right_body">
+                        <p class="tag_info"><span class="glyphicon glyphicon-ok-sign"></span>已通过实名认证</p>
+                        <table>
+                            <caption>您的身份信息</caption>
+                            <tbody>
+                            <tr>
+                                <td>姓名：</td>
+                                <td>{$out.username}</td>
+                            </tr>
+                            <tr>
+                                <td>证件类型：</td>
+                                <td>身份证</td>
+                            </tr>
+                            <tr>
+                                <td>证件号码：</td>
+                                <td>{$out.idcard}</td>
+                            </tr>
+                            <tr>
+                                <td>认证时间：</td>
+                                <td>{$time|time_format}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <div class="change_flow">
+                            <h5>更改实名认证信息流程：</h5>
+                            <ol>
+                                <li>联系客服申请更改实名认证后，须重新上传与上方认证信息一致的身份证正反面照片及手持身份证头部照片。
+                                    <figure>
+                                        <img src="__IMG__/safe_center/pic.jpg" alt="证件图片">
+                                        <figcaption>手持身份证头部照示例</figcaption>
+                                    </figure>
+
+                                </li>
+                                <li>照片审核完成后，会提示您实名认证申请是否通过。
+                                </li>
+                                <li>申请通过，则已完成更改实名认证信息。<br>
+                                    申请失败，则请您根据提示信息重新提交申请!
+                                </li>
+                            </ol>
+                        </div>
+
+                    </div>
+                        <else/>
+                        <div class="tag_info red_color">
+                             <p><span class="glyphicon glyphicon-question-sign"></span>您还未进行照片实名认证!<a href="{:U('Safety/photoIdenty?tag=2')}">马上认证</a></p>
+                        </div>
+
+                    </eq>
+                </foreach>
+            </div>
+        </div>
+    </div>
+</main>
+<include file="Public:footer"/>
+
+
+
+
+<script src="__JS__/jquery.js"></script>
+<script src="__STATIC__/jquery-1.10.2.min.js"></script>
+<script src="__JS__/bootstrap.min.js"></script>
+<script src="__JS__/base.js"></script>
+<script src="__JS__/center_left.js"></script>
+<script src="__JS__/safe_center.js"></script>
+<script type="text/javascript" src="__JS__/picture.js"></script>
+<script type="text/javascript" src="__JS__/Safety/verification.js"></script>
+
+</body>
+</html>

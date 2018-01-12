@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=1">
+		<meta name="format-detection" content="telephone=no,address=no">
+		<title></title>
+		<link rel="stylesheet" href="__CSS__/base.css" />
+		<link rel="stylesheet" href="__CSS__/message.css" />
+		<script type="text/javascript" src="__JS__/jquery-1.12.3.min.js" ></script>
+		<script type="text/javascript" src="__JS__/swiper-3.4.2.jquery.min.js" ></script>
+		<script type="text/javascript" src="__JS__/slide.js" ></script>
+		<script type="text/javascript" src="__JS__/fastclick.js" ></script>
+		<script type="text/javascript" src="__JS__/base.js" ></script>
+		<script type="text/javascript" src="__JS__/message.js" ></script>
+	</head>
+	<body>
+		<header class="top">
+			<if condition="I('from')">
+				<a class="top-left" href="{:U('arlist', array('choose' => 1))}">
+					<img src="__IMG__/back.png"/>
+					<span>返回</span>
+				</a>
+			<else/>
+				<a class="top-left"  id="back">
+					<img src="__IMG__/back.png"/>
+					<span>返回</span>
+				</a>
+			</if>
+
+			<h2>{$typename.title}</h2>
+		</header>
+		<section class="message-detail">
+			<h2>{$ardetail.title}</h2>
+			<ul>
+				{$ardetail.text}
+			</ul>
+		</section>
+		<include file="Public:footer" />
+	</body>
+</html>

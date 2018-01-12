@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1">-->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=9" />
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta name="description" content="农畜商品交易平台">
+    <meta name="keywords" content="数字货币交易平台,数字货币,虚拟币,虚拟币新闻资讯">
+    <meta name="author" content="lihuijie">
+    <title>照片认证-农畜商品交易平台</title>
+    <link rel="shortcut icon" href="__IMG__/base_images/bd_safe4.png">
+    <link rel="stylesheet" href="__CSS__/bootstrap.min.css">
+    <link rel="stylesheet" href="__CSS__/bae.css">
+    <link rel="stylesheet" href="__CSS__/center_left.css">
+    <link rel="stylesheet" href="__CSS__/center_header.css">
+    <link rel="stylesheet" href="__CSS__/safe_center.css">
+    <link rel="stylesheet" href="__ALERT__/qiwen_popup.css">
+    <!--[if lt IE 9]>
+    <script src="__JS__/html5shiv.min.js"></script>
+    <script src="__JS__/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<include file="Public:header"/>
+<main>
+    <div class="container">
+        <ol class="breadcrumb">
+            <li><a href="{:U('Index/index')}">首页</a></li>
+            <li><a href="{:U('Safety/safeCenter')}">安全中心</a></li>
+            <li class="active">
+                <span>照片认证</span>
+            </li>
+        </ol>
+    </div>
+
+
+    <div class="container center_content">
+
+        <include file="Public:safe_left"/>
+
+        <div class="pull-right">
+            <div id="photo_ident">
+                <div class="big_title">
+                    <h4>照片认证 </h4>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="right_body">
+                    <if condition="($status eq -1  OR  $status eq -2) ">
+                        <div class="notice">
+                            <p class="selected"><span class="glyphicon glyphicon-exclamation-sign"></span>温馨提示：请按照要求上传以下照片！</p>
+                        </div>
+                        <if condition="( $status eq -2) ">
+                            <p class="false_tips"><span class="glyphicon glyphicon-info-sign"></span>你的审核被拒绝，请重新上传审核图片</p>
+                        </if>
+                        <form id="post_img" action="{:U('Safety/file')}" method="post"  enctype="multipart/form-data" name="ajax_photo" class="ajax_photo" onsubmit="return false">
+                        <dl class="id_card_post"  value="55" >
+                            <dt class="file_post" ><input style="display:none;" name="photo[]" type="file"  value="上传图片" id="front_photo"  multiple="multiple"></dt>
+                            <dt class="post_img_bg" onclick="picture(this)"><img id="myImg" src="" alt="图片"></dt>
+                            <dd class="zheng_card_titlez">点击上传正面照片</dd>
+                        </dl>
+                        <dl class="id_card_fan">
+                            <dt class="file_post"><input style="display:none;" type="file" value="上传图片" name="photo[]" id="negative_photo"  multiple="multiple"></dt>
+                            <dt class="post_img_bg" onclick="picture(this)"><img id="fanImg" src="" alt="图片"></dt>
+                            <dd class="fan_card_titlez">点击上传背面照片</dd>
+                        </dl>
+                        <dl>
+                            <dt class="file_post"><input style="display:none;" type="file" value="上传图片" name="photo[]" id="id_photo"  multiple="multiple"></dt>
+                            <dt class="post_img_bg" onclick="picture(this)"><img id="idImg" src="" alt="图片"></dt>
+                            <dd class="id_card_titlez">点击上传手持身份证和当日字条</dd>
+                        </dl>
+
+                        <div class="clearfix"></div>
+                        <div class="photo_notice">
+                            <p class="color_red">手持身份证照片要求: 左手手持身份证照片，右手手持写有当天日期纸条的照片</p>
+                            <p>证件必须是清晰彩色原件电子版，证件上文字清晰可见，可以是扫描件或者数码拍摄照片。<br>请上传后缀名为jpg/jpeg/png的照片，单张照片最大尺寸为5M</p>
+                            <p class="color_red">因为现在提交身份证照片审核的较多，预计需要一至三个工作日审核完成。</p>
+                        </div>
+                        <div class="photo_submit">
+                            <button type="submit" class="btn" value="确认提交" id="photo_submit">确认提交</button>
+                            <!--<input type="submit" class="btn" value="确认提交" id="photo_submit">-->
+                        </div>
+                    </form>
+
+                        <elseif condition="$status eq 0"/>
+                        <div class="notice" style="border: none;background-color: inherit"></div>
+                        <div class="tag_info">
+                            <p><span class="glyphicon glyphicon-info-sign"></span>审核中……</p>
+                            <p class="yourp">你的照片</p>
+                            <div class="yourpi">
+                                <foreach name="shenhe" item="vo">
+                                    <div class="yourpimg"><img src="{$vo.topurl}" style="width: 150px;height:150px" alt=""></div>
+                                    <div class="yourpimg"><img src="{$vo.bankurl}" style="width: 150px;height:150px" alt=""></div>
+                                    <div class="yourpimg"><img src="{$vo.takeurl}" style="width: 150px;height:150px" alt=""></div>
+                                </foreach>
+                            </div>
+                        </div>
+                        <elseif condition="$status eq 1"/>
+                        <div class="notice" style="border: none;background-color: inherit"></div>
+                        <div class="tag_info green_color">
+                            <p><span class="glyphicon glyphicon-ok-sign"></span>审核已通过！</p>
+                        </div>
+                        <p class="yourp">你的照片</p>
+                        <div class="yourpi">
+                            <foreach name="photo" item="vo">
+                        	<div class="yourpimg"><img src="{$vo.topurl}" style="width: 150px;height:150px" alt=""></div>
+                        	<div class="yourpimg"><img src="{$vo.bankurl}" style="width: 150px;height:150px" alt=""></div>
+                        	<div class="yourpimg"><img src="{$vo.takeurl}" style="width: 150px;height:150px" alt=""></div>
+                            </foreach>
+                        </div>
+                    </if>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<include file="Public:footer"/>
+
+
+
+
+<script src="__JS__/jquery.js"></script>
+<script src="__STATIC__/jquery-1.10.2.min.js"></script>
+<script src="__JS__/bootstrap.min.js"></script>
+<script src="__JS__/base.js"></script>
+<script src="__JS__/center_left.js"></script>
+<script src="__JS__/safe_center.js"></script>
+<script type="text/javascript" src="__JS__/picture.js"></script>
+<script type="text/javascript" src="__JS__/Safety/verification.js"></script>
+
+</body>
+</html>

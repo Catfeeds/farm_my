@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>区块链</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <style>
+        /*锁屏背景设置*/
+        #lock_screen{
+            background-color: black;
+            opacity: 0.4;
+            filter:alpha(opacity=40);
+            position: absolute;
+            top:0;
+            left: 0;
+            z-index: 100;
+            display: none;
+            zoom: 1;
+        }
+        #enter_form_lock {
+            width: 400px;
+            background-color: white;
+            margin: 100px auto;
+            border-radius: 8px;
+            overflow: hidden;
+            z-index: 500;
+            display: none;
+            position: relative;
+            box-shadow: 1px 1px 2px #cccccc,-1px -1px 2px #cccccc;
+
+        }
+        #enter_form_lock a {
+            color: #666666;
+            font-size: 13px;
+        }
+
+        #enter_form_lock a:hover {
+            color: #ff3333;
+        }
+        #enter_form_lock h5{
+            padding: 15px 40px;
+            border-bottom: 1px solid #dddddd;
+            margin: 0;
+        }
+        #enter_form_lock h5 span{
+            float: right;
+            font-size: 12px;
+        }
+
+        #enter_form_lock .user_enter {
+            padding: 20px 40px 20px 40px;
+        }
+
+        #enter_form_lock .form-group {
+            margin: 0 0 15px 0;
+            width: 100%;
+        }
+
+
+        #enter_form_lock .content input {
+            width: 80%;
+            padding: 8px;
+            border: 1px solid #dddddd;
+            outline: none;
+            border-radius: 5px;
+            float: right;
+        }
+        #enter_form_lock .content label {
+            width: 20%;
+            display: inline-block;
+            padding-top: 9px;
+            text-align: right;
+        }
+        #enter_form_lock .remember_password{
+            width: 80%;
+            float: right;
+        }
+
+        #enter_form_lock .remember_password input {
+            margin-right: 3px;
+        }
+
+        #enter_form_lock .remember_password label {
+            vertical-align: middle;
+            font-weight: normal;
+            font-size: 13px;
+            color: #666666;
+        }
+
+        #enter_form_lock .remember_password span a {
+            padding-top: 3px;
+        }
+
+        #enter_form_lock #enter_submit {
+            text-align: center;
+            width: 100%;
+            margin-bottom: 0;
+        }
+
+        #enter_submit .btn {
+            width: 150px;
+            background-color: #ff3333;
+            outline: none;
+            color: white;
+            font-weight: bold;
+            letter-spacing: 3px;
+        }
+
+        #enter_submit .btn:hover {
+            background-color: #d12a2a;
+        }
+
+        #enter_form_lock #QQ_enter {
+            background-color: rgba(255, 255, 255, 0.6);
+            width: 100%;
+            margin-bottom: 0;
+            padding: 10px 23px;
+            height: 40px;
+        }
+
+        #enter_form_lock #QQ_enter a {
+            color: #ff3333;
+            text-decoration: none!important;
+        }
+
+        #enter_form_lock #QQ_enter .pull-left a {
+            line-height: 24px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+<button class="btn" id="show_enter">点击显示登录框</button>
+<div id="lock_screen"></div>
+<form action="#" id="enter_form_lock" role="form">
+    <h5>请先登录 <span class="glyphicon glyphicon-remove" id="enter_form_close"></span></h5>
+    <div class="user_enter">
+        <div class="form-group content">
+            <label for="user_name">用户名：</label>
+            <input type="text" id="user_name" name="name" value="{$username}" placeholder="请输入手机号或邮箱">
+        </div>
+        <div class="form-group content">
+            <label for="user_password">密码：</label>
+            <input type="password" id="user_password" name="pass" value="{$password}" placeholder="请输入密码">
+        </div>
+        <div class="form-group remember_password">
+            <input type="checkbox" id="remember_password" ><label for="remember_password">记住密码</label>
+        </div>
+        <div class="form-group" id="enter_submit">
+            <button type="submit" class="btn" >登录</button>
+        </div>
+    </div>
+    <div class="form-group" id="QQ_enter">
+        <span class="pull-right"><a href="#">忘记密码？</a></span><span class="pull-left"><a
+            href="{:U('Register/Register')}">免费注册</a></span>
+    </div>
+</form>
+<script src="javascript/jquery-1.10.1.js"></script>
+<script>
+    (function () {
+        var $screen=$("#lock_screen");
+
+        $("#show_enter").click(function () {
+            $("#enter_form_lock").show();
+            var x = $(window).width();
+            var y = $(window).height();
+            $screen.css({"width": x, "height": y, "display": "block"});
+        });
+
+        $(window).resize(function () {
+            if ($screen.css("display") == "block") {
+                var a = $(window).width();
+                var b = $(window).height();
+                $screen.css({"width": a, "height": b});
+            }
+        });
+
+        $screen.click(function () {
+            $("#enter_form_lock").hide();
+            $(this).css({"width": "0", "height": "0", "display": "none"});
+        });
+        $("#enter_form_close").click(function () {
+            $screen.trigger("click")
+        })
+    })();
+</script>
+</body>
+</html>

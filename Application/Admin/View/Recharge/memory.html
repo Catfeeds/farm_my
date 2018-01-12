@@ -1,0 +1,103 @@
+<extend name="Public/base"/>
+<block name="style">
+    <link rel="stylesheet" type="text/css" href="/Public/Admin/Entrust/index.css" media="all">
+    <link rel="stylesheet" type="text/css" href="/Public/Admin/mypubliccss/button.css" media="all">
+    <link rel="stylesheet" type="text/css" href="__CSS__/jquery.ui.css" media="all">
+</block>
+<block name="body">
+    <!-- 标题栏 -->
+    <div class="main-title">
+        <h2>用户资产锁定</h2>
+    </div>
+
+    <div>
+        <!--<button class="btn ajax-post confirm" target-form="ids" url="">删 除</button>-->
+        <!-- 高级搜索 -->
+        <form action="{:U('Recharge/memory')}" method="post">
+            <div class="difference">
+                <span>查询字段：</span>
+                <select name="search_type" class="market" id="">
+                    <option value="0" <if condition="I('search_type') eq 0"> selected </if>>用户</option>
+                    <option value="1" <if condition="I('search_type') eq 1"> selected </if>>虚拟币</option>
+                    <option value="2" <if condition="I('search_type') eq 2"> selected </if>>锁定时间</option>
+                    <option value="3" <if condition="I('search_type') eq 3"> selected </if>>解锁时间</option>
+                </select>&nbsp; &nbsp;
+                <span>查询内容：</span>
+                <input name="search" class="username poundage_input" value="{:I('search')}" placeholder="输入关键字"/> &nbsp; &nbsp;
+                <span>时间段：</span>
+                <input type="text" class="username poundage_input" placeholder="起始时间" name="start_time" id="start_time" value="{:I('start_time')}" readonly>&nbsp; &nbsp;
+                <input type="text" class="username poundage_input" placeholder="截止时间" name="end_time" id="end_time" value="{:I('end_time')}" readonly>&nbsp; &nbsp;
+                <button class="send" type="submit">确定</button>
+            </div>
+        </form>
+    </div>
+    <!-- 数据列表 -->
+    <div class="data-table">
+        <table class="">
+            <thead>
+            <tr>
+                <th class="">编号</th>
+                <th class="">用户</th>
+                <th class="">虚拟币</th>
+                <th class="">锁定总数</th>
+                <th class="">已解锁</th>
+                <th class="">未解锁</th>
+                <th class="">锁定时间</th>
+                <th class="">解锁时间</th>
+            </tr>
+            </thead>
+            <tbody>
+            <volist name="data" id="vo">
+                <tr>
+                    <td>{$vo.id}</td>
+                    <td>{$vo.users}</td>
+                    <td>{$vo.name}</td>
+                    <td>{$vo.number_all}</td>
+                    <td>{:($vo['number_all']-$vo['balance'])}</td>
+                    <td> {$vo.balance}</td>
+                    <td>{:date('Y-m-d H:m:s',$vo['time_start'])}</td>
+                    <td>{:date('Y-m-d H:m:s',$vo['time_end'])}</td>
+                </tr>
+            </volist>
+            </tbody>
+        </table>
+
+    </div>
+    <!-- 分页 -->
+    <div class="page">{$page}</div>
+    <!-- /分页 -->
+
+</block>
+<block name="script">
+    <script type="text/javascript" src="__JS__/jquery.ui.js"></script>
+    <script type="text/javascript">
+        highlight_subnav('{:U('Recharge/memory')}');
+
+        $(function(){
+            $("#action_add").click(function(){
+                window.location.href = $(this).attr('url');
+            })
+        })
+    </script>
+    <script>
+        $(function () {
+            $('#start_time,#end_time').datepicker({
+                dateFormat : 'yy-mm-dd',
+                //dayNames : ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'],
+                //dayNamesShort : ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'],
+                dayNamesMin : ['日','一','二','三','四','五','六'],
+                monthNames : ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'],
+                //monthNamesShort : ['一','二','三','四','五','六','七','八','九','十','十一','十二'],
+                altField : '#abc',
+                altFormat : 'dd/mm/yy',
+//	        appendText : '日历',
+                showWeek : true,
+                weekHeader : '周',
+                firstDay : 1,
+                changeYear: true
+            });
+        });
+
+
+    </script>
+</block>

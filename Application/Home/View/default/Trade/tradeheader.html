@@ -1,0 +1,79 @@
+<main>
+    <!--固定的头部-->
+    <div id="trade_title">
+        <div class="foreach trade_top container">
+            <!--左侧图标-->
+            <div class="xnb_name_out" value="{$xnb_data.id}">
+                <div class="xnb_name" value="{$xnb_data.brief}">
+                    <i><img src="{$xnb_data.imgurl}" alt="{$xnb_data.name}"></i>
+                    <span>{$xnb_data.name}({$xnb_data.brief})</span>
+                    <span class="boult">&or;</span>
+                    <!--<span>比特币(BTC)</span>-->
+
+                </div>
+
+                <!--更多币种  more_ moneytype-->
+                <div class="more_moneytype">
+                    <!--上方红线 -->
+                    <div class="glyphicon glyphicon-eject"></div>
+                    <!--内容-->
+                    <div class="more_moneytype_content">
+
+                        <table>   <!--虚拟币列表-->
+                            <foreach name="xnb_all" item="vo">
+                                <php>$k=$key+1;</php>
+                                <eq name="k+2" value="0"><tr style="height: 30px"></eq>
+                                    <td>
+                                        <p>
+                                            <a href="{:U('trade',array('id'=>$vo['id'],'markethouse'=>I('markethouse')))}">
+                                                <i><img src="{$vo.imgurl}" alt=""></i>
+                                                <span>&nbsp;&nbsp;{$vo.name}({$vo.brief})</span>
+                                            </a>
+                                        </p>
+                                    </td>
+                                <eq name="k%3" value="0"></tr></eq>
+                            </foreach>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+            <!--左侧数字-->
+            <div class="right_num">
+                <div class="numberLeft">
+                    <php>$brief['brief']= $brief['brief'] ? $brief['brief'] :I('market_breif');</php>
+                   <eq name="brief['brief']" value="cny"><strong>￥</strong></eq>
+
+                    <span>
+                    <if condition="$tran_all['buy_data'][0]['price'] egt $tran_all['sell_data'][0]['price']">
+                        <notempty name="recently">{:round($recently['price'],3)}<else/>0.00</notempty>
+                        <else />
+                        {:round($recently['price'],3)}
+                    </if>
+                    </span>
+                </div>
+                <div><span style="color: rgb(229, 86, 0)"><notempty name="hl.max(price)">{:round($hl['max(price)'],3)}<else/>0.00</notempty></span><br/><span>最高价</span></div>
+                <div><span style="color: rgb(102,153,0)"><notempty name="hl.min(price)">{:round($hl['min(price)'],3)}<else/>0.00</notempty></span><br/><span>最低价</span></div>
+                <div><span><notempty name="tran_all['buy_data'][0]['price']">{:floatval($tran_all['buy_data'][0]['price'])}<else/>0.00</notempty></span><br/><span>买一价</span></div>
+                <div><span><notempty name="tran_all['sell_data'][0]['price']">{:floatval($tran_all['sell_data'][0]['price'])}<else/>0.00</notempty></span><br/><span>卖一价</span></div>
+                <div><span><notempty name="sum_number">{:floatval($sum_number)}<else/>0.00</notempty></span><br/><span>成交量</span></div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="danger_notice" class="foreach container" style="text-align: center">
+        <p><span>温馨提示：</span>请您投资前对本次投资充分认知，理性判断自己的投资能力，审慎做出投资决策。</p>
+    </div>
+
+    <!--trade nav-->
+    <div id="trade_nav" class="foreach container">
+        <ul class="nav nav-tabs">
+            <ul class="nav nav-tabs">
+                <li  <eq name="ACTION_NAME" value="trade">class="active"</eq>><a href="{:U('trade',array('id'=>$xnb_data['id'],'markethouse'=>I('markethouse'),'market_breif'=>$brief['brief']))}">交易{$xnb_data.name}</a></li>
+                <li  <eq name="ACTION_NAME" value="market">class="active"</eq> ><a href="{:U('market',array('id'=>$xnb_data['id'],'markethouse'=>I('markethouse'),'market_breif'=>$brief['brief']))}" >{$xnb_data.name}行情</a></li>
+                <li  <eq name="ACTION_NAME" value="introduce">class="active"</eq>><a href="{:U('introduce',array('id'=>$xnb_data['id'],'markethouse'=>I('markethouse'),'market_breif'=>$brief['brief']))}">了解{$xnb_data.name}</a></li>
+                <li  <eq name="ACTION_NAME" value="evaluate">class="active"</eq>><a href="{:U('evaluate',array('id'=>$xnb_data['id'],'markethouse'=>I('markethouse'),'market_breif'=>$brief['brief']))}">评价{$xnb_data.name}</a></li>
+            </ul>
+        </ul>
+    </div>

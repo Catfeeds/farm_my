@@ -1,0 +1,108 @@
+<extend name="Public/base"/>
+
+<block name="body">
+    <div class="main-title">
+        <h2>用户提现地址新增</h2>
+    </div>
+    <form action="{:U('Userbank/join')}" method="post" class="form-horizontal ajax_form" onsubmit="return false">
+        <div class="form-item">
+            <label class="item-label">用户ID</label>
+            <div class="controls">
+                <input type="text" class="text input-large" name="userid" value="">
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">备注名称</label>
+            <div class="controls">
+                <input type="text" class="text input-large" name="name" value="">
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">开户银行</label>
+            <div class="controls">
+                <select name="bank" class="text input-large" style="height: 40px;">
+                    <foreach name="data" item="vo" >
+                        <option value= "{$vo.bankname}" >{$vo.bankname}</option>
+                    </foreach>
+                </select>
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">开户省份</label>
+            <div class="controls" class="text input-large">
+                <select  name="bankprov" style="width: 390px;height:30px;margin-right: 6px;" id="province" size=1 onchange="getCity()">
+                    <option value= 北京 >北京</option>
+                    <option value= 上海 >上海</option>
+                    <option value= 天津 >天津</option>
+                    <option value= 重庆 >重庆</option>
+                    <option value= 河北 >河北</option>
+                    <option value= 山西 >山西</option>
+                    <option value= 内蒙古 >内蒙古</option>
+                    <option value= 辽宁 >辽宁</option>
+                    <option value= 吉林 >吉林</option>
+                    <option value= 黑龙江 >黑龙江</option>
+                    <option value= 江苏 >江苏</option>
+                    <option value= 浙江 >浙江</option>
+                    <option value= 安徽 >安徽</option>
+                    <option value= 福建 >福建</option>
+                    <option value= 江西 >江西</option>
+                    <option value= 山东 >山东</option>
+                    <option value= 河南 >河南</option>
+                    <option value= 湖北 >湖北</option>
+                    <option value= 湖南 >湖南</option>
+                    <option value= 广东 >广东</option>
+                    <option value= 广西 >广西</option>
+                    <option value= 海南 >海南</option>
+                    <option value= 四川 >四川</option>
+                    <option value= 贵州 >贵州</option>
+                    <option value= 云南 >云南</option>
+                    <option value= 西藏 >西藏</option>
+                    <option value= 陕西 >陕西</option>
+                    <option value= 甘肃 >甘肃</option>
+                    <option value= 宁夏 >宁夏</option>
+                    <option value= 青海 >青海</option>
+                    <option value= 新疆 >新疆</option>
+                    <option value= 香港 >香港</option>
+                    <option value= 澳门 >澳门</option>
+                    <option value= 台湾 >台湾</option>
+                </select>
+
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">开户城市</label>
+            <div class="controls">
+                <select id="city" style="width: 390px;height: 30px;" class="form-control" name="bancity"></select>
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">交易账号</label>
+            <div class="controls">
+                <input type="text"  class="text input-large" name="bankcard" value="">
+            </div>
+        </div>
+
+        <div class="form-item">
+            <select name="type">
+                <option value ="1">银行卡</option>
+                <option value ="2">支付宝</option>
+                <option value ="3">微信</option>
+            </select>
+            <button class="btn submit-btn ajax-post" id="submit" type="submit" target-form="form-horizontal">确 定</button>
+            <button class="btn btn-return" onclick="returnback()">返 回</button>
+        </div>
+    </form>
+</block>
+
+<block name="script">
+    <script type="text/javascript" src="__JS__/city.js"></script>
+    <script type="text/javascript">
+        function returnback() {
+            location.href="{:U('Userbank/index')}"
+        }
+        //导航高亮
+        highlight_subnav("{:U('Userbank/Index')}");
+
+    </script>
+
+</block>

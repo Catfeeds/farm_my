@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=1">
+		<meta name="format-detection" content="telephone=no,address=no">
+		<title></title>
+		<link rel="stylesheet" href="__CSS__/base.css" />
+		<link rel="stylesheet" href="__CSS__/personage.css" />
+		<link rel="stylesheet" href="__CSS__/dropload.css" />
+		<script type="text/javascript" src="__JS__/jquery-1.12.3.min.js" ></script>
+		<script type="text/javascript" src="__JS__/jquery.min.js" ></script>
+		<script type="text/javascript" src="__JS__/dropload.min.js"></script>
+		<script type="text/javascript" src="__JS__/fastclick.js" ></script>
+		<script type="text/javascript" src="__JS__/base.js" ></script>
+		<script type="text/javascript" src="__JS__/personage.js" ></script>
+	</head>
+	<body>
+		<header class="top">
+			<a class="top-left" id="back">
+				<img src="__IMG__/back.png"/>
+				<span>返回</span>
+			</a>
+			<h2>邀请用户</h2>
+		</header>
+		<section class="handler-grand inner">
+
+		<h5>推荐农畜交易平台给其他人，可以获取被推荐人30%交易手续费做为佣金，躺着也挣！</h5>
+
+			<h4>累积邀请佣金折合：<span class="cred">{:I('allmenber')}元</span></h4>
+			<div class="brokerage2">
+				<ul class="lists">
+					<!--<foreach name="allchild" item="vo">-->
+						<!--<li>-->
+							<!--<div>-->
+								<!--<p>被邀请人账号:</p>-->
+								<!--<p>{$vo['users']}</p>-->
+							<!--</div>-->
+							<!--<div>-->
+								<!--<p>佣金折合:<span class="csell">{$vo['allmoney']}</span></p>-->
+								<!--<p>{:date('Y-m-d H:i:s',$vo['addtime'])}</p>-->
+							<!--</div>-->
+						<!--</li>-->
+					<!--</foreach>-->
+				</ul>
+			</div>
+		</section>
+		<include file="Public:footer" />
+	</body>
+	<script>
+		$(function(){
+			var groupNumber = 1;
+			var status = 0;
+
+			// dropload
+			var dropload = $('.inner').dropload({
+				autoLoad:true,
+				threshold:5,
+				scrollArea : window,
+				domDown : {
+					domClass   : 'dropload-down',
+					domRefresh : '<div class="dropload-refresh">↑上拉加载更多</div>',
+					domLoad    : '<div class="dropload-load"><span class="loading"></span>加载中...</div>',
+					domNoData  : '<div class="dropload-noData">暂无数据</div>'
+				},
+				loadDownFn : function(me){
+					if (status < 0) {
+						me.noData(true);
+						me.resetload();
+						return false;
+					}
+					$.ajax({
+						type: 'POST',
+						url: '{:U("handlerInviter_more")}',
+						dataType: 'json',
+						data: {groupNumber:groupNumber},
+						success: function(data){
+							if (data == 2) {
+								status = -1;
+								me.noData(true);
+								me.resetload();
+								return false;
+							} else {
+								var result = '';
+								var classname = '';
+								$.each(data, function (i, value) {
+									result += '<li><div><p>被邀请人账号:<p>' + value.users + '</p></div>' +
+											'<div><p>佣金折合 :' + '<span class= "csell">' + value.allmoney + '</span>' + '</p><p>' + value.addtime + '</p></div>' +
+											'</li>'
+								});
+								// 为了测试，延迟1秒加载
+								groupNumber ++;
+//							setTimeout(function(){
+								$('.lists').append(result);
+								// 每次数据加载完，必须重置
+								dropload.resetload();
+//							},1000);
+							}
+						},
+						error: function(xhr, type){
+							me.noData(true);
+							// 即使加载出错，也得重置
+							dropload.resetload();
+						}
+					});
+				}
+			});
+		});
+	</script>
+</html>

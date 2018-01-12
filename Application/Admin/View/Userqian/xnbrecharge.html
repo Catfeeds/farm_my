@@ -1,0 +1,64 @@
+<extend name="Public/base"/>
+<block name="style">
+    <link href="__SELECT__/jquery.searchableSelect.css" rel="stylesheet" type="text/css">
+</block>
+<block name="body">
+    <div class="main-title">
+        <h2>用户虚拟币充值</h2>
+    </div>
+
+    <form action="{:U('Userqian/rechargexnb')}" method="post"  class="form-horizontal ajax_money" onsubmit="return false">
+        <div class="form-item">
+            <label class="item-label">充值用户ID</label>
+            <div class="controls">
+                <gt name="data" value="0">
+                    <div type="text" class="text input-large" id="userid" name="userid" value="{$data.id}">{$data.id}</div>
+                    <else/><input type="text" class="text input-large" id="Recharge_id" name="userid" value="">
+                </gt>
+
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">充值用户</label>
+            <div class="controls">
+                <gt name="data" value="0">
+                    <div type="text" class="text input-large" id="username" name="userid" value="{$data.users}">{$data.users}</div>
+                    <else/><input type="text" class="text input-large" id="Recharge_user" name="username" value="">
+                </gt>
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">选择充值币种</label>
+            <select class="xnb" name="xnb">
+                <foreach name="xnb" item="vo">
+                    <option value="{$vo.id}">{$vo.name}({$vo.brief})</option>
+                </foreach>
+            </select>
+        </div>
+        <div class="form-item">
+            <label class="item-label">充值金额</label>
+            <div class="controls">
+                <input type="text" class="text input-large" id="cny" name="cny" >
+            </div>
+        </div>
+        <div class="form-item">
+            <button class="btn submit-btn ajax-post" id="submit" type="submit" >确 定</button>
+            <button class="btn btn-return" onclick="back();">返 回</button>
+        </div>
+    </form>
+</block>
+
+<block name="script">
+    <!--<script type="text/javascript" src="__JS__/jquery.js"></script>-->
+    <script type="text/javascript" src="__SELECT__/jquery.searchableSelect.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            $('.xnb').searchableSelect();
+        });
+        //导航高亮
+        highlight_subnav('{:U('Userqian/xnbrecharge')}');
+    </script>
+    <script type="text/javascript" src="__JS__/rechargemoney.js"></script>
+    <script type="text/javascript" src="__JS__/returnback.js"></script>
+
+</block>

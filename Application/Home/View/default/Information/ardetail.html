@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=9" />
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta name="description" content="农畜交易平台">
+    <meta name="keywords" content="数字货币交易平台,数字货币,虚拟币,虚拟币新闻资讯">
+    <meta name="author" content="lihuijie">
+    <title>资讯中心-农畜交易平台</title>
+    <link rel="shortcut icon" href="__IMG__/base_images/bd_safe4.png">
+    <link rel="stylesheet" href="__CSS__/bootstrap.min.css">
+    <link rel="stylesheet" href="__CSS__/bae.css">
+    <link rel="stylesheet" href="__CSS__/center_left.css">
+    <link rel="stylesheet" href="__CSS__/center_header.css">
+    <link rel="stylesheet" href="__CSS__/news.css">
+
+    <!--[if lt IE 9]>
+    <script src="__JS__/html5shiv.min.js"></script>
+    <script src="__JS__/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<include file="Public:header"/>
+<main>
+    <div class="container">
+        <ol class="breadcrumb">
+            <li><a href="{:U('Home')}">首页</a></li>
+            <li><a href="{:U('Home/Information/arlist', array('type' => $textdetail['type']))}">{$textdetail.typename}</a></li>
+            <li class="active"><span>【{$textdetail.xnbname}】</span><span>{$textdetail.title}</span></li>
+        </ol>
+    </div>
+    <!--内容-->
+    <div class="container" id="news_detail_main">
+      <div class="pull-left">
+          <div class="about_news">
+          <div class="news_title">
+              <h4><span>【{$textdetail.xnbname}】</span>{$textdetail.title}</h4>
+          <p class="news_time">{$textdetail.endtime|date="Y-m-d H:m:s", ###}</p>
+              <div class="clearfix"></div>
+          </div>
+          <div class="news_detail">
+              {$textdetail.text}
+          </div>
+          <!--<div class="new_bottom">-->
+              <!--<p>小咖币团队</p>-->
+              <!--<p>2017年6月30日</p>-->
+          <!--</div>-->
+          </div>
+      </div>
+      <div class="pull-right">
+          <if condition="$textdetail['xnbid'] neq 0">
+              <div class="about_xnb right_panel" id="xnb">
+                  <h5><img src="{$textdetail.imgurl}" alt="币种图片" style="width: 50px;height: 50px"><span>{$textdetail.xnbname}</span></h5>
+                  <p>{$textdetail.xnbtext}</p>
+              </div>
+          </if>
+
+          <div class="other_news right_panel">
+              <h4>新闻公告 <a href="{:U('Home/Information/arlist', array('type' => $textdetail['type']))}">查看更多</a></h4>
+              <ul class="list-unstyled">
+                  <volist name="textsame" id="text">
+                      <li><a href="{:U('Home/Information/ardetail', array('id' => $text['id']))}"><p>{$text.title}</p> <span class="day_time">{$text.endtime|date="Y-m-d", ###}</span>
+                          <div class="clearfix"></div>
+                      </a></li>
+                  </volist>
+              </ul>
+
+          </div>
+      </div>
+        <div class="clearfix"></div>
+        <div class="disclaimer">
+            <h5>免责声明</h5>
+            <p>项目在平台通过审核进行展示，仅代表该项目符合进平台要求的展示格式，并不代表该项目具备投资价值，并不代表该项目将在平台上市交易。 平台并不对该项目的真实性进行审核，项目展示并不代表平台对该项目有任何投资，或参与该项目的任何商业运作。</p>
+            <p>所有项目公告由项目方自行发出，平台不承担任何担保义务，请用户注意风险，谨慎交易。</p>
+        </div>
+        <div class="danger_notice">
+
+            <p class="title"><span class="glyphicon glyphicon-exclamation-sign"></span>风险提示</p>
+            <p class="content">
+                现货交易具有极高的风险。您有可能亏损掉所有资金。这些产品可能不适合所有人。您应当确保您已理解其中所涉及的风险。若有需要，请咨询个别专家建议，且在您能够承担的亏损范围内投资。请综合所有相关情况以及您的个人资源，仔细考虑这些交易是否适合您。
+            </p>
+        </div>
+    </div>
+
+</main>
+<include file="Public:footer"/>
+<script src="__JS__/base.js"></script>
+<script src="__JS__/jquery.js"></script>
+</body>
+</html>

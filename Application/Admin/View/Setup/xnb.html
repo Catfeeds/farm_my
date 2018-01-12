@@ -1,0 +1,78 @@
+<extend name="Public/base" />
+
+<block name="body">
+    <!-- 标题栏 -->
+    <div class="main-title">
+        <h2>虚拟币配置</h2>
+    </div>
+
+    <div class="cf">
+        <div class="fl">
+            <a class="btn" href="{:U('Setup/addxnb')}">新 增</a>
+            <button class="btn ajax-post" url="{:U('statusxnb',array('method'=>'resumeUser'))}" target-form="ids">启 用</button>
+            <button class="btn ajax-post" url="{:U('statusxnb',array('method'=>'forbidUser'))}" target-form="ids">禁 用</button>
+            <button class="btn ajax-post confirm" url="{:U('deletexnb',array('method'=>'deleteUser'))}" target-form="ids">删 除</button>
+        </div>
+
+        <!-- 高级搜索 -->
+        <form action="{:U('Setup/xnb')}" method="post">
+            <div class="search-form fr cf">
+                <div class="sleft">
+                    <input type="text" name="brief" class="search-input" value="{:I('brief')}" placeholder="请输入币种名称/币种简称">
+                    <button style="background: white;border: 0px;width: 50px"><i class="btn-search"></i></button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- 数据列表 -->
+    <div class="data-table table-striped">
+        <table class="">
+            <thead>
+            <tr>
+                <th class="row-selected row-selected"><input class="check-all" type="checkbox"/></th>
+                <th class="">币种简称</th>
+                <th class="">币种名称</th>
+                <th class="">图标</th>
+                <th class="">状态</th>
+                <th class="">是否显示</th>
+                <th class="">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <notempty name="data">
+
+                <foreach name="data" item="vo">
+                    <tr>
+                        <td><input class="ids row-selected" type="checkbox" name="id[]" value="{$vo.id}" /></td>
+                        <td>{$vo.brief}</td>
+                        <td>{$vo.name}</td>
+                        <td><a href="{$vo.imgurl}" target="view_window"><img src="{$vo.imgurl}" alt="" style="width: 50px;height: 50px;"></a></td>
+                        <td ><eq name="vo['status']" value="1">启用<else/>禁用</eq></td>
+                        <td ><eq name="vo['sort']" value="1">显示<else/>不显示</eq></td>
+
+                        <td>
+                            <a href="{:U('addxnb',array('id'=>$vo['id']))}">编辑</a>
+                            <a href="{:U('deletexnb',array('id'=>$vo['id']))}" class="ajax-get">删除</a>
+                        </td>
+                    </tr>
+                </foreach>
+
+                <else/>
+                <td colspan="13" class="text-center"> aOh! 暂时还没有内容! </td>
+            </notempty>
+            </tbody>
+        </table>
+    </div>
+    <div class="page">
+        {$page}
+    </div>
+</block>
+
+<block name="script">
+    <script src="__STATIC__/thinkbox/jquery.thinkbox.js"></script>
+    <script>
+        highlight_subnav('{:U('xnb')}');
+
+    </script>
+</block>

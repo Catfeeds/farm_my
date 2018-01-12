@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1">-->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=9" />
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta name="description" content="农畜商品交易平台">
+    <meta name="keywords" content="数字货币交易平台,数字货币,虚拟币,虚拟币新闻资讯">
+    <meta name="author" content="lihuijie">
+    <title>评价{$xnb_data.name}-农畜商品交易平台</title>
+    <link rel="shortcut icon" href="__IMG__/base_images/bd_safe4.png">
+    <link rel="stylesheet" href="__CSS__/bootstrap.min.css">
+    <link rel="stylesheet" href="__CSS__/bae.css">
+    <link rel="stylesheet" href="__CSS__/trade_center.css">
+
+    <!--[if lt IE 9]>
+    <script src="__JS__/html5shiv.min.js"></script>
+    <script src="__JS__/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+
+<include file="Public:header"/>
+<include file="tradeheader"/>
+    <!-- content-->
+    <div id="btb_evaluate" class="container">
+        <div class="similar xnb_score">
+            <h3>{$xnbname}评分</h3>
+            <dl class="content give-mark">
+                <dt><span>评分星级：</span>
+                    <volist name="starcount" id="star">
+                        <i class="glyphicon glyphicon-star"></i>
+                    </volist>
+                    <volist name="starempty" id="empty">
+                        <i class="glyphicon glyphicon-star-empty"></i>
+                    </volist>
+                </dt>
+                <dd>
+                    <span>成色评分：</span>
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" aria-valuenow="0"
+                             aria-valuemin="0" aria-valuemax="100" style="width:  {$progress.tecprogress};">
+                            <span class="sr-only">40% 完成</span>
+                        </div>
+                    </div>
+                    <i>{$score.tecscore}分</i>
+                    <div class="clearfix"></div>
+                </dd>
+                <dd>
+                    <span>收益评分：</span>
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" aria-valuenow="0"
+                             aria-valuemin="0" aria-valuemax="100" style="width:  {$progress.appprogress};">
+                            <span class="sr-only">40% 完成</span>
+                        </div>
+                    </div>
+                    <i>{$score.appscore}分</i>
+                    <div class="clearfix"></div>
+                </dd>
+                <dd>
+                    <span>前景评分：</span>
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" aria-valuenow="0"
+                             aria-valuemin="0" aria-valuemax="100" style="width: {$progress.proprogress};">
+                            <span class="sr-only">40% 完成</span>
+                        </div>
+                    </div>
+                    <i>{$score.proscore}分</i>
+                    <div class="clearfix"></div>
+                </dd>
+            </dl>
+        </div>
+        <div class="similar xnb_mysay">
+            <h3>我来讲两句</h3>
+            <form action="{:U('evaluatePost')}" method="post" class="score_form showlock" id="evaluate">
+                <input type="hidden" name="xnbid" value="{$xnbid}" id="xnbid">
+                <textarea name="xnb_score" id="xnb_score" placeholder="我来说两句……"></textarea>
+                <div class="about_score pull-right">
+                <div>
+                    <span>成色评分：</span>
+                    <label for="tech_5" class="checkbox-inline">
+                        <input type="radio" id="tech_5" value="5" name="tecscore">5分
+                    </label>
+                    <label for="tech_4" class="checkbox-inline">
+                        <input type="radio" id="tech_4" value="4" name="tecscore">4分
+                    </label>
+                    <label for="tech_3" class="checkbox-inline">
+                        <input type="radio" id="tech_3" value="3" name="tecscore">3分
+                    </label>
+                    <label for="tech_2" class="checkbox-inline">
+                        <input type="radio" id="tech_2" value="2" name="tecscore">2分
+                    </label>
+                    <label for="tech_1" class="checkbox-inline">
+                        <input type="radio" id="tech_1" value="1" name="tecscore">1分
+                    </label>
+                </div>
+                <div>
+                    <span>收益评分：</span>
+                    <label for="app_5" class="checkbox-inline">
+                        <input type="radio" id="app_5" value="5" name="appscore">5分
+                    </label>
+                    <label for="app_4" class="checkbox-inline">
+                        <input type="radio" id="app_4" value="4" name="appscore">4分
+                    </label>
+                    <label for="app_3" class="checkbox-inline">
+                        <input type="radio" id="app_3" value="3" name="appscore">3分
+                    </label>
+                    <label for="app_2" class="checkbox-inline">
+                        <input type="radio" id="app_2" value="2" name="appscore">2分
+                    </label>
+                    <label for="app_1" class="checkbox-inline">
+                        <input type="radio" id="app_1" value="1" name="appscore">1分
+                    </label>
+                </div>
+                <div>
+                    <span>前景评分：</span>
+                    <label for="prospect_5" class="checkbox-inline">
+                        <input type="radio" id="prospect_5" value="5" name="proscore">5分
+                    </label>
+                    <label for="prospect_4" class="checkbox-inline">
+                        <input type="radio" id="prospect_4" value="4" name="proscore">4分
+                    </label>
+                    <label for="prospect_3" class="checkbox-inline">
+                        <input type="radio" id="prospect_3" value="3" name="proscore">3分
+                    </label>
+                    <label for="prospect_2" class="checkbox-inline">
+                        <input type="radio" id="prospect_2" value="2" name="proscore">2分
+                    </label>
+                    <label for="prospect_1" class="checkbox-inline">
+                        <input type="radio" id="prospect_1" value="1" name="proscore">1分
+                    </label>
+                </div>
+                </div>
+                <div class="input-group">
+                    <input type="submit" class="btn" value="提交评论">
+                </div>
+            </form>
+        </div>
+        <div class="similar xnb_peoplesay">
+            <h3>大家都在说</h3>
+            <ul class="list-unstyled">
+                <volist name="list" id="evaluate">
+                    <li>
+                        <div class="say_title">
+                            <p class="pull-left"><span>{$evaluate.username}</span>评论说：</p>
+                            <p class="pull-right">
+                                <i class="great showlock" attr="{$evaluate.id}">超级赞 <span id="great{$evaluate.id}">({$evaluate.great})</span></i>
+                            </p>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="say_content">
+                            <p>{$evaluate.text}</p>
+                            <p><small>{$evaluate.time|date="Y-m-d",###}</small></p>
+                        </div>
+                    </li>
+                </volist>
+            </ul>
+            <div class="peoplesay_page">
+            <ul class="pagination">
+                {$page}
+            </ul>
+            </div>
+        </div>
+    </div>
+</main>
+
+<include file="Public:footer"/>
+
+<script src="__JS__/jquery.js"></script>
+<script src="__JS__/base.js"></script>
+<script src="__JS__/trade_center.js"></script>
+<script>
+    $('#evaluate').click(function () {
+        var xnbid = $('#xnbid').val();
+        //判断是否登录
+        $.ajax({
+            url:"{:U('Session/ifsession')}",
+            type:"POST",
+            success:function(data) {
+                if(data!=true){
+                    lock();
+                    return false
+                } else {
+                    //一分钟之内只能评价三次
+                    $.ajax({
+                        url:"{:U('Trade/frequency')}",
+                        type:"POST",
+                        data:"xnbid=" + xnbid,
+                        success:function (data) {
+                            if (data.status != true) {
+                                set_poput_code(data.info, false);
+                                $("#xnb_score").attr("readonly", "readonly");
+                                $('#evaluate').submit(function () {
+                                    return false;
+                                })
+                            } else {
+                                return true;
+                            }
+                        }
+                    });
+                    return true;
+                }
+            }
+        })
+    });
+    //评论评分都不能同时为空
+    $('#evaluate').submit(function () {
+        var flag = false;
+        var xnbid = $('#xnbid').val();
+        var text = $('#xnb_score').val();
+        var tecscore = $("input:radio[name='tecscore']:checked").val();
+        var appscore = $("input:radio[name='appscore']:checked").val();
+        var proscore = $("input:radio[name='proscore']:checked").val();
+
+        if (tecscore != null && appscore != null && proscore != null) {
+            if (text != "") {
+                if (strLenCalc($("#xnb_score"), 300) == 1) {
+                    frequency(xnbid, text, tecscore, appscore, proscore);
+                } else {
+                    set_poput_code("字数限制在100以内", false);
+                }
+            } else {
+                frequency(xnbid, text, tecscore, appscore, proscore);
+            }
+        } else if(tecscore == null && appscore == null && proscore == null) {
+            if (text != "") {
+                if (strLenCalc($("#xnb_score"), 300) == 1) {
+                    evaluate(xnbid, text, tecscore, appscore, proscore);
+                } else {
+                    set_poput_code("字数限制在100以内", false);
+                }
+            } else {
+                set_poput_code("评论和评分不能同时为空");
+            }
+        } else {
+            set_poput_code("三项同时评分");
+        }
+        return flag;
+    });
+    //评论限制次数仅一次
+    function frequency(xnbid, text, tecscore, appscore, proscore) {
+        $.ajax({
+            url:"{:U('Trade/havscore')}",
+            type:"POST",
+            data:"xnbid=" + xnbid,
+            success:function (data) {
+                if (data.status != true) {
+                    set_poput_code(data.info, false);
+                } else {
+                    evaluate(xnbid, text, tecscore, appscore, proscore);
+                }
+            }
+        });
+    }
+    //评论限制字数100字
+    function strLenCalc(obj, maxlen) {
+        var v = obj.val(), charlen = 0, maxlen = !maxlen ? 200 : maxlen, curlen = maxlen, len = v.length;
+        for (var i = 0; i < v.length; i ++) {
+            if (v.charCodeAt(i) < 0 || v.charCodeAt(i) > 255) {
+                curlen -= 1;
+            }
+        }
+        if (curlen >= len) {
+            return 1; //没有超过指定字数
+        } else {
+            return 2; //超过指定字数
+        }
+    }
+    //提交评价
+    function evaluate(xnbid, text, tecscore, appscore, proscore) {
+        $.ajax({
+            url:"{:U('Trade/evaluatePost')}" ,
+            type:"POST",
+            data:"xnbid=" + xnbid + "&text=" + text + "&tecscore=" + tecscore + "&appscore=" + appscore + "&proscore=" + proscore,
+            success:function (data) {
+                if (data.status != true) {
+                    set_poput_code(data.info, false);
+                } else {
+                    set_poput_code(data.info, true);
+                }
+            }
+        });
+    }
+    //点赞
+    $(".great").click(function () {
+        var commentid = $(this).attr("attr");
+        $.ajax({
+            url:"{:U('Trade/like')}",
+            type:"POST",
+            data:"commentid=" + commentid + "&status=0",
+            success:function (data) {
+                if (data.status != true) {
+                    if (data.info == 2) {
+                        lock();
+                    } else {
+                        set_poput_code(data.info, false);
+                    }
+                } else {
+                    $("#great" + commentid).text("(" + data.info + ")");
+                    set_poput_code("点赞成功", true);
+                }
+            }
+        })
+    })
+</script>
+</body>
+</html>

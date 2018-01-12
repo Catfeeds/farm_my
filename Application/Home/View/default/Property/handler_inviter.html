@@ -1,0 +1,94 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+	<!--	<meta name="viewport" content="width=device-width, initial-scale=1">-->
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta http-equiv="X-UA-Compatible" content="IE=9" />
+		<meta charset="UTF-8">
+		<meta name="renderer" content="webkit">
+		<meta name="description" content="农畜商品交易平台">
+		<meta name="keywords" content="数字货币交易平台,数字货币,虚拟币,虚拟币新闻资讯">
+		<meta name="author" content="lihuijie">
+		<title>经理人-专业的农畜产品交易平台</title>
+		<link rel="shortcut icon" href="__IMG__/base_images/bd_safe4.png">
+		<link rel="stylesheet" type="text/css" href="__CSS__/bootstrap.min.css"/>
+		<link rel="stylesheet" href="__CSS__/jquery.ui.css"/>
+		<link rel="stylesheet" href="__CSS__/bae.css">
+		<link rel="stylesheet" href="__CSS__/default.css" />
+		<link rel="stylesheet" href="__CSS__/center_left.css">
+		<link rel="stylesheet" href="__CSS__/center_header.css">
+		<link rel="stylesheet" type="text/css" href="__CSS__/finance.css"/>
+		<script type="text/javascript" src="__JS__/jquery.js" ></script>
+		<script src="__JS__/base.js"></script>
+		<script src="__JS__/center_left.js"></script>
+		<script type="text/javascript" src="__JS__/finance.js" ></script>
+	</head>
+
+	<body>
+		<include file="Public:header"/>
+		<main>
+			<div class="container">
+				<ol class="breadcrumb">
+					<li><a href="{:U('Index/index')}">首页</a></li>
+					<li><a href="{:u('Property/finance')}">财务中心</a></li>
+					<li class="active">
+						邀请用户
+					</li>
+				</ol>
+			</div>
+	
+		</main>
+			<div class="container center_content">
+
+				<div class="pull-left">
+					<h5 id="center_title">财务中心<span class="glyphicon glyphicon-chevron-down"></span></h5>
+					<ul class="list-unstyled" id="finance_list">
+						<li class="similar"><a href="{:U('Property/finance?tag=0')}">财务中心<span class="right_icon"></span></a></li>
+						<li class="similar"><a href="{:U('Property/rmbrecharge?tag=1')}">人民币充值<span class="right_icon"></span></a></li>
+						<li id="rmbtx" class="similar"><a href="{:U('Property/rmbwithdrawal?tag=2')}">人民币提现<span class="right_icon"></span></a></li>
+						<li class="similar"><a href="{:U('Property/join_currency?tag=3')}">转入资产<span class="right_icon"></span></a></li>
+						<li class="similar"><a href="{:U('Property/out_currency?tag=4')}">转出资产<span class="right_icon"></span></a></li>
+						<li class="similar"><a href="{:U('Property/commissioned')}">委托管理<span class="right_icon"></span></a></li>
+						<li class="similar"><a href="{:U('Property/demand')}">成交查询<span class="right_icon"></span></a></li>
+						<li class="selected"><a href="{:U('Property/handler')}">经理人<span class="right_icon"></span></a></li>
+					</ul>
+				</div>
+	
+					<div class="pull-right finance-content demand_content finance-centent">
+						<div class="big_title">
+							<h4>邀请用户明细</h4>
+							<div class="clearfix"></div>
+						</div>
+						<div class="handler-inviter">
+							<h5>
+								<span>累积邀请人数：</span><span class="cred">{:I('allmenber')}人</span>
+							</h5>
+							
+							<div class="inviter-title">
+								<ul class="invitertitle">
+									<li>被邀请人账号</li>
+									<li>注册时间</li>
+									<li>佣金折合</li>
+								</ul>
+							</div>
+							<div class="inviter-title inviter-content">
+								<foreach name="allchild" item="vo">
+									<ul>
+										<li>{$vo['users']}</li>
+										<li>{:date('Y-m-d H:i:s',$vo['addtime'])}</li>
+										<li>{$vo['allmoney']}</li>
+									</ul>
+								</foreach>
+							</div>
+							<!--<h6>暂无记录</h6>-->
+						</div>
+					</div>	
+			</div>
+			
+		<include file="Public:footer"/>
+	</body>
+	<script src="__JS__/center_left.js"></script>
+	<script src="__JS__/date_picker.js"></script>
+	<script type="text/javascript" src="__JS__/finance.js" ></script>
+
+</html>

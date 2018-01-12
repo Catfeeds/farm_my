@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1">-->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=9" />
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta name="description" content="农畜商品交易平台">
+    <meta name="keywords" content="数字货币交易平台,数字货币,虚拟币,虚拟币新闻资讯">
+    <meta name="author" content="lihuijie">
+    <title>交易{$xnb_data.name}-农畜商品交易平台</title>
+    <link rel="shortcut icon" href="__IMG__/base_images/bd_safe4.png">
+    <link rel="stylesheet" href="__CSS__/bootstrap.min.css">
+    <link rel="stylesheet" href="__CSS__/bae.css">
+    <link rel="stylesheet" href="__CSS__/trade_center.css">
+    <!--[if lt IE 9]>
+    <script src="__JS__/html5shiv.min.js"></script>
+    <script src="__JS__/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+
+<include file="Public:header"/>
+<include file="tradeheader"/>
+
+    <div id="trade_rmb" class="foreach container">
+        <div class="pull-left">
+            <div id="trade_line_out" value="{$market}">
+                <div class="trade_Kline" id="kxiantu">
+
+                </div>
+                <div class="timing">
+                    <button class="fiveminter minterxian" onclick="fivemin(this)" value="300">5分钟线</button>
+                    <button class="fiveminter minterxian" onclick="fivemin(this)" value="900">15分钟线</button>
+                    <button class="fiveminter minterxian" onclick="thertyemin(this)" value="1800">30分钟线</button>
+                    <button class="fiveminter minterxian" onclick="onehero(this)" value="3600">1小时线</button>
+                    <button class="fiveminter minterxian" onclick="eighero(this)" value="28800">8小时线</button>
+                    <button class="activebtn" onclick="rik()">日线</button>
+
+
+                </div>
+        </div>
+            <div class="trade_buy_sell" id="trade_buy_sell">
+
+                <!--买入BTC-->
+                <form class="ajax_form_trde" action="" method="post"  onsubmit="return false">
+                <div class="trade_panel" id="buy_rmb">
+                    <h3>买入{$xnb_data.brief}</h3>
+                    <div class="input-group"><!--this.value=this.value.replace(/^[1-9]\d*\.\d*|0\.\d*[1-9]\d*$$/,""-->
+                        <input type="text" name="price"  value=""  ts="buy_p" class="form-control buy" placeholder="买入价格{:strtoupper($brief['brief'])}/{$xnb_data.brief}"  id="buy_price"  onkeyup="clearNoNum(this)" onchange="checkMumber(this)">
+                        <div class="input-group-addon">最佳买价：<span class="zbuy"><notempty name="tran_all['sell_data'][0]['price']">{:floatval($tran_all['sell_data'][0]['price'])}<else/>0.00</notempty></span><br/></span></div>
+                    </div>
+                    <input type="hidden" name="markethouse" value="{:I('markethouse')}">
+                    <div class="input-group">
+                        <input type="text" name="number" class="form-control buy"  placeholder="买入数量{$xnb_data.brief}"  onkeyup="clearNoNum(this)" onchange="clearNoNum(this)">
+                        <div class="input-group-addon">最大可买：<span id="buy_max_number">-</span></div>
+                    </div>
+                    <div class="trade_percent other_info">
+                        <span>买入比例：</span>
+                        <ul class="lanren">
+                            <li><span id="buy_title">0%</span>
+                                <div class="scale_panel">
+                              <!--      <span class="range">100</span>0-->
+                                    <div class="scale" id="buy_bar">
+                                        <div class="bar_bg"></div>
+                                        <span id="buy_btn" myname="buy_allmoney" types="buy_max_number"></span>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="trade_num other_info"><span>交易额：</span><strong id="buy_allmoney">0</strong>{:strtoupper($brief['brief'])}</div>
+                    <div class="trade_charge other_info"><span>手续费：</span>{$xnb_data['buypoundage']}%</div>
+                    <div class="input-group">
+                        <input type="password" name="dealpassword" class="form-control"  placeholder="请输入交易密码">
+                        <div class="input-group-addon set_trade_pw"><a href="{:U('Safety/findPw?tag=6')}" target="_blank"><span class="glyphicon glyphicon-cog"></span></a>
+                        </div>
+                    </div>
+                    <input type="hidden" name="xnb" value="{:I('id')}">
+                    <input type="hidden" name="market" value="{:I('markethouse')}">
+                    <input type="hidden" name="business_tupe" value="1">
+                    <div class="input-group trade_submit">
+                        <button  class="btn" placeholder="请输入交易密码" id="trade_buy_btn" type="submit">买入</button>
+                    </div>
+                </div>
+                </form>
+
+               <!-- 卖出BTC-->
+                <form class="ajax_form_trde" action="" method="post" onsubmit="return false">
+                <div class="trade_panel" id="sell_rmb">
+                    <h3>卖出{$xnb_data.brief}</h3>
+                    <div class="input-group">
+                        <input type="text" class="form-control sell" value="" name="price" placeholder="卖出价格{:strtoupper($brief['brief'])}/{$xnb_data.brief}" id="sell_price"  onkeyup="clearNoNum(this)" onchange="checkMumber(this)">
+                        <div class="input-group-addon">最佳卖价：<span><notempty name="tran_all['buy_data'][0]['price']">{:floatval($tran_all['buy_data'][0]['price'])}<else/>0.00</notempty></span></div>
+                    </div>
+                    <input type="hidden" name="markethouse" value="{:I('markethouse')}">
+                    <div class="input-group">
+                        <input type="text" name="number" class="form-control sell"  placeholder="卖出数量{$xnb_data.brief}"  onkeyup="clearNoNum(this)" onchange="clearNoNum(this)">
+                        <div class="input-group-addon">最大可卖：<span id="sell_max_number">{$usermoney}</span></div>
+                    </div>
+                    <div class="trade_percent other_info">
+                        <span>卖出比例：</span>
+                        <ul class="lanren sell_lanren">
+                            <li><span id="sell_title">0%</span>
+                                <div class="scale_panel">
+                                    <div class="scale" id="sell_bar">
+                                        <div class="bar_bg"></div>
+                                        <span id="sell_btn" myname="sell_allmoney" types="sell_max_number"></span>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="trade_num other_info"><span>交易额：</span><strong id="sell_allmoney">0</strong>{:strtoupper($brief['brief'])}</div>
+                    <div class="trade_charge other_info"><span>手续费：</span>{$xnb_data['sellpoundage']}%</div>
+                    <div class="input-group">
+                        <input type="password" class="form-control" name="dealpassword"  placeholder="请输入交易密码">
+                        <div class="input-group-addon set_trade_pw"><a href="{:U('Safety/findPw?tag=6')}" target="_blank"><span class="glyphicon glyphicon-cog"></span></a>
+                        </div>
+                    </div>
+                    <input type="hidden" name="xnb" value="{:I('id')}">
+                    <input type="hidden" name="business_tupe" value="2">
+                    <div class="input-group trade_submit">
+                        <button type="submit" class="btn" placeholder="请输入交易密码" id="trade_sell_btn" value="买入">卖出</button>
+                    </div>
+                </div>
+                </form>
+
+                <div class="clearfix"></div>
+            </div>
+
+
+        </div>
+        <div class="pull-right">
+
+            <div class="maycoin">
+            	<ul>
+	            	<li><span>可用{$xnb_data.name}</span><span class="cgreen "><eq name="usermoney" valu="">0.00<else/>{:floatval($usermoney)} </eq></span></li>
+	            	<li><span>冻结{$xnb_data.name}</span><span class="cred"><eq name="user_money_d" valu="">0.00<else/>{:floatval($user_money_d)}</eq></span></span></li>
+                    <eq name="brief.name" value="人民币">
+                        <li><span>折合人民币</span><span>¥ <eq name="allxnb" value="">0.00<else/>{$allxnb}</eq></span></li>
+                    </eq>
+                    <li><span>可用{$brief.name}</span><span class="cgreen "><eq name="pd" value="1">&yen;<else/></eq>
+                            <span class="bmoney">
+                                <if condition="$kytr eq 0">0.00
+                                    <else/>{:floatval($kytr)}
+                                </if>
+                             </span>
+                    </span>
+                    </li>
+	            	<li><span>冻结{$brief.name}</span><span class="cred"><eq name="pd" value="1">&yen; <else/> </eq><eq name="dbtr" value="0">0.00<else/>{:floatval($dbtr)}</eq></span></li>
+
+                    <li>
+                        <span>重消</span>
+                        <span class="cgreen ">
+                            <eq name="repeats" valu="">0.00<else/>{:floatval($repeats)} </eq>
+                        </span>
+                    </li>
+                </ul>
+            </div>
+            <table class="buy_num_table table" id="buy_sell_num_table">
+                <thead>
+                <tr>
+                    <td>买/卖</td>
+                    <td>价格</td>
+                    <td>数量</td>
+                    <td>折合{$standardmoney_data['name']}</td>
+                </tr>
+                </thead>
+                <tbody class="table_num_tr">
+                <php>$a=count($sell_data);</php>
+                <neq name="sell_data" value="">
+                    <foreach name="sell_data" item="vo">   <!--卖-->
+                        <tr>
+                            <td>卖 <php> echo $a--;</php></td>
+                            <td>{:floatval($vo['price'])}</td>
+                            <td>{:floatval($vo['num'])}</td>
+                            <td>&yen; {:floatval(round($vo['price']*$vo['num'],6))}</td>
+                        </tr>
+                    </foreach>
+                </neq>
+                </tbody>
+
+                <tfoot class="table_num_tr">
+                    <neq name="buy_data" value="">
+                        <foreach name="buy_data" item="vo">   <!--买-->
+                            <tr>
+                                <td>买{$key+1}</td>
+                                <td>{:floatval($vo['price'])}</td>
+                                <td>{:floatval($vo['num'])}</td>
+                                <td>&yen; {:floatval($vo['price']*$vo['num'])}</td>
+                            </tr>
+                        </foreach>
+                    </neq>
+                </tfoot>
+
+            </table>
+        </div>
+    </div>
+
+    <!--my trade order-->
+    <neq name="order_data" value="">
+        <div class="foreach container" id="my_trade_order">
+            <h4>我的挂单 <a href="{:U('Property/commissioned?tag=5')}">更多&gt;&gt;</a></h4>
+            <table class="table">
+                <thead>
+                <tr>
+                    <td>时间</td>
+                    <td>买/卖</td>
+                    <td>委托价格</td>
+                    <td>委托数量</td>
+                    <td>成交数量</td>
+                    <td>尚未成交</td>
+                    <td>操作</td>
+                </tr>
+                </thead>
+                <tbody>
+                    <foreach name="order_data" item="vo">
+                        <tr>
+                            <td>{:date('Y-m-d H:i:s',$vo['currency_entrustwater_time'])}</td>
+                            <td><eq name="vo.type" value="1">买<else/>卖</eq></td>
+                            <td>{:floatval($vo['price'])}</td>
+                            <td>{:floatval($vo['number'])}</td>
+                            <td>{$vo.deal}</td>
+                            <td>{:($vo['number']-$vo['deal'])}</td>
+                            <!--<td><span>撤销</span></td>-->
+                            <td>
+                                <form class="ajax_form" action="{:U('Cancel/cancel')}" method="post" style="display: inline-block">
+                                    <input name="oderfor" value="{$vo['oderfor']}" type="hidden">
+                                    <button type="submit">撤销</button>
+                                </form>
+                            </td>
+                        </tr>
+                    </foreach>
+                </tbody>
+            </table>
+        </div>
+    </neq>
+    <!--newest trade record-->
+    <div id="trade_record" class="foreach container">
+        <h3>最近成交记录</h3>
+        <table class="table">
+            <thead>
+            <tr>
+                <td>成交时间</td>
+                <td>买/卖</td>
+                <td>成交价</td>
+                <td>成交量</td>
+                <td>总金额</td>
+            </tr>
+            </thead>
+        </table>
+        <div id="tbody_out">
+            <table class="table">
+                <tbody class="water">
+                <foreach name="transaction_data" item="vo">
+                    <tr>
+                        <td>{:date('Y-m-d H:i:s',$vo['time'])}</td>
+                        <td><eq name="vo['type']" value="1">买<else/>卖</eq></td>
+                        <td>{:floatval($vo['price'])}</td>
+                        <td>{:floatval($vo['number'])}</td>
+                        <td>{:floatval($vo['price']*$vo['number'])}</td>
+                    </tr>
+                </foreach>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+</main>
+
+
+<include file="Public:footer"/>
+<script src="__JS__/jquery.js"></script>
+<script src="__JS__/bootstrap.min.js"></script>
+<script src="__JS__/base.js"></script>
+<script src="__JS__/echarts.js"></script>
+<script src="__JS__/trade_center.js"></script>
+<script src="__JS__/trade/trade.js"></script>
+<script>
+    //滑动条js
+    var scale = function (btn,bar,title,num){
+        this.btn=document.getElementById(btn);
+        this.bar=document.getElementById(bar);
+        this.title=document.getElementById(title);
+        this.step=this.bar.getElementsByTagName("div")[0];
+        this.init();
+        this.my=$("#"+btn)
+    };
+    scale.prototype={
+        init:function (){
+            var f=this,g=document,b=window,m=Math;
+            f.btn.onmousedown=function (e){
+                var x=(e||b.event).clientX;
+                var l=this.offsetLeft;
+                var max=f.bar.offsetWidth-this.offsetWidth+2;
+                g.onmousemove=function (e){
+                    var thisX=(e||b.event).clientX;
+                    var to=m.min(max,m.max(0,l+(thisX-x)));
+                    f.btn.style.left=to+'px';
+                    f.ondrag(m.round(m.max(0,to/max)*100),to);
+                    b.getSelection ? b.getSelection().removeAllRanges() : g.selection.empty();
+                };
+                g.onmouseup=new Function('this.onmousemove=null');
+            };
+        },
+        ondrag:function (pos,x){
+
+            this.step.style.width=Math.max(0,x)+'px';
+            this.title.innerHTML=pos+'%';
+
+            if ($(this.btn).attr('id')=="buy_btn"){
+                $('#'+this.my.attr('types')).parent().prev().val(parseFloat(pos/100*parseFloat($('#buy_max_number').text()))?parseFloat(pos/100*parseFloat($('#buy_max_number').text())):"");
+            }
+
+            if ($(this.btn).attr('id')=="sell_btn"){
+                $('#'+this.my.attr('types')).parent().prev().val( parseFloat($('#sell_max_number').text())*pos/100 ? parseFloat($('#sell_max_number').text())*pos/100  : "");
+            }
+
+        }
+    }
+    new scale('buy_btn','buy_bar','buy_title','buy_num');
+    new scale('sell_btn','sell_bar','sell_title','sell_num');
+
+    //交易额算法
+    $('[class*=buy],[class*=sell]').each(function () {
+        $(this).keyup(function () {
+            all_money();
+            return false;
+        })
+    })
+
+    function all_money() {
+        var buy=parseFloat(($('[name=price][class*=buy]').val()*$('[name=number][class*=buy]').val()).toFixed(6)) ? parseFloat(($('[name=price][class*=buy]').val()*$('[name=number][class*=buy]').val()).toFixed(6)) : 0.00;
+        var sell=parseFloat(($('[name=price][class*=sell]').val()*$('[name=number][class*=sell]').val()).toFixed(6)) ? parseFloat(($('[name=price][class*=sell]').val()*$('[name=number][class*=sell]').val()).toFixed(6)) :0.00;
+        $('#buy_allmoney').text(buy);
+        $('#sell_allmoney').text(sell);
+    }
+
+</script>
+<script>
+    //最大可交易数
+    //最大可交易数
+    $('[ts=buy_p]').blur(function () {
+        var number= parseFloat($('.bmoney').text())/parseFloat($('input[ts=buy_p]').val()) ? parseFloat($('.bmoney').text())/parseFloat($('input[ts=buy_p]').val()):0;
+        var numbers= (Math.floor(number*100)/100);
+        $('#buy_max_number').text(numbers ? numbers :'-');
+
+    })
+</script>
+<script type="text/javascript" src="./Public/Echarts/Tradeline.js">
+
+
+</script>
+<script>
+    $("#trade_line_out").click(function (e) {
+        $("#kxiantu").css("pointer-events","auto");
+        e.stopPropagation();
+    });
+
+    /*buy sell num*/
+    $("#buy_sell_num_table").on("click","tbody tr",function () {
+        $('#buy_price').val($($(this).children("td")[1]).text())
+    }).on("click","tfoot tr",function () {
+        $('#sell_price').val($($(this).children("td")[1]).text())
+    })
+
+</script>
+</body>
+</html>

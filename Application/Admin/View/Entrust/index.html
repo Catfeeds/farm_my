@@ -1,0 +1,102 @@
+<extend name="Public/base"/>
+<block name="style">
+    <link rel="stylesheet" type="text/css" href="/Public/Admin/Entrust/index.css" media="all">
+    <link rel="stylesheet" type="text/css" href="__CSS__/jquery.editable-select.min.css" media="all">
+</block>
+
+<block name="body">
+    <div class="main-title">
+        <h2>委托管理</h2>
+        <form action="{:U('Entrust/index')}" method="post">
+            <div class="difference">
+                <php>$mak=I('market')</php>
+                市场：
+                <select name="market" class="market">
+                    <option value="">交易市场</option>
+                    <foreach name="markedata" item="item">
+                        <option value="{$item['id']}"  <eq name="item.id" value="$mak">selected="selected"</eq> > {$item['name']}</option>
+                    </foreach>
+                </select>&nbsp; &nbsp;
+                <select name="xnb" class="market" value="{:I('xnb')}" id="xnb_select" placeholder="币种" style="background-color: white;border: 1px solid #BBBBBB;width: 50px;height:32px">
+                    <volist name="xnb_list" id="xnb_list">
+                        <option value="{$xnb_list.id}" <if condition="I('xnb') eq $xnb_list['name']"> selected </if>>{$xnb_list.name}</option>
+                    </volist>
+                </select>&nbsp; &nbsp;
+
+                <span>&nbsp;&nbsp;用户名 :</span>
+                <input name="username" class="username" value="{:I('username')}"/>
+                <button class="send" type="submit">确定</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="data-table table-striped">
+        <table class="">
+            <thead>
+            <tr>
+                <th class="">订单号</th>
+                <th class="">虚拟币</th>
+                <th class="">用户名</th>
+                <th class="">市场</th>
+                <th class="">单价</th>
+                <th class="">数量</th>
+                <th class="">已成交</th>
+                <th class="">总额</th>
+                <th class="">类型</th>
+                <th class="">时间</th>
+                <th class="">状态</th>
+                <th class="">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <notempty name="data">
+
+                <foreach name="data" item="vo">
+                    <tr>
+                        <td class="">{$vo.oderfor}</td>
+                        <td class="">{$vo.currency_xnb_name}</td>
+                        <td class="">{$vo.currency_entrustwater_username}</td>
+                        <td class="">{$vo.currency_markethouse_name}</td>
+                        <td class="">{$vo.price}</td>
+                        <td class="">{$vo.number}</td>
+                        <td class="">{$vo.deal}</th>
+                        <td class="">{$vo.allmoney}</td>
+                        <td class=""> <eq name="vo['type']" value="1">买入<else/>卖出</eq></td>
+                        <td class="">{:date('Y:m:d H:i:s',$vo['currency_entrustwater_time'])}</td>
+                        <td class=""> <eq name="vo.currency_entrust_id" value="">已成交<else/>交易中</eq></td>
+                        <td class="">
+                            <neq name="vo.currency_entrust_id" value="">
+                                <form class="ajax_form"action="{:U('remove')}" method="post">
+                                    <input name="oderfor" value="{$vo.oderfor}" type="hidden"/>
+                                    <button type="submit" style="background: rgb(26, 188, 156);border: 0px;border-radius: 5px;width: 50px;height: 25px;">撤销</button></td>
+                                </form>
+                        <else/>
+                                <button  style="background: rgb(185, 187, 188);border: 0px;border-radius: 5px;width: 50px;height: 25px;">撤销</button></td>
+
+                            </neq>
+                       </tr>
+                </foreach>
+
+                <else/>
+                <td colspan="13" class="text-center"> aOh! 暂时还没有内容! </td>
+            </notempty>
+            </tbody>
+        </table>
+    </div>
+    <div class="page">
+        {$page}
+    </div>
+</block>
+
+<block name="script">
+    <script type="text/javascript">
+        //导航高亮
+        highlight_subnav('{:U('index')}');
+    </script>
+    <script type="text/javascript" src="__JS__/jquery.editable-select.min.js"></script>
+    <script>
+        $("#xnb_select").editableSelect({
+            effects:'slide'
+        })
+    </script>
+</block>

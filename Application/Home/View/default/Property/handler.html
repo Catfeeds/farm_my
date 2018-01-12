@@ -1,0 +1,192 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta http-equiv="X-UA-Compatible" content="IE=9" />
+		<meta charset="UTF-8">
+		<meta name="renderer" content="webkit">
+		<meta name="description" content="农畜商品交易平台">
+		<meta name="keywords" content="数字货币交易平台,数字货币,虚拟币,虚拟币新闻资讯">
+		<meta name="author" content="lihuijie">
+		<title>经理人-农畜商品交易平台</title>
+		<link rel="shortcut icon" href="__IMG__/base_images/bd_safe4.png">
+		<link rel="stylesheet" type="text/css" href="__CSS__/bootstrap.min.css"/>
+		<link rel="stylesheet" href="__CSS__/jquery.ui.css"/>
+		<link rel="stylesheet" href="__CSS__/bae.css">
+		<link rel="stylesheet" href="__CSS__/default.css" />
+		<link rel="stylesheet" href="__CSS__/center_left.css">
+		<link rel="stylesheet" href="__CSS__/center_header.css">
+		<link rel="stylesheet" type="text/css" href="__CSS__/finance.css"/>
+		<!--<script type="text/javascript" src="__JS__/jquery.js" ></script>-->
+		<script src="/Public/jquery.qrcode/jquery-1.11.1.min.js"></script>
+		<script src="__JS__/base.js"></script>
+		<script src="__JS__/center_left.js"></script>
+		<script type="text/javascript" src="__JS__/finance.js" ></script>
+	</head>
+
+	<body>
+		<include file="Public:header"/>
+		<main>
+			<div class="container">
+				<ol class="breadcrumb">
+					<li><a href="{:U('Index/index')}">首页</a></li>
+					<li><a href="{:u('Property/finance')}">财务中心</a></li>
+					<li class="active">
+						经理人
+					</li>
+				</ol>
+			</div>
+	
+		</main>
+			<div class="container center_content">
+
+				<div class="pull-left">
+					<h5 id="center_title">财务中心<span class="glyphicon glyphicon-chevron-down"></span></h5>
+					<ul class="list-unstyled" id="finance_list">
+						<li class="similar"><a href="{:U('Property/finance?tag=0')}">财务中心<span class="right_icon"></span></a></li>
+						<li class="similar"><a href="{:U('Property/rmbrecharge?tag=1')}">人民币充值<span class="right_icon"></span></a></li>
+						<li id="rmbtx" class="similar"><a href="{:U('Property/rmbwithdrawal?tag=2')}">人民币提现<span class="right_icon"></span></a></li>
+						<li class="similar"><a href="{:U('Property/join_currency?tag=3')}">转入资产<span class="right_icon"></span></a></li>
+						<li class="similar"><a href="{:U('Property/out_currency?tag=4')}">转出资产<span class="right_icon"></span></a></li>
+						<li class="similar"><a href="{:U('Property/commissioned')}">委托管理<span class="right_icon"></span></a></li>
+						<li class="similar"><a href="{:U('Property/demand')}">成交查询<span class="right_icon"></span></a></li>
+						<li class="selected"><a href="{:U('Property/handler')}">经理人<span class="right_icon"></span></a></li>
+					</ul>
+				</div>
+	
+					<div class="pull-right finance-content demand_content finance-centent">
+						<div class="big_title">
+							<h4>经理人</h4>
+							<div class="clearfix"></div>
+						</div>
+						<!--已注册-->
+
+						<neq name="agent" value="2">
+							<div class="handler" style="/*display: none;*/">
+								<h5>推荐农畜商品交易平台给其他人，可以获取被推荐人30%交易手续费做为佣金，躺着也挣钱！</h5>
+								<div class="handlerway">
+									<ul>
+										<li>
+											<div>
+												<p>邀请方法一  : 复制您的专属推荐地址给您的好友</p>
+											</div>
+											<div class="handlerwayex">
+												<span>您的专属地址:</span>
+												<input type="text" readonly="readonly"  id="addr" value="{$config}{$invit}" />
+											</div>
+										</li>
+										<li>
+											<div>
+												<p>邀请方法二  : 复制您的专属邀请码给您的好友</p>
+											</div>
+											<div class="handlerwayex">
+												<span>您的专属邀请码:</span>
+												<input type="text" readonly="readonly" value="{$invit}"/>
+											</div>
+										</li>
+										<li>
+											<div>
+												<p>邀请方法三: 分享下方二维码给您的好友，扫描完成注册</p>
+											</div>
+											<div class="handlerwayex">
+												<!--<img src="__IMG__/finance_images/ewm.png"/>-->
+												<div id="qrcode" ></div>  <!-- //二维码-->
+											</div>
+										</li>
+									</ul>
+								</div>
+								<ol class="grandtotal list-inline">
+									<li>
+										<p>
+											<span>累计邀请佣金折合：</span><span class="cred">{$allmoney}元</span>
+											<a class="grandtotalde" href="{:U('Property/handler_profit',['allmoney'=>$allmoney])}" target="_blank">查看明细</a>
+										</p>
+									</li>
+									<li>
+										<p>
+											<span>累计邀请人数：</span><span class="cred">{$allmenber}人</span>
+											<a class="grandtotalde" href="{:U('Property/handler_inviter',['allmenber'=>$allmenber])}" target="_blank">查看明细</a>
+										</p>
+									</li>
+								</ol>
+								<h6>注：邀请人数及佣金每天结算一次。</h6>
+							</div>
+						<else/>
+
+
+							<!--未注册状态-->
+							<div class="handler-not">
+								<p>您现在还不是经理人<a class="handler-apply applyfor">免费申请</a></p>
+								<p>推荐本网站给其他人，可以获取被推荐人30%交易手续费做为佣金，躺着也挣钱！</p>
+								<p><a class="applyfor" ><img src="__IMG__/finance_images/for_managers.jpg"/></a></p>
+							</div>
+						</neq>
+						<!--申请弹框-->
+						<div class="handler-box" >
+							<form class="ajax_form" method="post">
+								<p class="handler-box-title">
+									<span class="handler-box-title-left">申请成为经理人</span>
+									<span class="handler-box-title-right">
+										<img src="__IMG__/base_images/close_hint.png"/>
+									</span>
+								</p>
+								<div class="handler-box-row">
+									<p>QQ号码与微信号码必须选填一项。</p>
+								</div>
+								<div class="handler-box-row">
+									<label>QQ号码 : </label>
+									<input type="text" name="qq"/>
+
+								</div>
+								<div class="handler-box-row">
+									<label>微信号码 : </label>
+									<input type="text" />
+								</div>
+								<div class="handler-box-btn">
+									<button type="submit" class="handler-box-btna">提交申请</button>
+								</div>
+							</form>
+						</div>
+						<div class="cover"></div>
+					</div>	
+			</div>
+			
+		<include file="Public:footer"/>
+	</body>
+	<script src="__JS__/center_left.js"></script>
+	<script src="__JS__/date_picker.js"></script>
+	<script type="text/javascript" src="__JS__/finance.js" ></script>
+	<script src="/Public/jquery.qrcode/jquery.qrcode.js"></script>
+	<script>
+
+		$("#qrcode").qrcode({  //二维码
+			render : "canvas",    //设置渲染方式，有table和canvas，使用canvas方式渲染性能相对来说比较好
+			text : $('#addr').val(),    //扫描二维码后显示的内容,可以直接填一个网址，扫描二维码后自动跳向该链接
+			width : "100",               //二维码的宽度
+			height : "100",              //二维码的高度
+			background : "#ffffff",       //二维码的后景色
+			foreground : "#000000",        //二维码的前景色
+//			src: '/Public/jquery.qrcode/54.png'             //二维码中间的图片
+		});
+
+		$('.applyfor').click(function () {
+			$(".handler-box").show();
+			$(".cover").show();
+		})
+
+		$('input[name=qq]').blur(function () {   //qq正则匹配
+			if ($(this).val()!=$(this).val().match(/[1-9][0-9]{4,}$/)){
+				set_poput_code('请输入正确的QQ',false);
+				$(this).val("");
+
+			}
+		})
+
+		$('.cover,.handler-box-title-right').click(function () {
+			$(".handler-box").hide()
+			$(".cover").hide();
+		})
+
+	</script>
+</html>

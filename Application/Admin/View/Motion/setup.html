@@ -1,0 +1,118 @@
+<extend name="Public/base" />
+<block name="style">
+    <link rel="stylesheet" type="text/css" href="./Public/Admin/Finance/index.css" media="all">
+    <link rel="stylesheet" type="text/css" href="./Public/Admin/mypubliccss/button.css" media="all">
+    <style>
+        .tables{
+            width: 300px!important;
+            text-align: left!important;
+        }
+        .span{
+            width: 65px!important;
+        }
+        .btn-form{
+            width: 300px;
+        }
+        .imgs{
+            width: 30px;height: 30px;
+        }
+        .delete{
+            width: 27px;height: 27px;
+            position: absolute;
+            margin-top:2px;
+            margin-left: 10px;
+        }
+    </style>
+</block>
+<block name="body">
+
+    <div class="main-title">
+        <h2>推广配置</h2>
+    </div>
+
+<form class="ajax_form" method="post" action="">
+    <div>
+        <table class="tables">
+            <tbody>
+                <php> $number=['一','二','三','四','五','六','七','八'];</php>
+                <volist  name="data" id="vo">
+                    <if condition="$key eq allnumber" >
+                        <tr>
+                            <td><span class="span">分红总额:</span></td>
+                            <td><input type="number" name="allnumber" value="{$vo}">%</td>
+                        </tr>
+                    <elseif condition="$key eq time" />
+                        <tr>
+                            <td><span class="span">推荐有效期:</span></td>
+                            <td><input id="detrusion" type="text" name="{$key}" value="{$vo}">月</td>
+                        </tr>
+                    <else/>
+                        <tr>
+                            <td><span class="span">第{$number[$i-2]}代:</span></td>
+                            <td><input type="number" name="{$key}" value="{:floatval($vo)}">%</td>
+                        </tr>
+                    </if>
+                </volist >
+            </tbody>
+        </table>
+        <div style="padding-left: 23px">
+            <img class="add imgs" src="/Public/Admin/Motion/img/add.png" >
+            <img class="delete" src="/Public/Admin/Motion/img/delete.png">
+        </div>
+    </div>
+    <div class="btn-form" style="margin-left: 0;margin-top: 20px;">
+        <button class="btns btns-red add" type="button">确 定</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <button class="btns btns-green" onclick="javascript:history.back(-1);return false;">返 回</button>
+    </div>
+</form>
+
+</block>
+<block name="script">
+
+    <script src="/Public/Admin/Motion/js/motion.js"></script>
+    <script>
+        highlight_subnav('{:U('setup')}');
+
+        $(function () {
+            var number=['一','二','三','四','五','六','七','八'];
+            var namefor=['one','two','three','four','five','six','seven','eight'];
+            $('img.add').click(function () {
+                if($('tbody').children().length==9){
+                    set_poput_code('超过系统上限',false);
+                    return false;
+                }
+
+                var pordfor =$('tbody').children().length-1;
+                var pord=number[pordfor];
+                var name=namefor[pordfor];
+
+                var tr=" <tr>" +
+                            "<td><span class='span'>第"+pord+"代:</span></td>" +
+                            "<td><input type='number' name='"+(pordfor+1)+"' value='0'>%</td>"+
+                        "</tr>"
+
+                $('tbody').append(tr);
+            })
+            $('img.delete').click(function () {
+                if($('tbody').children().length==1){
+                    set_poput_code('非法操作！',false);
+                    return false;
+                }
+                $('tbody').children('tr:last-child').remove();
+            })
+
+            $('[type=number]').each(function () {
+                $(this).blur(function () {
+                    if ($(this).val()>100 || $(this).val()<=0){
+                        set_poput_code('非法操作！',false);
+                        $(this).val("")
+                        return false;
+                    }
+                })
+            })
+
+
+        })
+
+    </script>
+</block>
