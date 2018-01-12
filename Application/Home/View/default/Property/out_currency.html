@@ -83,6 +83,12 @@
 					</label>
 				</div>
 			</div>
+			<if condition="($phone eq null)" >    <!--手机号码为空时候出来-->
+						<h5 class="charge_tips"><span class="glyphicon glyphicon-exclamation-sign"></span>请先绑定手机号</h5>
+						<div class="form-group add_bind_card">
+							<p><a href="{:U('Safety/phoneBind?tag=4')}"><span class="glyphicon glyphicon-plus"></span>绑定手机</a></p>
+						</div>
+						<else/>
 			<div class="out-info">
 					<h4 class="charge_title">转出资产</h4>
 					<div class="form-group">
@@ -108,6 +114,10 @@
 					<div class="form-group out_currency_yzm">
 						<div class="yzm_zj"><img alt="验证码" src="{:U('Photoma/checkphoto')}" title="点击刷新" class="left15"><span>换一张？</span></div>
 					</div>
+<!-- 					<div class="form-group">
+						<label>手机号 : </label>
+						<input id="yanzheng_num" class="form-control" type="text" name="yanzheng_num" id="yanzheng_num" placeholder="请输入您的手机号"/>
+					</div> -->
 					<div class="form-group">
 						<label>获取验证码 : </label>
 						<button class="form-control"  type="button" value="{$phone}"  onclick="yanzhen()" name="input_identify_code" id="input_identify_code">获取手机验证码</button>
@@ -121,6 +131,7 @@
 					</div>
 
 			</div>
+		</if>
 			<div class="currency-record-hint">转出记录</div>
 			<div class="currency-mold out_curr">
 				<ul>
