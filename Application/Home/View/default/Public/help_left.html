@@ -1,9 +1,0 @@
-<meta charset="UTF-8">
-<div class="pull-left" id="help_nav">
-    <h5 id="center_title">帮助中心<span class="glyphicon glyphicon-chevron-down"></span></h5>
-    <ul class="list-unstyled" id="help_list">
-        <volist name="side_list" id="data">
-            <li <eq name="current_id" value="$data['id']"> class="selected" <else/> class="similar"</eq> ><a href="{:U('Help/help', array('id' => $data['id']))}">{$data.title} <span class="right_icon"></span></a></li>
-        </volist>
-    </ul>
-</div>
