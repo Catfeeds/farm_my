@@ -637,29 +637,104 @@ class TradeBuyController extends WapController {
         }
 
         if ($buy_trde['allmoney']>0){
-            $property_uback=$userproperty_d->where(array(   //返回金额
-                'uerid'=>session('user_wap')['id']
-            ))->setInc($standardmoney_name,$buy_trde['allmoney']);
-            if ($property_uback==false){
-                $entrustwater_m->rollback();
-                $this->error('挂单失败！s');
-            }
+            $property_uback_back=$userproperty_d->getUserMoney(session('user')['id'],$standardmoney_name); //获取用户的财产信息
 
-            //返回买家金额的流水
-            $property_uback_back=$userproperty_d->getUserMoney(session('user_wap')['id'],$standardmoney_name); //获取用户的财产信息
-            $property_uback['userid']=session('user_wap')['id'];
-            $property_uback['username']=session('user_wap')['user_name'];
-            $property_uback['xnb']=$standardmoney_id;  //买家收入的是认购币
-            $property_uback['operatenumber']=$buy_trde['allmoney']; //操作数量（金额）
-            $property_uback['operatetype']='买单余额返回';
-            $property_uback['operaefront']=$property_uback_back[$standardmoney_name];  //操作之前
-            $property_uback['operatebehind']=$property_buy['operaefront']+$property_buy['operatenumber']; //操作之后
-            $property_uback['time']=$buy_trde['addtime'];
-            $back=$property_d->PropertyAdd($property_uback); //添加流水
-            if ($back==false){
-                $entrustwater_m->rollback();
-                $this->error('挂单失败！L3');
-                exit();
+            $back_money = $buy_trde['allmoney'];
+            $entrustwater_lock = $entrustwater_m->where(['id'=>$buy_trde['entrustwater_id']])->find();
+
+            if ($entrustwater_lock['repeats']>0){  //如果用户使用重消账户支付
+
+                #扣除的金额
+                $out_money = $entrustwater_lock['allmoney']-$buy_trde['allmoney'];
+
+                if ($out_money<=$entrustwater_lock['repeats']){  //消费的金额<重消金额
+                    #应返的重消金额
+                    $pay_repeats = $entrustwater_lock['repeats']- $out_money;
+                    #应返的本金
+                    $pay_money = $entrustwater_lock['allmoney']-$entrustwater_lock['repeats'];
+
+                    #返回用户重消金额
+                    $user_setinc=$userproperty_d->where(array('userid'=>session('user')['id']))->setInc('repeats',$pay_repeats);
+                    if ($user_setinc==false){
+                        $entrust_m->rollback();
+                        $this->error('撤销失败！2');
+                    }
+
+
+                    #返回用户重消金额的流水
+                    $property_buyset_repeats = $property_uback_back; //获取用户的财产信息
+                    $property_repeats['userid'] = session('user')['id'];
+                    $property_repeats['username'] = session('user')['user_name'];
+                    $property_repeats['xnb']=2;  //买家扣除的是市场本位币
+                    $property_repeats['operatenumber'] = $pay_repeats; //操作数量（金额）
+                    $property_repeats['operatetype']='买单余额返回';
+                    $property_repeats['operaefront']=$property_buyset_repeats['repeats'];  //操作之前
+                    $property_repeats['operatebehind'] = round($property_repeats['operaefront']+$property_repeats['operatenumber'],6); //操作之后
+                    $property_repeats['time'] = time();
+                    $back=$property_d->PropertyAdd($property_repeats); //添加流水
+                    if ($back==false){
+                        $entrust_m->rollback();
+                        $this->error('挂单失败！L1');
+                        exit();
+                    }
+
+                    if ($pay_money!=0){
+                        $user_setinc=$userproperty_d->where(array('userid'=>$entrust_lock['userid']))->setInc($standardmoney_name,$pay_money);
+                        if ($user_setinc==false){
+                            $entrust_m->rollback();
+                            $this->error('撤销失败！2');
+                        }
+
+                        //返回买家金额的流水
+                        $property_uback['userid']=session('user')['id'];
+                        $property_uback['username']=session('user')['user_name'];
+                        $property_uback['xnb']=$standardmoney_id;  //买家收入的是认购币
+                        $property_uback['operatenumber']=$pay_money; //操作数量（金额）
+                        $property_uback['operatetype']='买单余额返回';
+                        $property_uback['operaefront']=$property_uback_back[$standardmoney_name];  //操作之前
+                        $property_uback['operatebehind']=$property_buy['operaefront']+$property_buy['operatenumber']; //操作之后
+                        $property_uback['time']=$buy_trde['addtime'];
+                        $back=$property_d->PropertyAdd($property_uback); //添加流水
+                        if ($back==false){
+                            $entrustwater_m->rollback();
+                            $this->error('挂单失败！L3');
+                            exit();
+                        }
+
+
+                    }
+
+
+                }
+
+            }else{
+
+                $property_uback=$userproperty_d->where(array(   //返回金额
+                    'uerid'=>session('user')['id']
+                ))->setInc($standardmoney_name,$buy_trde['allmoney']);
+
+
+                if ($property_uback==false){
+                    $entrustwater_m->rollback();
+                    $this->error('挂单失败！s');
+                }
+
+                //返回买家金额的流水
+
+                $property_uback['userid']=session('user')['id'];
+                $property_uback['username']=session('user')['user_name'];
+                $property_uback['xnb']=$standardmoney_id;
+                $property_uback['operatenumber']=$buy_trde['allmoney']; //操作数量（金额）
+                $property_uback['operatetype']='买单余额返回';
+                $property_uback['operaefront']=$property_uback_back[$standardmoney_name];  //操作之前
+                $property_uback['operatebehind']=$property_buy['operaefront']+$property_buy['operatenumber']; //操作之后
+                $property_uback['time']=$buy_trde['addtime'];
+                $back=$property_d->PropertyAdd($property_uback); //添加流水
+                if ($back==false){
+                    $entrustwater_m->rollback();
+                    $this->error('挂单失败！L3');
+                    exit();
+                }
             }
         }
 
