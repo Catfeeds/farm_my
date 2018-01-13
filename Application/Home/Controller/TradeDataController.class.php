@@ -9,6 +9,8 @@
 
 namespace Home\Controller;
 use Think\Controller;
+use Home\Model\TransactionrecordsModel;
+use Home\Model\EntrustModel;
 //交易模块 购买
 class TradeDataController extends HomeController{
 
@@ -96,7 +98,7 @@ class TradeDataController extends HomeController{
 
 		$this->ajaxReturn($xnb_data);
 	}
-	function getXnb(){
+	public function getXnb(){
 		$xnb_m=M('xnb');
 		$markethouse_m=M('markethouse');
 		$transactionrecords=M('transactionrecords');
@@ -185,8 +187,5 @@ class TradeDataController extends HomeController{
 
 		$this->ajaxReturn($xnb_data);
 	}
-	
-	
-	
-	
+
 }
