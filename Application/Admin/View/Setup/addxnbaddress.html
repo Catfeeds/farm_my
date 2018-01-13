@@ -8,9 +8,9 @@
 <block name="body">
     <div class="main-title">
         <empty name="data">
-            <h2>虚拟币配置>>添加虚拟币地址</h2>
+            <h2>产品配置>>添加产品地址</h2>
             <else/>
-            <h2>虚拟币配置>>修改虚拟币地址</h2>
+            <h2>产品配置>>修改产品地址</h2>
         </empty>
 
     </div>
@@ -19,9 +19,9 @@
             <input type="hidden" value="{$data.id}" name="id" id="id">
         </notempty>
         <div class="form-item">
-            <label class="item-label">选择虚拟币</label>
-            <select name="xnbid" id="xnbselect" placeholder="选择虚拟币" style="background-color: white;border: 1px solid #BBBBBB;width: 100px;height:30px">
-                <option value="0">选择虚拟币</option>
+            <label class="item-label">选择产品</label>
+            <select name="xnbid" id="xnbselect" placeholder="选择产品" style="background-color: white;border: 1px solid #BBBBBB;width: 100px;height:30px">
+                <option value="0">选择产品</option>
                 <volist name="xnblist" id="xnbdata">
                     <option class="option" value="{$xnbdata.id}" <eq name="data['xnbid']" value="$xnbdata['id']">selected</eq>>{$xnbdata.name}</option>
                 </volist>
