@@ -97,7 +97,7 @@ class UserpropertyModel extends Model{
      * @param $status 1减少/2增加
      * @return bool
      */
-	public function setIncMoney($xnb_id,$number,$userid,$type,$status = 1){
+	public function setChangeMoney($xnb_id,$number,$userid,$type,$status = 1){
 	    #获取xnb 简称
         $xnb_m   = new XnbModel();
 	    $xnb_data = $xnb_m->getstandar($xnb_id);
