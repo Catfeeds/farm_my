@@ -15,7 +15,7 @@
         <div class="second_title">
             <strong class="big_title">产品统计</strong>
             <input type="hidden" id="xnbid" value="{$xnbid}">
-            <select name="" id="xnb_select" placeholder="选择虚拟币" <notempty name="xnbname">value="{$xnbname.name}({$xnbname.brief})" </notempty> style="padding-left:10px;background-color: white;border: 1px solid #BBBBBB;width: 120px;height:32px;border-radius: 5px">
+            <select name="" id="xnb_select" placeholder="选择产品" <notempty name="xnbname">value="{$xnbname.name}({$xnbname.brief})" </notempty> style="padding-left:10px;background-color: white;border: 1px solid #BBBBBB;width: 120px;height:32px;border-radius: 5px">
                 <volist name="xnb" id="xnb">
                     <option value="{$xnb.id}" class="option">{$xnb.name}({$xnb.brief})</option>
                 </volist>
