@@ -120,7 +120,7 @@ class ContentController extends AdminController {
         $menus = M('texttype')    -> field(true) -> where('toptype in('. $fatheridstr. ')') -> select();
         $menus = D('Common/Tree') -> toFormatTree($menus,$title = 'title',$pk='id',$pid = 'toptype',$root = 0);
 
-        $xnb = M("xnb") -> field('id, name') -> select();
+        $xnb = M("xnb") -> field('id, name') -> where("id <> 1") -> select();
 
         $this -> assign('type',  $type);
         $this -> assign('xnb',   $xnb);
