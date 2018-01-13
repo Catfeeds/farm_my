@@ -21,7 +21,7 @@
                         </volist>
                     </select>&nbsp; &nbsp;
                     <input type="hidden" name="xnbid" id="search_hidden" value="{:I('xnbid')}">
-                    <select class="market" id="xnb_select" placeholder="币种" style="background-color: white;border: 1px solid #BBBBBB;width: 50px;height:32px">
+                    <select class="market" id="xnb_select" placeholder="产品" style="background-color: white;border: 1px solid #BBBBBB;width: 50px;height:32px">
                         <volist name="xnb_list" id="xnb_list">
                             <option class="option" value="{$xnb_list.id}">{$xnb_list.name}({$xnb_list.brief})</option>
                         </volist>
@@ -50,7 +50,7 @@
                 <th class="">买家</th>
                 <th class="">卖家</th>
                 <th class="">市场</th>
-                <th class="">虚拟币</th>
+                <th class="">产品</th>
                 <th class="">单价</th>
                 <th class="">数量</th>
                 <th class="">总额</th>

@@ -7,9 +7,9 @@
 <block name="body">
     <div class="main-title">
         <empty name="data">
-            <h2>虚拟币配置>>添加虚拟币</h2>
+            <h2>产品配置>>添加产品</h2>
             <else/>
-            <h2>虚拟币配置>>修改虚拟币</h2>
+            <h2>产品配置>>修改产品</h2>
         </empty>
 
     </div>
@@ -18,14 +18,14 @@
             <input type="hidden" value="{$data.id}" name="id">
         </notempty>
         <div class="form-item">
-            <label class="item-label">币种简称</label>
+            <label class="item-label">产品简称</label>
             <div class="controls">
                 <input type="text" class="text input-large" name="brief" value="{$data.brief}">
             </div>
         </div>
 
         <div class="form-item">
-            <label class="item-label">币种名称</label>
+            <label class="item-label">产品名称</label>
             <div class="controls">
                 <input  class="text input-large" name="name" value="{$data.name}">
             </div>
@@ -81,7 +81,7 @@
         </div>
 
         <div class="form-item">
-            <label class="item-label">货币总量</label>
+            <label class="item-label">产品总量</label>
             <div class="controls">
                 <input  class="text input-large" name="totalmoney" value="{$data.totalmoney}">
             </div>
@@ -102,14 +102,14 @@
         </div>
 
         <div class="form-item">
-            <label class="item-label">币种图标</label>
+            <label class="item-label">产品图标</label>
             <input type="file" name="imgurl" class="display">
             <input type="button" class="files"  value="请选择文件" style="margin-top: 15px">
             <a href="{$data.imgurl}" class="nonea"><img src="{$data.imgurl}" alt="" class="tb"></a>
         </div>
 
         <div class="form-item">
-            <label class="item-label">币种介绍</label>
+            <label class="item-label">产品介绍</label>
             <div class="controls">
                 <input type="text" class="text input-large" name="text" value="{$data.text}">
             </div>

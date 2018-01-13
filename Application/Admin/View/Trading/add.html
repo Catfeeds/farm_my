@@ -106,7 +106,7 @@
         <div class="form-item">
             <label class="item-label">本位币</label>
             <input type="hidden" name="standardmoney" value="" id="standardmoneyhidden">
-            <select id="standardmoney" placeholder="币种" style="background-color: white;border: 1px solid #EEEEEE;width: 100px;height:30px">
+            <select id="standardmoney" placeholder="类型" style="background-color: white;border: 1px solid #EEEEEE;width: 100px;height:30px">
                 <foreach name="xnb_all" item="vo">
                     <option class="option"  value ="{$vo.id}" <eq name="vo.id"  value="$data['standardmoney']">selected="selected"</eq>>{$vo.name}</option>
                 </foreach>
@@ -114,8 +114,8 @@
         </div>
 
         <div class="form-item">
-            <label class="item-label">所属虚拟币</label>
-            <select class="xnb_select"   name="xnb_parent" id="xnb" style="background-color: white;border: 1px solid #EEEEEE;width: 100px;height:30px" placeholder="所属虚拟币">
+            <label class="item-label">所属产品</label>
+            <select class="xnb_select"   name="xnb_parent" id="xnb" style="background-color: white;border: 1px solid #EEEEEE;width: 100px;height:30px" placeholder="所属产品">
                 <foreach name="xnb_all" item="vo">
                     <neq name="vo.id" value="1">
                      <option value ="{$vo.id}" class="option_xnb">{$vo.name}</option>

@@ -47,10 +47,10 @@
                 <!--<input type="hidden" name="label" value="{$text.label}" id="labelstr">-->
             <!--</div>-->
             <div class="form-item cf">
-                <label class="item-label">虚拟币</label>
+                <label class="item-label">产品</label>
                 <div class="controls">
                     <input type="hidden" name="xnb" value="$xnb['id']" id="xnbid">
-                    <select class="text input-large" placeholder="选择虚拟币" style="background-color: white" id="xnb_select">
+                    <select class="text input-large" placeholder="选择产品" style="background-color: white" id="xnb_select">
                         <option value="">--请选择--</option>
                         <volist name="xnb" id="xnb">
                             <option  class="option" value="{$xnb.id}" <eq name="text.xnbid" value="$xnb['id']">selected</eq> theader="{$xnb.header}" tfooter="{$xnb.footer}">{$xnb.name}</option>

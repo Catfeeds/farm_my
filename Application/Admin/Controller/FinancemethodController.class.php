@@ -97,7 +97,7 @@ class FinancemethodController extends AdminController {
 //        $orderfor=$this->strFilter(I('orderfor'));
 //        $xnb=$this->strFilter(I('xnb'));
         //所有虚拟币
-        $xnb_list = M("xnb") -> field("id, name, brief") -> select();
+        $xnb_list = M("xnb") -> field("id, name, brief") -> where("id <> 1") -> select();
         $name=$this->strFilter(I('name'));
         $search_xnb=$this->strFilter(I('xnbid')) ? $this -> strFilter(I('xnbid')) : "";
 
@@ -142,7 +142,7 @@ class FinancemethodController extends AdminController {
     }
 
     public function paging_data_out($Data,$type){
-        $xnb_list = M("xnb") -> field("id, name, brief") -> select();
+        $xnb_list = M("xnb") -> field("id, name, brief") -> where("id <> 1") -> select();
         $map=array();
         $name=$this->strFilter(I('name'));
         $search_xnb=$this->strFilter(I('xnbid')) ? $this -> strFilter(I('xnbid')) : "";

@@ -19,7 +19,7 @@ class MotionController extends AdminController {
 //       $brief=$this->strFilter(I('brief'));
 //       $map['brief'] = array('like',"%".$brief."%");
         //查出虚拟币
-       $xnb_list = M("xnb") -> field("id, name, brief") -> select();
+       $xnb_list = M("xnb") -> field("id, name, brief") -> where("id <> 1") -> select();
        //搜索
        $xnbid = $this -> strFilter(I('xnbid')) ? $this -> strFilter(I('xnbid')) : "";
        $name = $this -> strFilter(I('name')) ? $this -> strFilter(I('name')) : "";
