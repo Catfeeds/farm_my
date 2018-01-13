@@ -14,9 +14,8 @@ class ProcateController extends AdminController {
      */
     public function index($type=null,$key=null){
         $table=M('procate');
-        $map  = array('status' => array('eq', 1));
         $field = 'id,name,pid,status';
-        $list = $table->field($field)->where($map)->select();
+        $list = $table->field($field)->select();
         $list = list_to_tree($list, $pk = 'id', $pid = 'pid', $child = '_');
 
         $this->assign('tree', $list);
@@ -87,16 +86,18 @@ class ProcateController extends AdminController {
         if(!$res){
             $this->error($type->getError());
         }else{
-            $this->success($res>1?'新增成功':'更新成功', U('typelist'));
+            $this->success($res>1?'新增成功':'更新成功', U('index'));
         }
     }
-    public function edittype(){
+    public function edit(){
         $id=I('id',0);
-        $type=M('texttype')->where('id='.$id)->find();
-        $toptype=M('texttype')->where('id='.$type['toptype'])->find();
-        $menus = M('texttype')->field(true)->select();
-        $menus = D('Common/Tree')->toFormatTree($menus,$title = 'title',$pk='id',$pid = 'toptype',$root = 0);
-        $menus = array_merge(array(0=>array('id'=>0,'title_show'=>'顶级菜单')), $menus);
+        $type=M('procate')->where('id='.$id)->find();
+        $toptype=M('procate')->where('id='.$type['pid'])->find();
+        $menus = M('procate')->field(true)->select();
+        $menus = D('Common/Tree')->toFormatTree($menus,$title = 'name',$pk='id',$pid = 'pid',$root = 0);
+        $menus = array_merge(array(0=>array('id'=>0,'name'=>'顶级菜单')), $menus);
+        // echo "<pre>";
+        // print_r($toptype);
         $this->assign('Menus', $menus);
         $this->assign('toptype',$toptype);
         $this->assign('type',$type);
@@ -104,30 +105,28 @@ class ProcateController extends AdminController {
     }
     public function edit1(){
         $id=I('id',0);
-        $data['title'] = I('title');
-        $data['sort']=I('sort');
+        $data['name'] = I('name');
         if($id){
-            $res= M('texttype')->where('id='.$id)->save($data);
+            $res= M('procate')->where('id='.$id)->save($data);
             if($res){
                 $this->success('修改成功!') ;
-
             }
         }
     }
     public function deltype(){
         $id = I('id',0);
         if(isset($id)){
-            $type=M('texttype')->where('id='.$id)->find();
-            $info=M('texttype')->where('toptype='.$type['id'])->select();
+            $type=M('procate')->where('id='.$id)->find();
+            $info=M('procate')->where('pid='.$type['id'])->select();
             if($info){
                 $this->error('请先删除子分类!');
             }else{
-                $info=M('text')->where('(type='.$id. ') or (label = ",'. $id. '")')->select();
+                $info=M('product')->where('(type='.$id. ') or (label = ",'. $id. '")')->select();
                 if($info){
                     $this->error('该分类下有文章，请先该分类下的文章！');
                 }else{
 
-                    $res= M('texttype')->delete($id);
+                    $res= M('procate')->delete($id);
                     if($res){
                         $this->success('删除成功！');
                     }else{
@@ -147,7 +146,7 @@ class ProcateController extends AdminController {
             $this->error('请选择要操作的数据');
         }
         $map['id'] = array('in',$id);
-        $text=M('texttype');
+        $text=M('procate');
         $result=$text->where($map)->setField('status',$status);
         if($result!==false){
             $this->success('修改成功','',IS_AJAX);
