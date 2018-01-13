@@ -1,9 +1,9 @@
 <volist name="tree" id="list">
 	<dl class="cate-item">
 		<dt class="cf">
-			<form action="{:U('Content/edit1')}" method="post">
+			<form action="{:U('Procate/edit1')}" method="post">
 				<div class="btn-toolbar opt-btn cf">
-					<a title="编辑" href="{:U('edittype?id='.$list['id'])}">编辑</a>
+					<a title="编辑" href="{:U('edit?id='.$list['id'])}">编辑</a>
 					<a title="{$list.status|show_status_op}" href="{:U('changestatus?id='.$list['id'].'&status='.abs(1-$list['status']))}" class="ajax-get">{$list.status|show_status_op}</a>
 					<a title="删除" href="{:U('deltype?id='.$list['id'])}" class="confirm ajax-get">删除</a>
 					
