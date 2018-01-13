@@ -9,13 +9,13 @@
         <h2>推广奖励</h2>
         <form action="{:U('Motion/index')}" method="post">
             <div class="difference">
-                <select name="type" class="market" id=""  placeholder="币种" style="background-color: white;border: 1px solid #BBBBBB;width: 120px;height:32px">
+                <select name="type" class="market" id=""  placeholder="产品" style="background-color: white;border: 1px solid #BBBBBB;width: 120px;height:32px">
                     <option value="0">操作类型</option>
-                    <option value="1" <if condition="I('type') eq 1">selected</if>>买入虚拟币</option>
-                    <option value="2" <if condition="I('type') eq 2">selected</if>>卖出虚拟币</option>
+                    <option value="1" <if condition="I('type') eq 1">selected</if>>买入产品</option>
+                    <option value="2" <if condition="I('type') eq 2">selected</if>>卖出产品</option>
                 </select>&nbsp; &nbsp;
                 <input type="hidden" name="xnbid" value="{:I('xnbid')}" id="xnbid">
-                <select name="search_xnb" class="market" id="xnb_select"  placeholder="币种" style="background-color: white;border: 1px solid #BBBBBB;width: 120px;height:32px">
+                <select name="search_xnb" class="market" id="xnb_select"  placeholder="产品" style="background-color: white;border: 1px solid #BBBBBB;width: 120px;height:32px">
                     <volist name="xnb_list" id="xnb_list">
                         <option value="{$xnb_list.id}" class="option">{$xnb_list.name}({$xnb_list.brief})</option>
                     </volist>

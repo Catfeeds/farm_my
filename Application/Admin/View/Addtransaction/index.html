@@ -26,7 +26,7 @@
     </div>
     <form action="{:U('Addtransaction/join')}" method="post" class="form-horizontal">
         <div class="form-item">
-            <label class="item-label">选择币种</label>
+            <label class="item-label">选择产品</label>
             <select class="xnb" name="xnb">
                 <foreach name="xnb" item="vo">
                     <option value="{$vo.id}">{$vo.name}({$vo.brief})</option>

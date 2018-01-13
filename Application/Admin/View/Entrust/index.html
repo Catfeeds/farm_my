@@ -17,7 +17,7 @@
                         <option value="{$item['id']}"  <eq name="item.id" value="$mak">selected="selected"</eq> > {$item['name']}</option>
                     </foreach>
                 </select>&nbsp; &nbsp;
-                <select name="xnb" class="market" value="{:I('xnb')}" id="xnb_select" placeholder="币种" style="background-color: white;border: 1px solid #BBBBBB;width: 50px;height:32px">
+                <select name="xnb" class="market" value="{:I('xnb')}" id="xnb_select" placeholder="产品" style="background-color: white;border: 1px solid #BBBBBB;width: 50px;height:32px">
                     <volist name="xnb_list" id="xnb_list">
                         <option value="{$xnb_list.id}" <if condition="I('xnb') eq $xnb_list['name']"> selected </if>>{$xnb_list.name}</option>
                     </volist>
