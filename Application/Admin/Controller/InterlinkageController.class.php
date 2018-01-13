@@ -16,7 +16,7 @@ class InterlinkageController extends AdminController {
    }
     public function curr_statistics(){
          //所有币种
-         $xnb = M("xnb") -> field("id, name, brief") -> select();
+         $xnb = M("xnb") -> field("id, name, brief") -> where("id <> 1") -> select();
          $xnbid = I("id") ? I("id") : $xnb[0]['id'];
           if (I("id")) {
               $xnbname = M("xnb") -> field("name, brief") -> where("id = ". $xnbid) -> find();

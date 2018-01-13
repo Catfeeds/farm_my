@@ -384,7 +384,7 @@ class SetupController extends AdminController  {
          $data = M("xnbaddress") -> where(array("id" => $id)) -> find();
          $this -> assign("data", $data);
       }
-      $xnblist = M("xnb") -> field("id, name") -> select();
+      $xnblist = M("xnb") -> field("id, name") -> where("id <> 1") -> select();
       if (IS_POST) {
          $data['xnbid'] = $this -> strFilter(I("xnbid")) ? $this -> strFilter(I("xnbid")) : "";
          $data['downadd'] = base64_encode(I("downadd")) ? base64_encode(I("downadd")) : "";

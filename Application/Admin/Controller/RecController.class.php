@@ -58,7 +58,7 @@ class RecController extends AdminController{
     //成交查询
     public function records($Data){
         //查询虚拟币，交易市场
-        $xnb_list = M("xnb") -> field("id, name, brief") -> select();
+        $xnb_list = M("xnb") -> field("id, name, brief") -> where("id <> 1") -> select();
         $market_list = M("markethouse") -> field("id, name") -> select();
         $map_1['t.buyoderfor'] = array("neq", '');
 
@@ -285,7 +285,7 @@ class RecController extends AdminController{
             ->order('currency_xnbrollinwater.addtime DESC')
             ->limit($Page->firstRow.','.$Page->listRows)
             ->select(); // $Page->firstRow 起始条数 $Page->listRows 获取多少条
-        $xnb = M("xnb") -> field("id, name, brief") -> select();
+        $xnb = M("xnb") -> field("id, name, brief") -> where("id <> 1") -> select();
         $this -> assign("xnb_list", $xnb);
         $this->assign('data',$list);// 赋值数据集,委托的数据
         $this->assign('page',$show);// 赋值分页输出
@@ -336,7 +336,7 @@ class RecController extends AdminController{
             ->order('currency_xnbrolloutwater.addtime desc')
             ->limit($Page->firstRow.','.$Page->listRows)
             ->select(); // $Page->firstRow 起始条数 $Page->listRows 获取多少条
-        $xnb = M("xnb") -> field("id, name, brief") -> select();
+        $xnb = M("xnb") -> field("id, name, brief") -> where("id <> 1") -> select();
 
         $this -> assign("xnb_list", $xnb);
         $this->assign('data',$list);// 赋值数据集,委托的数据

@@ -19,7 +19,7 @@ class EntrustController extends AdminController {
         $markedata=$markethouse_m->field('id,name')->select();
         $transactionrecords_m=M('transactionrecords');
         $xnb = M('xnb');
-        $xnb_list = $xnb -> field("id, name") -> select();
+        $xnb_list = $xnb -> field("id, name") -> where("id <> 1") -> select();
 
         $market=$this->strFilter(I('market'))?$this->strFilter(I('market')):$markedata[0]['id'];
         $username=$this->strFilter(I('username'))?$this->strFilter(I('username')):"";
