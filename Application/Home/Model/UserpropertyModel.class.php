@@ -131,11 +131,11 @@ class UserpropertyModel extends Model{
         }
 
         #用户资产变动明细
-        $back = $this->poundage(
+        $back = $this->detail(
             ['id'=>$userid,'name'=>''],
             $xnb_id,
             $number,
-            $type,
+            $operatetype,
             $money_back[$xnb_data['brief']]
         );
 
