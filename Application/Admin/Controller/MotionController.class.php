@@ -8,6 +8,9 @@
 // +----------------------------------------------------------------------
 
 namespace Admin\Controller;
+use Admin\Model\RepeatCfgModel;
+use Think\Db;
+use Think\Exception;
 use User\Api\UserApi;
 use Think\Page;
 class MotionController extends AdminController {
@@ -89,33 +92,61 @@ class MotionController extends AdminController {
     }
 
     function repeat(){
-        $repeat_cfg_m =  M('repeat_cfg');
+
+        $repeat_cfg_m =  new RepeatCfgModel();
+
         if (IS_POST){
-            $id= I('id');
-            $data = I('repeat');
-            $data = $data ? $data/100 : 0;
-            $back = true;
-            if ($id){
-                    $back =  $repeat_cfg_m->save(['id'=>$id,'data'=>$data]);
-            }else{
-                    $back =  $repeat_cfg_m->add(['data'=>$data]);
-            }
 
-            if ($back){
-                $this->success('修改成功！');
-            }else{
-                $this->error('修改失败！');
-            }
 
+            $data = [
+                ['key'=>'repeat','data'=>I('repeat')/100],
+                ['key'=>'date_back','data'=>I('date_back')/100],
+            ];
+
+            $repeat_cfg_m->startTrans();
+
+            try{
+
+                $back = $repeat_cfg_m->where('1')->delete();
+
+                if (!$back){
+
+                    throw new Exception('保存失败！1');
+                }
+                $back = $repeat_cfg_m->addAll($data);
+                if (!$back){
+
+                    throw new Exception('保存失败！2');
+                }
+
+                $repeat_cfg_m->commit();
+
+                $this->success('保存成功！');
+
+
+
+            }catch (\Exception $e){
+
+                $repeat_cfg_m->callback();
+
+                $this->error($e->getMessage());
+
+            }
             exit();
         }
         
 
-        $data= $repeat_cfg_m->find();
-        $data = $data ? $data : '0.00';
+        $data= $repeat_cfg_m->select();
 
-        $this->assign('id',$data['id']);
-        $this->assign('data',$data['data']*100);
+        $back_data = [];
+
+        foreach ($data as $k=>$v){
+
+            $back_data[$v['key']] = $v['data'];
+
+        }
+
+        $this->assign('data',$back_data);
 
         $this->display();
     }
