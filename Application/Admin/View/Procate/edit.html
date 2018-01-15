@@ -35,8 +35,19 @@
                             状态<span class="check-tips">（是否允许发布内容）</span>
                         </label>
                         <div class="controls">
-                            <label class="inline radio"><input type="radio" name="status" value="0" <eq name='type.status' value='0'>checked</eq>>禁用</label>
+                            <label class="inline radio"><input type="radio" name="status" value="2" <eq name='type.status' value='2'>checked</eq>>禁用</label>
                             <label class="inline radio"><input type="radio" name="status" value="1" <eq name='type.status' value='1'>checked</eq>>正常</label>
+                            
+                        </div>
+                    </div>
+                    <div class="form-item">
+                        <label class="item-label">
+                            类型<span class="check-tips">（所属商城）</span>
+                        </label>
+                        <div class="controls">
+                            <label class="inline radio"><input type="radio" name="type" value="1" <eq name='type.type' value='1'>checked</eq>>红包商城</label>
+                            <label class="inline radio"><input type="radio" name="type" value="2" <eq name='type.type' value='2'>checked</eq>>报单商城</label>
+                            <label class="inline radio"><input type="radio" name="type" value="3" <eq name='type.type' value='3'>checked</eq>>重消商城</label>
                             
                         </div>
                     </div>

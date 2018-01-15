@@ -1,0 +1,128 @@
+<extend name="Public/base"/>
+<block name="style">
+    <link rel="stylesheet" type="text/css" href="__CSS__/jquery.editable-select.min.css" media="all">
+    <link rel="stylesheet" type="text/css" href="__CSS__/editad.css" media="all">
+</block>
+<block name="body">
+	<!-- 标题 -->
+	<div class="main-title">
+		<h2>添加产品</h2>
+	</div>
+    <div class="tab-wrap">
+	    <form id="form" action="{:U('update')}" method="post" class="form-horizontal" enctype="multipart/form-data">
+            <div class="form-item cf">
+                <label class="item-label">产品名称</label>
+                <div class="controls">
+                    <input type="text" class="text input-large" style="width: 420px;height: 35px" name="name" value="{$text.name}">
+                    <input type="hidden" name="id" value="{$text.id}">
+                </div>
+            </div>
+            <div class="form-item cf">
+                <label class="item-label">产品价格</label>
+                <div class="controls">
+                    <input type="text" class="text input-large" style="width: 420px;height: 35px" name="price" value="{$text.price}">
+                    <input type="hidden" name="id" value="{$text.id}">
+                </div>
+            </div>
+            <div class="form-item cf">
+                <label class="item-label">产品数量</label>
+                <div class="controls">
+                    <input type="text" class="text input-large" style="width: 420px;height: 35px" name="number" value="{$text.number}">
+                    <input type="hidden" name="id" value="{$text.id}">
+                </div>
+            </div>
+            <div class="form-item cf">
+                <label class="item-label">产品类型</label>
+                <div class="controls">
+                   <select name="cat_id" class="type input-large" style="width: 420px;height: 35px">
+                        <volist name="Menus" id="menu">
+                            <option value="{$menu.id}" <eq name="text.cat_id" value="$menu['id']">selected</eq>>{$menu.title_show}</option>
+                        </volist>
+                   </select>
+                </div>
+            </div>
+            <div class="form-item cf">
+                <label class="item-label">产品图片</label>
+                <div class="controls">
+                    <input type="file" name="imgurl" class="display">
+                    <input type="button" class="files"  value="请选择文件">
+                    <div class="upload-img-box">
+                        <img src="{$text.img}" width="250" height="180">
+                    </div>
+                </div>
+            </div>
+            <div class="form-item cf">
+                <label class="item-label">产品描述</label>
+                <label class="textarea">
+                        <textarea name="description">{$text.description}</textarea>
+                        {:hook('adminArticleEdit', array('name'=>'description','value'=>'$text["description"]'))}
+                </label>
+            </div>
+            <div class="form-item cf">
+                <label class="item-label">状态</label>
+                <div class="controls">
+                    <label class="inline radio"><input type="radio" name="status" value="1" checked <eq name="text.status" value="1">checked</eq>>正常</label>&nbsp;&nbsp;&nbsp;
+                    <label class="inline radio"><input type="radio" name="status" value="2" <eq name="text.status" value="2">checked</eq>>禁用</label>
+                </div>
+            </div>
+            <div class="form-item">
+                <label class="item-label">
+                    排序
+                </label>
+                <div class="controls">
+                   <input type="text" name="sort" value="{$text.sort}">
+                </div>
+            </div>
+            <div class="form-item">
+                <input type="submit" value="确定"  class="btn submit-btn " id="submit">
+                <button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+            </div>
+       </form>
+	</div>
+</div>
+
+</block>
+<block name="script">
+    <script type="text/javascript" src="__JS__/jquery.editable-select.min.js"></script>
+<script type="text/javascript">
+$(function(){
+    highlight_subnav("{:U('add')}");
+
+
+    //选择图片预览
+    $('.files').click(function () {
+        $('[type=file]').trigger('click');
+    })
+
+    $("input[type='file']").change(function () {
+
+        var  fr= new FileReader()
+        fr.onload=function () {
+            $('.upload-img-box img').attr("src",fr.result)
+        }
+        fr.readAsDataURL(this.files[0])
+    })
+});
+
+
+$('#submit').click(function(){
+    var formData= new FormData($('form').get(0));
+
+    $.ajax({
+        url:"{:U('update')}",
+        type:"post",
+        data:formData,
+        processData:false,
+        contentType:false,
+        dataType:"json",
+        success:function (data) {
+            if (data.status!=1){  //失败
+                set_poput_code(data.info,false)
+                return false;
+            }
+            set_poput_code(data.info,true)
+        }
+    })
+});
+</script>
+</block>
