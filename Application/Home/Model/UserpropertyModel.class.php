@@ -93,11 +93,11 @@ class UserpropertyModel extends Model{
      * @param $xnb_id 操作的xnb
      * @param $number 操作的数量
      * @param $userid 用户id
-     * @param $type   操作类型
+     * @param $operatetype   操作类型(资产流水的类型)
      * @param $status 1减少/2增加
      * @return bool
      */
-	public function setChangeMoney($xnb_id,$number,$userid,$type,$status = 1){
+	public function setChangeMoney($xnb_id,$number,$userid,$operatetype,$status = 1){
 	    #获取xnb 简称
         $xnb_m   = new XnbModel();
 	    $xnb_data = $xnb_m->getstandar($xnb_id);
