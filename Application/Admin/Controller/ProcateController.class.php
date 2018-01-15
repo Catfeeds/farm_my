@@ -74,6 +74,7 @@ class ProcateController extends AdminController {
         $data['pid']=(int) I('pid',0);
         $data['name']=I('name');
         $data['status']= (int) I('status',1);
+        $data['type']= (int) I('type',1);
 
         $type=M('procate');
         if(!isset($_POST['id'])){
