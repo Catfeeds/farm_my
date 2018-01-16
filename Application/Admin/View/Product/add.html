@@ -105,24 +105,24 @@ $(function(){
 });
 
 
-$('#submit').click(function(){
-    var formData= new FormData($('form').get(0));
+// $('#submit').click(function(){
+//     var formData= new FormData($('form').get(0));
 
-    $.ajax({
-        url:"{:U('update')}",
-        type:"post",
-        data:formData,
-        processData:false,
-        contentType:false,
-        dataType:"json",
-        success:function (data) {
-            if (data.status!=1){  //失败
-                set_poput_code(data.info,false)
-                return false;
-            }
-            set_poput_code(data.info,true)
-        }
-    })
-});
+//     $.ajax({
+//         url:"{:U('update')}",
+//         type:"post",
+//         data:formData,
+//         processData:false,
+//         contentType:false,
+//         dataType:"json",
+//         success:function (data) {
+//             if (data.status!=1){  //失败
+//                 set_poput_code(data.info,false)
+//                 return false;
+//             }
+//             set_poput_code(data.info,true)
+//         }
+//     })
+// });
 </script>
 </block>
