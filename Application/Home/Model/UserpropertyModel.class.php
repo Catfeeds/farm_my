@@ -139,10 +139,7 @@ class UserpropertyModel extends Model{
             $money_back[$xnb_data['brief']]
         );
 
-
         return $back;
-
-
 	}
 
     /**

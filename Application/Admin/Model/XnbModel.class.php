@@ -11,7 +11,7 @@ namespace Admin\Model;
 use Think\Model;
 //委托管理
 class XnbModel extends Model{
-	//买家数据匹配
+	//获取虚拟币信息
 	public function trade_xnb($add_data){
 		  $xnb_data= $this
 					  ->field('
@@ -40,6 +40,11 @@ class XnbModel extends Model{
 		))->find();
 		return $back;
 	}
+
+	public function getXnb_info($id,$info){
+	    $back = $this->where(['id'=>$id])->field('id,'.$info)->find();
+	    return $back[$info];
+    }
 
 
 }

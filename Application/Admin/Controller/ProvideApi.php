@@ -16,7 +16,9 @@ namespace Admin\Controller;
 use Admin\Model\Bonus;
 use Admin\Model\BonusAllModel;
 use Admin\Model\BonusModel;
+use Admin\Model\MemoryModel;
 use Admin\Model\RepeatCfgModel;
+use Admin\Model\XnbModel;
 use Home\Model\UserpropertyModel;
 use function Sodium\add;
 use Think\Exception;
@@ -44,6 +46,11 @@ class ProvideApi{
 
         $count = $bonus_m->getCount($where);
 
+        #没有数据的情况
+        if (!$count){
+            return false;
+        }
+
         $bonus_m->startTrans();
         try{
 
@@ -55,7 +62,7 @@ class ProvideApi{
 
             for ($i = 0; $i<$count/C('Count');$i++){
 
-                $data = $bonus_m->getDataPage($where);
+                $data = $bonus_m->getDataPage($where,$i);
 
                 foreach ($data as $k=>$v){
 
@@ -64,7 +71,7 @@ class ProvideApi{
 
                     #判断出局金额与应返金额的关系
 
-                    $money = $money >= $v['out'] ? $money : $v['out'];
+                    $money = $money+$v['provide'] <= $v['out'] ? $money : $v['out']-$v['provide'];
 
                     $all_money += $money;
 
@@ -78,12 +85,11 @@ class ProvideApi{
                         throw new Exception($userproperty->getError());
                     }
 
-                    #生成发放流水
+                    #生成发放流水，并且修改本次已发放金额
                     $back = $bonus_m->saveData($v['id'],$money);
                     if (!$back){
                         throw new Exception($userproperty->getError());
                     }
-
 
                 }
 
@@ -107,7 +113,47 @@ class ProvideApi{
 
             $bonus_m->rollback();
         }
-        
+
     }
+
+
+    #锁定资产的发放
+    public function ReleaseXnb(){
+
+        $memoryModel =   new MemoryModel();
+
+        $xnbModel = new XnbModel();
+
+        $where = ['time_end'=>['']];
+
+        $count = $memoryModel->getCount($where);
+
+        if (!$count){
+            return false;
+        }
+
+        #虚拟币返回配置
+        $back_cfg=[];
+
+        #xnb总返金额
+        $back_all= [];
+
+        for ($i = 0; $i<$count/C('Count');$i++){
+
+            $data = $memoryModel->getDataPage($where,$i);
+
+            foreach ($data as $k=>$v){
+
+                #应返金额
+                $money = $memoryModel->Release($v,$back_cfg,$xnbModel);
+                #改虚拟币的应返金额
+                $back_all[$v['xnb_id']] += $money;
+
+            }
+
+        }
+
+    }
+
 
 }

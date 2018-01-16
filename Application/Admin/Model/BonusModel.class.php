@@ -47,7 +47,7 @@ class BonusModel extends Model
 
 
     /**
-     * 发放功能
+     * 发放功能,生成发放记录，并且添加已发放金额
      * @param $id
      * @param $number
      */
