@@ -1,0 +1,79 @@
+<div class="header-top">
+	   <div class="wrap"> 
+			  <div class="header-top-left">
+			  	   <span>欢迎来到商城中心</span>
+   				    <div class="clear"></div>
+   			 </div>
+			 <div class="cssmenu">
+				<ul>
+					<li class="active"><a href="login.html">Account</a></li> |
+					<li><a href="checkout.html">Wishlist</a></li> |
+					<li><a href="checkout.html">Checkout</a></li> |
+					<li><a href="login.html">Log In</a></li> |
+					<li><a href="register.html">Sign Up</a></li>
+				</ul>
+			</div>
+			<div class="clear"></div>
+ 		</div>
+	</div>
+	<div class="header-bottom">
+	    <div class="wrap">
+			<div class="header-bottom-left">
+				<div class="logo">
+					<a href="index.html"><img src="__IMG__/shop/logo.png" alt=""/></a>
+				</div>
+				<div class="menu">
+	            <ul class="megamenu skyblue">
+					<li class="active grid"><a href="{:U('index')}">商城首页</a></li>
+					<volist name="cate" id="data">
+						<li><a class="color4" href="{:U('lists', ['cat_id'=>$data['id']])}">{$data.name}</a>
+							<notempty name="data.child">
+								<div class="megapanel">
+									<div class="row">
+										<div class="col1">
+											<div class="h_nav">
+												<h4>分类</h4>
+												<ul>	
+													<volist name="data.child" id="val">
+														<li><a href="{:U('lists', ['cat_id'=>$val['id']])}">{$val.name}</a></li>
+													</volist>
+												</ul>	
+											</div>							
+										</div>
+									</div>
+								</div>
+							</notempty>
+						</li>				
+					</volist>
+				</ul>
+			</div>
+		</div>
+	   <div class="header-bottom-right">
+         <div class="search">	  
+				<input type="text" name="s" class="textbox" value="Search" onFocus="this.value = '';" onBlur="if (this.value == '') {this.value = 'Search';}">
+				<input type="submit" value="Subscribe" id="submit" name="submit">
+				<div id="response"> </div>
+		 </div>
+	  <div class="tag-list">
+	    <ul class="icon1 sub-icon1 profile_img">
+			<li><a class="active-icon c1" href="#"> </a>
+				<ul class="sub-icon1 list">
+					<li><h3>sed diam nonummy</h3><a href=""></a></li>
+					<li><p>Lorem ipsum dolor sit amet, consectetuer  <a href="">adipiscing elit, sed diam</a></p></li>
+				</ul>
+			</li>
+		</ul>
+		<ul class="icon1 sub-icon1 profile_img">
+			<li><a class="active-icon c2" href="#"> </a>
+				<ul class="sub-icon1 list">
+					<li><h3>No Products</h3><a href=""></a></li>
+					<li><p>Lorem ipsum dolor sit amet, consectetuer  <a href="">adipiscing elit, sed diam</a></p></li>
+				</ul>
+			</li>
+		</ul>
+	    <ul class="last"><li><a href="#">Cart(0)</a></li></ul>
+	  </div>
+    </div>
+     <div class="clear"></div>
+     </div>
+	</div>

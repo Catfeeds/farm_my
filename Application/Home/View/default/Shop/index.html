@@ -1,0 +1,123 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>商城中心</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="__CSS__/shop/style.css" rel="stylesheet" type="text/css" media="all" />
+<link href="__CSS__/shop/form.css" rel="stylesheet" type="text/css" media="all" />
+<link href='http://fonts.googleapis.com/css?family=Exo+2' rel='stylesheet' type='text/css'>
+<script type="text/javascript" src="__JS__/shop/jquery1.min.js"></script>
+<!-- start menu -->
+<link href="__CSS__/shop/megamenu.css" rel="stylesheet" type="text/css" media="all" />
+<script type="text/javascript" src="__JS__/shop/megamenu.js"></script>
+<script>$(document).ready(function(){$(".megamenu").megamenu();});</script>
+<!--start slider -->
+    <link rel="stylesheet" href="__CSS__/shop/fwslider.css" media="all">
+    <script src="__JS__/shop/jquery-ui.min.js"></script>
+    <script src="__JS__/shop/css3-mediaqueries.js"></script>
+    <script src="__JS__/shop/fwslider.js"></script>
+<!--end slider -->
+<script src="__JS__/shop/jquery.easydropdown.js"></script>
+</head>
+<body>
+     <include file="Public:shop_header"/>
+  <!-- start slider -->
+    <div id="fwslider">
+        <div class="slider_container">
+            <volist name="ads" id="data">
+            	<eq name="data.type" value="1">
+		            <div class="slide">
+		                <img src="__ROOT__/{$data['img']}" alt=""/>
+		                <div class="slide_content">
+		                    <div class="slide_content_wrap">
+		                        <h4 class="title">{$data.name} </h4>
+		                        <p class="description">{$data.desc}</p>
+		                    </div>
+		                </div>
+		            </div>
+	        	</eq>
+	        </volist>
+        </div>
+        <div class="timers"></div>
+        <div class="slidePrev"><span></span></div>
+        <div class="slideNext"><span></span></div>
+    </div>
+    <!--/slider -->
+<div class="main">
+	<div class="wrap">
+		<div class="section group">
+		  	<div class="cont span_2_of_3">
+		  		<h2 class="head">产品列表</h2>
+
+		  		<volist name="list" id="data">
+					<div class="top-box">
+
+						<volist name="data" id="val">
+						 	<div class="col_1_of_3 span_1_of_3"> 
+						   		<a href="{:U('single', ['id'=>$val['id']])}">
+									<div class="inner_content clearfix">
+										<div class="product_image">
+											<img style="width: 300px;height: 273px;" src="__ROOT__/{$val['img']}" alt=""/>
+										</div>
+			                    		<div class="price">
+								   			<div class="cart-left">
+												<p class="title">{$val.name}</p>
+												<div class="price1">
+									  				<span class="actual">{$val.price}</span>
+												</div>
+											</div>
+											<div class="cart-right"> </div>
+											<div class="clear"></div>
+								 		</div>				
+			                   		</div>
+			                 	</a>
+							</div>
+						</volist>
+
+						<div class="clear"></div>
+					</div>	 
+				</volist>
+
+		  	</div>
+			<div class="rsidebar span_1_of_left">
+				<div class="top-border"> </div>
+				 <div class="border">
+	             <link href="__CSS__/shop/default.css" rel="stylesheet" type="text/css" media="all" />
+	             <link href="__CSS__/shop/nivo-slider.css" rel="stylesheet" type="text/css" media="all" />
+				  <script src="__JS__/shop/jquery.nivo.slider.js"></script>
+				    <script type="text/javascript">
+				    $(window).load(function() {
+				        $('#slider').nivoSlider();
+				    });
+				    </script>
+			    <div class="slider-wrapper theme-default">
+	              	<div id="slider" class="nivoSlider">
+	              	    <volist name="ads" id="data">
+	            			<eq name="data.type" value="2">
+	                			<img src="__ROOT__/{$data['img']}"  alt="" />
+	                		</eq>
+	                	</volist>
+	              	</div>
+	            </div>
+             </div>
+           <div class="top-border"> </div>
+			<div class="sidebar-bottom">
+			    <h2 class="m_1">Newsletters<br> Signup</h2>
+			    <p class="m_text">Lorem ipsum dolor sit amet, consectetuer</p>
+			    <div class="subscribe">
+					 <form>
+					    <input name="userName" type="text" class="textbox">
+					    <input type="submit" value="Subscribe">
+					 </form>
+	  			</div>
+			</div>
+	    </div>
+	   <div class="clear"></div>
+	</div>
+	</div>
+	</div>
+   <include file="Public:shop_footer"/>
+<div style="display:none"></div>
+</body>
+</html>
