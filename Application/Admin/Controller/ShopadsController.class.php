@@ -13,11 +13,11 @@ use Think\Page;
  * 后台产品控制器
  * @author huajie <banhuajie@163.com>
  */
-class ProductController extends AdminController {
+class ShopadsController extends AdminController {
     public function index() {
-        $adlist=$this->lists('product',null,'time desc');
+        $adlist=$this->lists('shop_ads',null,'time desc');
         int_to_string($adlist);
-        $this->assign('list', $adlist);
+        $this->assign('adlist', $adlist);
         $this->meta_title = '产品列表';
 
         $this -> display();
@@ -26,20 +26,10 @@ class ProductController extends AdminController {
     public function add() {
         $id=I('id');
         if ($id) {
-            $ad=M('product')->where('id='.$id)->find();
+            $ad=M('shop_ads')->where('id='.$id)->find();
             $this->assign('text',$ad);
             $this->meta_title = '产品详情';
         }
-
-        $fatherid      = M('procate')->field('id')->where('pid = 0')->select();
-        $fatheridstr   = "0,";
-        foreach ($fatherid as $item => $value) {
-            $fatheridstr .= $value['id'].",";
-        }
-        $fatheridstr = substr($fatheridstr,0,strlen($fatheridstr)-1);
-
-        $menus = M('procate')    -> field("id, name, pid") -> where('pid in('. $fatheridstr. ')') -> select();
-        $menus = D('Common/Tree') -> toFormatTree($menus,$title = 'name',$pk='id',$pid = 'pid',$root = 0);
 
         $this -> assign('Menus', $menus);
         $this -> display();
@@ -49,13 +39,12 @@ class ProductController extends AdminController {
 
         $data['id']             = I('id');
         $data['name']           = I('name');
-        $data['price']          = I('price');
-        $data['number']         = I('number');
-        $data['cat_id']         = I('cat_id');
-        $data['description']    = I('description');
-        $data['status']         = I('status');
+        $data['url']            = I('url');
+        $data['desc']           = I('desc');
+        $data['status']         = I('status', 1);
         $data['sort']           = I('sort', 0);
         $data['time']           = time();
+        $data['type']           = I('type', 1);
 
         //处理图片
         if($_FILES['imgurl']['name'] != ""){
@@ -67,12 +56,12 @@ class ProductController extends AdminController {
             }
         }
 
-        $ad=M('product');
+        $ad=M('shop_ads');
         if(empty($data['id'])){
             $res= $ad->add($data);
         }else{
             if (isset($data['img']) && $data['img'] != "") {
-                $info = M('product')->field("img")->where('id = '.$data['id'])->find();
+                $info = M('shop_ads')->field("img")->where('id = '.$data['id'])->find();
                 if (is_file($info['img'])) {
                     unlink($info['img']);
                 }
@@ -80,7 +69,7 @@ class ProductController extends AdminController {
             $res= $ad->save($data);
         }
         if(!$res){
-            $this->error(D('product')->getError());
+            $this->error(D('shop_ads')->getError());
         }else{
             $this->success($res>1?'新增成功':'更新成功', U('index'));
         }
@@ -93,10 +82,10 @@ class ProductController extends AdminController {
             $this->error('请选择要操作的数据!');
         }
         $map = array('id' => array('in', $ids) );
-        $imgs=M('product')->where($map)->field('img')->select();
+        $imgs=M('shop_ads')->where($map)->field('img')->select();
 
         $msg   = array_merge( array( 'success'=>'删除成功！', 'error'=>'删除失败！', 'url'=>'' ,'ajax'=>IS_AJAX) , (array)$msg );
-        if( M('product')->where($map)->delete()!==false ) {
+        if( M('shop_ads')->where($map)->delete()!==false ) {
             foreach ($imgs as $value) {
                 if (isset($value['img']) && is_file($value['img'])) {
                     unlink($value['img']);
@@ -116,7 +105,7 @@ class ProductController extends AdminController {
         if(empty($data['id'])){
             $this->error('参数错误!');
         }
-        $res=M('product')->save($data);
+        $res=M('shop_ads')->save($data);
         if($res!==false){
             $this->success('修改成功!');
         }
