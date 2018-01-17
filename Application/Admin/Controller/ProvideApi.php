@@ -16,6 +16,11 @@ namespace Admin\Controller;
 use Admin\Model\Bonus;
 use Admin\Model\BonusAllModel;
 use Admin\Model\BonusModel;
+use Admin\Model\IntegralAllModel;
+use Admin\Model\IntegralListMode;
+use Admin\Model\IntegralModel;
+use Admin\Model\MemoryAllModel;
+use Admin\Model\MemoryListModel;
 use Admin\Model\MemoryModel;
 use Admin\Model\RepeatCfgModel;
 use Admin\Model\XnbModel;
@@ -23,14 +28,15 @@ use Home\Model\UserpropertyModel;
 use function Sodium\add;
 use Think\Exception;
 
-const TOKEN = 'nsjkfhsdjkhfu';
-
-const COUNT = 1000;
-
 class ProvideApi{
 
+    const TOKEN = 'nsjkfhsdjkhfu';
+
+    const COUNT = 1000;
+
+
     #红包的发放
-    public function bonus(){
+    public function  bonus(){
 
         $bonus_m  =  new BonusModel();
 
@@ -38,6 +44,10 @@ class ProvideApi{
 
         #日返率
         $date_back = $repeatCfgModel->getCfg('date_back');
+
+        #红包的重销配置
+        $repeat_paper = $repeatCfgModel->getCfg('repeat_paper');
+
 
         #本次总发放数
         $all_money = 0;
@@ -73,20 +83,32 @@ class ProvideApi{
 
                     $money = $money+$v['provide'] <= $v['out'] ? $money : $v['out']-$v['provide'];
 
+                    #红包的重销金额
+                    $repeat_money = $money*$repeat_paper;
+
+                    #发放的cny
+                    $money = $money - $repeat_money;
+
                     $all_money += $money;
 
                     #返回用户金额
                     $userproperty = new UserpropertyModel();  //home 模块的 Userproperty
 
-                    #发放用户金额
+                    #发放用户cny
                     $back = $userproperty->setChangeMoney(1,$money,$v['user_id'],'红包分红',2);
 
                     if (!$back){
                         throw new Exception($userproperty->getError());
                     }
 
+                    #发放用户重销
+                    $back = $userproperty->setChangeMoney(3,$money,$v['user_id'],'红包分红',2);
+                    if (!$back){
+                        throw new Exception($userproperty->getError());
+                    }
+
                     #生成发放流水，并且修改本次已发放金额
-                    $back = $bonus_m->saveData($v['id'],$money);
+                    $back = $bonus_m->saveData($v['id'],$money+$repeat_money);
                     if (!$back){
                         throw new Exception($userproperty->getError());
                     }
@@ -118,19 +140,27 @@ class ProvideApi{
 
 
     #锁定资产的发放
-    public function ReleaseXnb(){
+    public function  ReleaseXnb(){
 
         $memoryModel =   new MemoryModel();
 
-        $xnbModel = new XnbModel();
-
-        $where = ['time_end'=>['']];
+        $where = ['time_end'=>['EGT',time()],'balance'=>['GT',0]];
 
         $count = $memoryModel->getCount($where);
 
         if (!$count){
             return false;
         }
+
+        $xnbModel = new XnbModel();
+
+        $userpropertyModel = new UserpropertyModel();
+
+        $memoryListModel = new MemoryListModel();
+
+        $memoryAllModel = new MemoryAllModel();
+
+        $NullBonusAll = $memoryAllModel->addNullBonusAll();
 
         #虚拟币返回配置
         $back_cfg=[];
@@ -145,13 +175,65 @@ class ProvideApi{
             foreach ($data as $k=>$v){
 
                 #应返金额
-                $money = $memoryModel->Release($v,$back_cfg,$xnbModel);
+                $money = $memoryModel->Release($v,$back_cfg,$xnbModel,$userpropertyModel,$memoryListModel,$NullBonusAll->getId());
                 #改虚拟币的应返金额
                 $back_all[$v['xnb_id']] += $money;
 
             }
 
         }
+        #修改发放总数
+        $NullBonusAll->saveNullBonusAll($back_all);
+
+    }
+
+    #积分的发放
+
+    public function  integral(){
+
+        $integralModel = new IntegralModel();
+
+        $where = [''];
+
+        $count = $integralModel->getCount($where);
+
+        if (!$count){
+            return false;
+        }
+
+        $number_all = 0;
+
+        $repeats_all = 0;
+
+        $repeatCfgModel = new RepeatCfgModel();
+
+        $integralListMode = new IntegralListMode();
+
+        $integralAllModel = new IntegralAllModel();
+
+        $NullBonusAll= $integralAllModel->addNullBonusAll();
+
+        $integral_cfg = $repeatCfgModel->getCfg('integral');
+
+
+        for ($i = 0; $i<$count/C('Count');$i++){
+
+            $data = $integralModel->getDataPage($where,$i);
+
+
+            foreach ($data as $k=>$v){
+
+                #应返的金额
+                $number_all += $number = $v['number'] *(1+$integral_cfg);
+                #应返的重销
+                $repeats_all+= $repeats = $v['repeats'] *(1+$integral_cfg);
+
+                $integralModel->Release($v['id'],$number,$repeats,$NullBonusAll->getId(),$integralListMode);
+            }
+
+        }
+
+        $NullBonusAll->saveNullBonusAll($number_all,$repeats_all);
 
     }
 

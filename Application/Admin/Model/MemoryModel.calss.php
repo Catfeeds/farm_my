@@ -42,7 +42,7 @@ class MemoryModel extends Model
 
         $end   = $page*C('COUNT')+$number_this;
 
-        return $this->where($where)->field('currency_memory.*,currency_xnb.brief')->join('left join currency_xnb on currency_memory.xnb_id = currency_xnb.id')->limit($start,$end)->select();
+        return $this->where($where)->limit($start,$end)->select();
 
     }
 
@@ -54,7 +54,7 @@ class MemoryModel extends Model
      *        ------ xnb_id 虚拟币id
      */
 
-    public function Release (array $list,array &$back_cfg,XnbModel $xnbModel,UserpropertyModel $userpropertyModel){
+    public function Release (array $list,array &$back_cfg,XnbModel $xnbModel,UserpropertyModel $userpropertyModel,MemoryListModel $memoryListModel,$all_id){
 
         #获取该虚拟币日返率
         $back_cfg[$list['brief']] = $back_cfg[$list['brief']] ? $back_cfg[$list['brief']] :$xnbModel->getXnb_info($list['xnb_id'],'memory_back');
@@ -76,6 +76,13 @@ class MemoryModel extends Model
 
         $back =  $this->where(['id'=>$list['id']])->setDec(['balance',$money]);
 
+        if (!$back) {
+            $this->error = '扣除余额失败！';
+            return false;
+        }
+
+        #生成发放记录
+        $back = $memoryListModel->addData($all_id,$money,$list['id']);
         if (!$back) {
             $this->error = '扣除余额失败！';
             return false;

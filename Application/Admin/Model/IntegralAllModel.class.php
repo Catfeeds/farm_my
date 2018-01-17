@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: Administrator
- * Date: 2018/1/15 0015
- * Time: 上午 11:47
+ * Date: 2018/1/17 0017
+ * Time: 下午 3:53
  */
 
 namespace Admin\Model;
@@ -11,7 +11,7 @@ namespace Admin\Model;
 
 use Think\Model;
 
-class MemoryAllModel extends Model
+class IntegralAllModel extends Model
 {
 
     protected $id;
@@ -22,7 +22,6 @@ class MemoryAllModel extends Model
 
     public function addNullBonusAll(){
         $back = $this->add([
-            'data'=>0,
             'time'=>time()
         ]);
 
@@ -35,9 +34,9 @@ class MemoryAllModel extends Model
     }
 
 
-    public function saveNullBonusAll($data){
+    public function saveNullBonusAll($number,$repeats){
 
-        return $this->where(['id'=>$this->id])->save(['data'=>json_encode($data)]);
+        return $this->where(['id'=>$this->id])->save(['number'=>$number,'repeats'=>$repeats]);
 
     }
 

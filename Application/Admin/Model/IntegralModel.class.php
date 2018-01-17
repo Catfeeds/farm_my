@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: Administrator
- * Date: 2018/1/13 0013
- * Time: 下午 5:36
+ * Date: 2018/1/17 0017
+ * Time: 下午 3:53
  */
 
 namespace Admin\Model;
@@ -11,7 +11,7 @@ namespace Admin\Model;
 
 use Think\Model;
 
-class BonusModel extends Model
+class IntegralModel extends Model
 {
     /**
      * 获取总条数
@@ -20,10 +20,9 @@ class BonusModel extends Model
      */
     public function getCount($where){
 
-       return $this->where($where)->count();
+        return $this->where($where)->count();
 
     }
-
 
     /**
      * 分页获取数据
@@ -46,26 +45,20 @@ class BonusModel extends Model
     }
 
 
-    /**
-     * 发放功能,生成发放记录，并且添加已发放金额
-     * @param $id 购买期数id
-     * @param $number 本次发放的数量
-     */
-    public function saveData($id,$number){
+    public function Release($id,$number,$repeats,$all_id,IntegralListMode $ntegralListMode){
 
-        $back = $this->where(['id'=>$id])->setInc('provide',$number);
+        #发放金额
+        $back = $this->where(['id'=>$id])->save(['number'=>$number,'repeats'=>$repeats]);
+
         if (!$back){
+            $this->error='发放失败';
             return false;
         }
 
-        $bonusListModel = new BonusListModel();
-
-        return $bonusListModel->addList($id,$number,$id);
+        #发放记录
+        return $ntegralListMode->addData($id,$all_id,$number,$repeats);
 
     }
-
-
-
 
 
 }

@@ -34,7 +34,7 @@
 
         <div>
             <div>
-               商品重消:<input type="text" name="repeat" value="{:$data['repeat']*100}" style="text-align: center;height: 30px;border-radius: 3px;border: 1px;">%
+               商品重消率: <input type="text" name="repeat" value="{:$data['repeat']*100}" style="text-align: center;height: 30px;border-radius: 3px;border: 1px;">%
             </div>
             <br/>
 
@@ -42,17 +42,36 @@
 
         <div>
             <div>
-                红包日返:<input type="text" name="date_back" value="{:($data['date_back'] ? $data['date_back']*100 : 0)}" style="text-align: center;height: 30px;border-radius: 3px;border: 1px;">%
+                红包日返率: <input type="text" name="date_back" value="{:($data['date_back'] ? $data['date_back']*100 : 0)}" style="text-align: center;height: 30px;border-radius: 3px;border: 1px;">%
             </div>
 
             <br/>
 
-            <div>
-                <input value="{$id}" name="id" type="hidden">
-                <button class="btn send" type="button">确定</button>
-            </div>
         </div>
 
+        <div>
+            <div>
+                红包重销率: <input type="text" name="repeat_paper" value="{:($data['repeat_paper'] ? $data['repeat_paper']*100 : 0)}" style="text-align: center;height: 30px;border-radius: 3px;border: 1px;">%
+            </div>
+
+            <br/>
+
+        </div>
+
+        <div>
+            <div>
+                积分日返率: <input type="text" name="integral" value="{:($data['integral'] ? $data['integral']*100 : 0)}" style="text-align: center;height: 30px;border-radius: 3px;border: 1px;">%
+            </div>
+
+            <br/>
+
+        </div>
+
+
+        <div>
+            <input value="{$id}" name="id" type="hidden">
+            <button class="btn send" type="button">确定</button>
+        </div>
 
 
     </form>

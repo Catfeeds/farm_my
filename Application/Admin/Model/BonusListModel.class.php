@@ -14,11 +14,12 @@ use Think\Model;
 class BonusListModel extends Model
 {
 
-    public function addList($all_id,$number){
+    public function addList($all_id,$number,$bonus_id){
 
         return $this->add([
                     'all_id'=>$all_id,
                     'number'=>$number,
+                    'bonus_id'=>$bonus_id,
                     'time'=>time()
                 ]);
     }

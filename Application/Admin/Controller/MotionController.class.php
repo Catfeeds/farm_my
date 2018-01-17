@@ -91,16 +91,21 @@ class MotionController extends AdminController {
         $this->display();
     }
 
+
+    /**
+     * 运营配置
+     */
     function repeat(){
 
         $repeat_cfg_m =  new RepeatCfgModel();
 
         if (IS_POST){
 
-
             $data = [
                 ['key'=>'repeat','data'=>I('repeat')/100],
                 ['key'=>'date_back','data'=>I('date_back')/100],
+                ['key'=>'repeat_paper','data'=>I('repeat_paper')/100],
+                ['key'=>'integral','data'=>I('integral')/100],
             ];
 
             $repeat_cfg_m->startTrans();
