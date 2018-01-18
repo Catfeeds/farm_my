@@ -81,7 +81,7 @@
 					<div class="btn_form">
 						<form onsubmit="return false">
 							<input type="submit" value="加入购物车" title="">
-							<input type="submit" value="立即购买" title="">
+							<input type="submit" value="立即购买" id="buy" data="{$info.id}" title="">
 						</form>
 					</div>
 			     </div>
@@ -173,11 +173,11 @@
 								<label class="checkbox"><input type="checkbox" name="checkbox" checked=""><i></i>Rs 500 - Rs 700</label>
 							</div>
 							<div class="col col-4">
-								<label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Rs 700 - Rs 1000</label>
+								<label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Rs 700  - Rs 1000</label>
 								<label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Rs 1000 - Rs 1500</label>
 								<label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Rs 1500 - Rs 2000</label>
 								<label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Rs 2000 - Rs 2500</label>
-								<label class="checkbox"><input type="checkbox" name="checkbox" ><i></i>Rs 2500 - Rs 3000</label>
+								<label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Rs 2500 - Rs 3000</label>
 								<label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Rs 3500 - Rs 4000</label>
 								<label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Rs 4000 - Rs 4500</label>
 								<label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Rs 4500 - Rs 5000</label>
@@ -200,5 +200,11 @@
 		</div>
 	<include file="Public:shop_footer"/>
 <div style="display:none"></div>
+<script type="text/javascript">
+	$("#buy").click(function() {
+		var id = $(this).attr("data");
+		window.location.href="/Home`Buy`buy?product_id="+ id;
+	});
+</script>
 </body>
 </html>

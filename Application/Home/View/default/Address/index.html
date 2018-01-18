@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<!--	<meta name="viewport" content="width=device-width, initial-scale=1">-->
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta http-equiv="X-UA-Compatible" content="IE=9" />
+		<meta charset="UTF-8">
+		<meta name="renderer" content="webkit">
+		<meta name="description" content="农畜商品交易平台">
+		<meta name="keywords" content="数字货币交易平台,数字货币,虚拟币,虚拟币新闻资讯">
+		<meta name="author" content="lihuijie">
+		<title>人民币充值-农畜商品交易平台</title>
+		<link rel="shortcut icon" href="__IMG__/base_images/bd_safe4.png">
+		<link rel="stylesheet" type="text/css" href="__CSS__/bootstrap.min.css"/>
+		<link rel="stylesheet" href="__CSS__/bae.css">
+		<link rel="stylesheet" href="__CSS__/default.css" />
+		<link rel="stylesheet" href="__CSS__/center_left.css">
+		<link rel="stylesheet" href="__CSS__/center_header.css">
+		<link rel="stylesheet" type="text/css" href="__CSS__/finance.css"/>
+		<script type="text/javascript" src="__JS__/jquery.js" ></script>
+		<script type="text/javascript" src="__JS__/bootstrap.min.js" ></script>
+		<script src="__JS__/base.js"></script>
+		<script src="__JS__/center_left.js"></script>
+		<!-- <script src="__JS__/Property/rmbrecharge.js"></script> -->
+		<script type="text/javascript" src="__JS__/finance.js" ></script>
+	</head>
+
+	
+	<body>
+	<include file="Public:header"/>
+	<main>
+		<div class="container">
+			<ol class="breadcrumb">
+				<li><a href="{:U('Index/index')}">首页</a></li>
+				<li><a href="{:u('Property/finance')}">财务中心</a></li>
+				<li class="active">
+					人民币充值
+				</li>
+			</ol>
+		</div>
+
+		<div class="container center_content">
+
+			<include file="Public:finance_left"/>
+
+			<div class="pull-right finance-content rmb_content">
+				<div class="big_title">
+					<h4>收货地址</h4>
+					<div class="clearfix"></div>
+				</div>
+
+				<div class="rmb-balance">
+					<strong>您当前的默认地址为 : </strong>
+					<if condition="($default eq null)">
+						<span class="C669900">没有默认地址</span>
+						<else/><span class="C669900">联系人：{$default.name}  联系方式：{$default.mobile}  详细地址：{$default.province}{$default.city}{$default.area}{$default.address}</span>
+					</if>
+				</div>
+
+				<div class="recharge">
+					<form>
+						<h4 class="charge_title">添加收货地址</h4>
+						<div class="form-group">
+							<label>*省份 : </label>
+							<select name="province" class="form-control dianji" id="province">
+								<option value="choose">选择</option>
+								<volist	name="city" id="citys">
+									<option value="{$citys.id}">{$citys.city_name}</option>
+								</volist>
+							</select>
+						</div>
+						<div class="form-group">
+							<label>*城市 : </label>
+							<select name="city" class="form-control dianji"  id="city">
+								<option value="choose">选择</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label>*区/县区/县区/县 : </label>
+							<select name="area" class="form-control dianji"  id="area">
+								<option value="choose">选择</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label>*详细地址 : </label>
+							<input class="form-control" id="address" type="text" name="address" placeholder="请输入详细地址" />
+						</div>
+						<div class="form-group">
+							<label>*收货人 : </label>
+							<input class="form-control" id="name" type="text" name="name" placeholder="请输入收货人姓名" />
+						</div>
+						<div class="form-group">
+							<label>*联系方式 : </label>
+							<input class="form-control" id="mobile" type="text" name="mobile" placeholder="请输入收货人联系方式" />
+						</div>
+						<div class="to-recharge">
+							<a id="ToRecharge" data-toggle="modal" >确认</a>
+						</div>
+					</form>
+				</div>
+
+				<div class="currency-record-hint">收货地址列表</div>
+				<div class="currency-mold rmb_in">
+					<ul>
+						<li>收货人</li>
+						<li>联系方式</li>
+						<li style="width: 350px">详细地址</li>
+						<li>操作</li>
+					</ul>
+				</div>
+				<div class="currency-record rmb_out rmb_in" id="like" >
+
+					<volist name="list" id="list">
+						<ul>
+							<li>{$list.name}</li>
+							<li>{$list.mobile}</li>
+							<li style="width: 350px">{$list.province}{$list.city}{$list.area}{$list.address}</li>
+							<li class="examine">
+								<a value="{$tt.id}" class="look">修改|</a>
+								<a value="{$tt.id}" class="look">设为默认</a>
+							</li>
+						</ul>
+					</volist>
+
+				</div>
+				<div class="white"></div>
+			</div>
+		</div>
+	</main>
+
+
+	<include file="Public:footer"/>
+	</body>
+	<script type="text/javascript" src="./Public/zz/z.js"></script>
+	<script type="text/javascript">
+		$("#province").click(function() {
+			var id = $(this).val();
+
+			$.ajax({
+				url:"{:U('Address/choosecity')}",
+				data:{id:id},
+				type:"POST",
+				success:function(data) {
+					var city = data.city;
+					var html = '';
+					$.each(city,function (k,v) {
+						html += '<option value="'+ v.id +'" class="choosecity">'+ v.city_name +'</option>';
+					})
+
+					$("#city").html(html);
+				}
+			})
+		});
+		$("#city").click(function() {
+			var id = $(this).val();
+
+			$.ajax({
+				url:"{:U('Address/choosecity')}",
+				data:{id:id},
+				type:"POST",
+				success:function(data) {
+					var city = data.city;
+					var html = '';
+					$.each(city,function (k,v) {
+						html += '<option value="'+ v.id +'" class="choosecity">'+ v.city_name +'</option>';
+					})
+
+					$("#area").html(html);
+				}
+			})
+		});
+	$(function () {
+	    $("#ToRecharge").click(function(){
+	        var province = $('#province').val();
+	        var city     = $('#city').val();
+	        var area     = $('#area').val();
+	        var address  = $('#address').val();
+	        var name     = $('#name').val();
+	        var mobile   = $('#mobile').val();
+	    
+	        $.ajax({
+	            // url:"index.php?s=/Home/Property/bomb",
+	            url:"/Home`Address`update",
+	            data:{province:province,city:city,area:area,address:address,name:name,mobile:mobile},
+	            type:"post",
+	            success:function (data) {
+	                if (data.status!=true){   //请求失败
+						set_poput_code(data.info,false);
+						return false
+					}
+					set_poput_code(data.info,true);
+	            }
+	        })
+	    });
+	})
+	</script>
+</html>
