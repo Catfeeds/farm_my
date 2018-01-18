@@ -137,16 +137,18 @@ class RechargeController extends AdminController
         }
         $this->assign('search_type',$search_type ? $search_type :0);
         $count =  M('memory')
-                    ->join('currency_users where currency_memory.user_id=currency_users.id')
-                    ->join('currency_xnb where currency_memory.xnb_id=currency_xnb.id')
-                    ->where($where)
-                    ->count();
+                ->join('left join currency_users on currency_memory.user_id=currency_users.id')
+                ->join('left join currency_xnb on currency_memory.xnb_id=currency_xnb.id')
+            ->field('currency_memory.id')
+            ->where($where)
+            ->count();
+
         import('ORG.Util.Page');
         $Page = new Page($count,15);// 实例化分页类 传入总记录数 传入状态；
-        $show = $Page->show();// 分页显示输出
+
         $data =  M('memory')
-                ->join('currency_users on currency_memory.user_id=currency_users.id')
-                ->join('currency_xnb on currency_memory.xnb_id=currency_xnb.id')
+                ->join('left join currency_users on currency_memory.user_id=currency_users.id')
+                ->join('left join currency_xnb on currency_memory.xnb_id=currency_xnb.id')
                 ->field('
                     currency_memory.id,
                     currency_users.users,
@@ -159,7 +161,9 @@ class RechargeController extends AdminController
                   ->where($where)
                   -> limit($Page -> firstRow, $Page -> listRows)
                   ->select();
+        $show = $Page->show();// 分页显示输出
         $this->assign('data',$data);
+
         $this->assign('page',$show);
         $this->display();
     }
@@ -171,7 +175,7 @@ class RechargeController extends AdminController
     function memorylist(){
         import('ORG.Util.Page');
 
-        $memorylist_m  = M('memorylist');
+        $memoryall_m = M('memory_all');
 
         $time_start = I('start_time');
         $time_end = I('end_time');
@@ -184,13 +188,13 @@ class RechargeController extends AdminController
 
         }
 
-        $count = $memorylist_m->where($where)->count();
+        $count = $memoryall_m->where($where)->count();
 
-        $Page = new Page($count,15,$where);// 实例化分页类 传入总记录数 传入状态；
+        $Page = new Page($count,15,['start_time'=>$time_start,'end_time'=>$time_end]);// 实例化分页类 传入总记录数 传入状态；
 
         $show = $Page->show();
 
-        $data = $memorylist_m->where($where)->field('id,time')-> limit($Page -> firstRow, $Page -> listRows)->select();
+        $data = $memoryall_m->where($where)->field('id,time')-> limit($Page -> firstRow, $Page -> listRows)->select();
 
         $this->assign('data',$data);
 
@@ -206,7 +210,7 @@ class RechargeController extends AdminController
 
         $xnb_m = M('xnb');
 
-        $memoryall_m = M('memoryall');
+        $memoryall_m = M('memory_all');
 
         $id = I('id');
 
@@ -215,6 +219,7 @@ class RechargeController extends AdminController
         $list = $memoryall_m->where(['id',$id])->find();
 
         $memory = json_decode($list['data'],true);
+
 
         foreach ($xnb_all as &$value){
 
@@ -241,11 +246,11 @@ class RechargeController extends AdminController
     function memorylist_list(){
         import('ORG.Util.Page');
 
-        $memorylist_M = M('memorylist');
+        $memorylist_M = M('memory_list');
 
         $id = I('id');
 
-        $where = ['currency_memorylist.memory_id'=>$id];
+        $where = ['currency_memory_list.memory_id'=>$id];
 
         $user = I('search');
 
@@ -257,14 +262,14 @@ class RechargeController extends AdminController
 
         $count = $memorylist_M
             ->where($where)
-            ->join('currency_xnb on currency_memorylist.xnb_id = currency_xnb.id')
-            ->join('currency_users on  currency_memorylist.user_id = currency_users.id')
+            ->join('currency_xnb on currency_memory_list.xnb_id = currency_xnb.id')
+            ->join('currency_users on  currency_memory_list.user_id = currency_users.id')
             ->field('
-                currency_memorylist.memory_id,
+                currency_memory_list.memory_id,
                 currency_xnb.name,
                 currency_users.users,
-                currency_memorylist.number,
-                currency_memorylist.time
+                currency_memory_list.number,
+                currency_memory_list.time
             ')
             ->count();
         $Page = new Page($count,15,['id'=>$id,'search'=>$user]);// 实例化分页类 传入总记录数 传入状态；
@@ -273,14 +278,14 @@ class RechargeController extends AdminController
 
         $data = $memorylist_M
             ->where($where)
-            ->join('currency_xnb on currency_memorylist.xnb_id = currency_xnb.id')
-            ->join('currency_users on  currency_memorylist.user_id = currency_users.id')
+            ->join('currency_xnb on currency_memory_list.xnb_id = currency_xnb.id')
+            ->join('currency_users on  currency_memory_list.user_id = currency_users.id')
             ->field('
-                currency_memorylist.memory_id,
+                currency_memory_list.memory_id,
                 currency_xnb.name,
                 currency_users.users,
-                currency_memorylist.number,
-                currency_memorylist.time
+                currency_memory_list.number,
+                currency_memory_list.time
             ')
             ->limit($Page->firstRow.','.$Page->listRows)
 
@@ -294,6 +299,12 @@ class RechargeController extends AdminController
 
         $this->display();
     }
+
+
+
+
+
+
 
 
 

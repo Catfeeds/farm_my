@@ -26,9 +26,10 @@ use Admin\Model\RepeatCfgModel;
 use Admin\Model\XnbModel;
 use Home\Model\UserpropertyModel;
 use function Sodium\add;
+use Think\Controller;
 use Think\Exception;
 
-class ProvideApi{
+class ProvideApiController  extends Controller{
 
     const TOKEN = 'nsjkfhsdjkhfu';
 
@@ -37,6 +38,8 @@ class ProvideApi{
 
     #红包的发放
     public function  bonus(){
+
+
 
         $bonus_m  =  new BonusModel();
 
@@ -49,8 +52,11 @@ class ProvideApi{
         $repeat_paper = $repeatCfgModel->getCfg('repeat_paper');
 
 
-        #本次总发放数
+        #本次cny放数总发
         $all_money = 0;
+
+        #本次重消放数总发
+        $all_repeat = 0;
 
         $where = [''=>''];
 
@@ -77,14 +83,14 @@ class ProvideApi{
                 foreach ($data as $k=>$v){
 
                     #应返金额(购买数量*日返金额)
-                    $money = $v['number']*(int)$date_back;
+                    $money = $v['number']*$date_back;
 
                     #判断出局金额与应返金额的关系
 
                     $money = $money+$v['provide'] <= $v['out'] ? $money : $v['out']-$v['provide'];
 
                     #红包的重销金额
-                    $repeat_money = $money*$repeat_paper;
+                    $all_repeat +=$repeat_money = $money*$repeat_paper;
 
                     #发放的cny
                     $money = $money - $repeat_money;
@@ -101,14 +107,15 @@ class ProvideApi{
                         throw new Exception($userproperty->getError());
                     }
 
+
                     #发放用户重销
-                    $back = $userproperty->setChangeMoney(3,$money,$v['user_id'],'红包分红',2);
+                    $back = $userproperty->setChangeMoney(3,$repeat_money,$v['user_id'],'红包分红',2);
                     if (!$back){
                         throw new Exception($userproperty->getError());
                     }
 
                     #生成发放流水，并且修改本次已发放金额
-                    $back = $bonus_m->saveData($v['id'],$money+$repeat_money);
+                    $back = $bonus_m->saveData($v['id'],$money,$repeat_money,$nullBonusAll->getId());
                     if (!$back){
                         throw new Exception($userproperty->getError());
                     }
@@ -119,7 +126,7 @@ class ProvideApi{
             }
 
             #成功后修改本次发放总数
-            $back = $nullBonusAll->saveNullBonusAll($all_money);
+            $back = $nullBonusAll->saveNullBonusAll($all_money,$all_repeat);
 
             if (!$back){
 

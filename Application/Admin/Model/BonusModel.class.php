@@ -10,9 +10,17 @@ namespace Admin\Model;
 
 
 use Think\Model;
+use Think\Page;
 
 class BonusModel extends Model
 {
+
+    public $data;
+
+    public $show;
+
+    public $page_where;
+
     /**
      * 获取总条数
      * @param $where
@@ -50,18 +58,41 @@ class BonusModel extends Model
      * 发放功能,生成发放记录，并且添加已发放金额
      * @param $id 购买期数id
      * @param $number 本次发放的数量
+     * @param $all_id 发放期数的id
      */
-    public function saveData($id,$number){
+    public function saveData($id,$number,$repeats,$all_id){
 
-        $back = $this->where(['id'=>$id])->setInc('provide',$number);
+        $back = $this->where(['id'=>$id])->setInc('provide',$number+$repeats);
         if (!$back){
             return false;
         }
 
         $bonusListModel = new BonusListModel();
 
-        return $bonusListModel->addList($id,$number,$id);
+        return $bonusListModel->addList($id,$number,$repeats,$all_id);
 
+    }
+
+
+
+
+    public function lists($where){
+
+        $count =  $this->where($where)
+                        ->field('currency_bonus.*,currency_users.users')
+                        ->join('left join currency_users on  currency_bonus.user_id = currency_users.id')
+                        ->count();
+
+        $Page = new Page($count,15,$this->page_where);
+
+        $this->show = $Page->show();
+
+        $this->data = $this->where($where)
+                           ->limit($Page->firstRow.','.$Page->listRows)
+                           ->field('currency_bonus.*,currency_users.users')
+                           ->join('left join currency_users on  currency_bonus.user_id = currency_users.id')->select();
+
+        return $this;
     }
 
 

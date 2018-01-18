@@ -13,6 +13,8 @@ namespace Think;
  * ThinkPHP Model模型类
  * 实现了ORM和ActiveRecords模式
  */
+
+
 class Model {
     // 操作状态
     const MODEL_INSERT          =   1;      //  插入模型数据

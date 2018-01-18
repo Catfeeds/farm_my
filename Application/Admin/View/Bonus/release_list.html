@@ -1,0 +1,88 @@
+<extend name="Public/base"/>
+<block name="style">
+    <link rel="stylesheet" type="text/css" href="/Public/Admin/Entrust/index.css" media="all">
+    <link rel="stylesheet" type="text/css" href="/Public/Admin/mypubliccss/button.css" media="all">
+    <link rel="stylesheet" type="text/css" href="__CSS__/jquery.ui.css" media="all">
+</block>
+<block name="body">
+    <!-- 标题栏 -->
+    <div class="main-title">
+        <h2>红包发放详情</h2>
+    </div>
+
+    <div>
+        <!--<button class="btn ajax-post confirm" target-form="ids" url="">删 除</button>-->
+        <!-- 高级搜索 -->
+        <form action="{:U('release_list')}" method="post">
+            <div class="difference">
+                <input type="hidden" name="id" value="{:I('id')}">
+                <span>查询内容：</span>
+                <input name="users" class="username poundage_input" value="{:I('users')}" placeholder="用户"/> &nbsp; &nbsp;
+                <button class="send" type="submit">确定</button>
+            </div>
+        </form>
+    </div>
+    <!-- 数据列表 -->
+    <div class="data-table">
+        <table class="">
+            <thead>
+            <tr>
+                <th class="">编号</th>
+                <th class="">用户</th>
+                <th class="">发放数量</th>
+                <th class="">发放时间</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <volist name="data" id="vo">
+                <tr>
+                    <td>{$vo.id}</td>
+                    <td>{$vo.users}</td>
+                    <td>{$vo['number']+$vo['repeats']}</td>
+
+                    <td>{:date('Y-m-d H:m:s',$vo['time'])}</td>
+                </tr>
+            </volist>
+            </tbody>
+        </table>
+
+    </div>
+    <!-- 分页 -->
+    <div class="page">{$page}</div>
+    <!-- /分页 -->
+
+</block>
+<block name="script">
+    <script type="text/javascript" src="__JS__/jquery.ui.js"></script>
+    <script type="text/javascript">
+        highlight_subnav('{:U('all_list')}');
+
+        $(function(){
+            $("#action_add").click(function(){
+                window.location.href = $(this).attr('url');
+            })
+        })
+    </script>
+    <script>
+        $(function () {
+            $('#start_time,#end_time').datepicker({
+                dateFormat : 'yy-mm-dd',
+                //dayNames : ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'],
+                //dayNamesShort : ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'],
+                dayNamesMin : ['日','一','二','三','四','五','六'],
+                monthNames : ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'],
+                //monthNamesShort : ['一','二','三','四','五','六','七','八','九','十','十一','十二'],
+                altField : '#abc',
+                altFormat : 'dd/mm/yy',
+//	        appendText : '日历',
+                showWeek : true,
+                weekHeader : '周',
+                firstDay : 1,
+                changeYear: true
+            });
+        });
+
+
+    </script>
+</block>

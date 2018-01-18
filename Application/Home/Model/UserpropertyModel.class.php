@@ -85,7 +85,11 @@ class UserpropertyModel extends Model{
      */
 	public function getUserMoneyAll($uid,$money_type)
 	{
-		return $this->lock(true)->field('userid,cny,'.$money_type)->where(['userid'=>$uid])->find();
+
+		$back =  $this->lock(true)->field('userid,cny,'.$money_type)->where(['userid'=>$uid])->find();
+
+		return $back;
+
 	}
 
     /**
@@ -109,6 +113,7 @@ class UserpropertyModel extends Model{
 
 		#锁死用户资产，并且返回用户资产信息
 		$money_back = $this->getUserMoneyAll($userid,$xnb_data['brief']);
+
 		if(!$money_back['userid']){
 		    $this->error = '用户不存在！';
 			return false;		
@@ -127,6 +132,7 @@ class UserpropertyModel extends Model{
         }
 
 		if (!$back){
+
             return false;
         }
 
