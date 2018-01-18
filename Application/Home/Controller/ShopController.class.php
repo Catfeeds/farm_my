@@ -22,6 +22,12 @@ class ShopController extends HomeController {
 
     public function __construct() {
         parent::__construct();
+
+        if (session('user')['id']==""){
+            $this->redirect('Index/index');
+            exit();
+        }
+        
         $cate = $this -> gettree();
 
         $this -> assign("cate", $cate);
