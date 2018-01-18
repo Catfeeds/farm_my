@@ -9,14 +9,25 @@
 
 namespace Home\Controller;
 use OT\DataDictionary;
+use Think\Page;
 
 /**
  * 前台首页控制器
  * 主要获取首页聚合数据
  */
 class ShopController extends HomeController {
+    private $cat_id = 1;
+    private $search = "";
+    private $Page;
+
     public function __construct() {
         parent::__construct();
+
+        if (session('user')['id']==""){
+            $this->redirect('Index/index');
+            exit();
+        }
+        
         $cate = $this -> gettree();
 
         $this -> assign("cate", $cate);
@@ -52,18 +63,33 @@ class ShopController extends HomeController {
     }
 
     //产品列表页
-    public function lists($cat_id = null) {
-        if ($cat_id != null) {
-            $where = "cat_id = ". $cat_id;
-        } else {
-            $where = null;
-        }
-        $list = M("product") -> field("id, name, price, img") -> where($where) -> select();
+    public function lists() {
+        $this -> cat_id   = $this -> strFilter( I( 'cat_id' ) ) ? $this -> strFilter( I( 'cat_id' ) ) : null;
+        $this -> search = $this -> strFilter( I( 'search' ) ) ? $this -> strFilter( I( 'search' ) ) : "";
 
-        foreach ($list as $key => $value) {
-            
+        $product = M("product");
+        $where = "status = 1";
+        if ($this -> cat_id != null) {
+            $where .= " AND cat_id = ". $this -> cat_id;
+        } 
+
+        $count  = $product->where($where)->count();// 查询满足要求的总记录数
+        $show   = $this  -> getPage( $count );
+
+        $res = $product -> field("id, name, price, img, cat_id") -> where($where) -> limit( $this -> Page -> firstRow.','. $this -> Page -> listRows ) -> select();
+
+        $list = array();
+        for ($i=0; $i < ceil(count($res)); $i++) { 
+            if (!empty(array_slice($res, $i * 3 ,3))) {
+                $list[] = array_slice($res, $i * 3 ,3);
+            }
         }
 
+        $cat_name = M("procate") -> field("name") -> where("id", $this -> cat_id) -> find();
+
+        $this -> assign("cat_name", $cat_name);
+        $this -> assign('page',$show);// 赋值分页输出
+        $this -> assign("list", $list);
         $this -> display();
     }
 
@@ -90,4 +116,24 @@ class ShopController extends HomeController {
 
         return $info;
     }
+
+    private function getPage($count) {
+        import('ORG.Util.Page');
+        $rows = 9;
+        $this -> Page = new Page($count, $rows, array('cat_id' => $this -> cat_id, 'search' => $this -> search));
+        //array('cat_id' => $this -> cat_id, 'search' => $this -> search)
+        //设置左右
+        $this -> Page -> setConfig('prev', "&laquo;");
+        $this -> Page -> setConfig('next', "&raquo;");
+        $show = $this -> Page -> show();
+
+        $ex_show = explode("<a class", $show);
+        for ($i = 0; $i < count($ex_show); $i ++) {
+            $ex_show[$i] = "<li><a class= " . $ex_show[$i] . "</li>";
+        }
+        unset($ex_show[0]);
+        $show = implode("", $ex_show);
+        return $show;
+    }
+
 }

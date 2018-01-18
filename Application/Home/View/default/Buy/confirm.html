@@ -1,0 +1,269 @@
+<!DOCTYPE HTML>
+<html>
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="UTF-8">
+
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+
+  <title>Shoping cart</title>
+
+  <link rel="shortcut icon" href="favicon.ico">
+  <link href="__CSS__/cart/style.css" media="screen" rel="stylesheet" type="text/css">
+  <link href="__CSS__/cart/grid.css" media="screen" rel="stylesheet" type="text/css">
+
+  <script src="__JS__/cart/jquery-1.7.2.min.js" ></script>
+  <script src="__JS__/cart/html5.js" ></script>
+  <script src="__JS__/cart/jflow.plus.js" ></script>
+  <script src="__JS__/cart/jquery.carouFredSel-5.2.2-packed.js"></script>
+  <script src="__JS__/cart/checkbox.js"></script>
+  <script src="__JS__/cart/radio.js"></script>
+  <script src="__JS__/cart/selectBox.js"></script>
+
+  <link href="__CSS__/shop/style.css" rel="stylesheet" type="text/css" media="all" />
+  <link href="__CSS__/shop/form.css" rel="stylesheet" type="text/css" media="all" />
+  <link href='http://fonts.googleapis.com/css?family=Exo+2' rel='stylesheet' type='text/css'>
+  <script src="__JS__/shop/jquery1.min.js"></script>
+<!-- start menu -->
+  <link href="__CSS__/shop/megamenu.css" rel="stylesheet" type="text/css" media="all" />
+  <script type="text/javascript" src="__JS__/shop/megamenu.js"></script>
+  <script>$(document).ready(function(){$(".megamenu").megamenu();});</script>
+  <script type="text/javascript" src="__JS__/shop/jquery.jscrollpane.min.js"></script>
+    <script type="text/javascript" id="sourcecode">
+      $(function()
+      {
+        $('.scroll-pane').jScrollPane();
+      });
+    </script>
+<!-- start details -->
+<script src="__JS__/shop/slides.min.jquery.js"></script>
+   <script>
+    $(function(){
+      $('#products').slides({
+        preload: true,
+        preloadImage: 'img/loading.gif',
+        effect: 'slide, fade',
+        crossfade: true,
+        slideSpeed: 350,
+        fadeSpeed: 500,
+        generateNextPrev: true,
+        generatePagination: false
+      });
+    });
+  </script>
+  <!-- start zoom -->
+  <link rel="stylesheet" href="__CSS__/shop/zoome-min.css" />
+  <script type="text/javascript" src="__JS__/shop/zoome-e.js"></script>
+  <script type="text/javascript">
+    $(function(){
+    $('#img1,#img2,#img3,#img4').zoome({showZoomState:true,magnifierSize:[250,250]});
+  });
+  </script> 
+
+  <script>
+       $(document).ready(function(){
+	      $("#myController").jFlow({
+		     controller: ".control", // must be class, use . sign
+		     slideWrapper : "#jFlowSlider", // must be id, use # sign
+		     slides: "#slider",  // the div where all your sliding divs are nested in
+		     selectedWrapper: "jFlowSelected",  // just pure text, no sign
+		     width: "984px",  // this is the width for the content-slider
+		     height: "480px",  // this is the height for the content-slider
+		     duration: 400,  // time in miliseconds to transition one slide
+		     prev: ".slidprev", // must be class, use . sign
+		     next: ".slidnext", // must be class, use . sign
+		     auto: true
+	      });
+       });
+  </script>
+  <script>
+       $(function() {
+	  $('#list_product').carouFredSel({
+		prev: '#prev_c1',
+		next: '#next_c1',
+		auto: false
+	  });
+          $('#list_product2').carouFredSel({
+		prev: '#prev_c2',
+		next: '#next_c2',
+		auto: false
+	  });
+	  $(window).resize();
+	});
+  </script>
+  <script>
+       $(document).ready(function(){
+	      $("button").click(function(){
+		     $(this).addClass('click')
+	      });
+       })
+  </script>
+  <script>
+       $(document).ready(function() {
+	      $("select").selectBox();
+       });
+  </script>
+
+</head>
+<body>
+  <include file="Public:shop_header"/>
+  <section id="main" class="entire_width">
+    <div class="container_12">
+       <div class="grid_12">
+       <h1 class="page_title">收货地址</h1>
+
+       <div class="c_header">
+         <div class="grid_10">
+           <if condition="($default eq null)">
+              <span>没有选择收获地址</span>
+              <else/><h5>联系人：{$default.name}  联系方式：{$default.mobile}  详细地址：{$default.province}{$default.city}{$default.area}{$default.address}</h5>
+            </if>
+         </div>
+       </div>
+
+       <table class="cart_product">
+	      <tr>
+		     <th class="images">图片</th>
+		     <th class="bg name">产品名称</th>
+		     <th class="edit"> </th>
+		     <th class="bg price">单价</th>
+		     <th class="qty">数量</th>
+		     <th class="bg subtotal">总价</th>
+		     <th class="close"> </th>
+	      </tr>
+	      <tr>
+         <td style="display: none;" id="product_id" data="{$info.id}"></td>
+         <td style="display: none;" id="type" data="{$info.type}"></td>
+		     <td class="images"><a href="product_page.html"><img src="__ROOT__/{$info['img']}" alt="Product 6"></a></td>
+		     <td class="bg name">{$info.name}</td>
+		     <td class="edit"><a title="" href="#">Edit</a></td>
+		     <td class="bg price">{$info.price}</td>
+		     <td class="qty"><input type="text" id="number" name="" value="1" placeholder="1000" /></td>
+		     <td class="bg subtotal">{$info.price}</td>
+		     <td class="close"><a title="close" class="close" href="#"></a></td>
+	      </tr>
+	      <tr>
+		     <td colspan="7" class="cart_but">
+			    <button class="continue"><span>icon</span>继续购物</button>
+			    <button class="update" id="confirm"><span>icon</span>确认订单</button>
+		     </td>
+	      </tr>
+       </table>
+       </div><!-- .grid_12 -->
+      <div class="clear"></div>
+
+      <div class="clear"></div>
+
+      <div class="carousel" id="following">
+        <div class="c_header">
+          <div class="grid_10">
+            <h5>Based on your selection, you may be interested in the following item:</h5>
+          </div><!-- .grid_10 -->
+
+          <div class="grid_2">
+            <a id="next_c1" class="next arows" href="#"><span>Next</span></a>
+            <a id="prev_c1" class="prev arows" href="#"><span>Prev</span></a>
+           </div><!-- .grid_2 -->
+        </div><!-- .c_header -->
+
+        <div class="list_carousel">
+
+        <ul id="list_product" class="list_product">
+          <li class="">
+            <div class="grid_3 product">
+              <img class="sale" src="__IMG__/cart/sale.png" alt="Sale"/>
+              <div class="prev">
+                <a href="product_page.html"><img src="__IMG__/cart/product_1.png" alt="" title="" /></a>
+              </div><!-- .prev -->
+              <h3 class="title">Febreze Air Effects New Zealand Springs</h3>
+              <div class="cart">
+                <div class="price">
+                <div class="vert">
+                  <div class="price_new">$550.00</div>
+                  <div class="price_old">$725.00</div>
+                </div>
+                </div>
+                <a href="#" class="obn"></a>
+                <a href="#" class="like"></a>
+                <a href="#" class="bay"></a>
+              </div><!-- .cart -->
+            </div><!-- .grid_3 -->
+          </li>
+
+          <li class="">
+            <div class="grid_3 product">
+              <img class="sale" src="__IMG__/cart/sale.png" alt="Sale"/>
+              <div class="prev">
+                <a href="product_page.html"><img src="__IMG__/cart/product_2.png" alt="" title="" /></a>
+              </div><!-- .prev -->
+              <h3 class="title">Febreze Air Effects New Zealand Springs</h3>
+              <div class="cart">
+                <div class="price">
+                <div class="vert">
+                  <div class="price_new">$550.00</div>
+                  <div class="price_old">$725.00</div>
+                </div>
+                </div>
+                <a href="#" class="obn"></a>
+                <a href="#" class="like"></a>
+                <a href="#" class="bay"></a>
+              </div><!-- .cart -->
+            </div><!-- .grid_3 -->
+          </li>
+
+          <li class="">
+            <div class="grid_3 product">
+              <div class="prev">
+                <a href="product_page.html"><img src="__IMG__/cart/product_3.png" alt="" title="" /></a>
+              </div><!-- .prev -->
+              <h3 class="title">Febreze Air Effects New Zealand Springs</h3>
+              <div class="cart">
+                <div class="price">
+                <div class="vert">
+                  <div class="price_new">$550.00</div>
+                </div>
+                </div>
+                <a href="#" class="obn"></a>
+                <a href="#" class="like"></a>
+                <a href="#" class="bay"></a>
+              </div><!-- .cart -->
+            </div><!-- .grid_3 -->
+          </li>
+
+          <li class="">
+            <div class="grid_3 product">
+              <img class="sale" src="__IMG__/cart/sale.png" alt="Sale"/>
+              <div class="prev">
+                <a href="product_page.html"><img src="__IMG__/cart/product_4.png" alt="" title="" /></a>
+              </div><!-- .prev -->
+              <h3 class="title">Febreze Air Effects New Zealand Springs</h3>
+              <div class="cart">
+                <div class="price">
+                <div class="vert">
+                  <div class="price_new">$550.00</div>
+                  <div class="price_old">$725.00</div>
+                </div>
+                </div>
+                <a href="#" class="obn"></a>
+                <a href="#" class="like"></a>
+                <a href="#" class="bay"></a>
+              </div><!-- .cart -->
+            </div><!-- .grid_3 -->
+          </li>
+
+        </ul><!-- #list_product -->
+        </div><!-- .list_carousel -->
+      </div><!-- .carousel -->
+
+    </div><!-- .container_12 -->
+  </section><!-- #main -->
+
+  <div class="clear"></div>
+<include file="Public:shop_footer"/>
+<script type="text/javascript">
+  
+</script>
+</body>
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+</html>
