@@ -135,7 +135,7 @@
 	      <tr>
          <td style="display: none;" id="product_id" data="{$info.id}"></td>
          <td style="display: none;" id="type" data="{$info.type}"></td>
-         <td style="display: none;" id="ship_id" data="{$info.ship_id}"></td>
+         <td style="display: none;" id="ship_id" data="{$default.id}"></td>
 		     <td class="images"><a href="product_page.html"><img src="__ROOT__/{$info['img']}" alt="Product 6"></a></td>
 		     <td class="bg name">{$info.name}</td>
 		     <td class="edit"><a title="" href="#">Edit</a></td>
@@ -263,7 +263,21 @@
   <div class="clear"></div>
 <include file="Public:shop_footer"/>
 <script type="text/javascript">
-  
+  $("#confirm").click(function() {
+    var product_id = $("#product_id").attr("data");
+    var type = $("#type").attr("data");
+    var number = $("#number").val();
+    var ship_id = $("#ship_id").attr("data");
+
+    $.ajax({
+      url:"/Home`Buy`confirm",
+      data:{product_id:product_id,type:type,number:number,ship_id:ship_id},
+      type:"POST",
+      success:function() {
+        location.href = '/Home`Buy`confirm?product_id=' + product_id + '&type=' + type + '&number=' + number + '&ship_id=' + ship_id;
+      }
+    })
+  }) 
 </script>
 </body>
 <!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->

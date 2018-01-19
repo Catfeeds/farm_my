@@ -111,16 +111,7 @@
   <section id="main" class="entire_width">
     <div class="container_12">
        <div class="grid_12">
-       <h1 class="page_title">收货地址</h1>
-
-       <div class="c_header">
-         <div class="grid_10">
-           <if condition="($default eq null)">
-              <span>没有选择收获地址</span>
-              <else/><h5>联系人：{$default.name}  联系方式：{$default.mobile}  详细地址：{$default.province}{$default.city}{$default.area}{$default.address}</h5>
-            </if>
-         </div>
-       </div>
+       <h1 class="page_title">支付页面</h1>
 
        <table class="cart_product">
 	      <tr>
@@ -134,23 +125,62 @@
 	      </tr>
 	      <tr>
          <td style="display: none;" id="product_id" data="{$info.id}"></td>
-         <td style="display: none;" id="type" data="{$info.type}"></td>
+         <td style="display: none;" id="total_price" data="{$total_price}"></td>
+         <td style="display: none;" id="ship_id" data="{$ship_id}"></td>
 		     <td class="images"><a href="product_page.html"><img src="__ROOT__/{$info['img']}" alt="Product 6"></a></td>
 		     <td class="bg name">{$info.name}</td>
 		     <td class="edit"><a title="" href="#">Edit</a></td>
 		     <td class="bg price">{$info.price}</td>
-		     <td class="qty"><input type="text" id="number" name="" value="1" placeholder="1000" /></td>
-		     <td class="bg subtotal">{$info.price}</td>
+		     <td class="qty"><input type="text" id="number" name="" value="{$number}" placeholder="1000" readonly="true" /></td>
+		     <td class="bg subtotal">{$total_price}</td>
 		     <td class="close"><a title="close" class="close" href="#"></a></td>
-	      </tr>
-	      <tr>
-		     <td colspan="7" class="cart_but">
-			    <button class="continue"><span>icon</span>继续购物</button>
-			    <button class="update" id="confirm"><span>icon</span>确认订单</button>
-		     </td>
 	      </tr>
        </table>
        </div><!-- .grid_12 -->
+
+       <div id="content_bottom">
+        <div class="grid_4">
+          <div class="bottom_block estimate">
+            <h3>选择支付方式</h3>
+            <p></p>
+      <form>
+        <p>
+         <select id="method">
+          <volist name="method" id="data">
+            <option value="{$data.method}">{$data.name}</option>
+          </volist>
+         </select>
+        </p>
+      </form>
+
+          </div><!-- .estimate -->
+        </div><!-- .grid_4 -->
+
+        <div class="grid_4">
+          <div class="bottom_block discount">
+            <h3>填写交易密码</h3>
+            <p></p>
+      <form>
+        <p>
+         <input type="password" id="deal_pwd" name="" value="" placeholder="请输入交易密码"/>
+        </p>
+      </form>
+          </div><!-- .discount -->
+        </div><!-- .grid_4 -->
+
+        <div class="grid_4">
+          <div class="bottom_block total">
+        <table class="subtotal">
+         <tr class="grand_total">
+          <td>总价格</td><td class="price">{$total_price}</td>
+         </tr>
+        </table>
+      <button class="checkout" id="pay">确认支付</button>
+          </div><!-- .total -->
+        </div><!-- .grid_4 -->
+
+        <div class="clear"></div>
+      </div><!-- #content_bottom -->
       <div class="clear"></div>
 
       <div class="clear"></div>
@@ -262,7 +292,30 @@
   <div class="clear"></div>
 <include file="Public:shop_footer"/>
 <script type="text/javascript">
-  
+  $("#pay").click(function() {
+    var product_id = $("#product_id").attr("data");
+    var total_price = $("#total_price").attr("data");
+    var number = $("#number").val();
+    var ship_id = $("#ship_id").attr("data");
+    var method = $("#method").val();
+    var deal_pwd = $("#deal_pwd").val();
+
+    $.ajax({
+      url:"{:U('pay')}",
+      type:"POST",
+      data:{product_id:product_id,total_money:total_price,number:number,ship_id:ship_id,method:method,deal_pwd:deal_pwd},
+      success:function(data) {
+        if (data.status!=true){   //请求失败
+            alert(data.info);
+            return false
+        } else {
+          alert(data.info,true);
+          // location.href = ""
+          // 跳转到订单详情
+        }
+      }
+    })
+  });
 </script>
 </body>
 <!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
