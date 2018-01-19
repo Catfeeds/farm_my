@@ -10,6 +10,7 @@
 namespace Home\Controller;
 use OT\DataDictionary;
 use Think\Page;
+use Home\Model\ProductModel;
 
 /**
  * 前台首页控制器
@@ -43,7 +44,7 @@ class ShopController extends HomeController {
             if (!empty(array_slice($res, $i * 3 ,3))) {
                 $list[] = array_slice($res, $i * 3 ,3);
             }
-        }
+        }    
 
         //广告列表
         $ads = M("shop_ads") -> field("url, name, desc, img, type") -> where("status", 1) -> select();

@@ -8,6 +8,7 @@
 // +----------------------------------------------------------------------
 
 namespace Home\Controller;
+use Home\Model\UserpropertyModel;
 use OT\DataDictionary;
 use Think\Page;
 
@@ -76,13 +77,87 @@ class BuyController extends HomeController {
         $type = $this -> strFilter(I("type")) ? I("type") : null;
         $number = $this -> strFilter(I("number")) ? I("number") : null;
         $ship_id = $this -> strFilter(I("ship_id")) ? I("ship_id") : null;
-
+        
+        $product_info = M()
+            -> table("currency_product as p")
+            -> field("p.id, p.name, p.img, p.price, pc.type")
+            -> join("left join currency_procate as pc on p.cat_id = pc.id")
+            -> where("p.id = ". $product_id)
+            -> find();
+        
+        //支付方式 method 1余额 3红包重消 
+        switch ($type) {
+            case '1':
+                $method = array(array("method" => 1, "name" => "余额账户"), array("method" => 3, "name" => "红包重消账户"));
+                break;
+            
+            default:
+                
+                break;
+        }
+        // var_dump($method);
+        $this -> assign("method", $method);
+        $this -> assign("number", $number);
+        $this -> assign("total_price", $number * $product_info['price']);
+        $this -> assign("ship_id", $ship_id);
+        $this -> assign("info", $product_info);
         $this -> display();
     }
 
-    //支付页面
+    //支付
     public function pay() {
+        //判断交易密码是否正确
+        //生成订单号
+        //插入订单表
+        //用户资产明细表
+        //根据类型扣除相应表的资金
 
+        $data['product_id']  = $this -> strFilter(I("product_id")) ? I("product_id") : null;
+        $data['number']      = $this -> strFilter(I("number")) ? I("number") : null;
+        $data['total_money'] = $this -> strFilter(I("total_money")) ? I("total_money") : null;
+        $data['ship_id']     = $this -> strFilter(I("ship_id")) ? I("ship_id") : null;
+        $data['user_id']     = session("user")['id'];
+        $data['status']      = 1;
+        $data['time']        = time();
+        $data['order']       = date("Ymd", time()).session("user")['id'].rand(100,999);
+        $deal_pwd            = I("deal_pwd") ? I("deal_pwd") : null;
+        $method              = $this -> strFilter(I("method")) ? I("method") : null;
+
+        if ($deal_pwd == null) {
+            $this -> error("交易密码不能为空");
+            exit();
+        } else {
+            if (session('user')['dealpwd']!=jiami($deal_pwd)){   //交易密码验证
+                $this->error('交易密码不正确！');
+                exit();
+            }
+        }
+        if ($method != null) {
+            $user_proper = new UserpropertyModel();
+
+            //扣钱
+            switch ($method) {
+                case '1':
+                    $res1 = $user_proper -> setChangeMoney(1, $data['total_money'], session("user")['id'], "购买红包", 1);
+                    if ($res1 > 1) {
+                        $res_ins = M("shop_order") -> add($data);
+
+                        if ($res_ins) {
+                            $this -> success("购买成功");
+                        } else {
+                            $this -> error("购买失败");
+                        }
+                    }
+                    break;
+                
+                default:
+                    # code...
+                    break;
+            }
+        } else {
+            $this -> error("请选择支付方式");
+            exit();
+        }
     }
 
     //确认收货
