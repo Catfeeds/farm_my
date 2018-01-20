@@ -107,6 +107,7 @@ class MotionController extends AdminController {
                 ['key'=>'repeat_paper','data'=>I('repeat_paper')/100],
                 ['key'=>'integral','data'=>I('integral')/100],
                 ['key'=>'water','data'=>I('water')],
+                ['key'=>'out','data'=>I('out')],
             ];
 
             $repeat_cfg_m->startTrans();
