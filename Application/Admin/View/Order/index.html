@@ -1,0 +1,93 @@
+<extend name="Public/base"/>
+
+<block name="body">
+    <!-- 按钮工具栏 -->
+    <div class="main-title">
+        <h2>订单列表  </h2>
+        <form action="" method="post">
+            <div class="difference">
+                <input name="name" class="username" value="{:I('name')}" placeholder="订单号/用户名/充值账号/收款账号"/> &nbsp; &nbsp;
+                <button class="send" type="submit">确定</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- 数据表格 -->
+    <div class="data-table">
+        <table>
+            <!-- 表头 -->
+            <thead>
+            <tr>
+                <th>订单号</th>
+                <th>产品图片</th>
+                <th>产品名称</th>
+                <th>所属商城</th>
+                <th>数量</th>
+                <th>总价</th>
+                <th>时间</th>
+                <th>状态</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+
+            <!-- 列表 -->
+            <tbody>
+            <volist name="list" id="data">
+                <tr>
+                    <td>{$data.order}</td>
+                    <td><img src="__ROOT__/{$data['img']}" width="35" height="50"></td>
+                    <td>{$data.name}</td>
+                    <td><eq name="data.type" value="1">红包商城</eq><eq name="data.type" value="2">报单商城</eq><eq name="data.type" value="3">重消商城</eq></td>
+                    <td>{$data.number}</td>
+                    <td>{$data.total_money}</td>
+                    <td>{$data.time|date="Y-m-d H:i:s",###}</td>
+                    <td><eq name="data.status" value="1">已付款</eq><eq name="data.status" value="2">已发货</eq><eq name="data.status" value="3">已完成</eq></td>
+                    <td>
+                        <a href="{:U('detail', ['id'=>$data['id']])}">查看订单详情</a>
+                    </td>
+                </tr>
+            </volist>
+            </tbody>
+        </table>
+    </div>
+    <!-- 分页 -->
+    <div class="page">
+        {$_page}
+    </div>
+    </div>
+
+</block>
+<block name="script">
+
+    <script type="text/javascript">
+        highlight_subnav("{:U('index')}");
+
+        $(function(){
+
+
+
+            $("input[name='sort']").blur(function(){
+                var id=$(this).attr('tid');
+                var val=$(this).val();
+                $.ajax({
+                    type: "POST",
+                    url: "{:U('appsort')}",
+                    data: {id:id, sort:val},
+                    dataType: "json",
+                    success: function(data){
+                        if (data.status!=1){  //失败
+                            set_poput_code(data.info,false)
+                            return false;
+                        }
+                        set_poput_code(data.info,true)
+                    }
+                });
+            })
+
+
+
+
+
+        })
+    </script>
+</block>

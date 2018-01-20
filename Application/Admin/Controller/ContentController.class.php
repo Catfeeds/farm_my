@@ -243,7 +243,7 @@ class ContentController extends AdminController {
 
 
         //处理图片
-        if(!empty($_FILES['imgurl'])){
+        if($_FILES['imgurl']['name'] != ""){
             $upload = new \Think\Upload();// 实例化上传类
             $upload->maxSize   =     3145728 ;// 设置附件上传大小
             $upload->exts      =     array('jpg', 'gif', 'png', 'jpeg');// 设置附件上传类型
@@ -346,7 +346,7 @@ class ContentController extends AdminController {
 
 
         //处理图片
-        if(!empty($_FILES['imgurl'])){
+        if($_FILES['imgurl']['name'] != ""){
             $upload = new \Think\Upload();// 实例化上传类
             $upload->maxSize   =     3145728 ;// 设置附件上传大小
             $upload->exts      =     array('jpg', 'gif', 'png', 'jpeg');// 设置附件上传类型

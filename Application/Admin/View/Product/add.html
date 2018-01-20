@@ -21,14 +21,12 @@
                 <label class="item-label">产品价格</label>
                 <div class="controls">
                     <input type="text" class="text input-large" style="width: 420px;height: 35px" name="price" value="{$text.price}">
-                    <input type="hidden" name="id" value="{$text.id}">
                 </div>
             </div>
             <div class="form-item cf">
                 <label class="item-label">产品数量</label>
                 <div class="controls">
                     <input type="text" class="text input-large" style="width: 420px;height: 35px" name="number" value="{$text.number}">
-                    <input type="hidden" name="id" value="{$text.id}">
                 </div>
             </div>
             <div class="form-item cf">
@@ -39,6 +37,30 @@
                             <option value="{$menu.id}" <eq name="text.cat_id" value="$menu['id']">selected</eq>>{$menu.title_show}</option>
                         </volist>
                    </select>
+                </div>
+            </div>
+            <div class="form-item cf">
+                <label class="item-label">出局金额（若为红包商城商品请设置出局金额）</label>
+                <div class="controls">
+                    <input type="text" class="text input-large" style="width: 420px;height: 35px" name="out" value="{$text.out}">
+                </div>
+            </div>
+            <div class="form-item cf">
+                <label class="item-label">CMC（若为报单商城商品请设置购买时所需的CMC数量）</label>
+                <div class="controls">
+                    <input type="text" class="text input-large" style="width: 420px;height: 35px" name="cmc" value="{$text.cmc}">
+                </div>
+            </div>
+            <div class="form-item cf">
+                <label class="item-label">人民币（若为报单商城商品请设置人民币金额）</label>
+                <div class="controls">
+                    <input type="text" class="text input-large" style="width: 420px;height: 35px" name="cny" value="{$text.cny}">
+                </div>
+            </div>
+            <div class="form-item cf">
+                <label class="item-label">可得积分（若为报单商城商品请设置可得积分）</label>
+                <div class="controls">
+                    <input type="text" class="text input-large" style="width: 420px;height: 35px" name="integral" value="{$text.integral}">
                 </div>
             </div>
             <div class="form-item cf">

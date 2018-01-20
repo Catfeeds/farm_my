@@ -1,0 +1,142 @@
+<extend name="Public/base"/>
+<block name="style">
+    <link rel="stylesheet" type="text/css" href="__CSS__/jquery.editable-select.min.css" media="all">
+    <link rel="stylesheet" type="text/css" href="__CSS__/editad.css" media="all">
+</block>
+<block name="body">
+	<!-- 标题 -->
+	<div class="main-title">
+		<h2>订单详情</h2>
+	</div>
+    <div class="tab-wrap">
+	    <form id="form" action="{:U('ship')}" method="post" class="form-horizontal" enctype="multipart/form-data" onsubmit="return false">
+            <div class="form-item cf">
+                <label class="item-label">订单号</label>
+                <div class="controls">
+                    <input type="text" class="text input-large" style="width: 420px;height: 35px" name="name" value="{$info.order}" readonly="true">
+                    <input type="hidden" name="id" value="{$info.id}" id="order_id">
+                </div>
+            </div>
+            <div class="form-item cf">
+                <label class="item-label">用户名</label>
+                <div class="controls">
+                    <input type="text" class="text input-large" style="width: 420px;height: 35px" name="name" value="{$info.users}" readonly="true">
+                    <input type="hidden" name="id" value="{$info.id}">
+                </div>
+            </div>
+            <div class="form-item cf">
+                <label class="item-label">产品名称</label>
+                <div class="controls">
+                    <input type="text" class="text input-large" style="width: 420px;height: 35px" name="price" value="{$info.name}" readonly="true">
+                </div>
+            </div>
+
+            <div class="form-item cf">
+                <label class="item-label">产品图片</label>
+                <div class="controls">
+                    <input type="file" name="imgurl" class="display">
+                    <div class="upload-img-box">
+                        <img src="{$info.img}" width="250" height="180">
+                    </div>
+                </div>
+            </div>
+            <div class="form-item cf">
+                <label class="item-label">数量</label>
+                <div class="controls">
+                    <input type="text" class="text input-large" style="width: 420px;height: 35px" name="number" value="{$info.number}" readonly="true">
+                </div>
+            </div>
+            <div class="form-item cf">
+                <label class="item-label">总价</label>
+                <div class="controls">
+                    <input type="text" class="text input-large" style="width: 420px;height: 35px" name="number" value="{$info.total_money}" readonly="true">
+                </div>
+            </div>
+            <div class="form-item cf">
+                <label class="item-label">所属商城</label>
+                <div class="controls">
+                    <eq name="info.type" value="1">
+                        <input type="text" class="text input-large" style="width: 420px;height: 35px" name="number" value="红包商城" readonly="true">
+                    </eq>
+                    <eq name="info.type" value="2">
+                        <input type="text" class="text input-large" style="width: 420px;height: 35px" name="number" value="报单商城" readonly="true">
+                    </eq>
+                    <eq name="info.type" value="3">
+                        <input type="text" class="text input-large" style="width: 420px;height: 35px" name="number" value="重消商城" readonly="true">
+                    </eq>
+                </div>
+            </div>
+            
+            <div class="form-item cf">
+                <label class="item-label">收货人</label>
+                <div class="controls">
+                    <input type="text" class="text input-large" style="width: 420px;height: 35px" name="number" value="{$address.ship_name}" readonly="true">
+                </div>
+            </div>
+            
+            <div class="form-item cf">
+                <label class="item-label">联系方式</label>
+                <div class="controls">
+                    <input type="text" class="text input-large" style="width: 420px;height: 35px" name="number" value="{$address.mobile}" readonly="true">
+                </div>
+            </div>
+            
+            <div class="form-item cf">
+                <label class="item-label">收货地址</label>
+                <div class="controls">
+                    <input type="text" class="text input-large" style="width: 420px;height: 35px" name="number" value="{$address.province}{$address.city}{$address.area}{$address.address}" readonly="true">
+                </div>
+            </div>
+            <div class="form-item">
+                <eq name="info.status" value="1">
+                    <input type="submit" value="发货"  class="btn submit-btn " id="submit">
+                </eq>
+                <button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+            </div>
+       </form>
+	</div>
+</div>
+
+</block>
+<block name="script">
+    <script type="text/javascript" src="__JS__/jquery.editable-select.min.js"></script>
+<script type="text/javascript">
+$(function(){
+    highlight_subnav("{:U('index')}");
+
+
+    //选择图片预览
+    $('.files').click(function () {
+        $('[type=file]').trigger('click');
+    })
+
+    $("input[type='file']").change(function () {
+
+        var  fr= new FileReader()
+        fr.onload=function () {
+            $('.upload-img-box img').attr("src",fr.result)
+        }
+        fr.readAsDataURL(this.files[0])
+    })
+});
+
+
+$('#submit').click(function(){
+    var id = $("#order_id").val();
+    
+    $.ajax({
+        url:"{:U('ship')}",
+        type:"post",
+        data:{id:id},
+        dataType:"json",
+        success:function (data) {
+            if (data.status!=1){  //失败
+                set_poput_code(data.info,false)
+                return false;
+            }
+            set_poput_code(data.info,true)
+        }
+    })
+});
+</script>
+</block>

@@ -52,10 +52,30 @@ class ProductController extends AdminController {
         $data['price']          = I('price');
         $data['number']         = I('number');
         $data['cat_id']         = I('cat_id');
+        $data['out']            = I('out');
         $data['description']    = I('description');
         $data['status']         = I('status');
         $data['sort']           = I('sort', 0);
+        $data['cny']            = I('cny', null);
+        $data['cmc']            = I('cmc', null);
+        $data['integral']       = I('integral', null);
         $data['time']           = time();
+
+        if ($data['out'] == null || $data['out'] == "") {
+            $type = M("procate") -> field("type") -> where("id = ". $data['cat_id']) -> find();
+            if ($type['type'] == 1) {
+                $this -> error("该商品分类为红包商城，请添加商品的出局金额");
+                exit();
+            }
+        }
+        
+        if ($data['cny'] == null || $data['cmc'] == null || $data['integral'] == null) {
+            $type = M("procate") -> field("type") -> where("id = ". $data['cat_id']) -> find();
+            if ($type['type'] == 2) {
+                $this -> error("该商品分类为报单商城，请添加报单商品的所需属性");
+                exit();
+            }
+        }
 
         //处理图片
         if($_FILES['imgurl']['name'] != ""){
