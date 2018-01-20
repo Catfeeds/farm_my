@@ -57,44 +57,44 @@
 							<div id="products_example">
 								<div id="products">
 									<div class="slides_container">
-									        <a href="#"><img class="a" id="img1" src="__IMG__/shop/s-img.jpg" alt="" rel="__IMG__/shop/s-img.jpg" /></a>
-											<a href="#"><img class="a" id="img2" src="__IMG__/shop/s-img1.jpg" alt="" rel="__IMG__/shop/s-img1.jpg" /></a>
+									        <a href="#"><img class="a" style="width: 360px;height: 300px;" id="img1" src="__ROOT__/{$info['img']}" alt="" rel="__ROOT__/{$info['img']}" /></a>
+											<!-- <a href="#"><img class="a" id="img2" src="__IMG__/shop/s-img1.jpg" alt="" rel="__IMG__/shop/s-img1.jpg" /></a>
 											<a href="#"><img class="a" id="img3" src="__IMG__/shop/s-img2.jpg" alt="" rel="__IMG__/shop/s-img2.jpg" /></a>
-											<a href="#"><img class="a" id="img4" src="__IMG__/shop/s-img3.jpg" alt="" rel="__IMG__/shop/s-img3.jpg" /></a>
+											<a href="#"><img class="a" id="img4" src="__IMG__/shop/s-img3.jpg" alt="" rel="__IMG__/shop/s-img3.jpg" /></a> -->
 									</div>
-									<ul class="pagination">
+									<!-- <ul class="pagination">
 										<li><a href="#"><img src="__IMG__/shop/s1.jpg" width="s-img" alt="1144953 3 2x"></a></li>
 										<li><a href="#"><img src="__IMG__/shop/s2.jpg" width="s-img1" alt="1144953 3 2x"></a></li>
 										<li><a href="#"><img src="__IMG__/shop/s3.jpg" width="s-img2" alt="1144953 3 2x"></a></li>
 										<li><a href="#"><img src="__IMG__/shop/s4.jpg" width="s-img3" alt="1144953 1 2x"></a></li><div class="clear"></div>
-									</ul>
+									</ul> -->
 								</div>
 							</div>
 						</div>
 	            </div>
 		         <div class="desc1 span_3_of_2">
 		         	<h3 class="m_3">{$info.name}</h3>
-		             <p class="m_5">{$info.price} <a href="#">click for offer</a></p>
+		             <p class="m_5">{$info.price} </p>
 
-					<span class="m_link"><a href="#">login to save in wishlist</a> </span>
-				    <p class="m_text2">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit </p>
+					<!-- <span class="m_link"><a href="#">login to save in wishlist</a> </span> -->
+				    <p class="m_text2" style="margin: "> </p>
 					<div class="btn_form">
 						<form onsubmit="return false">
-							<input type="submit" value="加入购物车" title="">
+							<!-- <input type="submit" value="加入购物车" title=""> -->
 							<input type="submit" value="立即购买" id="buy" data="{$info.id}" title="">
 						</form>
 					</div>
 			     </div>
 			   <div class="clear"></div>	
 	    <div class="clients">
-	    <h3 class="m_3">相同产品</h3>
-		 <ul id="flexiselDemo3">
+	    <!-- <h3 class="m_3">相同产品</h3> -->
+		 <!-- <ul id="flexiselDemo3">
 			<li><img src="__IMG__/shop/s5.jpg" /><a href="#">Category</a><p>Rs 600</p></li>
 			<li><img src="__IMG__/shop/s6.jpg" /><a href="#">Category</a><p>Rs 850</p></li>
 			<li><img src="__IMG__/shop/s7.jpg" /><a href="#">Category</a><p>Rs 900</p></li>
 			<li><img src="__IMG__/shop/s8.jpg" /><a href="#">Category</a><p>Rs 550</p></li>
 			<li><img src="__IMG__/shop/s9.jpg" /><a href="#">Category</a><p>Rs 750</p></li>
-		 </ul>
+		 </ul> -->
 	<script type="text/javascript">
 		$(window).load(function() {
 			$("#flexiselDemo1").flexisel();
@@ -150,23 +150,23 @@
       </div>
 			<div class="rsingle span_1_of_single">
 				<h5 class="m_1">类别</h5>
-					<select class="dropdown" tabindex="8" data-settings='{"wrapperClass":"metro"}'>
-						<option value="1">Mens</option>
-						<option value="2">Sub Category1</option>
-						<option value="3">Sub Category2</option>
-						<option value="4">Sub Category3</option>
-					</select>
-					<select class="dropdown" tabindex="8" data-settings='{"wrapperClass":"metro"}'>
-						<option value="1">Womens</option>
-						<option value="2">Sub Category1</option>
-						<option value="3">Sub Category2</option>
-						<option value="4">Sub Category3</option>
-					</select>
-					<ul class="kids">
-						<li><a href="#">Kids</a></li>
-						<li class="last"><a href="#">Glasses Shop</a></li>
-					</ul>
-                   <section  class="sky-form">
+					<volist name="cate" id="datas">
+						<notempty name="datas.child">
+							<select onchange="window.location=this.value" class="dropdown" tabindex="8" data-settings='{"wrapperClass":"metro"}'>
+								<option value="{:U('lists', ['cat_id'=>$datas['id']])}">{$datas.name}</option>
+								<volist name="datas.child" id="val">
+									<option value="{:U('lists', ['cat_id'=>$val['id']])}">{$val.name}</option>
+								</volist>
+							</select>
+						<else />
+							<ul class="kids">
+								<li ><a href="{:U('lists', ['cat_id'=>$datas['id']])}">{$datas.name}</a></li>
+							</ul>
+						</notempty>
+						
+					</volist>
+					
+                   <!-- <section  class="sky-form">
 					<h4>价格区间</h4>
 						<div class="row row1 scroll-pane">
 							<div class="col col-4">
@@ -190,7 +190,7 @@
 								<label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Rs 8000 - Rs 8500</label>	
 							</div>
 						</div>
-		        </section>
+		        </section> -->
 		       <script src="__JS__/shop/jquery.easydropdown.js"></script>
 		      </div>
 		      <div class="clear"></div>

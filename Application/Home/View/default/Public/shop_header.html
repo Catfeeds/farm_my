@@ -1,16 +1,15 @@
 <div class="header-top">
 	   <div class="wrap"> 
 			  <div class="header-top-left">
-			  	   <span>欢迎来到商城中心</span>
    				    <div class="clear"></div>
    			 </div>
 			 <div class="cssmenu">
 				<ul>
-					<li class="active"><a href="login.html">Account</a></li> |
+					<!-- <li class="active"><a href="login.html">Account</a></li> |
 					<li><a href="checkout.html">Wishlist</a></li> |
 					<li><a href="checkout.html">Checkout</a></li> |
 					<li><a href="login.html">Log In</a></li> |
-					<li><a href="register.html">Sign Up</a></li>
+					<li><a href="register.html">Sign Up</a></li> -->
 				</ul>
 			</div>
 			<div class="clear"></div>
@@ -24,6 +23,7 @@
 				</div>
 				<div class="menu">
 	            <ul class="megamenu skyblue">
+					<li class="active grid"><a href="{:U('Home/Index/index')}">平台首页</a></li>
 					<li class="active grid"><a href="{:U('index')}">商城首页</a></li>
 					<volist name="cate" id="data">
 						<li><a class="color4" href="{:U('lists', ['cat_id'=>$data['id']])}">{$data.name}</a>
@@ -48,7 +48,7 @@
 				</ul>
 			</div>
 		</div>
-	   <div class="header-bottom-right">
+	   <!-- <div class="header-bottom-right">
          <div class="search">	  
 				<input type="text" name="s" class="textbox" value="Search" onFocus="this.value = '';" onBlur="if (this.value == '') {this.value = 'Search';}">
 				<input type="submit" value="Subscribe" id="submit" name="submit">
@@ -72,7 +72,7 @@
 			</li>
 		</ul>
 	    <ul class="last"><li><a href="#">Cart(0)</a></li></ul>
-	  </div>
+	  </div> -->
     </div>
      <div class="clear"></div>
      </div>

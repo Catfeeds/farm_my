@@ -84,11 +84,14 @@
 
 									<dt>{:date("Y-m-d", $vo['time'])}</eq></dt>
 
-									<dt><eq name="vo.status" value="1">已付款</eq><eq name="vo.type" value="2">已发货</eq><eq name="vo.type" value="3">已完成</eq></dt>
+									<dt><eq name="vo.status" value="1">已付款</eq><eq name="vo.status" value="2">已发货</eq><eq name="vo.status" value="3">已完成</eq></dt>
 
 									<dd class="to-deal">
-										<eq name="vo.type" value="3"><a ><input type="button" value="已完成" xnb="{$vo.xnb_id}" style="width: 80px;" /></a>
-										<else/><input type="button" value="确认收货" xnb="{$vo.xnb_id}" style="width: 80px;" /></eq>
+										<eq name="vo.type" value="3">
+											<input type="button" value="已完成" xnb="{$vo.xnb_id}" style="width: 80px;" />
+										<else/>
+											<input class="confirm" type="button" value="确认收货" data="{$vo.id}" data2="{$vo.type}"  style="width: 80px;" />
+										</eq>
 									</dd>
 
 								</dl>
@@ -106,24 +109,6 @@
 
 	<script>
 		$(function () {
-
-			$('body').on('click','input[xnb]',function(){
-				$.ajax({
-					url:"{:U('getaddr')}",
-					type:"post",
-					datatype:"json",
-					data:{xnb:$(this).attr('xnb')},
-					success:function (data) {
-						var xnb=data.xnb;
-						var marke=data.marke;
-
-						location.href='/Home`Trade`trade`id`'+xnb+'`markethouse`'+marke+'.html'
-					}
-
-				})
-				return false;
-			})
-
 			//排序
 			var li=$('#record_grey').children();
 			$('#record_grey').children().remove();
@@ -144,6 +129,41 @@
 			$('#record_grey').append(li);
 			$('#record_grey').css('display','block');
 		})
+
+		// $('body').on('click','input[xnb]',function(){
+		// 	$.ajax({
+		// 		url:"{:U('getaddr')}",
+		// 		type:"post",
+		// 		datatype:"json",
+		// 		data:{xnb:$(this).attr('xnb')},
+		// 		success:function (data) {
+		// 			var xnb=data.xnb;
+		// 			var marke=data.marke;
+
+		// 			location.href='/Home`Trade`trade`id`'+xnb+'`markethouse`'+marke+'.html'
+		// 		}
+
+		// 	})
+		// 	return false;
+		// })
+
+		$("body").on('click', '.confirm',function() {
+			var order_id = $(this).attr("data");
+			var type = $(this).attr("data2");
+
+			$.ajax({
+				url:"{:U('Buy/receiving')}",
+				data:{order_id:order_id,type:type},
+				type:"POST",
+				success:function(data) {
+					if (data.status != true) {
+						set_poput_code(data.info,false);
+					} else {
+						set_poput_code(data.info,true);
+					}
+				}
+			})
+		});	
 	</script>
 
 	</body>

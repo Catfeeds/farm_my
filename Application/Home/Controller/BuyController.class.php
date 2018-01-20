@@ -9,6 +9,8 @@
 
 namespace Home\Controller;
 use Home\Model\UserpropertyModel;
+use Home\Model\IntegralModel;
+use Admin\Model\RepeatCfgModel;
 use OT\DataDictionary;
 use Think\Page;
 
@@ -85,12 +87,17 @@ class BuyController extends HomeController {
             -> where("p.id = ". $product_id)
             -> find();
         
-        //支付方式 method 1余额 3红包重消 
+        //支付方式 method 1余额 2CMC+人民币 3红包重消  4积分
         switch ($type) {
             case '1':
                 $method = array(array("method" => 1, "name" => "余额账户"), array("method" => 3, "name" => "红包重消账户"));
                 break;
-            
+            case '2':
+                $method = array(array("method" => 2, "name" => "确认支付"));
+                break;
+            case '3':
+                $method = array(array("method" => 1, "name" => "余额账户"), array("method" => 4, "name" => "积分"), array("method" => 3, "name" => "红包重消账户"));
+                break;
             default:
                 
                 break;
@@ -137,7 +144,7 @@ class BuyController extends HomeController {
 
             //扣钱
             switch ($method) {
-                case '1':
+                case '1': //余额
                     $res1 = $user_proper -> setChangeMoney(1, $data['total_money'], session("user")['id'], "购买红包", 1);
                     if ($res1 > 1) {
                         $res_ins = M("shop_order") -> add($data);
@@ -149,9 +156,66 @@ class BuyController extends HomeController {
                         }
                     }
                     break;
+                case '2': //CMC+余额
+                    // CMC查询id
+                    $cmc_id = M("xnb") -> field("id") -> where("brief = 'CMC'") -> find();
+                    //查询所需要的CMC数量
+                    $cmc_num = M("product") -> field("cmc, cny") -> where("id = ". $data['product_id']) -> find();
+                    $res2_1 = $user_proper -> setChangeMoney($cmc_id['id'], $cmc_num['cmc'], session("user")['id'], "报单", 1);
+                    if ($res2_1 > 1) {
+                        //cmc 当前价格 查询
+                        $cmc = new RepeatCfgModel();
+                        $cmc_price = $cmc -> getCfg('cmc');
+                        //扣除人民币数量
+                        $res2_2 = $user_proper -> setChangeMoney(1, $cmc_num['cny'], session("user")['id'], "报单", 1);
+                        if ($res2_2 > 1) {
+                            $res_ins = M("shop_order") -> add($data);
+
+                            if ($res_ins) {
+                                $this -> success("购买成功");
+                            } else {
+                                $this -> error("购买失败");
+                            }
+                        }
+                    }
+                    break;
+                case '3': //红包重消
+                    $res3 = $user_proper -> setChangeMoney(3, $data['total_money'], session("user")['id'], "购买商品", 1);
+                    if ($res3 > 1) {
+                        if ($res2_2 > 1) {
+                            $res_ins = M("shop_order") -> add($data);
+
+                            if ($res_ins) {
+                                $this -> success("购买成功");
+                            } else {
+                                $this -> error("购买失败");
+                            }
+                        }
+                    }
+                case '4': //积分 价格/cmc价格
+                    $cmc = new RepeatCfgModel();
+                    $cmc_price = $cmc -> getCfg('cmc');
+                    $price = $data['total_money'] / $cmc_price;
+                    $inte = new IntegralModel(session("user")['id'], $price);
+
+                    $all_oldintegral = $inte -> getAllIntegral(session("user")['id']);
+                    // var_dump($all_oldintegral);
+
+                    $res4 = $inte -> lessintgral(session("user")['id'], $price);
+
+                    if ($res4 == "积分不足") {
+                        $this -> error("积分不足");
+                    } else {
+                        if ($res4) {
+                            $res5 = $user_proper -> detail(['id' => session("user")['id'], "name" => ''], 0, (-1 * $price), "购买商品", $all_oldintegral);
+                            // var_dump($res5);
+                            $this -> success("购买成功");
+                        } else {
+                            $this -> error("购买失败");
+                        }
+                    }
                 
                 default:
-                    # code...
                     break;
             }
         } else {
@@ -162,8 +226,84 @@ class BuyController extends HomeController {
 
     //确认收货
     public function receiving() {
-        //改变订单状态
-        //进入红包表
+        $order_id   = I("order_id")   ? I("order_id")   : null;
+        $type       = I("type")       ? I("type")       : null;
+
+        $res = M("shop_order") -> save(['id' => $order_id, "status" => 3]);
+        if ($res) {
+            switch ($type) {
+                case '1': //红包
+                    $price = M("shop_order") 
+                        -> table("currency_shop_order as o")
+                        -> field("o.total_money, o.number, p.out, p.price") 
+                        -> join("left join currency_product as p on p.id = o.product_id")
+                        -> where("o.id = ". $order_id) 
+                        -> find();
+                    $data['outs'] = $price['out'];
+                    $data['provide'] = 0;
+                    $data['time'] = time();
+                    $data['user_id'] = session("user")['id'];
+                    if ($price['number'] > 1) {
+                        $data['number'] = $price['price'];
+                        for ($i=0; $i < $price['number']; $i++) { 
+                            $data1[] = $data;
+                        }
+                        $res = M("bonus") -> addAll($data1);
+                    } else {
+                        $data['number'] = $price['total_money'];
+                        $res = M("bonus") -> add($data);
+                    }
+
+                    if ($res) {
+                        $this -> success("确认收货");
+                    } else {
+                        $res = M("shop_order") -> save(['id' => $order_id, "status" => 2]);
+                        $this -> error("确认收货失败");
+                    }
+                    
+                    break;
+                case '2': //报单
+                    $data1['user_id'] = session("user")['id'];
+                    $data1['repeats'] = 0;
+                    $data1['water'] = 0;
+                    $data1['time'] = time();
+
+                    $info = M()
+                        -> table("currency_shop_order as o")
+                        -> field("o.number, p.price, p.integral")
+                        -> join("left join currency_product as p on p.id = o.product_id")
+                        -> where("o.id = ". $order_id)
+                        -> find();
+
+                    if ($info['number'] > 1) {
+                        for ($i=0; $i < $info['number']; $i++) { 
+                            $data[] = array_merge(['number' => $info['integral'], 'number_all' => $info['integral']], $data1);
+                        }
+                        $res = M("integral") -> addAll($data);
+                    } else {
+                        $data['number'] = $info['integral'];
+                        $data['number_all'] = $info['integral'];
+                        $data = array_merge($data1, $data);
+                        $res = M("integral") -> add($data);
+                    }
+
+                    if ($res) {
+                        $this -> success("确认收货");
+                    } else {
+                        $this -> error("确认收货失败，请稍后重试");
+                    }
+
+                    break;
+                case '3': //重消
+                    $this -> success("确认收货");
+                default:
+
+                    break;
+            }
+        } else {
+            $this -> error("确认收货失败");
+        }
+
     }
 
     /*文章类型*/
