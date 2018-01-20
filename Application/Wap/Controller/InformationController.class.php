@@ -61,7 +61,7 @@ class InformationController extends WapController {
         if (!$refresh) {
             $xnblist = M("xnb")
                 ->field("id, name, imgurl, brief")
-                ->where("id not in(1)")
+                ->where("id not in(1,2,3)")
                 ->limit(($ofset2 * ($groupNumber - 1)), $ofset2)
                 ->select();
             $res = M()->query("select tt.xnb, substring_index(group_concat( tt.price ), ',', 1) lastest_price from (select t.xnb, t.price, t.time from currency_transactionrecords as t where t.standardmoney = 1 order by t.time desc) as tt group by tt.xnb");
