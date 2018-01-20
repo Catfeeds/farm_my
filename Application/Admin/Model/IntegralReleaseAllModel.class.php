@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: Administrator
- * Date: 2018/1/17 0017
- * Time: 下午 3:53
+ * Date: 2018/1/20 0020
+ * Time: 下午 4:13
  */
 
 namespace Admin\Model;
@@ -11,16 +11,15 @@ namespace Admin\Model;
 
 use Think\Model;
 
-class IntegralAllModel extends Model
+class IntegralReleaseAllModel extends Model
 {
-
     protected $id;
 
     public function getId(){
         return $this->id;
     }
 
-    public function addNullIntegralAll(){
+    public function addNullIntegralReleaseAll(){
         $back = $this->add([
             'time'=>time()
         ]);
@@ -34,10 +33,9 @@ class IntegralAllModel extends Model
     }
 
 
-    public function saveNullIntegralAll($number,$repeats){
+    public function saveNullIntegralReleaseAll($number){
 
-        return $this->where(['id'=>$this->id])->save(['number'=>$number,'repeats'=>$repeats]);
+        return $this->where(['id'=>$this->id])->save(['number'=>$number]);
 
     }
-
 }

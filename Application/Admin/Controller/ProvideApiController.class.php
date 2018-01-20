@@ -19,6 +19,8 @@ use Admin\Model\IntegralAllModel;
 
 use Admin\Model\IntegralListModel;
 use Admin\Model\IntegralModel;
+use Admin\Model\IntegralReleaseAllModel;
+use Admin\Model\IntegralReleaseListModel;
 use Admin\Model\MemoryAllModel;
 use Admin\Model\MemoryListModel;
 use Admin\Model\MemoryModel;
@@ -34,18 +36,18 @@ class ProvideApiController  extends Controller{
 
     const COUNT = 1000;
 
-    function _initialize(){
-
-        #token验证
-        $data = I('token');
-
-        if ($data!=TOKEN){
-
-
-            exit();
-        }
-
-    }
+//    function _initialize(){
+//
+//        #token验证
+//        $data = I('token');
+//
+//        if ($data!=TOKEN){
+//
+//
+//            exit();
+//        }
+//
+//    }
 
     #红包的发放
     public function  bonus(){
@@ -202,7 +204,7 @@ class ProvideApiController  extends Controller{
 
     }
 
-    #积分的发放
+    #积分的复利
     public function  integral(){
 
         $integralModel = new IntegralModel();
@@ -230,7 +232,7 @@ class ProvideApiController  extends Controller{
 
         $integralAllModel = new IntegralAllModel();
 
-        $NullBonusAll= $integralAllModel->addNullBonusAll();
+        $NullIntegralAll= $integralAllModel->addNullIntegralAll();
 
         $integral_cfg = $repeatCfgModel->getCfg('integral');
 
@@ -252,7 +254,7 @@ class ProvideApiController  extends Controller{
                    #应返的金额
                    $number_all += $number = $v['number'] *$integral_cfg;
 
-                   $back =$integralModel->Release($v['id'],$number,$NullBonusAll->getId(),$integralListModel);
+                   $back =$integralModel->Release_interest($v['id'],$number,$NullIntegralAll->getId(),$integralListModel);
 
                    if (!$back){
                         throw  new Exception($integralModel->getError());
@@ -261,7 +263,7 @@ class ProvideApiController  extends Controller{
 
             }
 
-            $NullBonusAll->saveNullBonusAll($number_all,$repeats_all);
+            $NullIntegralAll->saveNullIntegralAll($number_all,$repeats_all);
             $integralModel->commit();
             $this->success('发放成功！');
        }catch (\Exception $e){
@@ -270,6 +272,73 @@ class ProvideApiController  extends Controller{
        }
 
     }
+
+    #积分的释放
+    public function integral_release(){
+
+        $integralModel = new IntegralModel();
+
+        $repeatCfgModel = new RepeatCfgModel();
+
+        $where = ['number'=>['gt',0],'time_end'=>['egt',time()]];
+
+        $count = $integralModel->getCount($where);
+
+        if (!$count){
+            $this->error($integralModel->getLastSql());
+        }
+
+        $number_all = 0;
+
+        $integralReleaseListModel = new IntegralReleaseListModel();
+
+        $integralReleaseAll = new IntegralReleaseAllModel();
+
+        $NullIntegralReleaseAll = $integralReleaseAll->addNullIntegralReleaseAll();
+
+        $release_cfg = $repeatCfgModel->getCfg('water_release');
+
+        $integralModel->startTrans();
+
+
+
+        try{
+            for ($i = 0; $i<$count/C('Count');$i++){
+
+                $data = $integralModel->getDataPage($where,$i);
+
+                foreach ($data as $k=>$v){
+
+                    #应返的金额
+                     $number = $v['number'] *$release_cfg;
+
+                     $number_all += $number = $number > $v['number'] ? $v['number'] : $number;
+
+
+                     $back =$integralModel->Release_info($v['id'],$v['user_id'],$NullIntegralReleaseAll->getId(),$number,$integralReleaseListModel);
+
+                     if (!$back){
+                         throw  new Exception($integralModel->getError());
+                     }
+
+                }
+
+            }
+
+            $back = $NullIntegralReleaseAll->saveNullIntegralReleaseAll($number_all);
+            if (!$back){
+                throw new Exception('期数保存失败！');
+            }
+            $integralModel->commit();
+            $this->success('发放成功！');
+        }catch (\Exception $e){
+            $integralModel->rollback();
+            $this->error($e->getMessage());
+        }
+
+    }
+
+
 
 
 }
