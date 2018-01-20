@@ -9,7 +9,7 @@
 
 namespace Home\Controller;
 use Home\Model\UserpropertyModel;
-use Home\Model\IntegralModel;
+use Home\Model\IntegralsModel;
 use Admin\Model\RepeatCfgModel;
 use OT\DataDictionary;
 use Think\Page;
@@ -196,7 +196,7 @@ class BuyController extends HomeController {
                     $cmc = new RepeatCfgModel();
                     $cmc_price = $cmc -> getCfg('cmc');
                     $price = $data['total_money'] / $cmc_price;
-                    $inte = new IntegralModel(session("user")['id'], $price);
+                    $inte = new IntegralsModel(session("user")['id'], $price);
 
                     $all_oldintegral = $inte -> getAllIntegral(session("user")['id']);
                     // var_dump($all_oldintegral);

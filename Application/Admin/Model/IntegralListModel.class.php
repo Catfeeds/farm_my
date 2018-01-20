@@ -11,17 +11,19 @@ namespace Admin\Model;
 
 use Think\Model;
 
-class IntegralListMode extends Model
+class IntegralListModel extends Model
 {
 
-    public function addData($integral_id,$all_id,$number,$repeats){
+    public function addData($integral_id,$all_id,$number){
+
        return $this->add([
             'integral_id'=>$integral_id,
             'all_id'=>$all_id,
             'number'=>$number,
-            'repeats'=>$repeats,
+//            'repeats'=>$repeats,
             'time'=>time()
         ]);
+
     }
 
 }

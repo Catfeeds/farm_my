@@ -13,19 +13,20 @@ namespace Admin\Controller;
  * Class ProvideApi
  * @package Admin\Controller
  */
-use Admin\Model\Bonus;
 use Admin\Model\BonusAllModel;
 use Admin\Model\BonusModel;
 use Admin\Model\IntegralAllModel;
-use Admin\Model\IntegralListMode;
+
+use Admin\Model\IntegralListModel;
 use Admin\Model\IntegralModel;
+use Admin\Model\IntegralReleaseAllModel;
+use Admin\Model\IntegralReleaseListModel;
 use Admin\Model\MemoryAllModel;
 use Admin\Model\MemoryListModel;
 use Admin\Model\MemoryModel;
 use Admin\Model\RepeatCfgModel;
 use Admin\Model\XnbModel;
 use Home\Model\UserpropertyModel;
-use function Sodium\add;
 use Think\Controller;
 use Think\Exception;
 
@@ -35,11 +36,21 @@ class ProvideApiController  extends Controller{
 
     const COUNT = 1000;
 
+//    function _initialize(){
+//
+//        #token验证
+//        $data = I('token');
+//
+//        if ($data!=TOKEN){
+//
+//
+//            exit();
+//        }
+//
+//    }
 
     #红包的发放
     public function  bonus(){
-
-
 
         $bonus_m  =  new BonusModel();
 
@@ -58,7 +69,7 @@ class ProvideApiController  extends Controller{
         #本次重消放数总发
         $all_repeat = 0;
 
-        $where = [''=>''];
+        $where = 'provide < outs';
 
         $count = $bonus_m->getCount($where);
 
@@ -87,7 +98,7 @@ class ProvideApiController  extends Controller{
 
                     #判断出局金额与应返金额的关系
 
-                    $money = $money+$v['provide'] <= $v['out'] ? $money : $v['out']-$v['provide'];
+                    $money = $money+$v['provide'] <= $v['outs'] ? $money : $v['outs']-$v['provide'];
 
                     #红包的重销金额
                     $all_repeat +=$repeat_money = $money*$repeat_paper;
@@ -145,7 +156,6 @@ class ProvideApiController  extends Controller{
 
     }
 
-
     #锁定资产的发放
     public function  ReleaseXnb(){
 
@@ -194,13 +204,17 @@ class ProvideApiController  extends Controller{
 
     }
 
-    #积分的发放
-
+    #积分的复利
     public function  integral(){
 
         $integralModel = new IntegralModel();
 
-        $where = [''];
+        $repeatCfgModel = new RepeatCfgModel();
+
+        $water = $repeatCfgModel->getCfg('water');
+
+
+        $where = ['number'=>['gt',0],'water'=>['lt',$water]];
 
         $count = $integralModel->getCount($where);
 
@@ -212,37 +226,119 @@ class ProvideApiController  extends Controller{
 
         $repeats_all = 0;
 
-        $repeatCfgModel = new RepeatCfgModel();
 
-        $integralListMode = new IntegralListMode();
+
+        $integralListModel = new IntegralListModel();
 
         $integralAllModel = new IntegralAllModel();
 
-        $NullBonusAll= $integralAllModel->addNullBonusAll();
+        $NullIntegralAll= $integralAllModel->addNullIntegralAll();
 
         $integral_cfg = $repeatCfgModel->getCfg('integral');
 
+        $integralModel->startTrans();
 
-        for ($i = 0; $i<$count/C('Count');$i++){
+        try{
+            for ($i = 0; $i<$count/C('Count');$i++){
 
-            $data = $integralModel->getDataPage($where,$i);
+               $data = $integralModel->getDataPage($where,$i);
 
 
-            foreach ($data as $k=>$v){
+               foreach ($data as $k=>$v){
 
-                #应返的金额
-                $number_all += $number = $v['number'] *(1+$integral_cfg);
-                #应返的重销
-                $repeats_all+= $repeats = $v['repeats'] *(1+$integral_cfg);
+//                #应返的金额
+//                $number_all += $number = $v['number'] *(1+$integral_cfg);
+//                #应返的重销
+//                $repeats_all+= $repeats = $v['repeats'] *(1+$integral_cfg);
 
-                $integralModel->Release($v['id'],$number,$repeats,$NullBonusAll->getId(),$integralListMode);
+                   #应返的金额
+                   $number_all += $number = $v['number'] *$integral_cfg;
+
+                   $back =$integralModel->Release_interest($v['id'],$number,$NullIntegralAll->getId(),$integralListModel);
+
+                   if (!$back){
+                        throw  new Exception($integralModel->getError());
+                   }
+               }
+
             }
 
-        }
-
-        $NullBonusAll->saveNullBonusAll($number_all,$repeats_all);
+            $NullIntegralAll->saveNullIntegralAll($number_all,$repeats_all);
+            $integralModel->commit();
+            $this->success('发放成功！');
+       }catch (\Exception $e){
+            $integralModel->rollback();
+            $this->error($e->getMessage());
+       }
 
     }
+
+    #积分的释放
+    public function integral_release(){
+
+        $integralModel = new IntegralModel();
+
+        $repeatCfgModel = new RepeatCfgModel();
+
+        $where = ['number'=>['gt',0],'time_end'=>['egt',time()]];
+
+        $count = $integralModel->getCount($where);
+
+        if (!$count){
+            $this->error($integralModel->getLastSql());
+        }
+
+        $number_all = 0;
+
+        $integralReleaseListModel = new IntegralReleaseListModel();
+
+        $integralReleaseAll = new IntegralReleaseAllModel();
+
+        $NullIntegralReleaseAll = $integralReleaseAll->addNullIntegralReleaseAll();
+
+        $release_cfg = $repeatCfgModel->getCfg('water_release');
+
+        $integralModel->startTrans();
+
+
+
+        try{
+            for ($i = 0; $i<$count/C('Count');$i++){
+
+                $data = $integralModel->getDataPage($where,$i);
+
+                foreach ($data as $k=>$v){
+
+                    #应返的金额
+                     $number = $v['number'] *$release_cfg;
+
+                     $number_all += $number = $number > $v['number'] ? $v['number'] : $number;
+
+
+                     $back =$integralModel->Release_info($v['id'],$v['user_id'],$NullIntegralReleaseAll->getId(),$number,$integralReleaseListModel);
+
+                     if (!$back){
+                         throw  new Exception($integralModel->getError());
+                     }
+
+                }
+
+            }
+
+            $back = $NullIntegralReleaseAll->saveNullIntegralReleaseAll($number_all);
+            if (!$back){
+                throw new Exception('期数保存失败！');
+            }
+            $integralModel->commit();
+            $this->success('发放成功！');
+        }catch (\Exception $e){
+            $integralModel->rollback();
+            $this->error($e->getMessage());
+        }
+
+    }
+
+
 
 
 }
