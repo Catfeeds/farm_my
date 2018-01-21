@@ -1,0 +1,132 @@
+<extend name="Public/base"/>
+<block name="style">
+    <link rel="stylesheet" type="text/css" href="./Public/Admin/Finance/receivables.css" media="all">
+    <link rel="stylesheet" type="text/css" href="./Public/Admin/mypubliccss/button.css" media="all">
+    <link rel="stylesheet" type="text/css" href="./Public/Admin/css/jquery.editable-select.min.css" media="all">
+</block>
+
+<block name="body">
+    <div class="main-title">
+        <h2>红包三级分销</h2>
+    </div>
+    <form class="ajax_form" method="post">
+        <div>
+            <table class="tables" >
+                <volist name="bonus" id="vo">
+                    <tr>
+                        <td><span class="span">{$vo.name}</span></td>
+                        <td><input type="text" value="{$vo.numpeople}" class="address" readonly></td>
+                        <td><input type="text" value="{$vo.percentage}" class="address" readonly>%</td>
+                        <td><a href="#" class="delete" data="{$vo.id}">删除</a></td>
+                        <td><a href="#" class="edit" data="{$vo.id}">编辑</a></td>
+                    </tr>
+                </volist>
+                <tr>
+                    <td><input type="hidden" value="" id="id"><span class="span" style="color: darkorange" id="goon">继续添加：</span></td>
+                    <td><input type="text" name="name" value="" id="name" placeholder="级别"></td>
+                    <td><input type="text" name="numpeople" value="" id="numpeople" placeholder="分享人数"></td>
+                    <td><input type="text" name="percentage" value="" id="percentage" placeholder="应得百分比">%</td>
+                </tr>
+            </table>
+        </div>
+        <div class="btn-form">
+            <button class="btns btns-red" type="button" id="submit">确 定</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="btns btns-green" onclick="javascript:history.back(-1);return false;">返 回</button>
+        </div>
+    </form>
+
+</block>
+<block name="script">
+    <script type="text/javascript" src="__JS__/jquery.editable-select.min.js"></script>
+    <script type="text/javascript">
+        //导航高亮
+        highlight_subnav('{:U('index')}');
+    </script>
+    <script>
+        $("#banktype").editableSelect({
+            effects:'slide'
+        })
+    </script>
+    <script>
+        var bankid = 0;
+        //添加银行卡
+        $("#submit").click(function () {
+            var name = $("#name").val();
+            var numpeople = $("#numpeople").val();
+            var percentage = $("#percentage").val();
+            var id  = $("#id").val();
+
+            $.ajax({
+                url:"{:U('Distribution/index')}",
+                type:"POST",
+                data:{
+                    "name":name,
+                    "id":id,
+                    "numpeople":numpeople,
+                    "percentage":percentage
+                },
+                success:function (data) {
+                    if (data.status != true) {
+                        set_poput_code(data.info, false);
+                        return false;
+                    } else {
+                        set_poput_code(data.info, true);
+                    }
+                }
+            });
+
+            if (name == '') {
+                set_poput_code("级别不能为空", false);
+                return false;
+            }
+            if (numpeople == '') {
+                set_poput_code("分享人数不能为空", false);
+                return false;
+            }
+            if (percentage == '') {
+                set_poput_code("应得百分比不能为空", false);
+                return false;
+            }
+        });
+        $(".delete").click(function () {
+            var id = $(this).attr("data");
+            $.ajax({
+                url:"{:U('Distribution/delete')}",
+                data:{
+                    "id":id
+                },
+                type:"POST",
+                success:function (data) {
+                    if (data.status != true) {
+                        set_poput_code(data.info, false);
+                    } else {
+                        set_poput_code(data.info, true);
+                    }
+                }
+            })
+        });
+        $(".edit").click(function () {
+            var id = $(this).attr("data");
+            $.ajax({
+               url:"{:U('Distribution/edit')}",
+                type:"POST",
+                data:{
+                    "id":id
+                },
+                success:function(data) {
+                    var json = eval("(" + data + ")");
+                    var id = json.id;
+                    var name = json.name;
+                    var numpeople = json.numpeople;
+                    var percentage = json.percentage;
+
+                    $("#goon").text("修改地址");
+                    $("#name").val(name);
+                    $("#numpeople").val(numpeople);
+                    $("#id").val(id);
+                    $("#percentage").val(percentage);
+                }
+            });
+        })
+    </script>
+</block>
