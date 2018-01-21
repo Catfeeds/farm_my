@@ -7,6 +7,7 @@
 // | Author: huajie <banhuajie@163.com>
 // +----------------------------------------------------------------------
 namespace Admin\Controller;
+use Admin\Model\RepeatCfgModel;
 use Think\Page;
 
 /**
@@ -41,7 +42,7 @@ class ProductController extends AdminController {
         $menus = M('procate')    -> field("id, name, pid") -> where('pid in('. $fatheridstr. ')') -> select();
         $menus = D('Common/Tree') -> toFormatTree($menus,$title = 'name',$pk='id',$pid = 'pid',$root = 0);
 
-        $this -> assign('Menus', $menus);
+        $this -> assign('Menus', $menus);s
         $this -> display();
     }
 
@@ -75,6 +76,11 @@ class ProductController extends AdminController {
                 $this -> error("该商品分类为报单商城，请添加报单商品的所需属性");
                 exit();
             }
+        } else {
+            //获取当前CMC价格
+            $cfg = new RepeatCfgModel();
+            $cmc_price = $cfg -> getCfg("cmc");
+            $data['cny'] = $cmc_price * $data['cny'];
         }
 
         //处理图片
