@@ -25,6 +25,18 @@
              width: 14%!important;
              text-align: center;
         }
+
+        .deposit{
+            width: 90px;
+            background-color: #FA4223;
+            color: white;
+            border: none;
+            box-shadow:1px 2px 2px #666666;
+            height: 33px;
+            border-radius: 3px;
+        }
+
+
     </style>
 </head>
 <body>
@@ -57,8 +69,11 @@
                 <div class="finance-mark">
                     <div class="total-assets">
                         <strong>可提现积分：</strong><span class="money">{$integral.integral}</span>
+                        <input type="button" value="提现" class="deposit">
                     </div>
                 </div>
+
+
 
                 <form action="" method="post" class="form-inline">
                     <div class="form-group">
