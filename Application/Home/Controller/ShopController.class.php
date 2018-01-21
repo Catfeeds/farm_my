@@ -86,7 +86,7 @@ class ShopController extends HomeController {
             }
         }
 
-        $cat_name = M("procate") -> field("name") -> where("id", $this -> cat_id) -> find();
+        $cat_name = M("procate") -> field("name") -> where("id = ".$this -> cat_id) -> find();
 
         $this -> assign("cat_name", $cat_name);
         $this -> assign('page',$show);// 赋值分页输出
