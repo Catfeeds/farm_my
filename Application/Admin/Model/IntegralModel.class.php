@@ -115,14 +115,14 @@ class IntegralModel extends Model
 
 
 
-        #添加用户释放积分账户
-        $userpropertyModel = new UserpropertyModel();
-        $back = $userpropertyModel->setChangeMoney(4,$number,$user_id,'积分释放',2);
-
-        if (!$back){
-            $this->error = '积分账户变动失败.'.$id;
-            return false;
-        }
+//        #添加用户释放积分账户
+//        $userpropertyModel = new UserpropertyModel();
+//        $back = $userpropertyModel->setChangeMoney(4,$number,$user_id,'积分释放',2);
+//
+//        if (!$back){
+//            $this->error = '积分账户变动失败.'.$id;
+//            return false;
+//        }
 
         #添加释放记录
         $back =$integralReleaseListModel->add([

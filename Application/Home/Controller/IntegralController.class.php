@@ -12,6 +12,7 @@ namespace Home\Controller;
 use Home\Model\IntegralListModel;
 use Home\Model\IntegralModel;
 use Home\Model\IntegralReleaseListModel;
+use Home\Model\UserpropertyModel;
 
 class IntegralController extends HomeController
 {
@@ -20,6 +21,11 @@ class IntegralController extends HomeController
      * 用户积分期数
      */
     public function index(){
+        $IntegralModel = new IntegralModel();
+
+        $integral = $IntegralModel->where(['user_id'=>session('user')['id']])->field('sum(releases) as integral')->find();
+
+        $this->assign('integral',$integral);
 
         $integralModel = new IntegralModel();
 

@@ -10,6 +10,7 @@
 
 namespace Home\Model;
 use Think\Model;
+use Think\Page;
 
 class IntegralModel extends Model
 {
