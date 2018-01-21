@@ -42,7 +42,7 @@ class ProductController extends AdminController {
         $menus = M('procate')    -> field("id, name, pid") -> where('pid in('. $fatheridstr. ')') -> select();
         $menus = D('Common/Tree') -> toFormatTree($menus,$title = 'name',$pk='id',$pid = 'pid',$root = 0);
 
-        $this -> assign('Menus', $menus);s
+        $this -> assign('Menus', $menus);
         $this -> display();
     }
 
