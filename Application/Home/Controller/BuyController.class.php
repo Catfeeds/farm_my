@@ -210,14 +210,20 @@ class BuyController extends HomeController {
                     // var_dump($all_oldintegral);
 
                     $res4 = $inte -> lessintgral(session("user")['id'], $price);
+                    // var_dump($res4);
 
                     if ($res4 == "积分不足") {
                         $this -> error("积分不足");
                     } else {
                         if ($res4) {
                             $res5 = $user_proper -> detail(['id' => session("user")['id'], "name" => ''], 0, (-1 * $price), "购买商品", $all_oldintegral);
-                            // var_dump($res5);
-                            $this -> success("购买成功");
+                            $res_ins = M("shop_order") -> add($data);
+
+                            if ($res_ins) {
+                                $this -> success("购买成功");
+                            } else {
+                                $this -> error("购买失败");
+                            }
                         } else {
                             $this -> error("购买失败");
                         }
