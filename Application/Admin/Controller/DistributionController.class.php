@@ -16,23 +16,21 @@ use Think\Page;
 class DistributionController extends AdminController {
     //三级分销
     public function index() {
-        $bankrecevie = M("bonus_distribution");
-        $banktype = M("banktype");
+        $bonus = M("bonus_distribution");
         $id = I("id") ? I("id") : "";
+
+        $list = $bonus -> select();
 
         //添加、修改地址
         if ($_POST) {
-            $data['bank'] = I("bankid");
-            $data['bankcard'] = I("bankcard");
-            $data['payee'] = $this -> strFilter(I("payee")) ? $this -> strFilter(I("payee")) : "";
-            $data['addtime'] = time();
-            $data['endtime'] = time();
-            $data['status'] = 1;
+            $data['name'] = $this -> strFilter(I("name")) ? $this -> strFilter(I("name")) : "";
+            $data['numpeople'] = $this -> strFilter(I("numpeople")) ? $this -> strFilter(I("numpeople")) : "";
+            $data['percentage'] = $this -> strFilter(I("percentage")) ? $this -> strFilter(I("percentage")) : "";
             if ($id != "") {
-                $res = $bankrecevie -> where(array("id" => $id)) -> save($data);
+                $res = $bonus -> where(array("id" => $id)) -> save($data);
                 $msg = "修改";
             } else {
-                $res = $bankrecevie -> add($data);
+                $res = $bonus -> add($data);
                 $msg = "添加";
             }
             if ($res) {
@@ -42,7 +40,7 @@ class DistributionController extends AdminController {
                 exit;
             }
         }
-        $this -> assign("bank", $bank);
+        $this -> assign("bonus", $list);
         $this -> display();
     }
 
@@ -50,7 +48,7 @@ class DistributionController extends AdminController {
     public function delete() {
         $id = I("id");
 
-        if (M("bankreceive") -> where("id = ". $id) -> delete()) {
+        if (M("bonus_distribution") -> where("id = ". $id) -> delete()) {
             $this -> success("删除成功");
         } else {
             $this -> error("删除失败");
@@ -62,7 +60,7 @@ class DistributionController extends AdminController {
         $id = $this -> strFilter(I("id")) ? $this -> strFilter(I("id")) : "";
         //查询要修改的地址信息
         if ($id != "") {
-            $bankedit = M("bankreceive") -> where(array("id" => $id)) -> field("id, bank, bankcard, payee") -> find();
+            $bankedit = M("bonus_distribution") -> where(array("id" => $id)) -> field("id, name, numpeople, percentage") -> find();
             echo json_encode($bankedit);
         }
     }
