@@ -11,6 +11,7 @@ namespace Home\Controller;
 use OT\DataDictionary;
 use Think\Page;
 use Home\Model\ProductModel;
+use Admin\Model\RepeatCfgModel;
 
 /**
  * 前台首页控制器
@@ -37,7 +38,17 @@ class ShopController extends HomeController {
 	//系统首页
     public function index(){
         //产品列表
-        $res = M("product") -> field("id, name, price, img") -> select();
+        $res = M() 
+            -> table("currency_product as p")
+            -> field("p.id, p.name, p.price, p.img, pc.type") 
+            -> join("left join currency_procate as pc on pc.id = p.cat_id")
+            -> order("sort desc")
+            -> limit(9)
+            -> select();
+
+        foreach ($res as $key => $value) {
+            $res[$key]['price_show'] = $this -> getPriceShow($value['type'], $value['price'], $value['id']);
+        }
 
         $list = array();
         for ($i=0; $i < ceil(count($res)); $i++) { 
@@ -49,7 +60,6 @@ class ShopController extends HomeController {
         //广告列表
         $ads = M("shop_ads") -> field("url, name, desc, img, type") -> where("status", 1) -> select();
 
-
         $this -> assign("ads", $ads);
         $this -> assign("list", $list);
         $this -> display();
@@ -57,8 +67,16 @@ class ShopController extends HomeController {
 
     //详情
     public function single($id) {
-        $info = M("product") -> field("id, name, price, img, description") -> where("id = ". $id) -> find();
+        $info = M() 
+            -> table("currency_product as p")
+            -> field("p.id, p.name, p.price, p.img, p.description, pc.type") 
+            -> join("left join currency_procate as pc on pc.id = p.cat_id")
+            -> where("p.id = ". $id) 
+            -> find();
+        
+        $price_show = $this -> getPriceShow($info['type'], $info['price'], $info['id']);
 
+        $this -> assign("price_show", $price_show);
         $this -> assign("info", $info);
         $this -> display();
     }
@@ -69,15 +87,26 @@ class ShopController extends HomeController {
         $this -> search = $this -> strFilter( I( 'search' ) ) ? $this -> strFilter( I( 'search' ) ) : "";
 
         $product = M("product");
-        $where = "status = 1";
+        $where = "p.status = 1";
         if ($this -> cat_id != null) {
-            $where .= " AND cat_id = ". $this -> cat_id;
+            $where .= " AND p.cat_id = ". $this -> cat_id;
         } 
 
-        $count  = $product->where($where)->count();// 查询满足要求的总记录数
+        $count  = M()-> table("currency_product as p")->where($where)->count();// 查询满足要求的总记录数
         $show   = $this  -> getPage( $count );
 
-        $res = $product -> field("id, name, price, img, cat_id") -> where($where) -> limit( $this -> Page -> firstRow.','. $this -> Page -> listRows ) -> select();
+        $res = M() 
+            -> table("currency_product as p")
+            -> field("p.id, p.name, p.price, p.img, p.cat_id, pc.type") 
+            -> join("left join currency_procate as pc on pc.id = p.cat_id")
+            -> where($where) 
+            -> limit( $this -> Page -> firstRow.','. $this -> Page -> listRows ) 
+            -> select();
+        // var_dump($res);
+
+        foreach ($res as $key => $value) {
+            $res[$key]['price_show'] = $this -> getPriceShow($value['type'], $value['price'], $value['id']);
+        }
 
         $list = array();
         for ($i=0; $i < ceil(count($res)); $i++) { 
@@ -137,4 +166,31 @@ class ShopController extends HomeController {
         return $show;
     }
 
+    private function getPriceShow($type, $price, $id) {
+        switch ($type) {
+            case 1: //红包 展示需要多少人民币
+                $price_show = $price;
+                break;
+            case 2: //报单 展示需要多少CMC和人民币
+                //获取后台配置的CMC当前价格及报单属性
+                $cfg = new RepeatCfgModel();
+                $cmc_price = $cfg -> getCfg("cmc");
+                $attr = M("product") 
+                    -> field("cmc, cny")
+                    -> where("id = ". $id)
+                    -> find();
+                // var_dump($attr);
+
+                $price_show = array("cmc" => $attr['cmc'], "cny" => $attr['cny'] * $cmc_price);
+                break;
+            case 3: //重消 展示需要多少人民币
+                $price_show = $price;
+                break;
+            default:
+                # code...
+                break;
+        }
+
+        return $price_show;
+    }
 }
