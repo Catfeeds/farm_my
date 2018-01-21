@@ -109,6 +109,7 @@ class MotionController extends AdminController {
                 ['key'=>'water','data'=>I('water')],
                 ['key'=>'water_release','data'=>I('water_release')],
                 ['key'=>'cmc','data'=>I('cmc')],
+                ['key'=>'poundage','data'=>I('poundage')],
             ];
 
             $repeat_cfg_m->startTrans();
