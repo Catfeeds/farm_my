@@ -17,30 +17,26 @@ class DistributionController extends AdminController {
     //三级分销
     public function index() {
         $bonus = M("bonus_distribution");
-        $id = I("id") ? I("id") : "";
 
-        $list = $bonus -> select();
+        $list = $bonus -> find();
 
         //添加、修改地址
-        if ($_POST) {
-            $data['name'] = $this -> strFilter(I("name")) ? $this -> strFilter(I("name")) : "";
-            $data['numpeople'] = $this -> strFilter(I("numpeople")) ? $this -> strFilter(I("numpeople")) : "";
-            $data['percentage'] = $this -> strFilter(I("percentage")) ? $this -> strFilter(I("percentage")) : "";
-            if ($id != "") {
-                $res = $bonus -> where(array("id" => $id)) -> save($data);
-                $msg = "修改";
-            } else {
-                $res = $bonus -> add($data);
-                $msg = "添加";
+        if (IS_POST) {
+
+            $data = json_encode(I('data'));
+            $back = $bonus->where(['id'=>1])->save(['data'=>$data]);
+            if (!$back){
+                $this->error('保存失败');
             }
-            if ($res) {
-                $this -> success($msg. "成功");
-            } else {
-                $this -> error($msg. "失败");
-                exit;
-            }
+
+            $this->success('保存成功');
+
+            exit();
+
         }
-        $this -> assign("bonus", $list);
+
+        $data = json_decode($list['data'],true);
+        $this -> assign("data", $data);
         $this -> display();
     }
 
