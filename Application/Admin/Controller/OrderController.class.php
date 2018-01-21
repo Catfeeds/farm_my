@@ -20,6 +20,7 @@ class OrderController extends AdminController {
             -> field("o.id, o.order, o.number, o.total_money, o.time, o.status, p.name, p.img, pc.type")
             -> join("left join currency_product as p on p.id = o.product_id")
             -> join("left join currency_procate as pc on p.cat_id = pc.id")
+            -> order("o.time desc")
             -> select();
 
         $this -> assign("list", $list);
@@ -59,21 +60,102 @@ class OrderController extends AdminController {
         //减少商品库存
         $product = M() 
             -> table("currency_shop_order as o")
-            -> field("o.number as order_number, p.id, p.number as product_number") 
+            -> field("o.number as order_number, o.user_id, p.id, p.number as product_number, pc.type") 
             -> join("left join currency_product as p on p.id = o.product_id")
+            -> join("left join currency_procate as pc on pc.id = p.cat_id")
             -> where("o.id = ". $id)
             -> find();
         // dump($product);
         if ($product['order_number'] > $product['product_number']) {
             $this -> error("商品库存不足");
         } else {
-            $res = M("product") -> save(['id' => $product['id'], "number" => ($product['product_number'] - $product['order_number'])]);
+            $res1 = M("product") -> save(['id' => $product['id'], "number" => ($product['product_number'] - $product['order_number'])]);
 
-            if ($res) {
+            if ($res1) {
                 $res2 = M("shop_order") -> save(['id' => $id, "status" => 2]);
                 if ($res2) {
-                    $this -> success("发货成功");
+                    //发放
+                    switch ($product['type']) {
+                        case '1': //红包
+                            $price = M("shop_order") 
+                                -> table("currency_shop_order as o")
+                                -> field("o.total_money, o.number, p.out, p.price") 
+                                -> join("left join currency_product as p on p.id = o.product_id")
+                                -> where("o.id = ". $id) 
+                                -> find();
+                            $data['outs'] = $price['out'];
+                            $data['provide'] = 0;
+                            $data['time'] = time();
+                            $data['user_id'] = $product['user_id'];
+                            if ($price['number'] > 1) {
+                                $data['number'] = $price['price'];
+                                for ($i=0; $i < $price['number']; $i++) { 
+                                    $data1[] = $data;
+                                }
+                                $res = M("bonus") -> addAll($data1);
+                            } else {
+                                $data['number'] = $price['price'];
+                                $res = M("bonus") -> add($data);
+                            }
+
+                            //判断是否有父级
+                            //判断父级分享过几人,
+                            //从红包分销表中得到应该的钱
+                            //插入到人民币中
+                            //分红表
+                            //用户资产明细
+                            
+                            break;
+                        case '2': //报单
+                            $data1['user_id'] = $product['user_id'];
+                            $data1['repeats'] = 0;
+                            $data1['water'] = 0;
+                            $data1['time'] = time();
+                            $data1['interest'] = 0;
+                            $data1['releases'] = 0;
+                            $data1['time_end'] = strtotime("-0 year -6 month -0 day");
+                            //购买时CMC的价格
+
+                            $info = M()
+                                -> table("currency_shop_order as o")
+                                -> field("o.number, p.price, o.cmc, p.integral")
+                                -> join("left join currency_product as p on p.id = o.product_id")
+                                -> where("o.id = ". $id)
+                                -> find();
+
+                            if ($info['number'] > 1) {
+                                for ($i=0; $i < $info['number']; $i++) { 
+                                    $data[] = array_merge(['number' => $info['integral'], 'number_all' => $info['integral'], 'price' => $info['cmc']], $data1);
+                                }
+                                $res = M("integral") -> addAll($data);
+                            } else {
+                                $data['price'] = $info['cmc'];
+                                $data['number'] = $info['integral'];
+                                $data['number_all'] = $info['integral'];
+                                $data = array_merge($data1, $data);
+                                $res = M("integral") -> add($data);
+                            }
+                             // var_dump($data);
+                            break;
+                        case '3': //重消
+                            $this -> success("确认收货");
+                        default:
+
+                            break;
+                    }
+
+                    if ($res) {
+                        $this -> success("发货成功");
+                    } else {
+                        // M("product") -> startTrans();
+                        // M("product") -> rollback();
+                        // M("shop_order") -> startTrans();
+                        // M("shop_order") -> rollback();
+
+                        $this -> error("发货失败，请稍后重试1");
+                    }
                 } else {
+                    M("product") -> rollback();
                     $this -> error("发货失败");
                 }
             } else {
