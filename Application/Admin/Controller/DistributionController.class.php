@@ -16,21 +16,10 @@ use Think\Page;
 class DistributionController extends AdminController {
     //三级分销
     public function index() {
-        $bankrecevie = M("bankreceive");
+        $bankrecevie = M("bonus_distribution");
         $banktype = M("banktype");
         $id = I("id") ? I("id") : "";
 
-        $bank = $banktype -> where("status = 1")  -> field("id, bankname") -> select();
-        $bankcard =$bankrecevie -> field("id, bank, bankcard, sort, payee") -> order("sort desc") -> where("status = 1") -> select();
-
-        //如果当前没有默认地址，则设第一个地址为默认地址
-        $default_count = $bankrecevie -> field("sort") -> where("sort = 1") -> count();
-        if ($bankcard && $default_count <= 0) {
-            $res = $bankrecevie -> where("id = ". $bankcard[0]['id']) -> save(array("sort" => 1));
-            if (!$res) {
-                $this -> error("设置默认失败");
-            }
-        }
         //添加、修改地址
         if ($_POST) {
             $data['bank'] = I("bankid");
@@ -53,7 +42,6 @@ class DistributionController extends AdminController {
                 exit;
             }
         }
-        $this -> assign("bankcard", $bankcard);
         $this -> assign("bank", $bank);
         $this -> display();
     }

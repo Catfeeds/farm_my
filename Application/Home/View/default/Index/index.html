@@ -92,7 +92,7 @@
             <div id="enter_form">
                 <gt  name="session" value="1">
                     <div class="login-after" id="login-after" >
-                        <h2>欢迎使用IceFeu</h2>
+                        <h2>欢迎使用平台</h2>
                         <dl class="accounts">
                             <dt>您正在使用的<strong>帐号</strong>为</dt>
                             <dt><span id="username"  class="cff3333">{$wo}</span></dt>
@@ -174,142 +174,142 @@
             <!--</div>-->
         </div>
     </div>
-    <div id="market_area">
-        <div class="container">
-            <div class="market_left">
-                <h2>市场行情</h2>
-                <ul class="market_type" id="market_type">
-                    <foreach name="xnb" item="vo">
-                        <li class="xnb" data-type="btc|cny" onclick="rik(this)" value="{$vo.brief}">{$vo.name}<br/><span>{$vo.brief}</span></li>
-                    </foreach>
-                    <li class="xnb"><a href="{:U('Trade/buy')}">更多产品</a></li>
-                    <!--<li class=" xnb" data-type="btc|cny" onclick="rik(this)" value="BTB">比特币<span >BTB</span></li>-->
-                    <!--<li data-type="ltc|cny" onclick="rik(this)" value="BHB">产品<span >BHB</span></li>-->
-                    <!--<li data-type="eth|cny" data-period="15min" id="market_eth_tab" onclick="rik(this)" value="DQB">地球币<span>DQB</span></li>-->
-                </ul>
-            </div>
-            <div class="market_right">
-                <div class="market_sub">
-                    <div class="sub_top market_top">
-                        <ul class="list-unstyled top_" id="tmp_overview">
-                            <li class="price_box now_price font_down"><span class="price">&yen;&nbsp;19949.97</span>&nbsp;
-                                <!--<i-->
-                                    <!--class="glyphicon glyphicon-arrow-down"></i>-->
-                            </li>
-                            <li class="price_box">最低价&nbsp;<span class="font_down low">&yen;&nbsp;19380.03</span></li>
-                            <li class="price_box">最高价&nbsp;<span class="font_up high">&yen;&nbsp;20218.63</span></li>
-                            <li class="price_box price_rose">涨幅&nbsp;<span class="rose font_up">2.88%</span></li>
-                            <!--<li class="total_box">-->
-                                <!--<div class="total_table">24H成交量&nbsp;<span class="total">฿&nbsp;12861.6143</span></div>-->
+    <!--<div id="market_area">-->
+        <!--<div class="container">-->
+            <!--<div class="market_left">-->
+                <!--<h2>市场行情</h2>-->
+                <!--<ul class="market_type" id="market_type">-->
+                    <!--<foreach name="xnb" item="vo">-->
+                        <!--<li class="xnb" data-type="btc|cny" onclick="rik(this)" value="{$vo.brief}">{$vo.name}<br/><span>{$vo.brief}</span></li>-->
+                    <!--</foreach>-->
+                    <!--<li class="xnb"><a href="{:U('Trade/buy')}">更多产品</a></li>-->
+                    <!--&lt;!&ndash;<li class=" xnb" data-type="btc|cny" onclick="rik(this)" value="BTB">比特币<span >BTB</span></li>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<li data-type="ltc|cny" onclick="rik(this)" value="BHB">产品<span >BHB</span></li>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<li data-type="eth|cny" data-period="15min" id="market_eth_tab" onclick="rik(this)" value="DQB">地球币<span>DQB</span></li>&ndash;&gt;-->
+                <!--</ul>-->
+            <!--</div>-->
+            <!--<div class="market_right">-->
+                <!--<div class="market_sub">-->
+                    <!--<div class="sub_top market_top">-->
+                        <!--<ul class="list-unstyled top_" id="tmp_overview">-->
+                            <!--<li class="price_box now_price font_down"><span class="price">&yen;&nbsp;19949.97</span>&nbsp;-->
+                                <!--&lt;!&ndash;<i&ndash;&gt;-->
+                                    <!--&lt;!&ndash;class="glyphicon glyphicon-arrow-down"></i>&ndash;&gt;-->
                             <!--</li>-->
-                        </ul>
-                    </div>
-                    <div class="sub_bottom" id="market">
+                            <!--<li class="price_box">最低价&nbsp;<span class="font_down low">&yen;&nbsp;19380.03</span></li>-->
+                            <!--<li class="price_box">最高价&nbsp;<span class="font_up high">&yen;&nbsp;20218.63</span></li>-->
+                            <!--<li class="price_box price_rose">涨幅&nbsp;<span class="rose font_up">2.88%</span></li>-->
+                            <!--&lt;!&ndash;<li class="total_box">&ndash;&gt;-->
+                                <!--&lt;!&ndash;<div class="total_table">24H成交量&nbsp;<span class="total">฿&nbsp;12861.6143</span></div>&ndash;&gt;-->
+                            <!--&lt;!&ndash;</li>&ndash;&gt;-->
+                        <!--</ul>-->
+                    <!--</div>-->
+                    <!--<div class="sub_bottom" id="market">-->
 
-                        <div class="sub_flash" id="kxiantu">
-                            <!--<iframe src=""-->
-                            <!--name="HB_Home_iframe" id="HB_Home_iframe" height="100%" width="100%"-->
-                            <!--frameborder="0" cellpadding="0" cellspacing="0"></iframe>-->
+                        <!--<div class="sub_flash" id="kxiantu">-->
+                            <!--&lt;!&ndash;<iframe src=""&ndash;&gt;-->
+                            <!--&lt;!&ndash;name="HB_Home_iframe" id="HB_Home_iframe" height="100%" width="100%"&ndash;&gt;-->
+                            <!--&lt;!&ndash;frameborder="0" cellpadding="0" cellspacing="0"></iframe>&ndash;&gt;-->
 
-                        </div>
-                        <!--<div class="sub_tx">
-                            <div class="tx_title"><b>买卖盘</b>
-                                <div class="index_depth">
-                                    <div class="depth_box" id="change_depth">
-                                        <div class="depth_info"><span class="depth_name">深度</span> <span
-                                                class="now_depth">0</span> <i class="icon_gray_arrows"></i></div>
-                                        <ul class="change_depth" style="display: none">
-                                            <li class="tb" data-depth="0">0</li>
-                                            <li data-depth="1">1</li>
-                                            <li data-depth="2">2</li>
-                                            <li data-depth="3">3</li>
-                                            <li data-depth="4">4</li>
-                                            <li data-depth="5">5</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="market_all">
-                                <ul class="m_t_o" id="tmp_depth">
-                                    <li><span class="tx_1 font_sell">卖5 </span> <span class="tx_2">￥ 19960.00</span>
-                                        <span class="tx_3 font_sell">9.0000</span></li>
-                                    <li><span class="tx_1 font_sell">卖4 </span> <span class="tx_2">￥ 19959.97</span>
-                                        <span class="tx_3 font_sell">1.0000</span></li>
-                                    <li><span class="tx_1 font_sell">卖3 </span> <span class="tx_2">￥ 19950.00</span>
-                                        <span class="tx_3 font_sell">0.2860</span></li>
-                                    <li><span class="tx_1 font_sell">卖2 </span> <span class="tx_2">￥ 19949.99</span>
-                                        <span class="tx_3 font_sell">0.1601</span></li>
-                                    <li><span class="tx_1 font_sell">卖1 </span> <span class="tx_2">￥ 19949.97</span>
-                                        <span class="tx_3 font_sell">2.3001</span></li>
-                                    <li class="mid"></li>
-                                    <li><span class="tx_1 font_buy">买1 </span> <span class="tx_2">￥ 19945.00</span>
-                                        <span class="tx_3 font_buy">0.4449</span></li>
-                                    <li><span class="tx_1 font_buy">买2 </span> <span class="tx_2">￥ 19942.00</span>
-                                        <span class="tx_3 font_buy">2.0000</span></li>
-                                    <li><span class="tx_1 font_buy">买3 </span> <span class="tx_2">￥ 19931.30</span>
-                                        <span class="tx_3 font_buy">0.1395</span></li>
-                                    <li><span class="tx_1 font_buy">买4 </span> <span class="tx_2">￥ 19930.00</span>
-                                        <span class="tx_3 font_buy">5.0000</span></li>
-                                    <li><span class="tx_1 font_buy">买5 </span> <span class="tx_2">￥ 19910.06</span>
-                                        <span class="tx_3 font_buy">0.9900</span></li>
-                                </ul>
-                                <div class="tx_title tx_s"><b>实时成交</b></div>
-                                <ul class="m_t_y" id="tmp_trades">
-                                    <li><span class="tx_1">10:53:53</span> <span class="tx_2">￥ 19949.97</span>
-                                        <span class="tx_3 font_sell">3.0776↓                                                                            </span>
-                                    </li>
-                                    <li><span class="tx_1">10:53:44</span> <span class="tx_2">￥ 19949.97</span>
-                                        <span class="tx_3 font_sell">0.2844↓                                                                            </span>
-                                    </li>
-                                    <li><span class="tx_1">10:53:40</span> <span class="tx_2">￥ 19949.97</span>
-                                        <span class="tx_3 font_sell">0.0320↓                                                                            </span>
-                                    </li>
-                                    <li><span class="tx_1">10:53:31</span> <span class="tx_2">￥ 19949.97</span>
-                                        <span class="tx_3 font_sell">0.0320↓                                                                            </span>
-                                    </li>
-                                    <li><span class="tx_1">10:53:28</span> <span class="tx_2">￥ 19949.97</span>
-                                        <span class="tx_3 font_sell">0.0320↓                                                                            </span>
-                                    </li>
-                                    <li><span class="tx_1">10:53:14</span> <span class="tx_2">￥ 19949.97</span>
-                                        <span class="tx_3 font_sell">0.0320↓                                                                            </span>
-                                    </li>
-                                    <li><span class="tx_1">10:52:39</span> <span class="tx_2">￥ 19949.97</span>
-                                        <span class="tx_3 font_sell">0.0320↓                                                                            </span>
-                                    </li>
-                                    <li><span class="tx_1">10:52:37</span> <span class="tx_2">￥ 19949.97</span>
-                                        <span class="tx_3 font_sell">0.2520↓                                                                            </span>
-                                    </li>
-                                    <li><span class="tx_1">10:52:12</span> <span class="tx_2">￥ 19949.97</span>
-                                        <span class="tx_3 font_sell">1.0374↓                                                                            </span>
-                                    </li>
-                                    <li><span class="tx_1">10:52:10</span> <span class="tx_2">￥ 19949.97</span>
-                                        <span class="tx_3 font_sell">0.0109↓                                                                            </span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>-->
+                        <!--</div>-->
+                        <!--&lt;!&ndash;<div class="sub_tx">-->
+                            <!--<div class="tx_title"><b>买卖盘</b>-->
+                                <!--<div class="index_depth">-->
+                                    <!--<div class="depth_box" id="change_depth">-->
+                                        <!--<div class="depth_info"><span class="depth_name">深度</span> <span-->
+                                                <!--class="now_depth">0</span> <i class="icon_gray_arrows"></i></div>-->
+                                        <!--<ul class="change_depth" style="display: none">-->
+                                            <!--<li class="tb" data-depth="0">0</li>-->
+                                            <!--<li data-depth="1">1</li>-->
+                                            <!--<li data-depth="2">2</li>-->
+                                            <!--<li data-depth="3">3</li>-->
+                                            <!--<li data-depth="4">4</li>-->
+                                            <!--<li data-depth="5">5</li>-->
+                                        <!--</ul>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div id="market_all">-->
+                                <!--<ul class="m_t_o" id="tmp_depth">-->
+                                    <!--<li><span class="tx_1 font_sell">卖5 </span> <span class="tx_2">￥ 19960.00</span>-->
+                                        <!--<span class="tx_3 font_sell">9.0000</span></li>-->
+                                    <!--<li><span class="tx_1 font_sell">卖4 </span> <span class="tx_2">￥ 19959.97</span>-->
+                                        <!--<span class="tx_3 font_sell">1.0000</span></li>-->
+                                    <!--<li><span class="tx_1 font_sell">卖3 </span> <span class="tx_2">￥ 19950.00</span>-->
+                                        <!--<span class="tx_3 font_sell">0.2860</span></li>-->
+                                    <!--<li><span class="tx_1 font_sell">卖2 </span> <span class="tx_2">￥ 19949.99</span>-->
+                                        <!--<span class="tx_3 font_sell">0.1601</span></li>-->
+                                    <!--<li><span class="tx_1 font_sell">卖1 </span> <span class="tx_2">￥ 19949.97</span>-->
+                                        <!--<span class="tx_3 font_sell">2.3001</span></li>-->
+                                    <!--<li class="mid"></li>-->
+                                    <!--<li><span class="tx_1 font_buy">买1 </span> <span class="tx_2">￥ 19945.00</span>-->
+                                        <!--<span class="tx_3 font_buy">0.4449</span></li>-->
+                                    <!--<li><span class="tx_1 font_buy">买2 </span> <span class="tx_2">￥ 19942.00</span>-->
+                                        <!--<span class="tx_3 font_buy">2.0000</span></li>-->
+                                    <!--<li><span class="tx_1 font_buy">买3 </span> <span class="tx_2">￥ 19931.30</span>-->
+                                        <!--<span class="tx_3 font_buy">0.1395</span></li>-->
+                                    <!--<li><span class="tx_1 font_buy">买4 </span> <span class="tx_2">￥ 19930.00</span>-->
+                                        <!--<span class="tx_3 font_buy">5.0000</span></li>-->
+                                    <!--<li><span class="tx_1 font_buy">买5 </span> <span class="tx_2">￥ 19910.06</span>-->
+                                        <!--<span class="tx_3 font_buy">0.9900</span></li>-->
+                                <!--</ul>-->
+                                <!--<div class="tx_title tx_s"><b>实时成交</b></div>-->
+                                <!--<ul class="m_t_y" id="tmp_trades">-->
+                                    <!--<li><span class="tx_1">10:53:53</span> <span class="tx_2">￥ 19949.97</span>-->
+                                        <!--<span class="tx_3 font_sell">3.0776↓                                                                            </span>-->
+                                    <!--</li>-->
+                                    <!--<li><span class="tx_1">10:53:44</span> <span class="tx_2">￥ 19949.97</span>-->
+                                        <!--<span class="tx_3 font_sell">0.2844↓                                                                            </span>-->
+                                    <!--</li>-->
+                                    <!--<li><span class="tx_1">10:53:40</span> <span class="tx_2">￥ 19949.97</span>-->
+                                        <!--<span class="tx_3 font_sell">0.0320↓                                                                            </span>-->
+                                    <!--</li>-->
+                                    <!--<li><span class="tx_1">10:53:31</span> <span class="tx_2">￥ 19949.97</span>-->
+                                        <!--<span class="tx_3 font_sell">0.0320↓                                                                            </span>-->
+                                    <!--</li>-->
+                                    <!--<li><span class="tx_1">10:53:28</span> <span class="tx_2">￥ 19949.97</span>-->
+                                        <!--<span class="tx_3 font_sell">0.0320↓                                                                            </span>-->
+                                    <!--</li>-->
+                                    <!--<li><span class="tx_1">10:53:14</span> <span class="tx_2">￥ 19949.97</span>-->
+                                        <!--<span class="tx_3 font_sell">0.0320↓                                                                            </span>-->
+                                    <!--</li>-->
+                                    <!--<li><span class="tx_1">10:52:39</span> <span class="tx_2">￥ 19949.97</span>-->
+                                        <!--<span class="tx_3 font_sell">0.0320↓                                                                            </span>-->
+                                    <!--</li>-->
+                                    <!--<li><span class="tx_1">10:52:37</span> <span class="tx_2">￥ 19949.97</span>-->
+                                        <!--<span class="tx_3 font_sell">0.2520↓                                                                            </span>-->
+                                    <!--</li>-->
+                                    <!--<li><span class="tx_1">10:52:12</span> <span class="tx_2">￥ 19949.97</span>-->
+                                        <!--<span class="tx_3 font_sell">1.0374↓                                                                            </span>-->
+                                    <!--</li>-->
+                                    <!--<li><span class="tx_1">10:52:10</span> <span class="tx_2">￥ 19949.97</span>-->
+                                        <!--<span class="tx_3 font_sell">0.0109↓                                                                            </span>-->
+                                    <!--</li>-->
+                                <!--</ul>-->
+                            <!--</div>-->
+                        <!--</div>&ndash;&gt;-->
 
 
-                        <div class="clearfix"></div>
-                    </div>
-                </div>
-				<input type="hidden" name="markets" value="{$market}">
-                  <div class="timing">
-			            	<button class="fiveminter minterxian" onclick="fivemin(this)" value="300">5分钟线</button>
-			            	<button class="fiveminter minterxian" onclick="fivemin(this)" value="900">15分钟线</button>
-			            	<button class="fiveminter minterxian" onclick="thertyemin(this)" value="1800">30分钟线</button>
-			            	<button class="fiveminter minterxian" onclick="onehero(this)" value="3600">1小时线</button>
-			            	<button class="fiveminter minterxian" onclick="eighero(this)" value="28800">8小时线</button>
-			            	<button class="riline activebtn" onclick="riks()">日线</button>
-			       </div>
-            </div>
-            <div style="clear: both;"></div>
-             <div class="notice warm-prompt">
-                <p><span>温馨提示：</span>请您投资前对本次投资有充分认知，理性判断自己的投资能力，审慎做出投资决策</p>
-                <!--<img onclick="$(this).parent().hide()" class="close_hint" src="__IMG__/base_images/close_hint.png" />-->
-            </div>
-        </div>
-    </div>
+                        <!--<div class="clearfix"></div>-->
+                    <!--</div>-->
+                <!--</div>-->
+				<!--<input type="hidden" name="markets" value="{$market}">-->
+                  <!--<div class="timing">-->
+			            	<!--<button class="fiveminter minterxian" onclick="fivemin(this)" value="300">5分钟线</button>-->
+			            	<!--<button class="fiveminter minterxian" onclick="fivemin(this)" value="900">15分钟线</button>-->
+			            	<!--<button class="fiveminter minterxian" onclick="thertyemin(this)" value="1800">30分钟线</button>-->
+			            	<!--<button class="fiveminter minterxian" onclick="onehero(this)" value="3600">1小时线</button>-->
+			            	<!--<button class="fiveminter minterxian" onclick="eighero(this)" value="28800">8小时线</button>-->
+			            	<!--<button class="riline activebtn" onclick="riks()">日线</button>-->
+			       <!--</div>-->
+            <!--</div>-->
+            <!--<div style="clear: both;"></div>-->
+             <!--<div class="notice warm-prompt">-->
+                <!--<p><span>温馨提示：</span>请您投资前对本次投资有充分认知，理性判断自己的投资能力，审慎做出投资决策</p>-->
+                <!--&lt;!&ndash;<img onclick="$(this).parent().hide()" class="close_hint" src="__IMG__/base_images/close_hint.png" />&ndash;&gt;-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
     <div class="news index-partners">
         <h5>行业资讯</h5>
         <div class="container" id="News">
@@ -345,13 +345,13 @@
                 </ul>
             </div>
             <div class="similar" >
-                <div id="qrcode_ios"></div>
-                <!--<img src="{$public_code}" alt="andriod二维码">-->
+                <!--<div id="qrcode_ios"></div>-->
+                <img src="{$public_code}" alt="andriod二维码">
                 <a href="{:U('DownLoadCenter/APPDownload', array('tag' => 0))}"><p>ios版</p></a>
             </div>
             <div class="similar">
-                <div  id="qrcode_android"></div>
-                <!--<img src="{$android_code}" alt="andriod二维码">-->
+                <!--<div  id="qrcode_android"></div>-->
+                <img src="{$android_code}" alt="andriod二维码">
                 <a href="{:U('DownLoadCenter/APPDownload', array('tag' => 0))}"><p>Android版</p></a>
             </div>
         </div>
