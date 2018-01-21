@@ -123,8 +123,16 @@ class UserpropertyModel extends Model{
 
 		if ($status==1){
 
+		    if ($money_back[$xnb_data['brief']] < $number ){
+
+		        $this->error='资产不足';
+		        return false;
+
+            }
+
             $back = $this->where(['userid'=>$userid])->setDec($xnb_data['brief'],$number);  // 减少用户资产
 
+            $number = -$number;
         }else{
 
             $back = $this->where(['userid'=>$userid])->setInc($xnb_data['brief'],$number);  // 减少用户资产
@@ -132,7 +140,7 @@ class UserpropertyModel extends Model{
         }
 
 		if (!$back){
-
+            $this->error ='修改用户资产失败[number=>'.$number.']';
             return false;
         }
 
@@ -170,6 +178,8 @@ class UserpropertyModel extends Model{
             $user['name'] = $user_data['users'];
         }
 
+        $operatebehind = $number >0 ? $operaefront+$number : $operaefront-$number;
+
         $back = $property_m->add([
             'userid'=>$user['id'],
             'username'=>$user['name'],
@@ -177,7 +187,7 @@ class UserpropertyModel extends Model{
             'operatenumber'=>$number, //操作的数量
             'operatetype'=>$operatetype, //操作的类型
             'operaefront'=>$operaefront,//操作之前
-            'operatebehind'=>$operaefront+$number,
+            'operatebehind'=>$operatebehind,
             'explain'=>$explain,
             'time'=>time(),
         ]);

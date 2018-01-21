@@ -33,6 +33,18 @@ body{
 #finance_list li:nth-of-type(8) a{
 	background-position-y: -1264px;
 }
+#finance_list li:nth-of-type(9) a{
+	background-position-y: -1752px;
+}
+#finance_list li:nth-of-type(10) a{
+	background-position-y: -845px;
+}
+#finance_list li:nth-of-type(11) a{
+	background-position-y: -1452px;
+}
+#finance_list li:nth-of-type(12) a{
+	background-position-y: -958px;
+}
 #finance_list li:first-child.selected a,#finance_list li:first-child a:hover{
 	background-position-y: 0;
 }
@@ -57,6 +69,18 @@ body{
 }
 #finance_list li:nth-of-type(8).selected a,#finance_list li:nth-of-type(8) a:hover{
 	background-position-y: -1226px;
+}
+#finance_list li:nth-of-type(9).selected a,#finance_list li:nth-of-type(9) a:hover{
+	background-position-y: -1789px;
+}
+#finance_list li:nth-of-type(10).selected a,#finance_list li:nth-of-type(10) a:hover{
+	background-position-y: -614px;
+}
+#finance_list li:nth-of-type(11).selected a,#finance_list li:nth-of-type(11) a:hover{
+	background-position-y: -1486px;
+}
+#finance_list li:nth-of-type(12).selected a,#finance_list li:nth-of-type(12) a:hover{
+	background-position-y: -728px;
 }
 /*#finance_list li a{
 	color: #333;
