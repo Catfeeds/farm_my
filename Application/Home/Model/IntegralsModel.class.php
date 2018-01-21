@@ -23,14 +23,14 @@ class IntegralsModel extends Model{
 
 	//获取积分
 	private function getintgral($user_id){
-		$num = $this->lock(true)->where("number > 0 AND user_id = ". $user_id)->field('id, number')->order("time")->find();
+		$num = M("integral")->lock(true)->where("number > 0 AND user_id = ". $user_id)->field('id, number')->order("time")->find();
 
 		return $num;
 	}
 
 	//改变积分数量
 	private function setintgral($id, $number) {
-		$res = $this -> save(['id' => $id, 'number' => $number]);
+		$res = M("integral") -> save(['id' => $id, 'number' => $number]);
 
 		return $res;
 	}
@@ -44,6 +44,7 @@ class IntegralsModel extends Model{
 		//查询最早的积分
 		$old_num = $this -> getintgral($user_id);
 		if ($this -> old_allintegral < $price) {
+			// var_dump($this -> old_allintegral);
 			return "积分不足";
 			exit();
 		}
@@ -63,8 +64,8 @@ class IntegralsModel extends Model{
 
 	//获取所有积分
 	public function getAllIntegral($user_id) {
-		$sum = $this -> field("sum(number) as allinte") -> where("user_id = ". $user_id) -> find();
-
+		$sum = M("integral") -> field("sum(number) as allinte") -> where("user_id = ". $user_id) -> find();
+		// var_dump($sum);
 		return $sum['allinte'];
 	}
 }
