@@ -38,6 +38,7 @@ class OrderController extends HomeController {
             -> join("left join currency_product as p on p.id = o.product_id")
             -> join("left join currency_procate as pc on p.cat_id = pc.id")
             -> where("o.user_id = ". session("user")['id'])
+            -> order("o.time desc")
             -> select();
 
         $this -> assign("list", $list);
