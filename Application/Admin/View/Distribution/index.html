@@ -3,6 +3,17 @@
     <link rel="stylesheet" type="text/css" href="./Public/Admin/Finance/receivables.css" media="all">
     <link rel="stylesheet" type="text/css" href="./Public/Admin/mypubliccss/button.css" media="all">
     <link rel="stylesheet" type="text/css" href="./Public/Admin/css/jquery.editable-select.min.css" media="all">
+    <style>
+        .imgs{
+            width: 30px;height: 30px;
+        }
+        .delete{
+            width: 27px;height: 27px;
+            position: absolute;
+            margin-top:2px;
+            margin-left: 10px;
+        }
+    </style>
 </block>
 
 <block name="body">
@@ -12,22 +23,23 @@
     <form class="ajax_form" method="post">
         <div>
             <table class="tables" >
-                <volist name="bonus" id="vo">
+                <tbody>
+                <php>
+                    $date = ['一','二','三','四','五','六','七','八'];
+                </php>
+                <foreach name="data" item="vo" key="k">
                     <tr>
-                        <td><span class="span">{$vo.name}</span></td>
-                        <td><input type="text" value="{$vo.numpeople}" class="address" readonly></td>
-                        <td><input type="text" value="{$vo.percentage}" class="address" readonly>%</td>
-                        <td><a href="#" class="delete" data="{$vo.id}">删除</a></td>
-                        <td><a href="#" class="edit" data="{$vo.id}">编辑</a></td>
+                        <td>第{$date[$k]}级</td>
+                        <td>分享人数 : <input type="text" name="numpeople" value="{$vo.numpeople}" id="numpeople" placeholder="分享人数"></td>
+                        <td>应得百分比 : <input type="text" name="percentage"  value="{$vo.percentage}" id="percentage" placeholder="应得百分比">%</td>
                     </tr>
-                </volist>
-                <tr>
-                    <td><input type="hidden" value="" id="id"><span class="span" style="color: darkorange" id="goon">继续添加：</span></td>
-                    <td><input type="text" name="name" value="" id="name" placeholder="级别"></td>
-                    <td><input type="text" name="numpeople" value="" id="numpeople" placeholder="分享人数"></td>
-                    <td><input type="text" name="percentage" value="" id="percentage" placeholder="应得百分比">%</td>
-                </tr>
+                </foreach>
+                </tbody>
             </table>
+            <div style="padding-left: 23px">
+                <img class="add imgs" src="/Public/Admin/Motion/img/add.png" >
+                <img class="delete" src="/Public/Admin/Motion/img/delete.png">
+            </div>
         </div>
         <div class="btn-form">
             <button class="btns btns-red" type="button" id="submit">确 定</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -41,92 +53,46 @@
     <script type="text/javascript">
         //导航高亮
         highlight_subnav('{:U('index')}');
-    </script>
-    <script>
-        $("#banktype").editableSelect({
-            effects:'slide'
+        var number=['一','二','三','四','五','六','七','八'];
+        $('.add').click(function () {
+            var index = $('tbody').children().length
+            var tr = '<tr>'+
+                        '<td>第'+number[index]+'级</td>'+
+                        '<td>分享人数 : <input type="text" name="numpeople" value="" id="numpeople" placeholder="分享人数"></td>'+
+                        '<td>应得百分比 : <input type="text" name="percentage" value="" id="percentage" placeholder="应得百分比">%</td>'+
+                     '</tr>'
+            $('tbody').append(tr)
+
         })
-    </script>
-    <script>
-        var bankid = 0;
-        //添加银行卡
-        $("#submit").click(function () {
-            var name = $("#name").val();
-            var numpeople = $("#numpeople").val();
-            var percentage = $("#percentage").val();
-            var id  = $("#id").val();
 
-            $.ajax({
-                url:"{:U('Distribution/index')}",
-                type:"POST",
-                data:{
-                    "name":name,
-                    "id":id,
-                    "numpeople":numpeople,
-                    "percentage":percentage
-                },
-                success:function (data) {
-                    if (data.status != true) {
-                        set_poput_code(data.info, false);
-                        return false;
-                    } else {
-                        set_poput_code(data.info, true);
-                    }
-                }
-            });
+        $('#submit').click(function () {
 
-            if (name == '') {
-                set_poput_code("级别不能为空", false);
-                return false;
-            }
-            if (numpeople == '') {
-                set_poput_code("分享人数不能为空", false);
-                return false;
-            }
-            if (percentage == '') {
-                set_poput_code("应得百分比不能为空", false);
-                return false;
-            }
-        });
-        $(".delete").click(function () {
-            var id = $(this).attr("data");
-            $.ajax({
-                url:"{:U('Distribution/delete')}",
-                data:{
-                    "id":id
-                },
-                type:"POST",
-                success:function (data) {
-                    if (data.status != true) {
-                        set_poput_code(data.info, false);
-                    } else {
-                        set_poput_code(data.info, true);
-                    }
-                }
+            var farmData = {};
+
+            var data  = $('tbody').children()
+
+            $.each(data,function (k,v) {
+
+                farmData[k] = {'numpeople':$(v).find('[name=numpeople]').val(),'percentage':$(v).find('[name=percentage]').val()}
             })
-        });
-        $(".edit").click(function () {
-            var id = $(this).attr("data");
-            $.ajax({
-               url:"{:U('Distribution/edit')}",
-                type:"POST",
-                data:{
-                    "id":id
-                },
-                success:function(data) {
-                    var json = eval("(" + data + ")");
-                    var id = json.id;
-                    var name = json.name;
-                    var numpeople = json.numpeople;
-                    var percentage = json.percentage;
 
-                    $("#goon").text("修改地址");
-                    $("#name").val(name);
-                    $("#numpeople").val(numpeople);
-                    $("#id").val(id);
-                    $("#percentage").val(percentage);
-                }
-            });
+           $.ajax({
+               url:"",
+               data:{'data':farmData},
+               type:'post',
+               success:function(data){
+                    if (!data.status){
+                        set_poput_code(data.info,false);
+                        return false
+                    }
+                   set_poput_code(data.info,true);
+
+               }
+
+           })
+
         })
+
     </script>
+
 </block>
