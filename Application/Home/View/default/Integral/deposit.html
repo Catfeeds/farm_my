@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=9" />
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta name="description" content="农畜商品交易平台">
+    <meta name="keywords" content="数字货币交易平台,数字货币,虚拟币,虚拟币新闻资讯">
+    <meta name="author" content="lihuijie">
+    <title>委托管理-农畜商品交易平台</title>
+    <link rel="shortcut icon" href="__IMG__/base_images/bd_safe4.png">
+    <link rel="stylesheet" type="text/css" href="__CSS__/bootstrap.min.css"/>
+    <link rel="stylesheet" href="__CSS__/bae.css">
+    <link rel="stylesheet" href="__CSS__/default.css" />
+    <link rel="stylesheet" href="__CSS__/jquery.ui.css"/>
+    <link rel="stylesheet" href="__CSS__/center_left.css">
+    <link rel="stylesheet" href="__CSS__/center_header.css">
+    <link rel="stylesheet" type="text/css" href="__CSS__/finance.css"/>
+    <script type="text/javascript" src="__JS__/jquery.js" ></script>
+    <script src="__JS__/base.js"></script>
+    <style>
+        .ul_head li,dt{
+             width: 14%!important;
+             text-align: center;
+        }
+
+        .deposit{
+            width: 90px;
+            background-color: #FA4223;
+            color: white;
+            border: none;
+            box-shadow:1px 2px 2px #666666;
+            height: 33px;
+            border-radius: 3px;
+        }
+
+
+    </style>
+</head>
+<body>
+<include file="Public:header"/>
+
+<main>
+
+    <div class="container">
+        <ol class="breadcrumb">
+            <li><a href="{:U('Index/index')}">首页</a></li>
+            <li><a href="{:u('Property/finance')}">财务中心</a></li>
+            <li><a href="{:u('Integral/release')}">CMC积分</a></li>
+            <li class="active">
+                <span>CMC积分提现</span>
+            </li>
+        </ol>
+    </div>
+
+    <div class="container center_content">
+        <!--		<include file="Public:finance_left"/>-->
+        <include file="Public:finance_left"/>
+
+        <div class="pull-right finance-content">
+            <div class="big_title">
+                <h4>CMC积分提现</h4>
+                <div class="clearfix"></div>
+            </div>
+
+            <div class="currency-type form-group">
+
+                <div class="finance-mark">
+                    <div class="total-assets">
+                        <strong >可提现积分：</strong><span class="money" style="font-size: 17px">{$integral.integral}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="out-info" id="in_curr_form">
+                <h4 class="join_title">积分提现</h4>
+
+                <div class="form-group">
+                    <label>提现类型 : </label>
+                    <select value="" class="form-control" name="type" type="number" placeholder="转入数量">
+                        <option value="1" selected="selected">人民币</option>
+                        <option value="2">CMC积分</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>提现数量 : </label>
+                    <input class="form-control" name="number" type="number" placeholder="转入数量">
+                </div>
+
+                <div class="form-group">
+                    <label>交易密码 : </label>
+                    <input class="form-control" name="password" type="password" onkeyup="tradePwReg(this)" onblur="tradePwReg(this)" placeholder="交易密码">
+                    <a class="out-info-hint" href="/Home`Safety`changePw`tag`3`pane`1.html">忘记密码?</a>
+                    <span class="tips red_tips"><i class="glyphicon glyphicon-info-sign"></i>交易密码必须是6位数字</span>
+                    <span class="tips green_tips"><i class="glyphicon glyphicon-ok-sign"></i>交易密码格式正确</span>
+                </div>
+
+                <div class="out-info-present">
+                    <input type="submit" value="确认" id="in_curr_submit">
+                </div>
+
+            </div>
+
+            <div class="currency-record-hint">CMC积分提现流水</div>
+            <div class="entrust-column">
+                <ul class="ul_head">
+                    <li>序号</li>
+                    <li>提现数量</li>
+                    <li>提现类型</li>
+                    <li>手续费(人民币)</li>
+                    <li>实际到账</li>
+                    <li>提现时间</li>
+                </ul>
+            </div>
+            <div class="entrust-content">
+                <ul>
+                    <eq name="data" value="">
+                        <li>
+                            <dl style="text-align: center;line-height: 30px;font-size: 15px">oh 还没有内容！</dl>
+                        </li>
+                    </eq>
+                    <li>
+                        <foreach name="data" item="vo">
+                            <dl class="ul_head">
+                                <dt class="">{$vo['id']}</dt>
+                                <dt class="">{$vo['number_all']}</dt>
+                                <dt class=""><eq name="vo.type" value="1">人民币<else/>cmc</eq></dt>
+                                <dt class="">{$vo['poundage']}</dt>
+                                <dt class="">{$vo['number']}(<eq name="vo.type" value="1">人民币<else/>cmc</eq>)</dt>
+                                <dt class="">{$vo.time|date='Y-m-d H:i:s',### }</dt>
+                            </dl>
+                        </foreach>
+                    </li>
+                </ul>
+            </div>
+            <div class="page">
+                {$page}
+            </div>
+        </div>
+    </div>
+</main>
+
+<include file="Public:footer"/>
+
+<script type="text/javascript" src="/Public/Home/js/jquery.ui.js"></script>
+<script src="__JS__/center_left.js"></script>
+<script src="__JS__/date_picker.js"></script>
+<script type="text/javascript" src="__JS__/finance_comm.js" ></script>
+<script>
+    $(function () {
+
+        $('#in_curr_submit').click(function () {
+
+            if (!isnull($('[name=type]').val())){
+                console.log($('[name=type]').val())
+                set_poput_code('请选择提现类型',false);
+                return false;
+            }
+            if ( !isnull($('[name=number]').val()) || parseInt($('[name=number]').val()) > parseInt($('.money').text())){
+                console.log($('[name=number]').val() > $('.money').text())
+                set_poput_code('请输入正确的提现数量',false);
+                return false;
+            }
+            if ( !isnull($('[name=password]').val())){
+                set_poput_code('交易密码不正确',false);
+                return false;
+            }
+
+            $.ajax({
+                url:'',
+                type:"post",
+                data:{'type':$('[name=type]').val(),'number':$('[name=number]').val(),'password':$('[name=password]').val()},
+                success:function (data) {
+                    if (!data.status){
+                        set_poput_code(data.info,false);
+                    }else {
+                        set_poput_code(data.info,true);
+
+                    }
+                }
+
+            })
+
+            return false;
+        })
+
+
+        function isnull(variable1) {
+            if (variable1 !== null && variable1 !== undefined && variable1 !== '') {
+                return true
+            }
+            return false;
+        }
+
+
+
+    })
+</script>
+</body>
+
+</html>
