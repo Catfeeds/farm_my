@@ -80,7 +80,7 @@ class OrderController extends AdminController {
                         case '1': //红包
                             $price = M("shop_order") 
                                 -> table("currency_shop_order as o")
-                                -> field("o.total_money, o.number, p.out, p.price, u.pid, u.user_id") 
+                                -> field("o.total_money, o.number, p.out, p.price, u.pid, u.id") 
                                 -> join("left join currency_product as p on p.id = o.product_id")
                                 -> join("left join currency_users as u on o.user_id = u.id")
                                 -> where("o.id = ". $id) 
