@@ -87,7 +87,7 @@
 									<dt><eq name="vo.status" value="1">已付款</eq><eq name="vo.status" value="2">已发货</eq><eq name="vo.status" value="3">已完成</eq></dt>
 
 									<dd class="to-deal">
-										<eq name="vo.type" value="3">
+										<eq name="vo.status" value="3">
 											<input type="button" value="已完成" xnb="{$vo.xnb_id}" style="width: 80px;" />
 										<else/>
 											<input class="confirm" type="button" value="确认收货" data="{$vo.id}" data2="{$vo.type}"  style="width: 80px;" />

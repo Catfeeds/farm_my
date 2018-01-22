@@ -19,6 +19,24 @@
     <script src="__JS__/respond.min.js"></script>
 
     <![endif]-->
+
+
+    <link href="__CSS__/shop/style.css" rel="stylesheet" type="text/css" media="all" />
+<link href="__CSS__/shop/form.css" rel="stylesheet" type="text/css" media="all" />
+<link href='http://fonts.googleapis.com/css?family=Exo+2' rel='stylesheet' type='text/css'>
+<script type="text/javascript" src="__JS__/shop/jquery1.min.js"></script>
+<!-- start menu -->
+<link href="__CSS__/shop/megamenu.css" rel="stylesheet" type="text/css" media="all" />
+<script type="text/javascript" src="__JS__/shop/megamenu.js"></script>
+<script>$(document).ready(function(){$(".megamenu").megamenu();});</script>
+<!--start slider -->
+<link rel="stylesheet" href="__CSS__/shop/fwslider.css" media="all">
+<script src="__JS__/shop/jquery-ui.min.js"></script>
+<script src="__JS__/shop/css3-mediaqueries.js"></script>
+<script src="__JS__/shop/fwslider.js"></script>
+
+<script src="__JS__/shop/jquery.easydropdown.js"></script>  
+
 </head>
 <!--<script type="text/javascript">
 //		var host = window.location.host;
@@ -143,6 +161,61 @@
             <p class="text-center"><a href="{:U('Information/ardetail', array('id' => $new_notice['id']))}">【官方公告】{$new_notice.title}</a></p>
             <img onclick="$(this).parent().hide()" class="close_hint" src="__IMG__/base_images/close_hint.png" />
         </div>
+        <div class="main" >
+    <div class="wrap">
+        <div class="section group">
+            <div class=" span_2_of_3" style="margin:0 auto;">
+                <volist name="list" id="data">
+                <h2 class="head">{$data.name}<a href="{:U('Shop/lists', array('cat_id' => $data['cat_id']))}"><span style="float: right;font-size: 15px;">更多>></span></a></h2>
+
+                     <volist name="data.array" id="val">
+                    <div class="top-box">
+
+                       
+                            <volist name="val" id="val2">
+                            <div class="col_1_of_3 span_1_of_3"> 
+                                <a href="{:U('Shop/single', ['id'=>$val2['id']])}">
+                                    <div class="inner_content clearfix">
+                                        <div class="product_image">
+                                            <img style="width: 300px;height: 273px;" src="__ROOT__/{$val2['img']}" alt=""/>
+                                        </div>
+                                        <div class="price">
+                                            <div class="cart-left">
+                                                <p class="title">{$val2.name}</p>
+                                                <div class="price1">
+                                                    <eq name="val2.type" value="1">
+                                                        <span class="actual">{$val2.price_show}</span>
+                                                    </eq>
+                                                    <eq name="val2.type" value="2">
+                                                        <span class="actual">{$val2.price_show.cmc} CMC + {$val2.price_show.cny} CNY</span>
+                                                    </eq>
+                                                    <eq name="val2.type" value="3">
+                                                        <span class="actual">{$val2.price_show}</span>
+                                                    </eq>
+                                                    
+                                                </div>
+                                            </div>
+                                            <div class="cart-right"> </div>
+                                            <div class="clear"></div>
+                                        </div>              
+                                    </div>
+                                </a>
+                            </div>
+                            
+                        </volist>
+                    </volist>
+                        <div class="clear"></div>
+                    </div>   
+                </volist>
+
+            </div>
+            
+           
+        </div>
+       <div class="clear"></div>
+    </div>
+    </div>
+    </div>
     </div>
     <div id="advantages">
         <div class="container">

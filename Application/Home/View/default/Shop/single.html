@@ -8,47 +8,32 @@
 <link href="__CSS__/shop/style.css" rel="stylesheet" type="text/css" media="all" />
 <link href="__CSS__/shop/form.css" rel="stylesheet" type="text/css" media="all" />
 <link href='http://fonts.googleapis.com/css?family=Exo+2' rel='stylesheet' type='text/css'>
-<script src="__JS__/shop/jquery1.min.js"></script>
+<!-- <script src="__JS__/shop/jquery1.min.js"></script> -->
 <!-- start menu -->
 <link href="__CSS__/shop/megamenu.css" rel="stylesheet" type="text/css" media="all" />
-<script type="text/javascript" src="__JS__/shop/megamenu.js"></script>
-<script>$(document).ready(function(){$(".megamenu").megamenu();});</script>
-<script type="text/javascript" src="__JS__/shop/jquery.jscrollpane.min.js"></script>
-		<script type="text/javascript" id="sourcecode">
-			$(function()
-			{
-				$('.scroll-pane').jScrollPane();
-			});
-		</script>
-<!-- start details -->
-<script src="__JS__/shop/slides.min.jquery.js"></script>
-   <script>
-		$(function(){
-			$('#products').slides({
-				preload: true,
-				preloadImage: 'img/loading.gif',
-				effect: 'slide, fade',
-				crossfade: true,
-				slideSpeed: 350,
-				fadeSpeed: 500,
-				generateNextPrev: true,
-				generatePagination: false
-			});
-		});
-	</script>
-	<!-- start zoom -->
-	<link rel="stylesheet" href="__CSS__/shop/zoome-min.css" />
-	<script type="text/javascript" src="__JS__/shop/zoome-e.js"></script>
-	<script type="text/javascript">
-		$(function(){
-		$('#img1,#img2,#img3,#img4').zoome({showZoomState:true,magnifierSize:[250,250]});
-	});
-	</script>		
+
+
+<!-- 平台css -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=9" />
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta name="description" content="农畜商品交易平台">
+    <meta name="keywords" content="数字货币交易平台,数字货币,虚拟币,虚拟币新闻资讯">
+    <meta name="author" content="lihuijie">
+    <title>农畜商品交易平台</title>
+    <link rel="shortcut icon" href="__IMG__/base_images/bd_safe4.png">
+    <link rel="stylesheet" href="__CSS__/bootstrap.min.css">
+    <link rel="stylesheet" href="__CSS__/bae.css">
+    <link rel="stylesheet" href="__CSS__/index.css">
+
+<link rel="stylesheet" href="__ALERT__/qiwen_popup.css"/>
+<link rel="stylesheet" href="__CSS__/headersession.css"/>	
 </head>
 <body>
-       <include file="Public:shop_header"/>
+       <include file="Public:header"/>
 <div class="mens">    
-  <div class="main">
+  <div class="main" style="margin-top: 100px">
      <div class="wrap">
      	<ul class="breadcrumb breadcrumb__t"><a class="home" href="#">首页</a> / <a href="#">Dolor sit amet</a> / Lorem ipsum dolor sit amet</ul>
 		<div class="cont span_2_of_3">
@@ -56,92 +41,31 @@
 						<div id="container">
 							<div id="products_example">
 								<div id="products">
-									<div class="slides_container">
-									        <a href="#"><img class="a" style="width: 360px;height: 300px;" id="img1" src="__ROOT__/{$info['img']}" alt="" rel="__ROOT__/{$info['img']}" /></a>
-											<!-- <a href="#"><img class="a" id="img2" src="__IMG__/shop/s-img1.jpg" alt="" rel="__IMG__/shop/s-img1.jpg" /></a>
-											<a href="#"><img class="a" id="img3" src="__IMG__/shop/s-img2.jpg" alt="" rel="__IMG__/shop/s-img2.jpg" /></a>
-											<a href="#"><img class="a" id="img4" src="__IMG__/shop/s-img3.jpg" alt="" rel="__IMG__/shop/s-img3.jpg" /></a> -->
-									</div>
-									<!-- <ul class="pagination">
-										<li><a href="#"><img src="__IMG__/shop/s1.jpg" width="s-img" alt="1144953 3 2x"></a></li>
-										<li><a href="#"><img src="__IMG__/shop/s2.jpg" width="s-img1" alt="1144953 3 2x"></a></li>
-										<li><a href="#"><img src="__IMG__/shop/s3.jpg" width="s-img2" alt="1144953 3 2x"></a></li>
-										<li><a href="#"><img src="__IMG__/shop/s4.jpg" width="s-img3" alt="1144953 1 2x"></a></li><div class="clear"></div>
-									</ul> -->
+									<a href="#"><img class="a" style="width: 360px;height: 300px;" id="img1" src="__ROOT__/{$info['img']}" alt="" rel="__ROOT__/{$info['img']}" /></a>
 								</div>
 							</div>
 						</div>
 	            </div>
 		         <div class="desc1 span_3_of_2">
 		         	<h3 class="m_3">{$info.name}</h3>
-		             <p class="m_5">{$info.price} </p>
-
-					<!-- <span class="m_link"><a href="#">login to save in wishlist</a> </span> -->
-				    <p class="m_text2" style="margin: "> </p>
+		         	<eq name="info.type" value="1">
+		         		<p class="m_5">{$price_show} </p>
+		         	</eq>
+		         	<eq name="info.type" value="2">
+		         		<p class="m_5">{$price_show.cmc} CMC + {$price_show.cny} CNY </p>
+		         	</eq>
+		         	<eq name="info.type" value="3">
+		         		<p class="m_5">{$price_show} </p>
+		         	</eq>
+		             
 					<div class="btn_form">
 						<form onsubmit="return false">
-							<!-- <input type="submit" value="加入购物车" title=""> -->
 							<input type="submit" value="立即购买" id="buy" data="{$info.id}" title="">
 						</form>
 					</div>
 			     </div>
 			   <div class="clear"></div>	
 	    <div class="clients">
-	    <!-- <h3 class="m_3">相同产品</h3> -->
-		 <!-- <ul id="flexiselDemo3">
-			<li><img src="__IMG__/shop/s5.jpg" /><a href="#">Category</a><p>Rs 600</p></li>
-			<li><img src="__IMG__/shop/s6.jpg" /><a href="#">Category</a><p>Rs 850</p></li>
-			<li><img src="__IMG__/shop/s7.jpg" /><a href="#">Category</a><p>Rs 900</p></li>
-			<li><img src="__IMG__/shop/s8.jpg" /><a href="#">Category</a><p>Rs 550</p></li>
-			<li><img src="__IMG__/shop/s9.jpg" /><a href="#">Category</a><p>Rs 750</p></li>
-		 </ul> -->
-	<script type="text/javascript">
-		$(window).load(function() {
-			$("#flexiselDemo1").flexisel();
-			$("#flexiselDemo2").flexisel({
-				enableResponsiveBreakpoints: true,
-		    	responsiveBreakpoints: { 
-		    		portrait: { 
-		    			changePoint:480,
-		    			visibleItems: 1
-		    		}, 
-		    		landscape: { 
-		    			changePoint:640,
-		    			visibleItems: 2
-		    		},
-		    		tablet: { 
-		    			changePoint:768,
-		    			visibleItems: 3
-		    		}
-		    	}
-		    });
-		
-			$("#flexiselDemo3").flexisel({
-				visibleItems: 5,
-				animationSpeed: 1000,
-				autoPlay: true,
-				autoPlaySpeed: 3000,    		
-				pauseOnHover: true,
-				enableResponsiveBreakpoints: true,
-		    	responsiveBreakpoints: { 
-		    		portrait: { 
-		    			changePoint:480,
-		    			visibleItems: 1
-		    		}, 
-		    		landscape: { 
-		    			changePoint:640,
-		    			visibleItems: 2
-		    		},
-		    		tablet: { 
-		    			changePoint:768,
-		    			visibleItems: 3
-		    		}
-		    	}
-		    });
-		    
-		});
-	</script>
-	<script type="text/javascript" src="__JS__/shop/jquery.flexisel.js"></script>
      </div>
      <div class="toogle">
      	<h3 class="m_3">产品详情描述</h3>
@@ -166,31 +90,6 @@
 						
 					</volist>
 					
-                   <!-- <section  class="sky-form">
-					<h4>价格区间</h4>
-						<div class="row row1 scroll-pane">
-							<div class="col col-4">
-								<label class="checkbox"><input type="checkbox" name="checkbox" checked=""><i></i>Rs 500 - Rs 700</label>
-							</div>
-							<div class="col col-4">
-								<label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Rs 700  - Rs 1000</label>
-								<label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Rs 1000 - Rs 1500</label>
-								<label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Rs 1500 - Rs 2000</label>
-								<label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Rs 2000 - Rs 2500</label>
-								<label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Rs 2500 - Rs 3000</label>
-								<label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Rs 3500 - Rs 4000</label>
-								<label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Rs 4000 - Rs 4500</label>
-								<label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Rs 4500 - Rs 5000</label>
-								<label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Rs 5000 - Rs 5500</label>
-								<label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Rs 5500 - Rs 6000</label>
-								<label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Rs 6000 - Rs 6500</label>
-								<label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Rs 6500 - Rs 7000</label>
-								<label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Rs 7000 - Rs 7500</label>
-								<label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Rs 7500 - Rs 8000</label>
-								<label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Rs 8000 - Rs 8500</label>	
-							</div>
-						</div>
-		        </section> -->
 		       <script src="__JS__/shop/jquery.easydropdown.js"></script>
 		      </div>
 		      <div class="clear"></div>
@@ -198,13 +97,32 @@
 			 <div class="clear"></div>
 		   </div>
 		</div>
-	<include file="Public:shop_footer"/>
+	<include file="Public:footer"/>
 <div style="display:none"></div>
+
+<script src="__JS__/jquery.js"></script>
+<!-- <script type="text/javascript" src="__ALERT__/ajax.form.js"></script>
+<script type="text/javascript" src="__ALERT__/qiwen_popup.js"></script>
+<script type="text/javascript" src="__JS__/ifsession.js"></script> -->
 <script type="text/javascript">
 	$("#buy").click(function() {
-		var id = $(this).attr("data");
-		window.location.href="/Home`Buy`buy?product_id="+ id;
+		$.ajax({
+            url:"{:U('Session/ifsession')}",
+            type:"get",
+            success:function(data) {
+            	var id = $(this).attr("data");
+                var href="/Home`Buy`buy?product_id="+ id;
+                if(data!=true){
+                    lock();
+                    return false
+                }
+                location.href=href
+            }
+        })
+        return false
 	});
+
+
 </script>
 </body>
 </html>

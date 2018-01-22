@@ -7,7 +7,22 @@
   <meta name="description" content="">
   <meta name="keywords" content="">
 
-  <title>Shoping cart</title>
+  <title>支付页面</title>
+
+<!-- 平台css -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=9" />
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta name="description" content="农畜商品交易平台">
+    <meta name="keywords" content="数字货币交易平台,数字货币,虚拟币,虚拟币新闻资讯">
+    <meta name="author" content="lihuijie">
+    <title>农畜商品交易平台</title>
+    <link rel="shortcut icon" href="__IMG__/base_images/bd_safe4.png">
+    <link rel="stylesheet" href="__CSS__/bootstrap.min.css">
+    <link rel="stylesheet" href="__CSS__/bae.css">
+    <link rel="stylesheet" href="__CSS__/index.css">
+
 
   <link rel="shortcut icon" href="favicon.ico">
   <link href="__CSS__/cart/style.css" media="screen" rel="stylesheet" type="text/css">
@@ -107,8 +122,8 @@
 
 </head>
 <body>
-  <include file="Public:shop_header"/>
-  <section id="main" class="entire_width">
+  <include file="Public:header"/>
+  <section id="main" class="entire_width" style="margin-top: 100px;">
     <div class="container_12">
        <div class="grid_12">
        <h1 class="page_title">支付页面</h1>
@@ -130,28 +145,33 @@
 		     <td class="images"><a href="product_page.html"><img src="__ROOT__/{$info['img']}" alt="Product 6"></a></td>
 		     <td class="bg name">{$info.name}</td>
 		     <td class="edit"><a title="" href="#">Edit</a></td>
-		     <td class="bg price">{$info.price}</td>
+		     <td class="bg price" style="display: none" id="price" data="{$info.price}"></td>
+         <eq name="info.type" value="1"><td class="bg price">{$info.price_single}</td></eq>
+         <eq name="info.type" value="2"><td class="bg price">{$info.price_single.cmc} CMC + {$info.price_single.cny} CNY</td></eq>
+         <eq name="info.type" value="3"><td class="bg price">{$info.price_single}</td></eq>
 		     <td class="qty"><input type="text" id="number" name="" value="{$number}" placeholder="1000" readonly="true" /></td>
-		     <td class="bg subtotal">{$total_price}</td>
-		     <td class="close"><a title="close" class="close" href="#"></a></td>
+		     <eq name="info.type" value="1"><td class="bg price">{$info.price_show}</td></eq>
+         <eq name="info.type" value="2"><td class="bg price">{$info.price_show.cmc} CMC + {$info.price_show.cny} CNY</td></eq>
+         <eq name="info.type" value="3"><td class="bg price">{$info.price_show}</td></eq>
+		     <!-- <td class="close"><a title="close" class="close" href="#"></a></td> -->
 	      </tr>
        </table>
        </div><!-- .grid_12 -->
 
        <div id="content_bottom">
         <div class="grid_4">
-          <div class="bottom_block estimate">
+          <div class="bottom_block discount">
             <h3>选择支付方式</h3>
             <p></p>
-      <form>
-        <p>
-         <select id="method">
-          <volist name="method" id="data">
-            <option value="{$data.method}">{$data.name}</option>
-          </volist>
-         </select>
-        </p>
-      </form>
+              <form>
+                <p>
+                 <select id="method">
+                  <volist name="method" id="data">
+                    <option value="{$data.method}">{$data.name}</option>
+                  </volist>
+                 </select>
+                </p>
+              </form>
 
           </div><!-- .estimate -->
         </div><!-- .grid_4 -->
@@ -162,7 +182,7 @@
             <p></p>
       <form>
         <p>
-         <input type="password" id="deal_pwd" name="" value="" placeholder="请输入交易密码"/>
+         <input type="password" id="deal_pwd" name="" value="" placeholder="请输入交易密码" style="height: 33px;" />
         </p>
       </form>
           </div><!-- .discount -->
@@ -172,7 +192,10 @@
           <div class="bottom_block total">
         <table class="subtotal">
          <tr class="grand_total">
-          <td>总价格</td><td class="price">{$total_price}</td>
+          <td>总价格</td>
+         <eq name="info.type" value="1"><td class="bg price total_price" style="width: 200px;">{$info.price_show}元</td></eq>
+         <eq name="info.type" value="2"><td class="bg price total_price" style="width: 200px;">{$info.price_show.cmc} CMC + {$info.price_show.cny} CNY</td></eq>
+         <eq name="info.type" value="3"><td class="bg price total_price" style="width: 200px;">{$info.price_show}元</td></eq>
          </tr>
         </table>
       <button class="checkout" id="pay">确认支付</button>
@@ -193,20 +216,23 @@
   <!-- #main -->
 
   <div class="clear"></div>
-<include file="Public:shop_footer"/>
+<include file="Public:footer"/>
 <script type="text/javascript">
   $("#pay").click(function() {
-    var product_id = $("#product_id").attr("data");
+    var product_id  = $("#product_id").attr("data");
     var total_price = $("#total_price").attr("data");
-    var number = $("#number").val();
-    var ship_id = $("#ship_id").attr("data");
-    var method = $("#method").val();
-    var deal_pwd = $("#deal_pwd").val();
+    var number      = $("#number").val();
+    var ship_id     = $("#ship_id").attr("data");
+    var method      = $("#method").val();
+    var deal_pwd    = $("#deal_pwd").val();
+    var price       = $("#price").attr("data");
+
+    // alert(total_price);
 
     $.ajax({
       url:"{:U('pay')}",
       type:"POST",
-      data:{product_id:product_id,total_money:total_price,number:number,ship_id:ship_id,method:method,deal_pwd:deal_pwd},
+      data:{product_id:product_id,total_money:total_price,number:number,ship_id:ship_id,method:method,deal_pwd:deal_pwd,price:price},
       success:function(data) {
         if (data.status!=true){   //请求失败
             alert(data.info);
@@ -219,6 +245,28 @@
       }
     })
   });
+  $("#method").click(function() {
+    if ($(this).val() == 4) {
+      var total_price = $("#total_price").attr("data");
+      $.ajax({
+        url:"{:U('getIntegralPrice')}",
+        type:"POST",
+        data:{total_price:total_price},
+        success:function(data) {
+          // alert(data);
+          $(".total_price").text(data + "积分");
+        }
+      })
+    }
+    if ($(this).val() == 3) {
+      var text = $("#total_price").attr("data");
+      $(".total_price").text(text + "红包");
+    }
+    if ($(this).val() == 1) {
+      var text = $("#total_price").attr("data");
+      $(".total_price").text(text + "元");
+    }
+  })
 </script>
 </body>
 <!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->

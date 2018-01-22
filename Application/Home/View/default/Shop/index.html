@@ -16,6 +16,7 @@
 <link rel="stylesheet" href="__CSS__/bootstrap.min.css">
 <link rel="stylesheet" href="__CSS__/bae.css">
 <link rel="stylesheet" href="__CSS__/index.css">
+
 <link href="__CSS__/shop/style.css" rel="stylesheet" type="text/css" media="all" />
 <link href="__CSS__/shop/form.css" rel="stylesheet" type="text/css" media="all" />
 <link href='http://fonts.googleapis.com/css?family=Exo+2' rel='stylesheet' type='text/css'>
@@ -29,8 +30,8 @@
 <script src="__JS__/shop/jquery-ui.min.js"></script>
 <script src="__JS__/shop/css3-mediaqueries.js"></script>
 <script src="__JS__/shop/fwslider.js"></script>
-<!--end slider -->
-<script src="__JS__/shop/jquery.easydropdown.js"></script>
+
+<script src="__JS__/shop/jquery.easydropdown.js"></script>  
 </head>
 <body>
 	<include file="Public:header"/>
@@ -77,7 +78,16 @@
 								   			<div class="cart-left">
 												<p class="title">{$val.name}</p>
 												<div class="price1">
-									  				<span class="actual">{$val.price}</span>
+													<eq name="val.type" value="1">
+														<span class="actual">{$val.price_show}</span>
+													</eq>
+													<eq name="val.type" value="2">
+														<span class="actual">{$val.price_show.cmc} CMC + {$val.price_show.cny} CNY</span>
+													</eq>
+													<eq name="val.type" value="3">
+														<span class="actual">{$val.price_show}</span>
+													</eq>
+									  				
 												</div>
 											</div>
 											<div class="cart-right"> </div>
