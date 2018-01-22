@@ -26,6 +26,8 @@ class BonusController extends Controller
 
     private $error;
 
+    private $child_id;
+
     /**
      * @return mixed
      */
@@ -106,6 +108,7 @@ class BonusController extends Controller
     public function setUser($user)
     {
         $this->user = $user;
+        $this->child_id= $user['id'];
     }
 
 
@@ -138,7 +141,7 @@ class BonusController extends Controller
 
                 $this->setRegister($i);
 
-                $back = $this->bonus();
+                $back = $this->bonus($UsersModel,new UserpropertyModel());
 
                 if (!$back){
                     throw new Exception($this->errot);
@@ -161,27 +164,41 @@ class BonusController extends Controller
     /**
      * 红包发放
      */
-    public function bonus(){
+    public function bonus(UsersModel $usersModel,UserpropertyModel $userpropertyModel){
 
         $numpeople = $this->cfg[$this->register]['numpeople'];
+
         $percentage = $this->cfg[$this->register]['percentage'];
 
-        $UsersModel = new UsersModel();
-
-        $countChild = $UsersModel->countChild($this->user['id']);
+        $countChild = $usersModel->countChild($this->user['id']);
 
         #如果满足条件
         if ($countChild>=$numpeople){
+
            $money = $this->money*$percentage/100;
 
-           $UserpropertyModel = new UserpropertyModel();
-
-           $back = $UserpropertyModel->setChangeMoney(1,$money,$this->user['id'],'红包分成',2);
+           $back = $userpropertyModel->setChangeMoney(1,$money,$this->user['id'],'红包分成',2);
 
            if (!$back){
-               $this->errot = $UserpropertyModel->getError();
+               $this->errot = $userpropertyModel->getError();
                return false;
            }
+
+           #红包分层记录
+            $back = M('bonus_deduct')->add([
+                'user_id'=>$this->user['id'],
+                'child_id'=>$this->child_id,
+                'number'=>$money,
+                'time'=>time()
+            ]);
+
+           if (!$back){
+
+               $this->error='提成记录生成失败！';
+
+               return false;
+           }
+
         }
 
         return true;
