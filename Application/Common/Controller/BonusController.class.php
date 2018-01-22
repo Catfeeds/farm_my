@@ -143,7 +143,10 @@ class BonusController extends Controller
                 }
 
             }
+
             $UsersModel->commit();
+            return true;
+
         }catch (\Exception $e){
             $UsersModel->rollback();
             return false;
