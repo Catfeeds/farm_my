@@ -3,6 +3,7 @@
  */
 function lock() {
     var $screen=$("#lock_screen");
+    
     $(".showlock").click(function () {
         $("#enter_form_lock").show();
         var x = $(document).width();
