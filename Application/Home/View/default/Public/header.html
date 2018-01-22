@@ -2,7 +2,7 @@
 <header>
 
     <div class="container">
-        <p>您好，欢迎来到中国领先的农畜产品交易平台!</p>
+        <p>您好，欢迎来到中国领先的华联全球商贸平台!</p>
         <ul class="list-inline">
             <gt name="session" value="1">
                 <li><a id="right" href="{:U('Property/finance?tag=0')}" value="{$id}">{$id}</a></li>
@@ -26,9 +26,9 @@
             <li <eq name='CONTROLLER_NAME' value='Trade'>class="selected"<else/>class="similar  trade"</eq>><a href="{:U('Trade/buy')}" class="trade_centre" data-text="交易中心">交易中心</a></li>
             <li <eq name='CONTROLLER_NAME' value='Property'>class="selected"<else/>class="similar showlock property"</eq>><a href="{:U('Property/finance')}"  class="property_centre" data-text="财务中心">财务中心</a></li>
             <li <eq name='CONTROLLER_NAME' value='Safety'>class="selected"<else/>class="similar showlock safety"</eq>><a href="{:U('Safety/safeCenter')}" class="safe_centre" data-text="安全中心">安全中心</a></li>
-            <li <eq name='CONTROLLER_NAME' value='Help'>class="selected"<else/>class="similar"</eq>><a href="{:U('Help/help')}" data-text="帮助中心">帮助中心</a></li>
+            <!--<li <eq name='CONTROLLER_NAME' value='Help'>class="selected"<else/>class="similar"</eq>><a href="{:U('Help/help')}" data-text="帮助中心">帮助中心</a></li>-->
             <li <eq name='CONTROLLER_NAME' value='Information'>class="selected"<else/>class="similar"</eq>><a href="{:U('Information/arlist')}" data-text="资讯中心">资讯中心</a></li>
-            <li <eq name='CONTROLLER_NAME' value='DownLoadCenter'>class="selected"<else/>class="similar"</eq>><a href="{:U('DownLoadCenter/APPDownload')}" data-text="下载中心">下载中心</a></li>
+            <!--<li <eq name='CONTROLLER_NAME' value='DownLoadCenter'>class="selected"<else/>class="similar"</eq>><a href="{:U('DownLoadCenter/APPDownload')}" data-text="下载中心">下载中心</a></li>-->
             <!--<li <eq name='CONTROLLER_NAME' value='Shop'>class="selected"<else/>class="similar"</eq>><a href="{:U('Shop/index')}" data-text="商城中心">商城中心</a></li>-->
             <!--<li class="<?PHP if(Index==CONTROLLER_NAME){ echo 'selected';}else{echo 'similar';}?>"><a href="#" data-text="众筹">众筹</a></li>-->
             <!--<li class="<?PHP if(Index==CONTROLLER_NAME){ echo 'selected';}else{echo 'similar';}?>"><a href="#" data-text="BtcTrade">BtcTrade</a></li>-->
@@ -42,9 +42,9 @@
             <div class="qiwen_poput_div" id="lock_screen_delay"></div>
             <div class="qiwen_poput_form qiwen_poput_form_delay">
                 <h2 class="qiwen_poput_title">
-                    <span class="title">农畜商品交易平台</span><span class="qiwen_poput_title_close_delay" id="delay_btn" style="position: relative;top: -18px">&times;</span>
+                    <span class="title">华联全球商贸平台</span><span class="qiwen_poput_title_close_delay" id="delay_btn" style="position: relative;top: -18px">&times;</span>
                 </h2>
-                <p><span>农畜商品交易平台提示您：</span></p>
+                <p><span>华联全球商贸平台提示您：</span></p>
                 <div class="tips_content_alert_delay"><span class="glyphicon glyphicon-info-sign"></span><span id="delay_tips">{$login}</span></div>
             </div>
         </div>

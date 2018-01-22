@@ -12,7 +12,7 @@ $(function(){
 	//灰色背景弹出层
 	$("body").append('<div id="qiwen_poput"></div>');
 /*	$("body").append('<div class="qiwen_poput_code">返回状态提示</div>');*/
-	$("#qiwen_poput").append('<div class="qiwen_poput_div"></div><div class="qiwen_poput_form"><h2 class="qiwen_poput_title"><span class="title">农畜交易市场</span><span class="qiwen_poput_title_close" style="position: relative;top: -18px">&times;</span></h2><p><span>农畜交易市场提示您：</span></p><div class="tips_content_alert"><span class="glyphicon glyphicon-info-sign"></span></div></div>');
+	$("#qiwen_poput").append('<div class="qiwen_poput_div"></div><div class="qiwen_poput_form"><h2 class="qiwen_poput_title"><span class="title">华联全球商贸市场</span><span class="qiwen_poput_title_close" style="position: relative;top: -18px">&times;</span></h2><p><span>华联全球商贸市场提示您：</span></p><div class="tips_content_alert"><span class="glyphicon glyphicon-info-sign"></span></div></div>');
 	$(".tips_content_alert").append('<div class="qiwen_poput_code">返回状态提示</div>');
 
 	$(".qiwen_poput_title_close").click(function(){
