@@ -126,7 +126,7 @@ class BonusController extends Controller
         try{
             for ($i = 0;$i < $count;$i++){
 
-                $Parent = $UsersModel->getPid($this->user['id']);
+                $Parent = $UsersModel->getPid($this->user['pid']);
 
                 if(empty($Parent['id'])){
                     break;
