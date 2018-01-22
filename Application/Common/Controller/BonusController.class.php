@@ -181,12 +181,12 @@ class BonusController extends Controller
                         throw new Exception($this->errot);
                     }
                 }
-                #红包津贴
-                $back = $this->subsidy($countChild,$UsersModel,$UserpropertyModel);
-
-                if (!$back){
-                    throw new Exception($this->errot);
-                }
+//                #红包津贴
+//                $back = $this->subsidy($countChild,$UsersModel,$UserpropertyModel);
+//
+//                if (!$back){
+//                    throw new Exception($this->errot);
+//                }
 
 
                 if (empty($Parent['pid'])){
@@ -269,7 +269,7 @@ class BonusController extends Controller
         }
 
         #团队总人数是否满足
-        $numpeople_all = $this->cfg['subsidy'][$this->register]['$numpeople_all'];
+        $numpeople_all = $this->cfg['subsidy'][$this->register]['numpeople_all'];
 
         $number = 0;
 
@@ -278,6 +278,8 @@ class BonusController extends Controller
         if ($countChild + $number >= $numpeople_all){
 
             $money = $this->money*$this->cfg['subsidy'][$this->register]['percentage']/100;
+
+
 
             $back = $userpropertyModel->setChangeMoney(1,$money,$this->user['id'],'管理津贴',2);
 
