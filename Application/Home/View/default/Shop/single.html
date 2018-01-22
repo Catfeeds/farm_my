@@ -60,7 +60,7 @@
 		             
 					<div class="btn_form">
 						<form onsubmit="return false">
-							<input type="submit" value="立即购买" id="buy" data="{$info.id}" title="">
+							<input type="submit" class="showlock" value="立即购买" id="buy" data="{$info.id}" title="">
 						</form>
 					</div>
 			     </div>
@@ -106,11 +106,11 @@
 <script type="text/javascript" src="__JS__/ifsession.js"></script> -->
 <script type="text/javascript">
 	$("#buy").click(function() {
+		var id = $(this).attr("data");
 		$.ajax({
             url:"{:U('Session/ifsession')}",
             type:"get",
             success:function(data) {
-            	var id = $(this).attr("data");
                 var href="/Home`Buy`buy?product_id="+ id;
                 if(data!=true){
                     lock();

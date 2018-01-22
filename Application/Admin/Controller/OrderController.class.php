@@ -16,14 +16,21 @@ use Common\Controller\BonusController;
  */
 class OrderController extends AdminController {
     public function index() {
+        $map = null;
+        $count = M("shop_order") -> where($map) -> count();
+        $Page = new Page($count, 15);
+        $show = $Page -> show();
+
         $list = M()
             -> table("currency_shop_order as o")
             -> field("o.id, o.order, o.number, o.total_money, o.time, o.status, p.name, p.img, pc.type")
             -> join("left join currency_product as p on p.id = o.product_id")
             -> join("left join currency_procate as pc on p.cat_id = pc.id")
             -> order("o.time desc")
+            -> limit($Page -> firstRow, $Page -> listRows)
             -> select();
 
+        $this -> assign("page", $show);
         $this -> assign("list", $list);
 
         $this -> display();
