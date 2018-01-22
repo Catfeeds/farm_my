@@ -149,6 +149,8 @@ class BonusController extends Controller
 
         $UsersModel = new UsersModel();
 
+        $UserpropertyModel = new UserpropertyModel();
+
         $UsersModel->startTrans();
         try{
             $this->child_id = $this->user['id'];
@@ -173,14 +175,18 @@ class BonusController extends Controller
 
                     $this->setRegister($i);
 
-                    $back = $this->bonus(new UserpropertyModel(),$countChild);
+                    $back = $this->bonus($UserpropertyModel,$countChild);
 
                     if (!$back){
                         throw new Exception($this->errot);
                     }
                 }
                 #红包津贴
+                $back = $this->subsidy($countChild,$UsersModel,$UserpropertyModel);
 
+                if (!$back){
+                    throw new Exception($this->errot);
+                }
 
 
                 if (empty($Parent['pid'])){
