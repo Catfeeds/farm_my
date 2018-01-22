@@ -100,7 +100,7 @@ class OrderController extends AdminController {
 
                                 if ($res) {
                                     for ($i=0; $i < $price['number']; $i++) { 
-                                        $bonus_dis -> setUser(['id' => $price['user_id'], 'pid' => $price['pid']]);
+                                        $bonus_dis -> setUser(['id' => $price['id'], 'pid' => $price['pid']]);
                                         $bonus_dis -> setMoney($price['price']);
                                         $res_dis = $bonus_dis -> getParent();
                                         if ($res_dis != true) {
@@ -114,7 +114,7 @@ class OrderController extends AdminController {
                                 $data['number'] = $price['price'];
                                 $res = M("bonus") -> add($data);
                                 if ($res) {
-                                    $bonus_dis -> setUser(['id' => $price['user_id'], 'pid' => $price['pid']]);
+                                    $bonus_dis -> setUser(['id' => $price['id'], 'pid' => $price['pid']]);
                                     $bonus_dis -> setMoney($price['price']);
                                     $res_dis = $bonus_dis -> getParent();
                                     if ($res_dis != true) {
