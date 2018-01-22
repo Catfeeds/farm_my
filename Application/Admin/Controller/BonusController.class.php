@@ -13,6 +13,7 @@ use Admin\Model\BonusAllModel;
 use Admin\Model\BonusListModel;
 use Admin\Model\BonusModel;
 use Think\Controller;
+use Think\Page;
 
 class BonusController extends AdminController
 {
@@ -87,6 +88,33 @@ class BonusController extends AdminController
 
         $this->assign('data',$bonusListModel->data);
 
+
+        $this->display();
+    }
+
+    /**
+     * 红包提成记录
+     */
+
+    public function deduct(){
+
+        $bonus_deduct_m = M('bonus_deduct');
+
+        $count = $bonus_deduct_m->where()->count();
+
+        $page = new Page($count,15);
+
+        $page = $page->show();
+
+        $data = $bonus_deduct_m ->where()
+                                ->field('pu.users as puser,cu.users as cuser,currency_bonus_deduct.*')
+                                ->join('left join currency_users as pu on pu.id = currency_bonus_deduct.user_id')
+                                ->join('left join currency_users as cu on cu.id = currency_bonus_deduct.child_id')
+                                ->select();
+
+
+        $this->assign('page',$page);
+        $this->assign('data',$data);
 
         $this->display();
     }

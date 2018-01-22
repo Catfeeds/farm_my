@@ -10,6 +10,7 @@ namespace Common\Controller;
 
 use Common\Model\UsersModel;
 use Home\Model\UserpropertyModel;
+use function MongoDB\BSON\toJSON;
 use Think\Controller;
 use Think\Exception;
 
@@ -28,6 +29,23 @@ class BonusController extends Controller
 
     private $child_id;
 
+    private $order;
+
+    /**
+     * @return mixed
+     */
+    public function getOrder()
+    {
+        return $this->order;
+    }
+
+    /**
+     * @param mixed $order
+     */
+    public function setOrder($order)
+    {
+        $this->order = $order;
+    }
     /**
      * @return mixed
      */
@@ -108,7 +126,6 @@ class BonusController extends Controller
     public function setUser($user)
     {
         $this->user = $user;
-        $this->child_id= $user['id'];
     }
 
 
@@ -129,6 +146,8 @@ class BonusController extends Controller
 
         $UsersModel->startTrans();
         try{
+            $this->child_id = $this->user['id'];
+
             for ($i = 0;$i < $count;$i++){
 
                 $Parent = $UsersModel->getPid($this->user['pid']);
@@ -194,6 +213,7 @@ class BonusController extends Controller
                 'user_id'=>$this->user['id'],
                 'child_id'=>$this->child_id,
                 'number'=>$money,
+                'order'=>$this->order,
                 'time'=>time()
             ]);
 
