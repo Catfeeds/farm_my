@@ -24,23 +24,25 @@ class BonusController extends Controller
 
     private $money;
 
-    private $errot;
+    private $error;
 
     /**
      * @return mixed
      */
-    public function getErrot()
+    public function getError()
     {
-        return $this->errot;
+        return $this->error;
     }
 
     /**
-     * @param mixed $errot
+     * @param mixed $error
      */
-    public function setErrot($errot)
+    public function setError($error)
     {
-        $this->errot = $errot;
+        $this->error = $error;
     }
+
+
 
     /**
      * @return mixed
