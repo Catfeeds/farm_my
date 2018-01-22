@@ -11,6 +11,7 @@ namespace Home\Controller;
 use GatewayWorker\Register;
 use OT\DataDictionary;
 use Think\Cache\Driver\Redis;
+use Home\Controller\ShopController;
 
 /**
  * 前台首页控制器
@@ -53,6 +54,15 @@ class IndexController extends HomeController {
         $market_data=$market_m->select();
         $market=I('mark');
         $market=  $market=="" ? $market_data[0]['id']:$market;
+
+        $shop = new ShopController();
+        $list = $shop -> index();
+        // for ($i=0; $i < count($list); $i++) { 
+        //     $list[$i] = $
+        // }
+        // dump($list);
+
+        $this -> assign("list", $list);
         $this -> assign("market", $market);
         $this -> assign("new_notice", $new_notice);
         $this -> assign("information", $information);

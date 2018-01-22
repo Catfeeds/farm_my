@@ -40,29 +40,41 @@ class ShopController extends HomeController {
         //产品列表
         $res = M() 
             -> table("currency_product as p")
-            -> field("p.id, p.name, p.price, p.img, pc.type") 
+            -> field("p.id, p.name, p.price, p.img, p.cat_id, pc.type, pc.name as class_name") 
             -> join("left join currency_procate as pc on pc.id = p.cat_id")
-            -> order("sort desc")
-            -> limit(9)
+            -> where("6 > (select count(*) from currency_product as pro where p.cat_id = pro.cat_id and pro.sort > p.sort )")
+            -> order("p.cat_id, p.sort")
             -> select();
 
         foreach ($res as $key => $value) {
             $res[$key]['price_show'] = $this -> getPriceShow($value['type'], $value['price'], $value['id']);
         }
 
+        $data = [];
+        foreach ($res as $key => $value) {
+            // $data[$value['class_name']]["name"] = $value['class_name'];
+            $data[$value['class_name']][] = $value;
+            
+        }
+        // dump($data);
         $list = array();
-        for ($i=0; $i < ceil(count($res)); $i++) { 
-            if (!empty(array_slice($res, $i * 3 ,3))) {
-                $list[] = array_slice($res, $i * 3 ,3);
-            }
-        }    
-
+        foreach ($data as $key => $value) {
+            // dump($key);
+            $list[$key] = ['name' => $key, 'cat_id' => $value[0]['cat_id']];
+            for ($i=0; $i < ceil(count($value)); $i++) { 
+                if (!empty(array_slice($value, $i * 3 ,3))) {
+                    $list[$key]["array"][] = array_slice($value, $i * 3 ,3);
+                }
+            } 
+        }
+        // dump($list);
         //广告列表
-        $ads = M("shop_ads") -> field("url, name, desc, img, type") -> where("status", 1) -> select();
+        // $ads = M("shop_ads") -> field("url, name, desc, img, type") -> where("status", 1) -> select();
 
-        $this -> assign("ads", $ads);
-        $this -> assign("list", $list);
-        $this -> display();
+        return $list;
+        // $this -> assign("ads", $ads);
+        // $this -> assign("list", $list);
+        // $this -> display();
     }
 
     //详情
