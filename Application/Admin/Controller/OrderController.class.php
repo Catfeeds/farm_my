@@ -88,7 +88,7 @@ class OrderController extends AdminController {
                             $data['outs'] = $price['out'];
                             $data['provide'] = 0;
                             $data['time'] = time();
-                            $data['user_id'] = $product['id'];
+                            $data['user_id'] = $product['user_id'];
                             $bonus_dis = new BonusController();
                             if ($price['number'] > 1) {
                                 $data['number'] = $price['price'];
