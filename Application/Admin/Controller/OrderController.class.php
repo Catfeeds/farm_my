@@ -97,6 +97,7 @@ class OrderController extends AdminController {
                                     
                                 }
                                 $res = M("bonus") -> addAll($data1);
+
                                 if ($res) {
                                     for ($i=0; $i < $price['number']; $i++) { 
                                         $bonus_dis -> setUser(['id' => $price['user_id'], 'pid' => $price['pid']]);
@@ -108,6 +109,7 @@ class OrderController extends AdminController {
                                         }
                                     } 
                                 }
+
                             } else {
                                 $data['number'] = $price['price'];
                                 $res = M("bonus") -> add($data);

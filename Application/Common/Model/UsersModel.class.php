@@ -21,7 +21,7 @@ class UsersModel extends Model
     }
 
     public function countChild($id){
-        $this->where(['pid'=>$id])->count();
+        return  $this->where(['pid'=>$id])->count();
     }
 
 }

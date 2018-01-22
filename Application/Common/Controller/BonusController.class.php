@@ -147,9 +147,15 @@ class BonusController extends Controller
                     throw new Exception($this->errot);
                 }
 
+                if (empty($Parent['pid'])){
+                    break;
+                }
+
+
             }
 
             $UsersModel->commit();
+
             return true;
 
         }catch (\Exception $e){
@@ -171,7 +177,6 @@ class BonusController extends Controller
         $percentage = $this->cfg[$this->register]['percentage'];
 
         $countChild = $usersModel->countChild($this->user['id']);
-
         #如果满足条件
         if ($countChild>=$numpeople){
 
