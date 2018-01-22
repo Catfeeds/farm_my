@@ -327,7 +327,7 @@ class RegisterController extends WapController {
             if ($REGold == 1) {
                 $ss = $this->random(6, 1);
                 session("email_code", array("code" => $ss));
-                if (sendemail("$email", '【农畜交易平台】邮箱验证码', "您好，您的验证码是 $ss ，请输入验证码比对后进行下一步")) {
+                if (sendemail("$email", '【华联全球商贸平台】邮箱验证码', "您好，您的验证码是 $ss ，请输入验证码比对后进行下一步")) {
                     $this->success("验证码已发送");
                 } else {
                     $this->error("邮箱未验证");

@@ -172,13 +172,13 @@ class TradeBuyController extends WapController {
             if ($lock_back['repeats']>0){
                 $pay_money = $price*$number;
                 $pay_repeats = 0;
-                if ($lock_back['repeats']>=$pay_money){ #如果重销足够,全部扣重销
+                if ($lock_back['repeats']>=$pay_money){ #如果重消足够,全部扣重消
 
                     $pay_repeats = $pay_money;
 
                 }else{
 
-                    $pay_repeats = $lock_back['repeats'];  #如果不够 ，讲重销扣完 ，并且扣现金
+                    $pay_repeats = $lock_back['repeats'];  #如果不够 ，讲重消扣完 ，并且扣现金
 
                     //买家购买金额的流水
                     $property_buyset_back=$lock_back; //获取用户的财产信息
@@ -211,8 +211,8 @@ class TradeBuyController extends WapController {
                 }
 
 
-                #优先扣除重销币   因为有重销，所以不论哪种情况都要扣重销账户
-                //重销币的流水
+                #优先扣除重消币   因为有重消，所以不论哪种情况都要扣重消账户
+                //重消币的流水
                 $property_buyset_back=$lock_back; //获取用户的财产信息
                 $property_buyset['userid']=session('user')['id'];
                 $property_buyset['username']=session('user')['user_name'];
@@ -229,7 +229,7 @@ class TradeBuyController extends WapController {
                     exit();
                 }
 
-                //买家扣除重销币
+                //买家扣除重消币
                 $user_setDec_back=$userproperty_d->where(array(
                     'userid'=>session('user_wap')['id']
                 ))->setDec('repeats',$pay_repeats);

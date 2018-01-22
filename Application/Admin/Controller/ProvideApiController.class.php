@@ -59,7 +59,7 @@ class ProvideApiController  extends Controller{
         #日返率
         $date_back = $repeatCfgModel->getCfg('date_back');
 
-        #红包的重销配置
+        #红包的重消配置
         $repeat_paper = $repeatCfgModel->getCfg('repeat_paper');
 
 
@@ -100,7 +100,7 @@ class ProvideApiController  extends Controller{
 
                     $money = $money+$v['provide'] <= $v['outs'] ? $money : $v['outs']-$v['provide'];
 
-                    #红包的重销金额
+                    #红包的重消金额
                     $all_repeat +=$repeat_money = $money*$repeat_paper;
 
                     #发放的cny
@@ -119,7 +119,7 @@ class ProvideApiController  extends Controller{
                     }
 
 
-                    #发放用户重销
+                    #发放用户重消
                     $back = $userproperty->setChangeMoney(3,$repeat_money,$v['user_id'],'红包分红',2);
                     if (!$back){
                         throw new Exception($userproperty->getError());
@@ -248,7 +248,7 @@ class ProvideApiController  extends Controller{
 
 //                #应返的金额
 //                $number_all += $number = $v['number'] *(1+$integral_cfg);
-//                #应返的重销
+//                #应返的重消
 //                $repeats_all+= $repeats = $v['repeats'] *(1+$integral_cfg);
 
                    #应返的金额

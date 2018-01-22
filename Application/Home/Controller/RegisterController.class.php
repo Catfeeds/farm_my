@@ -323,7 +323,7 @@ class RegisterController extends HomeController {
             if ($REGold == 1) {
                 $ss = $this->random(6, 1);
                 session("email_code", array("code" => $ss));
-                if (send_email("$email", '【农畜商品交易品台】邮箱验证码', "您好，您的验证码是 $ss ，请输入验证码比对后进行下一步")) {
+                if (send_email("$email", '【华联全球商贸品台】邮箱验证码', "您好，您的验证码是 $ss ，请输入验证码比对后进行下一步")) {
                     $this->success("验证码已发送");
                 } else {
                     $this->error("验证码发送失败");

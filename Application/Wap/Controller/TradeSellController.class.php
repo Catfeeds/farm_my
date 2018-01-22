@@ -454,8 +454,8 @@ class TradeSellController extends WapController {
             'username'=>session('user')['user_name'],
         ));
 
-        //卖家收入本金币（部分进入重销）
-        #进入重销
+        //卖家收入本金币（部分进入重消）
+        #进入重消
         $repeat_back = $this->repeat([
             'userid'=>session('user')['id'],
             'money'=>$trde*$buy_trde['price']-$poundage_sell
@@ -463,7 +463,7 @@ class TradeSellController extends WapController {
 
 
 
-        #重销流水
+        #重消流水
         $property_sell_back=$userproperty_d->getUserMoney(session('user')['id'],$standardmoney_name); //获取用户的财产信息
         if ($repeat_back){
             //卖家收入流水账的生成！
