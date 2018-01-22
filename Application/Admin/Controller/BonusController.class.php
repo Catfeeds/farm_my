@@ -98,15 +98,35 @@ class BonusController extends AdminController
 
     public function deduct(){
 
+
+        $users = I('users');
+
+        $start_time = I('start_time');
+
+        $end_time = I('end_time');
+
+        $where = $page_where = [];
+
+        if (!empty($users))$where['pu.users'] = $page_where['users'] = $users;
+
+        if (!empty($start_time) && !empty($end_time)){
+
+            $where['currency_bonus_deduct.time'] = [ ['egt',strtotime($start_time)],['elt',strtotime($end_time)] ];
+            $page_where['start_time'] =$start_time;
+            $page_where['end_time'] =$end_time;
+
+        }
+
+
         $bonus_deduct_m = M('bonus_deduct');
 
-        $count = $bonus_deduct_m->where()->count();
+        $count = $bonus_deduct_m->where($where)->count();
 
         $page = new Page($count,15);
 
         $page = $page->show();
 
-        $data = $bonus_deduct_m ->where()
+        $data = $bonus_deduct_m ->where($where)
                                 ->field('pu.users as puser,cu.users as cuser,currency_bonus_deduct.*')
                                 ->join('left join currency_users as pu on pu.id = currency_bonus_deduct.user_id')
                                 ->join('left join currency_users as cu on cu.id = currency_bonus_deduct.child_id')

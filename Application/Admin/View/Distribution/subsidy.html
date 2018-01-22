@@ -18,7 +18,7 @@
 
 <block name="body">
     <div class="main-title">
-        <h2>红包三级分销</h2>
+        <h2>红包管理津贴</h2>
     </div>
     <form class="ajax_form" method="post">
         <div>
@@ -30,8 +30,9 @@
                 <foreach name="data" item="vo" key="k">
                     <tr>
                         <td>第{$date[$k]}级</td>
-                        <td>分享人数 : <input type="text" name="numpeople" value="{$vo.numpeople}" id="numpeople" placeholder="分享人数"></td>
-                        <td>应得百分比 : <input type="text" name="percentage"  value="{$vo.percentage}" id="percentage" placeholder="应得百分比">%</td>
+                        <td>直推 : <input type="text" name="numpeople" value="{$vo.numpeople}" id="numpeople" placeholder="直推">人</td>
+                        <td>团队 : <input type="text" name="percentage"  value="{$vo.percentage}" id="percentage" placeholder="团队">人</td>
+                        <td>津贴 : <input type="text" name="numpeople_all"  value="{$vo.numpeople_all}" id="numpeople_all" placeholder="津贴">%</td>
                     </tr>
                 </foreach>
                 </tbody>
@@ -55,12 +56,16 @@
         highlight_subnav('{:U('')}');
         var number=['一','二','三','四','五','六','七','八'];
         $('.add').click(function () {
+
             var index = $('tbody').children().length
+
             var tr = '<tr>'+
                 '<td>第'+number[index]+'级</td>'+
-                '<td>分享人数 : <input type="text" name="numpeople" value="" id="numpeople" placeholder="分享人数"></td>'+
-                '<td>应得百分比 : <input type="text" name="percentage" value="" id="percentage" placeholder="应得百分比">%</td>'+
+                '<td>直推 : <input type="text" name="numpeople" value="" id="numpeople" placeholder="直推">人</td>'+
+                '<td>团队 : <input type="text" name="percentage" value="" id="percentage" placeholder="团队">人</td>'+
+                '<td>津贴 : <input type="text" name="percentage" value="" id="percentage" placeholder="津贴">%</td>'+
                 '</tr>'
+
             $('tbody').append(tr)
 
         })
@@ -79,7 +84,7 @@
 
             $.each(data,function (k,v) {
 
-                farmData[k] = {'numpeople':$(v).find('[name=numpeople]').val(),'percentage':$(v).find('[name=percentage]').val()}
+                farmData[k] = {'numpeople':$(v).find('[name=numpeople]').val(),'numpeople_all':$(v).find('[name=numpeople_all]').val(),percentage':$(v).find('[name=percentage]').val()}
             })
 
 

@@ -17,15 +17,15 @@ class DistributionController extends AdminController {
     //三级分销
     public function index() {
         $bonus = M("bonus_distribution");
-
-        $list = $bonus -> find();
+        $where = ['key'=>'deduct'];
+        $list = $bonus ->where($where)-> find();
 
         //添加、修改地址
         if (IS_POST) {
 
             $data = json_encode(I('data'));
-            $back = $bonus->where(['id'=>1])->save(['data'=>$data]);
-            if (!$back){
+            $back = $bonus->where($where)->save(['data'=>$data]);
+            if ($back===false){
                 $this->error('保存失败');
             }
 
@@ -38,6 +38,41 @@ class DistributionController extends AdminController {
         $data = json_decode($list['data'],true);
         $this -> assign("data", $data);
         $this -> display();
+    }
+
+    /**
+     * 管理津贴
+     */
+    function subsidy(){
+
+        $bonus = M("bonus_distribution");
+
+        $where = ['key'=>'subsidy'];
+
+        $list = $bonus ->where($where)-> find();
+
+        //添加、修改地址
+        if (IS_POST) {
+
+            $data = json_encode(I('data'));
+            $back = $bonus->where($where)->save(['data'=>$data]);
+            if ($back===false){
+                $this->error('保存失败');
+            }
+
+            $this->success('保存成功');
+
+            exit();
+
+        }
+
+        $data = json_decode($list['data'],true);
+
+
+        $this -> assign("data", $data);
+
+        $this -> display();
+
     }
 
     //点击删除人民币收款地址
