@@ -157,6 +157,8 @@ class BuyController extends HomeController {
                         } else {
                             $this -> error("购买失败");
                         }
+                    } else {
+                        $this -> error($user_proper -> getError());
                     }
                     break;
                 case '2': //CMC+余额
@@ -182,6 +184,8 @@ class BuyController extends HomeController {
                             } else {
                                 $this -> error("购买失败");
                             }
+                        } else {
+                            $this -> error($user_proper -> getError());
                         }
                     } else {
                         $this -> error($user_proper -> getError());
@@ -199,6 +203,8 @@ class BuyController extends HomeController {
                                 $this -> error("购买失败");
                             }
                         }
+                    } else {
+                        $this -> error($user_proper -> getError());
                     }
                 case '4': //积分 价格/cmc价格
                     $cmc = new RepeatCfgModel();
