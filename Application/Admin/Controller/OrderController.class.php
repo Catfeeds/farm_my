@@ -8,6 +8,7 @@
 // +----------------------------------------------------------------------
 namespace Admin\Controller;
 use Think\Page;
+use Common\Controller\BonusController;
 
 /**
  * 后台产品控制器
@@ -79,32 +80,48 @@ class OrderController extends AdminController {
                         case '1': //红包
                             $price = M("shop_order") 
                                 -> table("currency_shop_order as o")
-                                -> field("o.total_money, o.number, p.out, p.price") 
+                                -> field("o.total_money, o.number, p.out, p.price, u.pid") 
                                 -> join("left join currency_product as p on p.id = o.product_id")
+                                -> join("left join currency_users as u on o.user_id = u.id")
                                 -> where("o.id = ". $id) 
                                 -> find();
                             $data['outs'] = $price['out'];
                             $data['provide'] = 0;
                             $data['time'] = time();
                             $data['user_id'] = $product['user_id'];
+                            $bonus_dis = new BonusController();
                             if ($price['number'] > 1) {
                                 $data['number'] = $price['price'];
                                 for ($i=0; $i < $price['number']; $i++) { 
                                     $data1[] = $data;
+                                    
                                 }
                                 $res = M("bonus") -> addAll($data1);
+                                if ($res) {
+                                    for ($i=0; $i < $price['number']; $i++) { 
+                                        $bonus_dis -> setUser(['pid' => $price['pid']]);
+                                        $bonus_dis -> setMoney($price['price']);
+                                        $res_dis = $bonus_dis -> getParent();
+                                        if ($res_dis != true) {
+                                            $this -> error($bonus_dis -> getError());
+                                            exit();
+                                        }
+                                    } 
+                                }
                             } else {
                                 $data['number'] = $price['price'];
                                 $res = M("bonus") -> add($data);
+                                if ($res) {
+                                    $bonus_dis -> setUser(['pid' => $price['pid']]);
+                                    $bonus_dis -> setMoney($price['price']);
+                                    $res_dis = $bonus_dis -> getParent();
+                                    if ($res_dis != true) {
+                                        $this -> error($bonus_dis -> getError());
+                                        exit();
+                                    }
+                                }
                             }
 
-                            //判断是否有父级
-                            //判断父级分享过几人,
-                            //从红包分销表中得到应该的钱
-                            //插入到人民币中
-                            //分红表
-                            //用户资产明细
-                            
                             break;
                         case '2': //报单
                             $data1['user_id'] = $product['user_id'];
@@ -147,10 +164,6 @@ class OrderController extends AdminController {
                     if ($res) {
                         $this -> success("发货成功");
                     } else {
-                        // M("product") -> startTrans();
-                        // M("product") -> rollback();
-                        // M("shop_order") -> startTrans();
-                        // M("shop_order") -> rollback();
 
                         $this -> error("发货失败，请稍后重试1");
                     }
