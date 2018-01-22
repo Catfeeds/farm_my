@@ -8,6 +8,7 @@
 // +----------------------------------------------------------------------
 
 namespace Admin\Controller;
+use Home\Model\ProcateModel;
 use User\Api\UserApi as UserApi;
 
 /**

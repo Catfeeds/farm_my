@@ -134,21 +134,30 @@ class BonusController extends Controller
 
         $bonus = M("bonus_distribution");
 
-        $list = $bonus -> find();
+        $deduct = $bonus ->where(['key'=>'deduct'])-> find();
 
-        $data = json_decode($list['data'],true);
+        $deduct = json_decode($deduct['data'],true);
 
-        $this->setCfg($data);
+        $subsidy = $bonus ->where(['key'=>'subsidy'])-> find();
 
-        $count = count($data);
+        $subsidy = json_decode($subsidy['data'],true);
+
+
+        $this->setCfg(['deduct'=>$deduct,''=>$subsidy]);
+
+        $count = count($deduct);
 
         $UsersModel = new UsersModel();
+
+        $UserpropertyModel = new UserpropertyModel();
 
         $UsersModel->startTrans();
         try{
             $this->child_id = $this->user['id'];
 
-            for ($i = 0;$i < $count;$i++){
+            $i = 0;
+            while (true){
+                $i++;
 
                 $Parent = $UsersModel->getPid($this->user['pid']);
 
@@ -158,18 +167,31 @@ class BonusController extends Controller
 
                 $this->setUser($Parent);
 
-                $this->setRegister($i);
+                #直推人数
+                $countChild = $UsersModel->countChild($this->user['id']);
 
-                $back = $this->bonus($UsersModel,new UserpropertyModel());
+                #红包提成
+                if ($i<=$count){
+
+                    $this->setRegister($i);
+
+                    $back = $this->bonus($UserpropertyModel,$countChild);
+
+                    if (!$back){
+                        throw new Exception($this->errot);
+                    }
+                }
+                #红包津贴
+                $back = $this->subsidy($countChild,$UsersModel,$UserpropertyModel);
 
                 if (!$back){
                     throw new Exception($this->errot);
                 }
 
+
                 if (empty($Parent['pid'])){
                     break;
                 }
-
 
             }
 
@@ -187,16 +209,19 @@ class BonusController extends Controller
     }
 
     /**
-     * 红包发放
+     * 红包提成
+     * @param UserpropertyModel $userpropertyModel
+     * @param $countChild 直推人数
+     * @return bool
      */
-    public function bonus(UsersModel $usersModel,UserpropertyModel $userpropertyModel){
+    public function bonus(UserpropertyModel $userpropertyModel ,$countChild ){
 
-        $numpeople = $this->cfg[$this->register]['numpeople'];
+        $numpeople = $this->cfg['deduct'][$this->register]['numpeople'];
 
-        $percentage = $this->cfg[$this->register]['percentage'];
+        $percentage = $this->cfg['deduct'][$this->register]['percentage'];
 
-        $countChild = $usersModel->countChild($this->user['id']);
-        #如果满足条件
+
+        #如果满足条件,红包提成
         if ($countChild>=$numpeople){
 
            $money = $this->money*$percentage/100;
@@ -229,6 +254,59 @@ class BonusController extends Controller
         return true;
 
     }
+
+
+    /**
+     * 红包津贴
+     */
+    public function subsidy($countChild,UsersModel $usersModel,UserpropertyModel $userpropertyModel){
+
+        $numpeople = $this->cfg['subsidy'][$this->register]['numpeople'];
+
+        #直推人数满足，直接返回结果
+        if ($countChild < $numpeople){
+            return true;
+        }
+
+        #团队总人数是否满足
+        $numpeople_all = $this->cfg['subsidy'][$this->register]['$numpeople_all'];
+
+        $number = 0;
+
+        $usersModel->countChild_all($this->user['id'],$number);
+
+        if ($countChild + $number >= $numpeople_all){
+
+            $money = $this->money*$this->cfg['subsidy'][$this->register]['percentage']/100;
+
+            $back = $userpropertyModel->setChangeMoney(1,$money,$this->user['id'],'管理津贴',2);
+
+            if (!$back){
+                $this->errot = $userpropertyModel->getError();
+                return false;
+            }
+
+            #红包分层记录
+            $back = M('bonus_deduct')->add([
+                'user_id'=>$this->user['id'],
+                'child_id'=>$this->child_id,
+                'number'=>$money,
+                'order'=>$this->order,
+                'time'=>time()
+            ]);
+
+            if (!$back){
+
+                $this->error='提成记录生成失败！';
+
+                return false;
+            }
+
+        }
+        return true;
+    }
+
+
 
 
 }

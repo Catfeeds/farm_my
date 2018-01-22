@@ -1234,6 +1234,7 @@ class PropertyController extends HomeController {
 
     //撤销
     public function black(){
+
         $order=I('order');  //接受一个订单号
         //判断订单号是否合法
 
@@ -1363,6 +1364,13 @@ class PropertyController extends HomeController {
         $config_data=$config->where(['title'=>'专属地址'])->find();
 
 
+        #红包提成的总数
+        $bonus_deduct_m = M('bonus_deduct');
+
+        $number = $bonus_deduct_m->field('sum(number) as number')->where(['user_id'=>session('user.id')])->find();
+
+        $this->assign('number_bonus',$number['number']);
+
         $this->assign('config',$config_data['value']);//配置地址
         $this->assign('agent',$agent['agent']);
         $this->assign('invit',$agent['invit']);
@@ -1444,6 +1452,35 @@ class PropertyController extends HomeController {
         $this->assign('data',$data);
 		$this->display();
 	}
+
+    /**
+     * 红包提成明细
+     */
+	function bonus_info(){
+
+
+        $bonus_deduct_m = M('bonus_deduct');
+
+        $where = ['currency_users.id'=>session('user.id')];
+
+        $count = $bonus_deduct_m->where($where)->count();
+
+        $page = new Page($count,15);
+
+        $page = $page->show();
+
+        $data = $bonus_deduct_m ->where($where)
+            ->field('currency_users.users,currency_bonus_deduct.*')
+            ->join('left join currency_users  on currency_users.id = currency_bonus_deduct.user_id')
+            ->select();
+
+        $this->assign('page',$page);
+
+        $this->assign('data',$data);
+
+	    $this->display();
+    }
+
 
 
     //二维码的请求地址

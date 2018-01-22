@@ -20,8 +20,33 @@ class UsersModel extends Model
 
     }
 
+    /**
+     * 直推人数
+     * @param $id
+     * @return mixed
+     */
     public function countChild($id){
         return  $this->where(['pid'=>$id])->count();
     }
+
+    /**
+     * 计算团队人数
+     * @param $id
+     */
+    public function countChild_all($id,&$number=0){
+
+        $data = $this->where(['pid'=>$id])->field('id,pid')->select();
+
+        if (!empty($data[0]['id'])){
+
+            foreach ($data as $k=>$v){
+                $number +=1;
+                $this->countChild_all($v['id'],$number);
+            }
+
+        }
+
+    }
+
 
 }
