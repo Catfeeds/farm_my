@@ -50,7 +50,7 @@
 				</div>
 
 				<div class="rmb-balance">
-					<strong>您当前的默认地址为 : </strong>
+					<strong>您当前的地址为 : </strong>
 					<if condition="($default eq null)">
 						<span class="C669900">没有默认地址</span>
 						<else/><span class="C669900">联系人：{$default.name}  联系方式：{$default.mobile}  详细地址：{$default.province}{$default.city}{$default.area}{$default.address}</span>
@@ -116,8 +116,9 @@
 							<li>{$list.mobile}</li>
 							<li style="width: 350px">{$list.province}{$list.city}{$list.area}{$list.address}</li>
 							<li class="examine">
-								<a value="{$tt.id}" class="look">修改|</a>
-								<a value="{$tt.id}" class="look">设为默认</a>
+								<a value="{$tt.id}" class="look">修改</a>
+								<a value="{$tt.id}" class="look">|删除</a>
+								<!-- <a value="{$tt.id}" class="look">|设为默认</a> -->
 							</li>
 						</ul>
 					</volist>

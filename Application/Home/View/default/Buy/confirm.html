@@ -193,9 +193,9 @@
         <table class="subtotal">
          <tr class="grand_total">
           <td>总价格</td>
-         <eq name="info.type" value="1"><td class="bg price total_price" style="width: 200px;">{$info.price_show}元</td></eq>
-         <eq name="info.type" value="2"><td class="bg price total_price" style="width: 200px;">{$info.price_show.cmc} CMC + {$info.price_show.cny} CNY</td></eq>
-         <eq name="info.type" value="3"><td class="bg price total_price" style="width: 200px;">{$info.price_show}元</td></eq>
+         <eq name="info.type" value="1"><td class="bg price total_price" style="width: 200px;" data="{$info.price_show}">{$info.price_show}元</td></eq>
+         <eq name="info.type" value="2"><td class="bg price total_price" style="width: 200px;" data="{$info.price_show.cmc} CMC + {$info.price_show.cny} CNY">{$info.price_show.cmc} CMC + {$info.price_show.cny} CNY</td></eq>
+         <eq name="info.type" value="3"><td class="bg price total_price" style="width: 200px;" data="{$info.price_show}">{$info.price_show}元</td></eq>
          </tr>
         </table>
       <button class="checkout" id="pay">确认支付</button>
@@ -220,12 +220,14 @@
 <script type="text/javascript">
   $("#pay").click(function() {
     var product_id  = $("#product_id").attr("data");
-    var total_price = $("#total_price").attr("data");
+    var total_price = $(".total_price").attr("data");
     var number      = $("#number").val();
     var ship_id     = $("#ship_id").attr("data");
     var method      = $("#method").val();
     var deal_pwd    = $("#deal_pwd").val();
     var price       = $("#price").attr("data");
+
+    // alert(total_price);
 
     // alert(total_price);
 
@@ -235,10 +237,10 @@
       data:{product_id:product_id,total_money:total_price,number:number,ship_id:ship_id,method:method,deal_pwd:deal_pwd,price:price},
       success:function(data) {
         if (data.status!=true){   //请求失败
-            alert(data.info);
+            set_poput_code(data.info);
             return false
         } else {
-          alert(data.info,true);
+          set_poput_code(data.info,true);
           location.href = "/Home`Order`index?tag=9";
           // 跳转到订单详情
         }

@@ -130,9 +130,14 @@
 
        <div class="c_header">
          <div class="grid_10">
-           <if condition="($default eq null)">
-              <span>没有选择收获地址</span>
-              <else/><h5>联系人：{$default.name}  联系方式：{$default.mobile}  详细地址：{$default.province}{$default.city}{$default.area}{$default.address}</h5>
+           <if condition="($default neq null)">
+              <select id="ship_id">
+                <volist name="default" id="data">
+                  <option value="{$data.id}">联系人：{$data.name}  联系方式：{$data.mobile}  详细地址：{$data.province}{$data.city}{$data.area}{$data.address}</option>
+                </volist>
+              </select>
+            <else />
+              <div>没有收货地址请<a href="{:U('Address/index')}">添加</a></div>
             </if>
          </div>
        </div>
@@ -150,7 +155,7 @@
 	      <tr>
          <td style="display: none;" id="product_id" data="{$info.id}"></td>
          <td style="display: none;" id="type" data="{$info.type}"></td>
-         <td style="display: none;" id="ship_id" data="{$default.id}"></td>
+         <td style="display: none;" id="total_price" data="{$info.total_price}"></td>
 		     <td class="images"><a href="product_page.html"><img src="__ROOT__/{$info['img']}" alt="Product 6"></a></td>
          <td class="bg name">{$info.name}</td>
 		     <td class="edit"><a title="" href="#" >Edit</a></td>
@@ -191,17 +196,22 @@
     var product_id = $("#product_id").attr("data");
     var type = $("#type").attr("data");
     var number = $("#number").val();
-    var ship_id = $("#ship_id").attr("data");
+    var ship_id = $("#ship_id").val();
     var price = $("#number").attr("data");
-
-    $.ajax({
-      url:"/Home`Buy`confirm",
-      data:{product_id:product_id,type:type,number:number,ship_id:ship_id,price:price},
-      type:"POST",
-      success:function() {
-        location.href = '/Home`Buy`confirm?product_id=' + product_id + '&type=' + type + '&number=' + number + '&ship_id=' + ship_id;
-      }
-    })
+    
+    if (ship_id == "undefined" || ship_id == "" || ship_id == null || ship_id ==  false) {
+      set_poput_code("请选择收货地址", false);
+    } else {
+      $.ajax({
+        url:"/Home`Buy`confirm",
+        data:{product_id:product_id,type:type,number:number,ship_id:ship_id,price:price},
+        type:"POST",
+        success:function() {
+            location.href = '/Home`Buy`confirm?product_id=' + product_id + '&type=' + type + '&number=' + number + '&ship_id=' + ship_id;
+        }
+      })
+    }
+    
   }) 
 
   $("#number").blur(function() {
@@ -216,7 +226,7 @@
       type:"POST",
       success:function(data) {
         if (data.status != true) {
-          alert(data.info);
+          set_poput_code(data.info, true);
           return false;
         } else {
           var price_show = data.info;
