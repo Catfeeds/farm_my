@@ -42,7 +42,7 @@ class ShopController extends HomeController {
             -> table("currency_product as p")
             -> field("p.id, p.name, p.price, p.img, p.cat_id, pc.type, pc.name as class_name") 
             -> join("left join currency_procate as pc on pc.id = p.cat_id")
-            -> where("6 > (select count(*) from currency_product as pro where p.cat_id = pro.cat_id and pro.sort > p.sort )")
+            -> where("6 > (select count(*) from currency_product as pro where p.cat_id = pro.cat_id and pro.sort > p.sort ) and p.status = 1")
             -> order("p.cat_id, p.sort")
             -> select();
 

@@ -32,7 +32,8 @@ class AddressController extends HomeController {
             -> join("left join currency_shop_city as sc on sc.id = sa.province")
             -> join("left join currency_shop_city as scc on scc.id = sa.city")
             -> join("left join currency_shop_city as sccc on sccc.id = sa.area")
-            -> where("sa.user_id = ". session('user')['id']. " AND sa.status = 1")
+            // -> where("sa.user_id = ". session('user')['id']. " AND sa.status = 1")
+            -> where("sa.user_id = ". session('user')['id'])
             -> find();
 
         //地址列表

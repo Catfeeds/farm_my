@@ -58,13 +58,17 @@ class BuyController extends HomeController {
             -> join("left join currency_shop_city as sc on sc.id = sa.province")
             -> join("left join currency_shop_city as scc on scc.id = sa.city")
             -> join("left join currency_shop_city as sccc on sccc.id = sa.area")
-            -> where("sa.user_id = ". session('user')['id']. " AND sa.status = 1")
-            -> find();
+            -> where("sa.user_id = ". session('user')['id'])
+            -> order("sa.status")
+            -> select();
 
         $this -> assign("info", $product_info);
         $this -> assign("default", $default);
         $this -> display();
     }
+
+    //获取收货地址
+
 
     //加入购物车
     public function cart() {
@@ -80,6 +84,10 @@ class BuyController extends HomeController {
         $type = $this -> strFilter(I("type")) ? I("type") : null;
         $number = $this -> strFilter(I("number")) ? I("number") : null;
         $ship_id = $this -> strFilter(I("ship_id")) ? I("ship_id") : null;
+        // if ($ship_id == "" || $ship_id == null || $ship_id == "undefined") {
+        //     $this -> error("请选择收货地址");
+        //     exit();
+        // }
         
         $product_info = M()
             -> table("currency_product as p")
@@ -123,7 +131,7 @@ class BuyController extends HomeController {
 
         $data['product_id']  = $this -> strFilter(I("product_id")) ? I("product_id") : null;
         $data['number']      = $this -> strFilter(I("number")) ? I("number") : null;
-        $data['total_money'] = $this -> strFilter(I("total_money")) ? I("total_money") : null;
+        $data['total_money'] = I("total_money") ? I("total_money") : null;
         $data['ship_id']     = $this -> strFilter(I("ship_id")) ? I("ship_id") : null;
         $data['user_id']     = session("user")['id'];
         $data['status']      = 1;
@@ -216,7 +224,7 @@ class BuyController extends HomeController {
                     // var_dump($all_oldintegral);
 
                     $res4 = $inte -> lessintgral(session("user")['id'], $price);
-                    // var_dump($res4);
+                    // var_dump($price);
 
                     if ($res4 == "积分不足") {
                         $this -> error("积分不足");
