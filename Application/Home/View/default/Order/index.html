@@ -16,6 +16,7 @@
 		<link rel="stylesheet" href="__CSS__/bae.css">
 		<link rel="stylesheet" href="__CSS__/center_left.css">
 		<link rel="stylesheet" href="__CSS__/center_header.css">
+		<link rel="stylesheet" href="__CSS__/jquery.ui.css"/>
 		<link rel="stylesheet" type="text/css" href="__CSS__/finance.css"/>
 		<script type="text/javascript" src="__JS__/jquery.js" ></script>
 		<script src="__JS__/base.js"></script>
@@ -46,6 +47,15 @@
 					<h4>订单列表</h4>
 					<div class="clearfix"></div>
 				</div>
+				<div class="currency-type form-group">
+					<form action="" method="post" class="form-inline">
+			            <div class="form-group">
+			                <input type="text" name="date" value="{:I('date')}"  readonly="readonly"  class="text form-control" id="date_start" placeholder="开始时间" />
+			                至 <input type="text" name="dates" value="{:I('dates')}" readonly="readonly" class="text form-control" id="date_end" placeholder="结束时间" />
+			                <input type="submit" value="查询" class="form-control">
+			            </div>
+			        </form>
+			    </div>
 				<div class="finance-mold">
 					<ul>
 						<li style="width: 22%">产品</li>
@@ -101,12 +111,48 @@
 					</ul>
 
 				</div>
+				<div class="page">
+	                {$page}
+	            </div>
+
+	            <div id="bank_recharge" class="prepaid-box modal-dialog " style="display: none">
+					<div class="prepaid-box-box">
+						<div class="prepaid-box-top" >
+							<span> 人民币充值</span><span class="prepaid-box-close glyphicon glyphicon-remove" data-dismiss="modal" id="curr_close_in_card" onclick="newweb()"></span>
+						</div>
+						<p class="prepaid-box-fs">银行卡转账汇款</p>
+						<p class="prepaid-box-hint">请使用已绑定的银行卡转账充值，若有疑问请<a class="ed4040" href="{:U('Communication/customer')}" target="_blank" onclick="showService()"> 联系客服 </a></p>
+						<div class="prepaid-box-info">
+							<p class="title">付款方：</p>
+							<foreach name="bank" item="vo">
+							<p><label>付款银行:</label><span>{$vo.bankname}</span></p>
+							<p><label>付款卡号:</label><span id="fukuan">{$vo.bankcard}</span></p>
+
+							</foreach>
+							<p><label>付款金额 ：</label><span class="cred" id="money_cny"></span></p>
+						</div>
+						<div class="prepaid-box-info">
+							<p class="title">收款方：</p>
+							<foreach name="shoubank" item="vo">
+							<p><label>收款银行 ：</label><span id="shoukuanbank">{$vo.bankname}</span></p>
+							<p><label>收款人 ：</label><span id="payee">{$vo.payee}</span></p>
+							<p><label>收款账号 ：</label><span id="shoukuan">{$vo.bankcard}</span></p>
+							</foreach>
+						</div>
+
+						<div class="prepaid-box-info2">
+						<!--	请在汇款［备注/附言］中严格按要求填写充值订单编号：<span class="cred" id="order_cny"></span></br>
+							不要填写其它字符（比特币、莱特币等），否则不能正确到账！</br>-->
+							我们会在收到汇款后20分钟内为您入账，在此期间无需联系客服，如有问题我们会主动联系您。</br>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</main>
 
 	<include file="Public:footer"/>
-
+	<script type="text/javascript" src="/Public/Home/js/jquery.ui.js"></script>
 	<script>
 		$(function () {
 			//排序
@@ -130,23 +176,6 @@
 			$('#record_grey').css('display','block');
 		})
 
-		// $('body').on('click','input[xnb]',function(){
-		// 	$.ajax({
-		// 		url:"{:U('getaddr')}",
-		// 		type:"post",
-		// 		datatype:"json",
-		// 		data:{xnb:$(this).attr('xnb')},
-		// 		success:function (data) {
-		// 			var xnb=data.xnb;
-		// 			var marke=data.marke;
-
-		// 			location.href='/Home`Trade`trade`id`'+xnb+'`markethouse`'+marke+'.html'
-		// 		}
-
-		// 	})
-		// 	return false;
-		// })
-
 		$("body").on('click', '.confirm',function() {
 			var order_id = $(this).attr("data");
 			var type = $(this).attr("data2");
@@ -164,6 +193,32 @@
 				}
 			})
 		});	
+		$(function () {
+		    var dates = $("#date_start,#date_end");
+
+		    dates.datepicker({
+		        dateFormat: 'yy-mm-dd',
+		        //dayNames : ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'],
+		        //dayNamesShort : ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'],
+		        dayNamesMin: ['日', '一', '二', '三', '四', '五', '六'],
+		        monthNames: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+		        monthNamesShort: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+		        altField: '#abc',
+		        altFormat: 'dd/mm/yy',
+		        appendText: '日历',
+		        showWeek: false,
+		        //weekHeader : '周',
+		        firstDay: 1,
+		        changeMonth: true,
+		        changeYear: true,
+		        maxDate: 0,
+		        onSelect: function (selectedDate) {
+		            var option = this.id == "date_start" ? "minDate" : "maxDate";
+		            dates.not(this).datepicker("option", option, selectedDate);
+		        }
+		    });
+
+		});
 	</script>
 
 	</body>

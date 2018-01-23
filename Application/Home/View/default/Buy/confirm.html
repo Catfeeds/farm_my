@@ -165,7 +165,7 @@
             <p></p>
               <form>
                 <p>
-                 <select id="method">
+                 <select id="method" style="width: 200px;font-size: 15px;">
                   <volist name="method" id="data">
                     <option value="{$data.method}">{$data.name}</option>
                   </volist>
@@ -226,7 +226,7 @@
     var method      = $("#method").val();
     var deal_pwd    = $("#deal_pwd").val();
     var price       = $("#price").attr("data");
-
+    alert(deal_pwd);
     // alert(total_price);
 
     // alert(total_price);

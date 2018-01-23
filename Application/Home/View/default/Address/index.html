@@ -9,7 +9,7 @@
 		<meta name="description" content="华联全球商贸平台">
 		<meta name="keywords" content="华联全球商贸">
 		<meta name="author" content="lihuijie">
-		<title>人民币充值-华联全球商贸平台</title>
+		<title>收货地址-华联全球商贸平台</title>
 		<link rel="shortcut icon" href="__IMG__/base_images/bd_safe4.png">
 		<link rel="stylesheet" type="text/css" href="__CSS__/bootstrap.min.css"/>
 		<link rel="stylesheet" href="__CSS__/bae.css">
@@ -34,7 +34,7 @@
 				<li><a href="{:U('Index/index')}">首页</a></li>
 				<li><a href="{:u('Property/finance')}">财务中心</a></li>
 				<li class="active">
-					人民币充值
+					收货地址
 				</li>
 			</ol>
 		</div>
@@ -94,6 +94,7 @@
 							<input class="form-control" id="mobile" type="text" name="mobile" placeholder="请输入收货人联系方式" />
 						</div>
 						<div class="to-recharge">
+							<input class="form-control" id="id" type="hidden" name="id" value="" />
 							<a id="ToRecharge" data-toggle="modal" >确认</a>
 						</div>
 					</form>
@@ -116,14 +117,17 @@
 							<li>{$list.mobile}</li>
 							<li style="width: 350px">{$list.province}{$list.city}{$list.area}{$list.address}</li>
 							<li class="examine">
-								<a value="{$tt.id}" class="look">修改</a>
-								<a value="{$tt.id}" class="look">|删除</a>
-								<!-- <a value="{$tt.id}" class="look">|设为默认</a> -->
+								<a value="{$list.id}" class="look edit">修改</a>
+								<a value="{$list.id}" class="look delete">|删除</a>
+								<!-- <a value="{$list.id}" class="look default">|设为默认</a> -->
 							</li>
 						</ul>
 					</volist>
 
 				</div>
+				<div class="page">
+	                {$page}
+	            </div>
 				<div class="white"></div>
 			</div>
 		</div>
@@ -134,6 +138,7 @@
 	</body>
 	<script type="text/javascript" src="./Public/zz/z.js"></script>
 	<script type="text/javascript">
+		//根据省份请求城市
 		$("#province").click(function() {
 			var id = $(this).val();
 
@@ -152,6 +157,7 @@
 				}
 			})
 		});
+		//根据城市请求地区
 		$("#city").click(function() {
 			var id = $(this).val();
 
@@ -170,29 +176,106 @@
 				}
 			})
 		});
-	$(function () {
-	    $("#ToRecharge").click(function(){
-	        var province = $('#province').val();
-	        var city     = $('#city').val();
-	        var area     = $('#area').val();
-	        var address  = $('#address').val();
-	        var name     = $('#name').val();
-	        var mobile   = $('#mobile').val();
-	    
-	        $.ajax({
-	            // url:"index.php?s=/Home/Property/bomb",
-	            url:"/Home`Address`update",
-	            data:{province:province,city:city,area:area,address:address,name:name,mobile:mobile},
-	            type:"post",
-	            success:function (data) {
-	                if (data.status!=true){   //请求失败
-						set_poput_code(data.info,false);
-						return false
+		//提交
+		$(function () {
+		    $("#ToRecharge").click(function(){
+		        var province = $('#province').val();
+		        var city     = $('#city').val();
+		        var area     = $('#area').val();
+		        var address  = $('#address').val();
+		        var name     = $('#name').val();
+		        var mobile   = $('#mobile').val();
+		        var id       = $('#id').val();
+		    
+		        $.ajax({
+		            // url:"index.php?s=/Home/Property/bomb",
+		            url:"/Home`Address`update",
+		            data:{province:province,city:city,area:area,address:address,name:name,mobile:mobile,id:id},
+		            type:"post",
+		            success:function (data) {
+		                if (data.status!=true){   //请求失败
+							set_poput_code(data.info,false);
+							return false
+						}
+						set_poput_code(data.info,true);
+		            }
+		        })
+		    });
+		})
+		//修改
+		$(".edit").click(function() {
+			var id = $(this).attr("value");
+			$.ajax({
+				url:"{:U('getAddress')}",
+				type:"POST",
+				data:{id:id},
+				success:function(data) {
+					console.log(data);
+					if (data.status == true) {
+						$("#id"). val(data.info.id);
+						$("#address"). val(data.info.address);
+						$("#name"). val(data.info.name);
+						$("#mobile"). val(data.info.mobile);
+						$("#province option[value=" + data.info.province_id + "]").attr("selected", true);
+						var html_city = '';
+						var html_area = '';
+
+						$.each(data.info.city_list, function(k, v) {
+							if (v.id == data.info.city_id) {
+								html_city += '<option value="'+ v.id +'" class="choosecity" selected>'+ v.city_name +'</option>';
+							} else{
+								html_city += '<option value="'+ v.id +'" class="choosecity" selected>'+ v.city_name +'</option>';
+							}
+							
+						});
+						$("#city").html(html_city);
+
+						$.each(data.info.area_list, function(k, v) {
+							if (v.id == data.info.area_id) {
+								html_area += '<option value="'+ v.id +'" class="choosecity" selected>'+ v.city_name +'</option>';
+							} else {
+								html_area += '<option value="'+ v.id +'" class="choosecity">'+ v.city_name +'</option>';
+							}
+							
+						});
+						$("#area").html(html_area);
 					}
-					set_poput_code(data.info,true);
-	            }
-	        })
-	    });
-	})
+				}
+			})
+		})
+		//删除
+		$(".delete").click(function() {
+			var id = $(this).attr("value");
+			$.ajax({
+				url:"{:U('delete')}",
+				data:{id:id},
+				type:"GET",
+				success:function(data) {
+					if (data.status != true) {
+						set_poput_code(data.info, false);
+						return false;
+					} else {
+						set_poput_code(data.info, true);
+					}
+				}
+			})
+		})
+		//设置默认
+		$(".default").click(function() {
+			var id = $(this).attr("value");
+			$.ajax({
+				url:"{:U('setDefault')}",
+				data:{id:id},
+				type:"POST",
+				success:function(data) {
+					if (data.status != true) {
+						set_poput_code(data.info, false);
+						return false;
+					} else {
+						set_poput_code(data.info, true);
+					}
+				}
+			})
+		})
 	</script>
 </html>

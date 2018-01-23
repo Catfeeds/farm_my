@@ -35,7 +35,7 @@
 <div class="mens">    
   <div class="main" style="margin-top: 100px">
      <div class="wrap">
-     	<ul class="breadcrumb breadcrumb__t"><a class="home" href="#">首页</a> / <a href="#">Dolor sit amet</a> / Lorem ipsum dolor sit amet</ul>
+     	<ul class="breadcrumb breadcrumb__t" style="font-size: 15px;"><a class="home" href="#">首页</a> / <a href="#">分类</a></ul>
 		<div class="cont span_2_of_3">
 		  	<div class="grid images_3_of_2">
 						<div id="container">
@@ -47,7 +47,7 @@
 						</div>
 	            </div>
 		         <div class="desc1 span_3_of_2">
-		         	<h3 class="m_3">{$info.name}</h3>
+		         	<h3 class="m_3" style="font-size: 22px;">{$info.name}</h3>
 		         	<eq name="info.type" value="1">
 		         		<p class="m_5">{$price_show} </p>
 		         	</eq>
@@ -72,11 +72,11 @@
      	<p class="m_text">{$info.description}</p>
      </div>
       </div>
-			<div class="rsingle span_1_of_single">
+			<div class="rsingle span_1_of_single" style="font-size: 15px;">
 				<h5 class="m_1">类别</h5>
 					<volist name="cate" id="datas">
 						<notempty name="datas.child">
-							<select onchange="window.location=this.value" class="dropdown" tabindex="8" data-settings='{"wrapperClass":"metro"}'>
+							<select onchange="window.location=this.value" class="dropdown" tabindex="8" data-settings='{"wrapperClass":"metro"}' style="font-size: 15px;">
 								<option value="{:U('lists', ['cat_id'=>$datas['id']])}">{$datas.name}</option>
 								<volist name="datas.child" id="val">
 									<option value="{:U('lists', ['cat_id'=>$val['id']])}">{$val.name}</option>
