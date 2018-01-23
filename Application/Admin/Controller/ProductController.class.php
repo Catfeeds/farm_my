@@ -76,11 +76,6 @@ class ProductController extends AdminController {
                 $this -> error("该商品分类为报单商城，请添加报单商品的所需属性");
                 exit();
             }
-        } else {
-            //获取当前CMC价格
-            $cfg = new RepeatCfgModel();
-            $cmc_price = $cfg -> getCfg("cmc");
-            $data['cny'] = $cmc_price * $data['cny'];
         }
 
         //处理图片

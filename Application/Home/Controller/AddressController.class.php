@@ -36,6 +36,13 @@ class AddressController extends HomeController {
             -> where("sa.user_id = ". session('user')['id'])
             -> find();
 
+        $where = ['sa.user_id' => session("user")['id']];
+
+        $count = M("shop_address sa") -> where($where) -> count();
+
+        $Page = new Page($count, 5, array());
+        $show = $Page -> show();
+
         //地址列表
         $city_list = M()
             -> table("currency_shop_address as sa")
@@ -43,12 +50,14 @@ class AddressController extends HomeController {
             -> join("left join currency_shop_city as sc on sc.id = sa.province")
             -> join("left join currency_shop_city as scc on scc.id = sa.city")
             -> join("left join currency_shop_city as sccc on sccc.id = sa.area")
-            -> where("sa.user_id = ". session('user')['id'])
+            -> where($where)
+            -> limit($Page->firstRow,$Page->listRows)
             -> select();
 
         //城市
         $city = $this -> city(0);
 
+        $this -> assign("page", $show);
         $this -> assign("default", $default);
         $this -> assign("list", $city_list);
         $this -> assign("city", $city);
@@ -77,7 +86,7 @@ class AddressController extends HomeController {
             $data['user_id']  = session('user')['id'];
             $data['status']   = 2;
 
-            if ($id != null) {
+            if ($id != null || $id != "") {
                 $data['id'] = $id;
                 $res = M("shop_address") -> save($data);
             } else {
@@ -106,5 +115,58 @@ class AddressController extends HomeController {
         $city = M("shop_city") -> field("id, city_name") -> where("pid = ". $id) -> select();
 
         return $city;
+    }
+
+    //修改
+    public function getAddress() {
+        $id = I("id"); 
+
+        $city_list = M()
+            -> table("currency_shop_address as sa")
+            -> field("sa.id, sa.name, sa.mobile, sa.address, sc.id as province_id, sc.city_name as province, scc.id as city_id, scc.city_name as city, sccc.id as area_id, sccc.city_name as area, sa.status")
+            -> join("left join currency_shop_city as sc on sc.id = sa.province")
+            -> join("left join currency_shop_city as scc on scc.id = sa.city")
+            -> join("left join currency_shop_city as sccc on sccc.id = sa.area")
+            -> where(['sa.id'  => $id])
+            -> find();
+
+        $city_list1 = M("shop_city")
+            -> field("id, city_name")
+            -> where("pid = ". $city_list['province_id'])
+            -> select();
+
+        $area_list = M("shop_city")
+            -> field("id, city_name")
+            -> where("pid = ". $city_list['city_id'])
+            -> select();
+
+        $city_list['city_list'] = $city_list1;
+        $city_list['area_list'] = $area_list;
+
+        $this -> success($city_list);
+    }
+
+    //删除
+    public function delete($id) {
+        $res = M("shop_address")
+            -> where("id = ".$id)
+            -> delete();
+        if ($res) {
+            $this -> success("删除成功");
+        } else {
+            $this -> error("删除失败");
+        }
+    }
+
+    //默认地址
+    public function setDefault() {
+        $id = I("id");
+        $res = M("shop_address")
+            -> save(['id' => $id, "status" => 1]);
+        if ($res !== false) {
+            $this -> success("设置成功");
+        } else {
+            $this -> error("设置失败");
+        }
     }
 }

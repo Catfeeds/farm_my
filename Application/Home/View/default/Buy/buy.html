@@ -131,11 +131,12 @@
        <div class="c_header">
          <div class="grid_10">
            <if condition="($default neq null)">
-              <select id="ship_id">
+              <select id="ship_id" style="font-size: 15px;">
                 <volist name="default" id="data">
                   <option value="{$data.id}">联系人：{$data.name}  联系方式：{$data.mobile}  详细地址：{$data.province}{$data.city}{$data.area}{$data.address}</option>
                 </volist>
               </select>
+              或<a href="{:U('Address/index')}">添加地址</a>
             <else />
               <div>没有收货地址请<a href="{:U('Address/index')}">添加</a></div>
             </if>
@@ -143,14 +144,14 @@
        </div>
 
        <table class="cart_product">
-	      <tr>
+	      <tr  style="border: 2px #f00;">
 		     <th class="images">图片</th>
 		     <th class="bg name">产品名称</th>
 		     <th class="edit"> </th>
 		     <th class="bg price">单价</th>
 		     <th class="qty">数量</th>
 		     <th class="bg subtotal">总价</th>
-		     <th class="close"> </th>
+		     <!-- <th class="close"> </th> -->
 	      </tr>
 	      <tr>
          <td style="display: none;" id="product_id" data="{$info.id}"></td>
@@ -174,8 +175,8 @@
 	      </tr>
 	      <tr>
 		     <td colspan="7" class="cart_but">
-			    <button class="continue"><a href=""><span>icon</span>继续购物</a></button>
-			    <button class="update" id="confirm">确认订单</button>
+			    <button class="continue" style="width: 100px;height:50px;font-size: 15px;"><a href="{:U('Index/index')}"><span>icon</span>继续购物</a></button>
+			    <button class="update" id="confirm" style="width: 100px;height:50px;background-color: #59b7c2;color: #fff;font-size: 15px;">确认订单</button>
 		     </td>
 	      </tr>
        </table>
