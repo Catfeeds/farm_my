@@ -142,8 +142,14 @@ class BonusController extends Controller
 
         $subsidy = json_decode($subsidy['data'],true);
 
+        #如果2个配置都为空，则不再进入流程
+        if ( ( !is_array($deduct) || empty($deduct)) && (!is_array($subsidy) || empty($subsidy)) ){
 
-        $this->setCfg(['deduct'=>$deduct,''=>$subsidy]);
+            return true;
+        }
+
+
+        $this->setCfg(['deduct'=>$deduct,'subsidy'=>$subsidy]);
 
         $count = count($deduct);
 
@@ -157,6 +163,7 @@ class BonusController extends Controller
 
             $i = 0;
             while (true){
+
                 $i++;
 
                 $Parent = $UsersModel->getPid($this->user['pid']);
@@ -170,23 +177,33 @@ class BonusController extends Controller
                 #直推人数
                 $countChild = $UsersModel->countChild($this->user['id']);
 
-                #红包提成
-                if ($i<=$count){
+                #红包提成,配置项必须正确才进入流程
+                if (is_array($deduct) && !empty($deduct)){
 
-                    $this->setRegister($i);
+                    if ($i<=$count){
 
-                    $back = $this->bonus($UserpropertyModel,$countChild);
+                        $this->setRegister($i-1);
+
+                        $back = $this->bonus($UserpropertyModel,$countChild);
+
+                        if (!$back){
+                            throw new Exception($this->getError());
+                        }
+                    }
+
+                }
+
+                #红包津贴,配置项必须正确才进入流程
+                if (is_array($subsidy) && !empty($subsidy)){
+
+                    $back = $this->subsidy($countChild,$UsersModel,$UserpropertyModel);
 
                     if (!$back){
-                        throw new Exception($this->errot);
+                        throw new Exception($this->getError());
                     }
                 }
-//                #红包津贴
-//                $back = $this->subsidy($countChild,$UsersModel,$UserpropertyModel);
-//
-//                if (!$back){
-//                    throw new Exception($this->errot);
-//                }
+
+
 
 
                 if (empty($Parent['pid'])){
@@ -220,16 +237,15 @@ class BonusController extends Controller
 
         $percentage = $this->cfg['deduct'][$this->register]['percentage'];
 
-
         #如果满足条件,红包提成
         if ($countChild>=$numpeople){
 
-           $money = $this->money*$percentage/100;
+           $money = $this->money * $percentage/100;
 
            $back = $userpropertyModel->setChangeMoney(1,$money,$this->user['id'],'红包分成',2);
 
            if (!$back){
-               $this->errot = $userpropertyModel->getError();
+               $this->error = $userpropertyModel->getError();
                return false;
            }
 
@@ -239,6 +255,7 @@ class BonusController extends Controller
                 'child_id'=>$this->child_id,
                 'number'=>$money,
                 'order'=>$this->order,
+                'type'=>1,
                 'time'=>time()
             ]);
 
@@ -261,39 +278,30 @@ class BonusController extends Controller
      */
     public function subsidy($countChild,UsersModel $usersModel,UserpropertyModel $userpropertyModel){
 
-        $numpeople = $this->cfg['subsidy'][$this->register]['numpeople'];
-
-        #直推人数满足，直接返回结果
-        if ($countChild < $numpeople){
-            return true;
-        }
-
-        #团队总人数是否满足
-        $numpeople_all = $this->cfg['subsidy'][$this->register]['numpeople_all'];
-
         $number = 0;
 
         $usersModel->countChild_all($this->user['id'],$number);
 
-        if ($countChild + $number >= $numpeople_all){
+        $percentage = $this->getNumpeople_all($countChild,$number);
 
-            $money = $this->money*$this->cfg['subsidy'][$this->register]['percentage']/100;
+        if ( $percentage){
 
-
+            $money = $this->money*$percentage/100;
 
             $back = $userpropertyModel->setChangeMoney(1,$money,$this->user['id'],'管理津贴',2);
 
             if (!$back){
-                $this->errot = $userpropertyModel->getError();
+                $this->error = $userpropertyModel->getError();
                 return false;
             }
 
-            #红包分层记录
+            #红包津贴记录
             $back = M('bonus_deduct')->add([
                 'user_id'=>$this->user['id'],
                 'child_id'=>$this->child_id,
                 'number'=>$money,
                 'order'=>$this->order,
+                'type'=>2,
                 'time'=>time()
             ]);
 
@@ -308,6 +316,34 @@ class BonusController extends Controller
         return true;
     }
 
+
+    /**
+     * @param $count 直推人数
+     * @param $child_all 团队人数
+     * @return bool
+     */
+    public function getNumpeople_all($count,$child_all){
+
+        foreach($this->cfg['subsidy'] as $k=>$v){
+
+            #判断是否满足直推人数
+            if ($count >= $v['numpeople']){
+
+                #判断是否满足团队人数
+                if ($child_all >= $v['numpeople_all']){
+
+                    #返回津贴比例
+                    return $v['percentage'];
+
+                }
+
+            }
+
+        }
+
+        return false;
+
+    }
 
 
 

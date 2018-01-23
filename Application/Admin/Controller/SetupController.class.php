@@ -21,6 +21,7 @@ class SetupController extends AdminController  {
       $map_1['name'] = array('like', '%'. $brief .'%');
       $map_1['_logic'] = "OR";
       $map['_complex'] = $map_1;
+      $map['id'] = ['not in',[1,2,3,4]];
 
       $count = $Data->where($map)->count();// 查询满足要求的总记录数 $map表示查询条件
       $Page = new Page($count,10,array('brief'   =>$brief));// 实例化分页类 传入总记录数 传入状态；

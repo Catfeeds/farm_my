@@ -21,7 +21,7 @@ class DistributionController extends AdminController {
         $list = $bonus ->where($where)-> find();
 
         //添加、修改地址
-        if (IS_POST) {
+        if (IS_AJAX) {
 
             $data = json_encode(I('data'));
             $back = $bonus->where($where)->save(['data'=>$data]);
@@ -52,10 +52,28 @@ class DistributionController extends AdminController {
         $list = $bonus ->where($where)-> find();
 
         //添加、修改地址
-        if (IS_POST) {
+        if (IS_AJAX) {
 
-            $data = json_encode(I('data'));
-            $back = $bonus->where($where)->save(['data'=>$data]);
+            $data = (I('data'));
+
+            for ($i=0;$i<count($data);$i++){
+
+                for ($a=0;$a<count($data);$a++){
+
+                    if ($data[$a]['numpeople'] > $data[$a+1]['numpeople'] && $a+1<count($data)){
+
+                        $v = $data[$a];
+
+                        $data[$a] = $data[$a+1];
+
+                        $data[$a+1] = $v;
+
+                    }
+                }
+
+            }
+
+            $back = $bonus->where($where)->save(['data'=>json_encode($data)]);
             if ($back===false){
                 $this->error('保存失败');
             }
@@ -95,4 +113,5 @@ class DistributionController extends AdminController {
             echo json_encode($bankedit);
         }
     }
+
 }

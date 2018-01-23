@@ -107,10 +107,10 @@
                                 <dt class="">{$vo['id']}</dt>
                                 <dt class="">{$vo['number_all']}</dt>
                                 <dt class="">{$vo.time|date='Y-m-d H:i:s',### }</dt>
-                                <dt class=""><a style="color: #0e90d2!important;" title="详情" href="{:U('interest',['id'=>$vo['id'],tage=>10])}">{$vo.interest}</a></dt>
+                                <dt class=""><a style="color: #0e90d2!important;" title="详情" href="{:U('interest',['id'=>$vo['id'],'tag'=>10])}">{$vo.interest}</a></dt>
                                 <dt class="">{$vo['number']}</dt>
                                 <dt class="">{$vo.time_end|date='Y-m-d H:i:s',### }</dt>
-                                <dt class="" ><a style="color: #0e90d2!important;" title="详情" href="{:U('release',['id'=>$vo['id'],tage=>10])}">{$vo['releases']}</a></dt>
+                                <dt class="" ><a style="color: #0e90d2!important;" title="详情" href="{:U('release',['id'=>$vo['id'],'tag'=>10])}">{$vo['releases']}</a></dt>
                             </dl>
                         </foreach>
                     </li>

@@ -131,9 +131,9 @@ class RechargeController extends AdminController
         }elseif ($search_type==1 && !empty(I('search'))){
             $where['currency_xnb.name'] = I('search');
         }elseif ($search_type==2){
-            $where['currency_memory.time_start']=[['EGT',I('start_time')],['ELT',I('end_time')]];
+            $where['currency_memory.time_start']=[['EGT',strtotime(I('start_time'))],['ELT',strtotime(I('end_time'))+86400]];
         }elseif ($search_type==3){
-            $where['currency_memory.time_end']=[['EGT',I('start_time')],['ELT',I('end_time')]];
+            $where['currency_memory.time_end']=[['EGT',strtotime(I('start_time'))],['ELT',strtotime(I('end_time'))+86400]];
         }
         $this->assign('search_type',$search_type ? $search_type :0);
         $count =  M('memory')
@@ -158,6 +158,7 @@ class RechargeController extends AdminController
                     currency_memory.time_start,
                     currency_memory.time_end
                 ')
+                  ->order('currency_memory.id desc')
                   ->where($where)
                   -> limit($Page -> firstRow, $Page -> listRows)
                   ->select();
@@ -194,7 +195,7 @@ class RechargeController extends AdminController
 
         $show = $Page->show();
 
-        $data = $memoryall_m->where($where)->field('id,time')-> limit($Page -> firstRow, $Page -> listRows)->select();
+        $data = $memoryall_m->where($where)->field('id,time')->order('time desc')-> limit($Page -> firstRow, $Page -> listRows)->select();
 
         $this->assign('data',$data);
 

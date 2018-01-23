@@ -39,7 +39,6 @@
             <tbody>
             <volist name="data" id="vo">
                 <tr>
-
                     <td>{$vo.id}</td>
                     <td>{:date('Y-m-d H:i:s',$vo['time'])}</td>
                     <td><a href="{:U('memorylist_all',['id'=>$vo['id']])}">详情</a></td>

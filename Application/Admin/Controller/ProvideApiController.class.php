@@ -30,24 +30,21 @@ use Home\Model\UserpropertyModel;
 use Think\Controller;
 use Think\Exception;
 
+const TOKEN = 'sjkfhsdjkhfu';
+
+const COUNT = 1000;
+
 class ProvideApiController  extends Controller{
 
-    const TOKEN = 'nsjkfhsdjkhfu';
 
-    const COUNT = 1000;
 
-//    function _initialize(){
-//
-//        #token验证
-//        $data = I('token');
-//
-//        if ($data!=TOKEN){
-//
-//
-//            exit();
-//        }
-//
-//    }
+    public function __construct()
+    {
+        parent::__construct();
+        if (empty(I('token')) || I('token')!=TOKEN){
+            exit(TOKEN);
+        }
+    }
 
     #红包的发放
     public function  bonus(){
@@ -280,7 +277,7 @@ class ProvideApiController  extends Controller{
 
         $repeatCfgModel = new RepeatCfgModel();
 
-        $where = ['number'=>['gt',0],'time_end'=>['egt',time()]];
+        $where = ['number'=>['gt',0],'time_end'=>['elt',time()]];
 
         $count = $integralModel->getCount($where);
 

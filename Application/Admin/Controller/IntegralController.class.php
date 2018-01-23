@@ -50,6 +50,7 @@ class IntegralController extends AdminController
                             ->field('currency_integral.*,currency_users.users')
                             ->join('left join  currency_users on currency_integral.user_id = currency_users.id')
                             ->limit($Page->firstRow,$Page->listRows)
+                            ->order('currency_integral.time desc')
                             ->select();
 
          $this->assign('page',$show);
@@ -81,7 +82,7 @@ class IntegralController extends AdminController
 
          $show = $Page->show();
 
-         $data = $integral_all_m->where($where)->limit($Page->firstRow,$Page->listRows)->select();
+         $data = $integral_all_m->where($where)->limit($Page->firstRow,$Page->listRows)->order('time desc')->select();
 
 
          $this->assign('page',$show);

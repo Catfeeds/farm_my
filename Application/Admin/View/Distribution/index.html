@@ -73,6 +73,28 @@
 
         $('#submit').click(function () {
 
+            var input = $('tbody').find('input');
+
+            var i = true;
+
+            $.each(input,function (k,v) {
+                var x = $(v).val();
+
+                if (x === null || x === undefined || x === '') {
+
+                    return i = false;
+
+                }
+
+            })
+
+            if (!i){
+
+                set_poput_code('数据不能不空',false);
+                return false;
+
+            }
+
             var farmData =  {};
 
             var data  = $('tbody').children()
@@ -86,8 +108,8 @@
 
             $.ajax({
                 url:"",
-                data:{'data':farmData ? farmData:''},
-                type:'post',
+                data:{'data':farmData },
+                type: farmData.length>0 ? 'post' : 'get',
                 success:function(data){
                     if (!data.status){
                         set_poput_code(data.info,false);

@@ -69,6 +69,7 @@
 									<li>订单号</li>
 									<li>用户</li>
 									<li>金额</li>
+									<li>类型</li>
 									<li>时间</li>
 								</ul>
 							</div>
@@ -78,6 +79,7 @@
 										<li>{$vo.order}</li>
 										<li>{$vo.users}</li>
 										<li>{$vo.number}</li>
+										<li>{:($vo['type'] == 1 ? '分享提成' : '管理津贴')}</li>
 										<li>{:date('Y-m-d H:i:m',$vo['time'])}</li>
 									</ul>
 								</foreach>
