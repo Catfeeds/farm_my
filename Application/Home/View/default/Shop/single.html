@@ -34,8 +34,8 @@
        <include file="Public:header"/>
 <div class="mens">    
   <div class="main" style="margin-top: 100px">
-     <div class="wrap">
-     	<ul class="breadcrumb breadcrumb__t" style="font-size: 15px;"><a class="home" href="#">首页</a> / <a href="#">分类</a></ul>
+     <div class="wrap" style="width: 60%;">
+     	<ul class="breadcrumb breadcrumb__t" style="font-size: 15px;"><a class="home" href="{:U('Index/index')}">首页</a> / <a href="{:U('Shop/list', ['cat_id' => $info['cat_id']])}">{$info.class_name}</a></ul>
 		<div class="cont span_2_of_3">
 		  	<div class="grid images_3_of_2">
 						<div id="container">

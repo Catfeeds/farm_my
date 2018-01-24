@@ -129,14 +129,14 @@
        <h1 class="page_title">收货地址</h1>
 
        <div class="c_header">
-         <div class="grid_10">
+         <div class="grid_10" style="margin-left: 0px;">
            <if condition="($default neq null)">
-              <select id="ship_id" style="font-size: 15px;">
+              <select id="ship_id" style="font-size: 15px;margin: 20px;margin-left: 0px;">
                 <volist name="default" id="data">
                   <option value="{$data.id}">联系人：{$data.name}  联系方式：{$data.mobile}  详细地址：{$data.province}{$data.city}{$data.area}{$data.address}</option>
                 </volist>
               </select>
-              或<a href="{:U('Address/index')}">添加地址</a>
+              或<a href="{:U('Address/index')}" style="margin-left: 20px;">添加地址</a>
             <else />
               <div>没有收货地址请<a href="{:U('Address/index')}">添加</a></div>
             </if>
