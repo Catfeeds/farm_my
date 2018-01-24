@@ -16,17 +16,36 @@ use Common\Controller\BonusController;
  */
 class OrderController extends AdminController {
     public function index() {
-        $map = null;
-        $count = M("shop_order") -> where($map) -> count();
-        $Page = new Page($count, 15);
+        $status = I("status") ? I("status") : "";
+        $search = I("search") ? I("search") : "";
+
+        $map = [];
+        $map1 = [];
+        if ($search != "" && $search != 0) {
+            $map1['o.order'] = $search;
+            $map1['u.users'] = $search;
+            $map1['_logic'] = "OR";
+        }
+        if ($status != "" && $status != 0) { 
+            $map['o.status'] = $status;
+            if (!empty($map1)) {
+                $map['_complex'] = $map1;
+            }
+        }
+        $count = M("shop_order o") -> where($map) -> count();
+        $Page = new Page($count, 15, array('status'=>$status, 'search' => $search));
         $show = $Page -> show();
+        // dump($count);
+        // dump(M("shop_order")->getLastsql());
 
         $list = M()
             -> table("currency_shop_order as o")
-            -> field("o.id, o.order, o.number, o.total_money, o.time, o.status, p.name, p.img, pc.type")
+            -> field("o.id, o.order, o.number, o.total_money, o.time, o.status, p.name, p.img, pc.type, u.users")
             -> join("left join currency_product as p on p.id = o.product_id")
             -> join("left join currency_procate as pc on p.cat_id = pc.id")
+            -> join("left join currency_users as u on o.user_id = u.id")
             -> order("o.time desc")
+            -> where($map)
             -> limit($Page -> firstRow, $Page -> listRows)
             -> select();
 
