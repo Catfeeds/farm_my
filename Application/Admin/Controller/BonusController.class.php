@@ -32,7 +32,7 @@ class BonusController extends AdminController
             $bonusModel->page_where['users'] = I('users');
         }
         if (!empty(I('start_time')) && !empty(I('end_time')) ){
-            $where['currency_bonus.time']= [ ['EGT',strtotime(I('start_time'))] , ['ELT',strtotime(I('end_time'))] ];
+            $where['currency_bonus.time']= [ ['EGT',strtotime(I('start_time'))] , ['ELT',strtotime(I('end_time'))+86400] ];
             $bonusModel->page_where['start_time']  = I('start_time');
             $bonusModel->page_where['end_time']  = I('end_time');
         }
@@ -51,7 +51,16 @@ class BonusController extends AdminController
      */
     public function all_list(){
         $where = [];
+
+
         $bonusAllModel = new BonusAllModel();
+
+        if (!empty(I('end_time'))&&!empty(I('start_time'))){
+            $where['time']= [ ['EGT',strtotime(I('start_time'))] , ['ELT',strtotime(I('end_time'))+86400] ];
+            $bonusAllModel->page_where['start_time']  = I('start_time');
+            $bonusAllModel->page_where['end_time']  = I('end_time');
+        }
+
         $bonusAllModel =  $bonusAllModel->lists($where);
 
         $this->assign('page',$bonusAllModel->show);
@@ -111,7 +120,7 @@ class BonusController extends AdminController
 
         if (!empty($start_time) && !empty($end_time)){
 
-            $where['currency_bonus_deduct.time'] = [ ['egt',strtotime($start_time)],['elt',strtotime($end_time)] ];
+            $where['currency_bonus_deduct.time'] = [ ['egt',strtotime($start_time)],['elt',strtotime($end_time)+86400] ];
             $page_where['start_time'] =$start_time;
             $page_where['end_time'] =$end_time;
 
@@ -130,6 +139,7 @@ class BonusController extends AdminController
                                 ->field('pu.users as puser,cu.users as cuser,currency_bonus_deduct.*')
                                 ->join('left join currency_users as pu on pu.id = currency_bonus_deduct.user_id')
                                 ->join('left join currency_users as cu on cu.id = currency_bonus_deduct.child_id')
+                                ->order('currency_bonus_deduct.time desc')
                                 ->select();
 
 

@@ -9,7 +9,7 @@ $("#center_title").click(function () {
 /*left nav change*/
 var url=window.location.href,index=url.indexOf("tag");
 if(index != -1){
-    var tat= url.split("tag/")[1].split(".")[0];
+    var tat= url.split("tag%60")[1].split(".")[0];
     $li.removeClass("selected").addClass("similar");
     $($li[tat]).removeClass("similar").addClass("selected")
 

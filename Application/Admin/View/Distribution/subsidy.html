@@ -24,15 +24,11 @@
         <div>
             <table class="tables" >
                 <tbody>
-                <php>
-                    $date = ['一','二','三','四','五','六','七','八'];
-                </php>
                 <foreach name="data" item="vo" key="k">
                     <tr>
-                        <td>第{$date[$k]}级</td>
-                        <td>直推 : <input type="text" name="numpeople" value="{$vo.numpeople}" id="numpeople" placeholder="直推">人</td>
-                        <td>团队 : <input type="text" name="percentage"  value="{$vo.percentage}" id="percentage" placeholder="团队">人</td>
-                        <td>津贴 : <input type="text" name="numpeople_all"  value="{$vo.numpeople_all}" id="numpeople_all" placeholder="津贴">%</td>
+                        <td>直推 : <input type="text" onblur="clearNoNum(this)" name="numpeople" value="{$vo.numpeople}" id="numpeople" placeholder="直推"></td>
+                        <td>团队 : <input type="text" onblur="clearNoNum(this)"  name="numpeople_all"  value="{$vo.numpeople_all}" id="numpeople_all" placeholder="津贴">人</td>
+                        <td>津贴 : <input type="text" onblur="clearNoNum(this)"  name="percentage"  value="{$vo.percentage}" id="percentage" placeholder="团队">%</td>
                     </tr>
                 </foreach>
                 </tbody>
@@ -54,21 +50,21 @@
     <script type="text/javascript">
         //导航高亮
         highlight_subnav('{:U('')}');
-        var number=['一','二','三','四','五','六','七','八'];
         $('.add').click(function () {
 
             var index = $('tbody').children().length
 
             var tr = '<tr>'+
-                '<td>第'+number[index]+'级</td>'+
-                '<td>直推 : <input type="text" name="numpeople" value="" id="numpeople" placeholder="直推">人</td>'+
-                '<td>团队 : <input type="text" name="percentage" value="" id="percentage" placeholder="团队">人</td>'+
-                '<td>津贴 : <input type="text" name="percentage" value="" id="percentage" placeholder="津贴">%</td>'+
+                '<td>直推 : <input type="text" onblur="clearNoNum(this)"  name="numpeople" value="" id="numpeople" placeholder="直推">人</td>'+
+                '<td>团队 : <input type="text" onblur="clearNoNum(this)"  name="numpeople_all" value="" id="numpeople_all" placeholder="团队">人</td>'+
+                '<td>津贴 : <input type="text"  onblur="clearNoNum(this)"  name="percentage" value="" id="percentage" placeholder="津贴">%</td>'+
                 '</tr>'
 
             $('tbody').append(tr)
 
         })
+
+
 
         $('.delete').click(function () {
 
@@ -77,6 +73,30 @@
         })
 
         $('#submit').click(function () {
+
+            var input = $('tbody').find('input');
+
+            var i = true;
+
+            $.each(input,function (k,v) {
+                var x = $(v).val();
+
+                if (x === null || x === undefined || x === '') {
+
+                    return i = false;
+
+                }
+
+            })
+
+            if (!i){
+
+                set_poput_code('数据不能不空',false);
+                return false;
+
+            }
+
+
 
             var farmData =  {};
 
@@ -92,7 +112,7 @@
             $.ajax({
                 url:"",
                 data:{'data':farmData ? farmData:''},
-                type:'post',
+                type: farmData.length>0 ? 'post' :'get',
                 success:function(data){
                     if (!data.status){
                         set_poput_code(data.info,false);

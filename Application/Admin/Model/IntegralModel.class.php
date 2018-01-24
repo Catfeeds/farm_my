@@ -109,11 +109,9 @@ class IntegralModel extends Model
         #修改释放字段
         $back =$this->where(['id'=>$id])->setInc('releases',$number);
         if (!$back){
-            $this->error = '释放失败.'.$id;
+            $this->error = '释放失败.'.$id.'=>'.$number;
             return false;
         }
-
-
 
 //        #添加用户释放积分账户
 //        $userpropertyModel = new UserpropertyModel();

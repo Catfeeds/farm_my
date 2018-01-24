@@ -90,6 +90,7 @@ class BonusModel extends Model
         $this->data = $this->where($where)
                            ->limit($Page->firstRow.','.$Page->listRows)
                            ->field('currency_bonus.*,currency_users.users')
+                            ->order('currency_bonus.time desc')
                            ->join('left join currency_users on  currency_bonus.user_id = currency_users.id')->select();
 
         return $this;

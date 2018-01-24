@@ -59,7 +59,8 @@ class BonusAllModel extends Model
         $this->show = $Page->show();
 
         $this->data = $this->where($where)
-            ->limit($Page->firstRow.','.$Page->listRows)->select();
+             ->order('time desc')
+             ->limit($Page->firstRow.','.$Page->listRows)->select();
 
         return $this;
     }
