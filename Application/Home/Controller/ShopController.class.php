@@ -81,7 +81,7 @@ class ShopController extends HomeController {
     public function single($id) {
         $info = M() 
             -> table("currency_product as p")
-            -> field("p.id, p.name, p.price, p.img, p.description, pc.type") 
+            -> field("p.id, p.name, p.price, p.img, p.description, p.cat_id, pc.name as class_name, pc.type") 
             -> join("left join currency_procate as pc on pc.id = p.cat_id")
             -> where("p.id = ". $id) 
             -> find();
