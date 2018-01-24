@@ -43,7 +43,8 @@ $(function () {
         return false
     })
     $('.ajaxlogin_form').find('button[type=submit]').click(function () {
-        var href=$('.property_centre').attr('href');
+        // var href=$('.property_centre').attr('href');
+        var href = window.location.href;
         var form=$(this).parents().parent('.ajaxlogin_form');
         if (form.get(0)==undefined){
             form=$(this).parent();
