@@ -34,6 +34,23 @@ class IntegralController extends HomeController
 
         $where = $page_where = [];
 
+        if (!empty(I('date'))&&!empty(I('dates'))){
+
+            if (I('type')==1){
+                $where['time']=[['egt',strtotime(I('date'))],['elt',strtotime(I('dates'))+86400]];
+                $page_where['date'] = I('date');
+                $page_where['dates'] = I('dates');
+            }else{
+                $where['time_end']=[['egt',strtotime(I('date'))],['elt',strtotime(I('dates'))+86400]];
+                $page_where['date'] = I('date');
+                $page_where['dates'] = I('dates');
+            }
+
+        }
+
+
+        $this->assign('type',I('type') ? I('type') :1);
+
         $integralModel = $integralModel->getList($where,$page_where);
 
         $this->assign('page',$integralModel->show);

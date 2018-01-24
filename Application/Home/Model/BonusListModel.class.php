@@ -41,6 +41,7 @@ class BonusListModel extends Model
 
         $this->data = $this->where($where)
                             ->limit($Page->firstRow,$Page->listRows)
+                            ->order('id desc')
                             ->select();
 
         return $this;
