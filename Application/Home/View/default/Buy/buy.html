@@ -126,57 +126,59 @@
   <section id="main" class="entire_width" style="margin-top: 100px;">
     <div class="container_12">
        <div class="grid_12">
-       <h1 class="page_title">收货地址</h1>
+       <h1 class="page_title">选择收货地址</h1>
 
        <div class="c_header">
-         <div class="grid_10">
+         <div class="grid_10" style="margin-left: 0px;">
            <if condition="($default neq null)">
-              <select id="ship_id" style="font-size: 15px;">
+              <select id="ship_id" style="font-size: 15px;margin: 20px;margin-left: 0px;font: inherit;">
                 <volist name="default" id="data">
                   <option value="{$data.id}">联系人：{$data.name}  联系方式：{$data.mobile}  详细地址：{$data.province}{$data.city}{$data.area}{$data.address}</option>
                 </volist>
               </select>
-              或<a href="{:U('Address/index')}">添加地址</a>
+              或<a href="{:U('Address/index')}" style="margin-left: 20px;">添加地址</a>
             <else />
-              <div>没有收货地址请<a href="{:U('Address/index')}">添加</a></div>
+              <div>没有收货地址请<a href="{:U('Address/index')}" style="margin-left: 20px;">添加地址</a></div>
             </if>
          </div>
        </div>
 
        <table class="cart_product">
-	      <tr  style="border: 2px #f00;">
-		     <th class="images">图片</th>
-		     <th class="bg name">产品名称</th>
-		     <th class="edit"> </th>
-		     <th class="bg price">单价</th>
-		     <th class="qty">数量</th>
-		     <th class="bg subtotal">总价</th>
+        <tbody style="border-top: 1px solid #cccccc;border-bottom: 1px solid #cccccc;">
+	      <tr style="height: 45px;line-height:45px;">
+		     <th class="images" style="text-align: center;">图片</th>
+		     <th class="bg name" style="text-align: center;">产品名称</th>
+		     <th class="edit" style="text-align: center;">单价</th>
+		     <th class="bg price" style="text-align: center;">数量</th>
+		     <th class="qty" style="text-align: center;">总价</th>
+		     <!-- /*<th class="bg subtotal" style="text-align: center;">总价</th>*/ -->
 		     <!-- <th class="close"> </th> -->
 	      </tr>
 	      <tr>
          <td style="display: none;" id="product_id" data="{$info.id}"></td>
          <td style="display: none;" id="type" data="{$info.type}"></td>
          <td style="display: none;" id="total_price" data="{$info.total_price}"></td>
-		     <td class="images"><a href="product_page.html"><img src="__ROOT__/{$info['img']}" alt="Product 6"></a></td>
-         <td class="bg name">{$info.name}</td>
-		     <td class="edit"><a title="" href="#" >Edit</a></td>
+		     <td class="images"><a href="product_page.html"><img src="__ROOT__/{$info['img']}" alt="{$info.name}"></a></td>
+         <td class="bg name" style="width: 200px;">{$info.name}</td>
+		     <!-- <td class="edit"><a title="" href="#" >Edit</a></td> -->
 
-         <eq name="info.type" value="1"><td class="bg price">{$info.price_show}</td></eq>
-         <eq name="info.type" value="2"><td class="bg price">{$info.price_show.cmc} CMC + {$info.price_show.cny} CNY</td></eq>
-         <eq name="info.type" value="3"><td class="bg price">{$info.price_show}</td></eq>
+         <eq name="info.type" value="1"><td class="edit">{$info.price_show}</td></eq>
+         <eq name="info.type" value="2"><td class="edit">{$info.price_show.cmc} CMC + {$info.price_show.cny} CNY</td></eq>
+         <eq name="info.type" value="3"><td class="edit">{$info.price_show}</td></eq>
 		     
-		     <td class="qty"><input type="text" id="number" name="" value="1" data="{$info.price}" /></td>
+		     <td class="bg price" style="width: 80px;"><input type="text" id="number" name="" value="1" data="{$info.price}" style="margin: 5px;width: 80px;" /></td>
 
-		     <eq name="info.type" value="1"><td class="bg price total_price">{$info.price_show}</td></eq>
-         <eq name="info.type" value="2"><td class="bg price total_price">{$info.price_show.cmc} CMC + {$info.price_show.cny} CNY</td></eq>
-         <eq name="info.type" value="3"><td class="bg price total_price">{$info.price_show}</td></eq>
+		     <eq name="info.type" value="1"><td class="qty total_price">{$info.price_show}</td></eq>
+         <eq name="info.type" value="2"><td class="qty total_price">{$info.price_show.cmc} CMC + {$info.price_show.cny} CNY</td></eq>
+         <eq name="info.type" value="3"><td class="qty total_price">{$info.price_show}</td></eq>
 		     <!-- <td class="close"><a title="close" class="close" href="#"></a></td> -->
 
 	      </tr>
+        </tbody>
 	      <tr>
 		     <td colspan="7" class="cart_but">
-			    <button class="continue" style="width: 100px;height:50px;font-size: 15px;"><a href="{:U('Index/index')}"><span>icon</span>继续购物</a></button>
-			    <button class="update" id="confirm" style="width: 100px;height:50px;background-color: #59b7c2;color: #fff;font-size: 15px;">确认订单</button>
+			    <button class="continue" style="width: 150px;height:50px;font-size: 15px;font: inherit;"><a href="{:U('Index/index')}"><span style="height: 18px;">icon</span>继续购物</a></button>
+			    <button class="update" id="confirm" style="width: 150px;height:50px;background-color: #59b7c2;color: #fff;font-size: 15px;font: inherit;">确认订单</button>
 		     </td>
 	      </tr>
        </table>

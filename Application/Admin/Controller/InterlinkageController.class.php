@@ -100,6 +100,21 @@ class InterlinkageController extends AdminController {
       $count_users = M("users") -> count();
       //文章总数
       $count_contents = M("text") -> count();
+
+      //CMC总计 总充值 - 总提现？？？
+      $count_cmc_in = M("xnbrollinwater xrw") 
+          -> field("xrw.sum(number) as in")
+          -> join("left join currency_xnb as x on x.id = xrw.xnb")
+          -> where("xrw.status = 3 and x.brief = 'CMC'")
+          -> find();
+      $count_cmc_out = M("xnbrolloutwater xow")
+          -> field("xow.sum(number) as out")
+          -> join("left join currency_xnb as x on x.id = xow.xnb")
+          -> where("xow.status = 3 and x.brief = 'CMC'")
+          -> find();
+
+      $count_cmc = $count_cmc_in - $count_cmc_out;
+
       //人民币总计 用户资产总计加上冻结资产
       $count_cny_users = M("userproperty") -> sum("cny");
       $count_cny_freeze = M("carryapply") -> sum("money");
@@ -109,7 +124,7 @@ class InterlinkageController extends AdminController {
 
       $this -> assign("trade", $count_trade);
       $this -> assign("cny", $count_cny);
-      $this -> assign("contents", $count_contents);
+      $this -> assign("contents", $count_cmc);
       $this -> assign("users", $count_users);
       $this -> display();
    }
