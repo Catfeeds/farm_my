@@ -99,7 +99,9 @@
 									<dd class="to-deal">
 										<eq name="vo.status" value="3">
 											<input type="button" value="已完成" xnb="{$vo.xnb_id}" style="width: 80px;" />
-										<else/>
+										</eq>
+										<eq name="vo.status" value="1"><input type="button" value="未发货" xnb="{$vo.xnb_id}" style="border: 1px solid #9c9c9c;width: 80px;color: #9c9c9c;" onmouseover="return false;" /></eq>
+										<eq name="vo.status" value="2">
 											<input class="confirm" type="button" value="确认收货" data="{$vo.id}" data2="{$vo.type}"  style="width: 80px;" />
 										</eq>
 									</dd>

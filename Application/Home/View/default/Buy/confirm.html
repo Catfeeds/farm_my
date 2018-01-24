@@ -129,43 +129,45 @@
        <h1 class="page_title">支付页面</h1>
 
        <table class="cart_product">
-	      <tr>
-		     <th class="images">图片</th>
-		     <th class="bg name">产品名称</th>
-		     <th class="edit"> </th>
-		     <th class="bg price">单价</th>
-		     <th class="qty">数量</th>
-		     <th class="bg subtotal">总价</th>
-		     <th class="close"> </th>
+        <tbody style="border-top: 1px solid #cccccc;border-bottom: 1px solid #cccccc;">
+	      <tr style="height: 45px;line-height:45px;">
+		     <th class="images" style="text-align: center;">图片</th>
+		     <th class="bg name" style="text-align: center;">产品名称</th>
+		     <th class="edit" style="text-align: center;">单价</th>
+		     <th class="bg price" style="text-align: center;">数量</th>
+		     <th class="qty" style="text-align: center;">总价</th>
+		     <!-- <th class="bg subtotal">总价</th> -->
+		     <!-- <th class="close"> </th> -->
 	      </tr>
 	      <tr>
          <td style="display: none;" id="product_id" data="{$info.id}"></td>
          <td style="display: none;" id="total_price" data="{$total_price}"></td>
          <td style="display: none;" id="ship_id" data="{$ship_id}"></td>
-		     <td class="images"><a href="product_page.html"><img src="__ROOT__/{$info['img']}" alt="Product 6"></a></td>
-		     <td class="bg name">{$info.name}</td>
-		     <td class="edit"><a title="" href="#">Edit</a></td>
-		     <td class="bg price" style="display: none" id="price" data="{$info.price}"></td>
-         <eq name="info.type" value="1"><td class="bg price">{$info.price_single}</td></eq>
-         <eq name="info.type" value="2"><td class="bg price">{$info.price_single.cmc} CMC + {$info.price_single.cny} CNY</td></eq>
-         <eq name="info.type" value="3"><td class="bg price">{$info.price_single}</td></eq>
-		     <td class="qty"><input type="text" id="number" name="" value="{$number}" placeholder="1000" readonly="true" /></td>
-		     <eq name="info.type" value="1"><td class="bg price">{$info.price_show}</td></eq>
-         <eq name="info.type" value="2"><td class="bg price">{$info.price_show.cmc} CMC + {$info.price_show.cny} CNY</td></eq>
-         <eq name="info.type" value="3"><td class="bg price">{$info.price_show}</td></eq>
+         <td class="bg price" style="display: none" id="price" data="{$info.price}"></td>
+		     <td class="images"><a href="{:U('Shop/single', ['id' => $info['id']])}"><img src="__ROOT__/{$info['img']}" alt="Product 6"></a></td>
+		     <td class="bg name" style="width: 200px;">{$info.name}</td>
+		     <!-- <td class="edit"><a title="" href="#">Edit</a></td> -->
+         <eq name="info.type" value="1"><td class="edit">{$info.price_single}</td></eq>
+         <eq name="info.type" value="2"><td class="edit">{$info.price_single.cmc} CMC + {$info.price_single.cny} CNY</td></eq>
+         <eq name="info.type" value="3"><td class="edit">{$info.price_single}</td></eq>
+		     <td class="bg price"><input type="text" id="number" name="" value="{$number}" placeholder="1000" readonly="true" style="margin: 5px;width: 80px;" /></td>
+		     <eq name="info.type" value="1"><td class="qty">{$info.price_show}</td></eq>
+         <eq name="info.type" value="2"><td class="qty">{$info.price_show.cmc} CMC + {$info.price_show.cny} CNY</td></eq>
+         <eq name="info.type" value="3"><td class="qty">{$info.price_show}</td></eq>
 		     <!-- <td class="close"><a title="close" class="close" href="#"></a></td> -->
 	      </tr>
+      </tbody>
        </table>
        </div><!-- .grid_12 -->
 
        <div id="content_bottom">
         <div class="grid_4">
           <div class="bottom_block discount">
-            <h3>选择支付方式</h3>
+            <h3 style="font: inherit;">选择支付方式</h3>
             <p></p>
               <form>
                 <p>
-                 <select id="method" style="width: 200px;font-size: 15px;">
+                 <select id="method" style="width: 200px;font-size: 15px;font: inherit;">
                   <volist name="method" id="data">
                     <option value="{$data.method}">{$data.name}</option>
                   </volist>
@@ -178,11 +180,11 @@
 
         <div class="grid_4">
           <div class="bottom_block discount">
-            <h3>填写交易密码</h3>
+            <h3 style="font: inherit;">填写交易密码</h3>
             <p></p>
       <form>
         <p>
-         <input type="password" id="deal_pwd" name="" value="" placeholder="请输入交易密码" style="height: 33px;" />
+         <input type="password" id="deal_pwd" name="" value="" placeholder="请输入交易密码" style="height: 33px;border: 1px solid #cccccc;width: 200px;font: inherit;" />
         </p>
       </form>
           </div><!-- .discount -->
@@ -192,7 +194,7 @@
           <div class="bottom_block total">
         <table class="subtotal">
          <tr class="grand_total">
-          <td>总价格</td>
+          <td style="font: inherit!important">总价格</td>
          <eq name="info.type" value="1"><td class="bg price total_price" style="width: 200px;" data="{$info.price_show}">{$info.price_show}元</td></eq>
          <eq name="info.type" value="2"><td class="bg price total_price" style="width: 200px;" data="{$info.price_show.cmc} CMC + {$info.price_show.cny} CNY">{$info.price_show.cmc} CMC + {$info.price_show.cny} CNY</td></eq>
          <eq name="info.type" value="3"><td class="bg price total_price" style="width: 200px;" data="{$info.price_show}">{$info.price_show}元</td></eq>
@@ -226,7 +228,7 @@
     var method      = $("#method").val();
     var deal_pwd    = $("#deal_pwd").val();
     var price       = $("#price").attr("data");
-    alert(deal_pwd);
+    // alert(deal_pwd);
     // alert(total_price);
 
     // alert(total_price);
