@@ -41,6 +41,7 @@
                 <th>图片</th>
                 <th>单价</th>
                 <th>数量</th>
+                <th>所属商城</th>
                 <th>出局金额</th>
                 <th>添加时间</th>
                 <th>状态</th>
@@ -62,6 +63,7 @@
                     <td><img src="__ROOT__/{$data['img']}" width="35" height="50"></td>
                     <td>{$data.price}</td>
                     <td>{$data.number}</td>
+                    <td><eq name="data.type" value="1">红包商城</eq><eq name="data.type" value="2">积分商城</eq><eq name="data.type" value="3">重消商城</eq></td>
                     <td>{$data.out}</td>
                     <td>{$data.time|date="Y-m-d H:i:s",###}</td>
                     <td><eq name="data.status" value="1">启用</eq><eq name="data.status" value="2">禁用</eq></td>

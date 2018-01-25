@@ -9,7 +9,7 @@
 
 namespace Home\Controller;
 use Home\Model\UserpropertyModel;
-use Home\Model\IntegralsModel;
+use Home\Model\IntegralModel;
 use Common\Controller\CmcpriceController;
 use OT\DataDictionary;
 use Think\Page;
@@ -129,17 +129,21 @@ class BuyController extends HomeController {
         //用户资产明细表
         //根据类型扣除相应表的资金
 
-        $data['product_id']  = $this -> strFilter(I("product_id")) ? I("product_id") : null;
-        $data['number']      = $this -> strFilter(I("number")) ? I("number") : null;
-        $data['total_money'] = I("total_money") ? I("total_money") : null;
-        $data['ship_id']     = $this -> strFilter(I("ship_id")) ? I("ship_id") : null;
-        $data['user_id']     = session("user")['id'];
-        $data['status']      = 1;
-        $data['time']        = time();
-        $data['order']       = date("Ymd", time()).session("user")['id'].rand(100,999);
-        $deal_pwd            = I("deal_pwd") ? I("deal_pwd") : null;
-        $method              = $this -> strFilter(I("method")) ? I("method") : null;
-        $price               = I("price") ? I("price") : null;
+        $data['product_id']    = $this -> strFilter(I("product_id")) ? I("product_id") : null;
+        $info = M("product")   -> field("name, img, price") -> where("id = ". $data['product_id']) -> find();
+        $data['product_name']  = $info['name'];
+        $data['product_img']   = $info['img'];
+        $data['product_price'] = $info['price'];
+        $data['number']        = $this -> strFilter(I("number")) ? I("number") : null;
+        $data['total_money']   = I("total_money") ? I("total_money") : null;
+        $data['ship_id']       = $this -> strFilter(I("ship_id")) ? I("ship_id") : null;
+        $data['user_id']       = session("user")['id'];
+        $data['status']        = 1;
+        $data['time']          = time();
+        $data['order']         = date("Ymd", time()).session("user")['id'].rand(100,999);
+        $deal_pwd              = I("deal_pwd") ? I("deal_pwd") : null;
+        $method                = $this -> strFilter(I("method")) ? I("method") : null;
+        $price                 = I("price") ? I("price") : null;
 
         if ($deal_pwd == null) {
             $this -> error("交易密码不能为空");
@@ -152,6 +156,7 @@ class BuyController extends HomeController {
         }
         if ($method != null) {
             $user_proper = new UserpropertyModel();
+            $user_proper -> startTrans();
 
             //扣钱
             switch ($method) {
@@ -161,8 +166,10 @@ class BuyController extends HomeController {
                         $res_ins = M("shop_order") -> add($data);
 
                         if ($res_ins) {
+                            $user_proper -> commit();
                             $this -> success("购买成功");
                         } else {
+                            $user_proper -> rollback();
                             $this -> error("购买失败");
                         }
                     } else {
@@ -188,8 +195,10 @@ class BuyController extends HomeController {
                             $res_ins = M("shop_order") -> add($data);
 
                             if ($res_ins) {
+                                $user_proper -> commit();
                                 $this -> success("购买成功");
                             } else {
+                                $user_proper -> rollback();
                                 $this -> error("购买失败");
                             }
                         } else {
@@ -206,8 +215,10 @@ class BuyController extends HomeController {
                             $res_ins = M("shop_order") -> add($data);
 
                             if ($res_ins) {
+                                $user_proper -> commit();
                                 $this -> success("购买成功");
                             } else {
+                                $user_proper -> rollback();
                                 $this -> error("购买失败");
                             }
                         }
@@ -218,7 +229,7 @@ class BuyController extends HomeController {
                     $cmc = new CmcpriceController();
                     $cmc_price = $cmc -> getPrice();
                     $price = $price = round($data['total_money'] / $cmc_price, 2);;
-                    $inte = new IntegralsModel(session("user")['id'], $price);
+                    $inte = new IntegralModel(session("user")['id'], $price);
 
                     $all_oldintegral = $inte -> getAllIntegral(session("user")['id']);
                     // var_dump($all_oldintegral);
@@ -234,8 +245,10 @@ class BuyController extends HomeController {
                             $res_ins = M("shop_order") -> add($data);
 
                             if ($res_ins) {
+                                $user_proper -> commit();
                                 $this -> success("购买成功");
                             } else {
+                                $user_proper -> rollback();
                                 $this -> error("购买失败");
                             }
                         } else {
@@ -363,7 +376,7 @@ class BuyController extends HomeController {
     public function getIntegralPrice() {
         $total_price = I("total_price");
         $cmc = new CmcpriceController();
-        $cmc_price = $cmc -> getCfg();
+        $cmc_price = $cmc -> getPrice();
         $price = round($total_price / $cmc_price, 2);
         // var_dump($price);
         exit($price);

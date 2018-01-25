@@ -1,15 +1,26 @@
 <extend name="Public/base"/>
-
+<block name="style">
+    <link rel="stylesheet" type="text/css" href="/Public/Admin/Entrust/index.css" media="all">
+    <link rel="stylesheet" type="text/css" href="/Public/Admin/mypubliccss/button.css" media="all">
+</block>
 <block name="body">
     <!-- 按钮工具栏 -->
     <div class="main-title">
         <h2>订单列表  </h2>
-        <form action="" method="post">
-            <div class="difference">
-                <input name="name" class="username" value="{:I('name')}" placeholder="订单号/用户名/充值账号/收款账号"/> &nbsp; &nbsp;
-                <button class="send" type="submit">确定</button>
-            </div>
-        </form>
+        <div class="cf search_right">
+            <form action="" method="post">
+                <div class="difference">
+                    <select name="status" class="market" id="">
+                        <option value="" <if condition="I('status') eq ''"> selected </if>>选择订单状态</option>
+                        <option value="1" <if condition="I('status') eq 1"> selected </if>>已付款</option>
+                        <option value="2" <if condition="I('status') eq 2"> selected </if>>已发货</option>
+                        <option value="3" <if condition="I('status') eq 3"> selected </if>>已完成</option>
+                    </select>&nbsp; &nbsp;
+                    <input name="search" class="username" value="{:I('search')}" placeholder="订单号/用户名"/> &nbsp; &nbsp;
+                    <button class="send" type="submit">确定</button>
+                </div>
+            </form>
+        </div>
     </div>
 
     <!-- 数据表格 -->
@@ -21,6 +32,7 @@
                 <th>订单号</th>
                 <th>产品图片</th>
                 <th>产品名称</th>
+                <th>用户名</th>
                 <th>所属商城</th>
                 <th>数量</th>
                 <th>总价</th>
@@ -37,6 +49,7 @@
                     <td>{$data.order}</td>
                     <td><img src="__ROOT__/{$data['img']}" width="35" height="50"></td>
                     <td>{$data.name}</td>
+                    <td>{$data.users}</td>
                     <td><eq name="data.type" value="1">红包商城</eq><eq name="data.type" value="2">报单商城</eq><eq name="data.type" value="3">重消商城</eq></td>
                     <td>{$data.number}</td>
                     <td>{$data.total_money}</td>
@@ -52,7 +65,7 @@
     </div>
     <!-- 分页 -->
     <div class="page">
-        {$_page}
+        {$page}
     </div>
     </div>
 
