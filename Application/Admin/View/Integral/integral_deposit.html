@@ -13,7 +13,7 @@
     <div>
         <!--<button class="btn ajax-post confirm" target-form="ids" url="">删 除</button>-->
         <!-- 高级搜索 -->
-        <form action="{:U('integralLst')}" method="post">
+        <form action="{:U('')}" method="post">
             <div class="difference">
 
                 <span>查询内容：</span>
@@ -32,10 +32,11 @@
             <tr>
                 <th class="">编号</th>
                 <th class="">用户</th>
-                <th class="">购买总数</th>
-                <th class="">锁定积分</th>
-                <th class="">释放积分</th>
-                <th class="">购买时间</th>
+                <th class="">提现数量</th>
+                <th class="">手续费</th>
+                <th class="">实际到账</th>
+                <th class="">提现类型</th>
+                <th class="">时间</th>
             </tr>
             </thead>
             <tbody>
@@ -45,7 +46,8 @@
                     <td>{$vo.users}</td>
                     <td>{$vo.number_all}</td>
                     <td>{$vo.number}</td>
-                    <td>{$vo.repeats}</td>
+                    <td>{$vo.poundage}</td>
+                    <td>{:($vo['type']==1 ? '人民币' : 'cmc')}</td>
                     <td>{:date('Y-m-d H:m:s',$vo['time'])}</td>
                 </tr>
             </volist>
@@ -61,7 +63,7 @@
 <block name="script">
     <script type="text/javascript" src="__JS__/jquery.ui.js"></script>
     <script type="text/javascript">
-        highlight_subnav('{:U('integralLst')}');
+        highlight_subnav('{:U('')}');
 
         $(function(){
             $("#action_add").click(function(){

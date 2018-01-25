@@ -30,7 +30,7 @@ class BonusModel extends Model
 
         $this->show = $Page->show();
 
-        $this->data = $this->where($where)->limit($Page->firstRow,$Page->listRows)->select();
+        $this->data = $this->where($where)->limit($Page->firstRow,$Page->listRows)->order('id desc')->select();
 
         return $this;
 

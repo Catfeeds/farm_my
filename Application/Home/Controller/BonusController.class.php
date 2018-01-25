@@ -19,6 +19,7 @@ class BonusController extends HomeController
      * 用户红包首页
      */
     public function index(){
+
         #查询用户红包释放的总数（重消和cny）
         $BonusListModel = new BonusListModel();
 
@@ -63,6 +64,7 @@ class BonusController extends HomeController
             $page_where['dates'] = I('dates');
         }
 
+        $page_where['tag'] = 10;
         $bonusListModel = $bonusListModel->getReleaseList($where,$page_where);
 
 

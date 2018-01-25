@@ -7,18 +7,16 @@
 <block name="body">
     <!-- 标题栏 -->
     <div class="main-title">
-        <h2>积分列表</h2>
+        <h2>积分释放列表</h2>
     </div>
 
     <div>
         <!--<button class="btn ajax-post confirm" target-form="ids" url="">删 除</button>-->
         <!-- 高级搜索 -->
-        <form action="{:U('integralLst')}" method="post">
+        <form action="{:U('')}" method="post">
             <div class="difference">
 
                 <span>查询内容：</span>
-                <input name="users" class="username poundage_input" value="{:I('users')}" placeholder="用户"/> &nbsp; &nbsp;
-                <span>时间段：</span>
                 <input type="text" class="username poundage_input" placeholder="起始时间" name="start_time" id="start_time" value="{:I('start_time')}" readonly>&nbsp; &nbsp;
                 <input type="text" class="username poundage_input" placeholder="截止时间" name="end_time" id="end_time" value="{:I('end_time')}" readonly>&nbsp; &nbsp;
                 <button class="send" type="submit">确定</button>
@@ -30,23 +28,19 @@
         <table class="">
             <thead>
             <tr>
-                <th class="">编号</th>
-                <th class="">用户</th>
-                <th class="">购买总数</th>
-                <th class="">锁定积分</th>
-                <th class="">释放积分</th>
-                <th class="">购买时间</th>
+                <th class="">期数</th>
+                <th class="">发放数量</th>
+                <th class="">发放时间</th>
+                <th class="">操作</th>
             </tr>
             </thead>
             <tbody>
             <volist name="data" id="vo">
                 <tr>
                     <td>{$vo.id}</td>
-                    <td>{$vo.users}</td>
-                    <td>{$vo.number_all}</td>
                     <td>{$vo.number}</td>
-                    <td>{$vo.repeats}</td>
                     <td>{:date('Y-m-d H:m:s',$vo['time'])}</td>
+                    <td><a href="{:U('releaseAll_info',['id'=>$vo['id']])}">详情</a></td>
                 </tr>
             </volist>
             </tbody>
@@ -61,7 +55,7 @@
 <block name="script">
     <script type="text/javascript" src="__JS__/jquery.ui.js"></script>
     <script type="text/javascript">
-        highlight_subnav('{:U('integralLst')}');
+        highlight_subnav('{:U('releaseAll')}');
 
         $(function(){
             $("#action_add").click(function(){
