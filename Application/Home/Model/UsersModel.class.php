@@ -13,9 +13,9 @@ use Think\Model;
 
 class UsersModel extends Model
 {
-    function getUserData($id,$field){
+    function getUserData($id,$field=',users'){
 
-        return $this->where(['id'=>$id])->field('id,users,'.$field)->find();
+        return $this->where(['id'=>$id])->field('id,'.$field)->find();
 
     }
 
