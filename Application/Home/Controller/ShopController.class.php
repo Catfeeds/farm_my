@@ -11,7 +11,7 @@ namespace Home\Controller;
 use OT\DataDictionary;
 use Think\Page;
 use Home\Model\ProductModel;
-use Admin\Model\RepeatCfgModel;
+use Common\Controller\CmcpriceController;
 
 /**
  * 前台首页控制器
@@ -185,8 +185,8 @@ class ShopController extends HomeController {
                 break;
             case 2: //报单 展示需要多少CMC和人民币
                 //获取后台配置的CMC当前价格及报单属性
-                $cfg = new RepeatCfgModel();
-                $cmc_price = $cfg -> getCfg("cmc");
+                $cfg = new CmcpriceController();
+                $cmc_price = $cfg -> getPrice();
                 $attr = M("product") 
                     -> field("cmc, cny")
                     -> where("id = ". $id)

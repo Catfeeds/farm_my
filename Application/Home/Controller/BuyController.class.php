@@ -10,7 +10,7 @@
 namespace Home\Controller;
 use Home\Model\UserpropertyModel;
 use Home\Model\IntegralsModel;
-use Admin\Model\RepeatCfgModel;
+use Common\Controller\CmcpriceController;
 use OT\DataDictionary;
 use Think\Page;
 
@@ -36,7 +36,7 @@ class BuyController extends HomeController {
         $this -> assign("cate", $cate);
     }
 
-	//购买过程
+	//购买过
     public function buy(){
         //将产品信息提交到确认订单页面
         $product_id = $this -> strFilter(I("product_id")) ? I("product_id") : null;
@@ -181,8 +181,8 @@ class BuyController extends HomeController {
                         //扣除人民币数量
                         $res2_2 = $user_proper -> setChangeMoney(1, $price_need['cny'], session("user")['id'], "报单", 1);
                         if ($res2_2 > 1) {
-                            $cmc = new RepeatCfgModel();
-                            $cmc_price = $cmc -> getCfg('cmc');
+                            $cmc = new CmcpriceController();
+                            $cmc_price = $cmc -> getPrice();
                             $data['cmc'] = $cmc_price;
 
                             $res_ins = M("shop_order") -> add($data);
@@ -215,8 +215,8 @@ class BuyController extends HomeController {
                         $this -> error($user_proper -> getError());
                     }
                 case '4': //积分 价格/cmc价格
-                    $cmc = new RepeatCfgModel();
-                    $cmc_price = $cmc -> getCfg('cmc');
+                    $cmc = new CmcpriceController();
+                    $cmc_price = $cmc -> getPrice();
                     $price = $price = round($data['total_money'] / $cmc_price, 2);;
                     $inte = new IntegralsModel(session("user")['id'], $price);
 
@@ -314,8 +314,8 @@ class BuyController extends HomeController {
                     break;
                 case 2: //报单 展示需要多少CMC和人民币
                     //获取后台配置的CMC当前价格及报单属性
-                    $cfg = new RepeatCfgModel();
-                    $cmc_price = $cfg -> getCfg("cmc");
+                    $cfg = new CmcpriceController();
+                    $cmc_price = $cfg -> getPrice();
                     $attr = M("product") 
                         -> field("cmc, cny")
                         -> where("id = ". $id)
@@ -338,8 +338,8 @@ class BuyController extends HomeController {
                     break;
                 case 2: //报单 展示需要多少CMC和人民币
                     //获取后台配置的CMC当前价格及报单属性
-                    $cfg = new RepeatCfgModel();
-                    $cmc_price = $cfg -> getCfg("cmc");
+                    $cfg = new CmcpriceController();
+                    $cmc_price = $cfg -> getPrice();
                     $attr = M("product") 
                         -> field("cmc, cny")
                         -> where("id = ". $id)
@@ -362,8 +362,8 @@ class BuyController extends HomeController {
 
     public function getIntegralPrice() {
         $total_price = I("total_price");
-        $cmc = new RepeatCfgModel();
-        $cmc_price = $cmc -> getCfg('cmc');
+        $cmc = new CmcpriceController();
+        $cmc_price = $cmc -> getCfg();
         $price = round($total_price / $cmc_price, 2);
         // var_dump($price);
         exit($price);
