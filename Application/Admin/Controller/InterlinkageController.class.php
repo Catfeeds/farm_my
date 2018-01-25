@@ -47,7 +47,7 @@ class InterlinkageController extends AdminController {
          $this -> assign("allmoney", $count_record);
          $this -> assign("contents", $count_contents);
          $this -> assign("xnb", $xnb);
-      $this->display();
+         $this -> display();
    }
    //转出手续费部分未完成 连表查询
    public function market_statistics(){

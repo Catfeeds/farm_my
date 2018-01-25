@@ -7,7 +7,7 @@
 // | Author: huajie <banhuajie@163.com>
 // +----------------------------------------------------------------------
 namespace Admin\Controller;
-use Admin\Model\RepeatCfgModel;
+use Common\Controller\CmcpriceController;
 use Think\Page;
 
 /**
