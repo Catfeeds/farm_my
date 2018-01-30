@@ -88,13 +88,13 @@
 									<li>
 										<p>
 											<span>累计邀请佣金折合：</span><span class="cred">{$allmoney}元</span>
-											<a class="grandtotalde" href="{:U('Property/handler_profit',['allmoney'=>$allmoney])}" target="_blank">查看明细</a>
+											<a class="grandtotalde" href="{:U('Property/handler_profit',['allmoney'=>$allmoney, 'tag' => 7])}" target="_blank">查看明细</a>
 										</p>
 									</li>
 									<li>
 										<p>
 											<span>累计邀请人数：</span><span class="cred">{$allmenber}人</span>
-											<a class="grandtotalde" href="{:U('Property/handler_inviter',['allmenber'=>$allmenber])}" target="_blank">查看明细</a>
+											<a class="grandtotalde" href="{:U('Property/handler_inviter',['allmenber'=>$allmenber, 'tag' => 7])}" target="_blank">查看明细</a>
 										</p>
 									</li>
 								</ol>
@@ -104,7 +104,7 @@
 									<li>
 										<p>
 											<span>累计红包提成：</span><span class="cred">{$number_bonus}元</span>
-											<a class="grandtotalde" href="{:U('Property/bonus_info',['number_bonus'=>$number_bonus])}" target="_blank">查看明细</a>
+											<a class="grandtotalde" href="{:U('Property/bonus_info',['number_bonus'=>$number_bonus, 'tag' => 7])}" target="_blank">查看明细</a>
 										</p>
 									</li>
 

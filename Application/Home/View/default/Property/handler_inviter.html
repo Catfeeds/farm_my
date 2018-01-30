@@ -40,19 +40,7 @@
 		</main>
 			<div class="container center_content">
 
-				<div class="pull-left">
-					<h5 id="center_title">财务中心<span class="glyphicon glyphicon-chevron-down"></span></h5>
-					<ul class="list-unstyled" id="finance_list">
-						<li class="similar"><a href="{:U('Property/finance?tag=0')}">财务中心<span class="right_icon"></span></a></li>
-						<li class="similar"><a href="{:U('Property/rmbrecharge?tag=1')}">人民币充值<span class="right_icon"></span></a></li>
-						<li id="rmbtx" class="similar"><a href="{:U('Property/rmbwithdrawal?tag=2')}">人民币提现<span class="right_icon"></span></a></li>
-						<li class="similar"><a href="{:U('Property/join_currency?tag=3')}">转入资产<span class="right_icon"></span></a></li>
-						<li class="similar"><a href="{:U('Property/out_currency?tag=4')}">转出资产<span class="right_icon"></span></a></li>
-						<li class="similar"><a href="{:U('Property/commissioned')}">委托管理<span class="right_icon"></span></a></li>
-						<li class="similar"><a href="{:U('Property/demand')}">成交查询<span class="right_icon"></span></a></li>
-						<li class="selected"><a href="{:U('Property/handler')}">经理人<span class="right_icon"></span></a></li>
-					</ul>
-				</div>
+				<include file="Public:finance_left"/>
 	
 					<div class="pull-right finance-content demand_content finance-centent">
 						<div class="big_title">
