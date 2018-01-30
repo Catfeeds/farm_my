@@ -212,6 +212,7 @@ class FinancemethodController extends AdminController {
                 $this->poundage(3,$id_back['poundage'],$id_back['xnb'], $Data,$user);
 
             }
+
             if ($type==4){   //当拒绝时返回用户的本金+手续费
                 $property_m=M('property');
 
@@ -400,9 +401,11 @@ class FinancemethodController extends AdminController {
             currency_bank.bank as currency_bank_bank,
             currency_bank.bankname as currency_bank_bankname,
             currency_bank.bankcard as currency_bank_bankcard,
-            currency_users.username as currency_users_username
+            currency_users.username as currency_users_username,
+            currency_banktype.bankname as bank_name
             ')
             ->join(' left join currency_bank on currency_carryapply.bank=currency_bank.id')
+            ->join('left join currency_banktype on currency_bank.bank = currency_banktype.id')
             ->join(' left join currency_users on currency_carryapply.userid=currency_users.id')
             ->where($map)
             ->order('addtime desc')
@@ -418,6 +421,7 @@ class FinancemethodController extends AdminController {
      * 人名币充值
      */
     public function cnyint_page($Data,$status){
+
         $name=$this->strFilter(I('name'))?$this->strFilter(I('name')):"";
 //        $rechargetype=$this->strFilter(I('rechargetype'))?$this->strFilter(I('rechargetype')):"";
         $map_1['id']=array('like',"%".$name."%");;
@@ -440,6 +444,7 @@ class FinancemethodController extends AdminController {
 
         $this->assign('data',$list);// 赋值数据集,委托的数据
         $this->assign('page',$show);// 赋值分页输出
+
     }
     public function cnyintint_fuse($id,$Data,$type=2,$text='《复审》《拒绝》'){
         $carryapplywater_m=M('rechargewater');

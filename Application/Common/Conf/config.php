@@ -42,7 +42,7 @@ return array(
 
 
    'DB_TYPE'   => 'mysqli', // 数据库类型
-   'DB_HOST'   => '192.168.102.100', // 服务器地址
+   'DB_HOST'   => '127.0.0.1', // 服务器地址
    'DB_NAME'   => 'farm', // 数据库名
    'DB_USER'   => 'u', // 用户名
     'DB_PWD'    => 'ws',  // 密码

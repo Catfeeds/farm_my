@@ -60,7 +60,7 @@ class BonusModel extends Model
      * @param $number 本次发放的数量
      * @param $all_id 发放期数的id
      */
-    public function saveData($id,$number,$repeats,$all_id){
+    public function saveData($id,$number,$that_revenue,$repeats,$all_id){
 
         $back = $this->where(['id'=>$id])->setInc('provide',$number+$repeats);
         if (!$back){
@@ -69,7 +69,7 @@ class BonusModel extends Model
 
         $bonusListModel = new BonusListModel();
 
-        return $bonusListModel->addList($id,$number,$repeats,$all_id);
+        return $bonusListModel->addList($id,$number,$that_revenue,$repeats,$all_id);
 
     }
 

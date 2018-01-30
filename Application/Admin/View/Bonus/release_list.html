@@ -29,7 +29,8 @@
             <tr>
                 <th class="">编号</th>
                 <th class="">用户</th>
-                <th class="">发放数量</th>
+                <th class="">税赋</th>
+                <th class="">实际发放</th>
                 <th class="">发放时间</th>
 
             </tr>
@@ -39,8 +40,8 @@
                 <tr>
                     <td>{$vo.id}</td>
                     <td>{$vo.users}</td>
+                    <td>{$vo.revenue}</td>
                     <td>{$vo['number']+$vo['repeats']}</td>
-
                     <td>{:date('Y-m-d H:m:s',$vo['time'])}</td>
                 </tr>
             </volist>
@@ -57,7 +58,6 @@
     <script type="text/javascript" src="__JS__/jquery.ui.js"></script>
     <script type="text/javascript">
         highlight_subnav('{:U('all_list')}');
-
         $(function(){
             $("#action_add").click(function(){
                 window.location.href = $(this).attr('url');

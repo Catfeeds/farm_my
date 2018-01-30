@@ -27,13 +27,14 @@ class BonusListModel extends Model
      * @return mixed
      */
 
-    public function addList($bonus_id,$number,$repeats,$all_id){
+    public function addList($bonus_id,$number,$that_revenue,$repeats,$all_id){
 
         return $this->add([
                     'all_id'=>$all_id,
                     'number'=>$number,
                     'repeats'=>$repeats,
                     'bonus_id'=>$bonus_id,
+                    'revenue'=>$that_revenue,
                     'time'=>time()
                 ]);
     }

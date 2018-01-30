@@ -45,12 +45,13 @@ class MotionController extends AdminController {
 
        // 进行分页数据查询
        $list = $Data
-           -> join("currency_xnb on currency_keepmoney.xnb = currency_xnb.id")
-           -> where($map)
-           -> field("currency_keepmoney.*, currency_xnb.name")
-           -> order('currency_keepmoney.time desc')
-           -> limit($Page->firstRow.','.$Page->listRows)
-           -> select(); // $Page->firstRow 起始条数 $Page->listRows 获取多少条
+               -> join("currency_xnb on currency_keepmoney.xnb = currency_xnb.id")
+               -> where($map)
+               -> field("currency_keepmoney.*, currency_xnb.name")
+               -> order('currency_keepmoney.time desc')
+               -> limit($Page->firstRow.','.$Page->listRows)
+               -> select(); // $Page->firstRow 起始条数 $Page->listRows 获取多少条
+
        $this -> assign('xnb_list', $xnb_list);
        $this->assign('data',$list);// 赋值数据集
        $this->assign('page',$show);// 赋值分页输出
@@ -110,6 +111,7 @@ class MotionController extends AdminController {
                 ['key'=>'water_release','data'=>I('water_release')],
                 ['key'=>'cmc','data'=>I('cmc')],
                 ['key'=>'poundage','data'=>I('poundage')/100],
+                ['key'=>'revenue','data'=>I('revenue')/100],
             ];
 
             $repeat_cfg_m->startTrans();

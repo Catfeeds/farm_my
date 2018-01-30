@@ -59,6 +59,8 @@ class ProvideApiController  extends Controller{
         #红包的重消配置
         $repeat_paper = $repeatCfgModel->getCfg('repeat_paper');
 
+        #红包扣税率
+        $revenue = $repeatCfgModel->getCfg('revenue');
 
         #本次cny放数总发
         $all_money = 0;
@@ -97,6 +99,11 @@ class ProvideApiController  extends Controller{
 
                     $money = $money+$v['provide'] <= $v['outs'] ? $money : $v['outs']-$v['provide'];
 
+                    #扣除税收
+                    $that_revenue = ($money*$revenue);
+
+                    $money = $money - $that_revenue;
+
                     #红包的重消金额
                     $all_repeat +=$repeat_money = $money*$repeat_paper;
 
@@ -123,7 +130,7 @@ class ProvideApiController  extends Controller{
                     }
 
                     #生成发放流水，并且修改本次已发放金额
-                    $back = $bonus_m->saveData($v['id'],$money,$repeat_money,$nullBonusAll->getId());
+                    $back = $bonus_m->saveData($v['id'],$money,$that_revenue,$repeat_money,$nullBonusAll->getId());
                     if (!$back){
                         throw new Exception($userproperty->getError());
                     }
