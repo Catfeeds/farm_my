@@ -42,7 +42,7 @@ class OrderController extends AdminController {
 
         $list = M()
             -> table("currency_shop_order as o")
-            -> field("o.id, o.order, o.number, o.total_money, o.time, o.status, p.name, p.img, pc.type, u.users")
+            -> field("o.id, o.order, o.number, o.total_money, o.time, o.status, o.product_name, o.product_img, o.product_price, o.product_type, p.name, p.img, p.price, pc.type, u.users")
             -> join("left join currency_product as p on p.id = o.product_id")
             -> join("left join currency_procate as pc on p.cat_id = pc.id")
             -> join("left join currency_users as u on o.user_id = u.id")
@@ -61,7 +61,7 @@ class OrderController extends AdminController {
         $id=I('id');
         $info = M()
             -> table("currency_shop_order as o")
-            -> field("o.id, o.order, o.number, o.total_money, o.time, o.status, p.name, p.img, pc.type, u.users, sa.id as ship_id")
+            -> field("o.id, o.order, o.number, o.total_money, o.time, o.status, o.product_name, o.product_img, o.product_type, p.name, p.img, pc.type, u.users, sa.id as ship_id")
             -> join("left join currency_users as u on o.user_id = u.id")
             -> join("left join currency_product as p on p.id = o.product_id")
             -> join("left join currency_procate as pc on p.cat_id = pc.id")

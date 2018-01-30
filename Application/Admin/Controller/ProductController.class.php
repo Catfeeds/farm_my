@@ -118,12 +118,12 @@ class ProductController extends AdminController {
 
         $msg   = array_merge( array( 'success'=>'删除成功！', 'error'=>'删除失败！', 'url'=>'' ,'ajax'=>IS_AJAX) , (array)$msg );
         if( M('product')->where($map)->delete()!==false ) {
-            foreach ($imgs as $value) {
-                if (isset($value['img']) && is_file($value['img'])) {
-                    unlink($value['img']);
-                }
+            // foreach ($imgs as $value) {
+            //     if (isset($value['img']) && is_file($value['img'])) {
+            //         unlink($value['img']);
+            //     }
                 
-            }
+            // }
             $this->success($msg['success'],$msg['url'],$msg['ajax']);
         }else{
             $this->error($msg['error'],$msg['url'],$msg['ajax']);
