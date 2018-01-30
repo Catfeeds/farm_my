@@ -76,17 +76,32 @@
 								<dl>
 										<dd class="record-species" style="width: 23%">
 											<div class="record-img">
-												<img src="{$vo.img}"/>
+												<eq name="vo.img" value="">
+													<img src="{$vo.product_img}"/>
+												<else />
+													<img src="{$vo.img}"/>
+												</eq>
 											</div>
 											<div class="record-price">
-												<p><span>{$vo.name} </span></p>
-												<p><eq name="vo.price" value="">0.00<else/>{:floatval($vo['price'])}</eq></p>
+												<p><span><eq name="vo.name" value="">{$vo.product_name}<else />{$vo.name}</eq> </span></p>
+												<p>
+													<eq name="vo.price" value="">
+													 	<eq name="vo.product_price" value="">0.00<else/>{:floatval($vo['product_price'])}</eq>
+													<else />
+														<eq name="vo.price" value="">0.00<else/>{:floatval($vo['price'])}</eq>
+													</eq>
+												</p>
 											</div>
 										</dd>
 
 
 									<dt>{$vo.order}</eq></dt>
-									<dt><eq name="vo.type" value="1">红包商城</eq><eq name="vo.type" value="2">报单商城</eq><eq name="vo.type" value="3">重消商城</eq></dt>
+									<dt><eq name="vo.type" value="">
+										<eq name="vo.product_type" value="1">红包商城</eq><eq name="vo.product_type" value="2">报单商城</eq><eq name="vo.product_type" value="3">重消商城</eq>
+										<else />
+										<eq name="vo.type" value="1">红包商城</eq><eq name="vo.type" value="2">报单商城</eq><eq name="vo.type" value="3">重消商城</eq>
+										</eq>
+										</dt>
 
 									<dt>{$vo.number}</dt>
 
