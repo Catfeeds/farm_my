@@ -47,10 +47,22 @@
             <volist name="list" id="data">
                 <tr>
                     <td>{$data.order}</td>
-                    <td><img src="__ROOT__/{$data['img']}" width="35" height="50"></td>
-                    <td>{$data.name}</td>
+                    <td>
+                        <eq name="data.img" value="">
+                            <img src="__ROOT__/{$data['product_img']}" width="35" height="50">
+                        <else/>
+                            <img src="__ROOT__/{$data['img']}" width="35" height="50">
+                        </eq>
+                    </td>
+                    <td><eq name="data.name" value="">{$data.product_name}<else/>{$data.name}</eq></td>
                     <td>{$data.users}</td>
-                    <td><eq name="data.type" value="1">红包商城</eq><eq name="data.type" value="2">报单商城</eq><eq name="data.type" value="3">重消商城</eq></td>
+                    <td>
+                        <eq name="data.type" value="">
+                            <eq name="data.product_type" value="1">红包商城</eq><eq name="data.product_type" value="2">报单商城</eq><eq name="data.product_type" value="3">重消商城</eq>
+                        <else/>
+                            <eq name="data.type" value="1">红包商城</eq><eq name="data.type" value="2">报单商城</eq><eq name="data.type" value="3">重消商城</eq>
+                        </eq>
+                    </td>
                     <td>{$data.number}</td>
                     <td>{$data.total_money}</td>
                     <td>{$data.time|date="Y-m-d H:i:s",###}</td>

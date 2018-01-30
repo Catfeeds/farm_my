@@ -32,9 +32,11 @@
 
     <form action="">
 
+        <div>购买红包次数限制</div>
+
         <div>
             <div>
-               余额支付: <input type="text" name="repeat" value="{:$data['repeat']*100}" style="text-align: center;height: 30px;border-radius: 3px;border: 1px;">%
+               余额支付: <input type="text" name="cny" value="{:$data['cny'] ? $data['cny'] : 0} " style="text-align: center;height: 30px;border-radius: 3px;border: 1px;">
             </div>
             <br/>
 
@@ -42,7 +44,7 @@
 
         <div>
             <div>
-                红包重消支付: <input type="text" name="date_back" value="{:($data['date_back'] ? $data['date_back']*100 : 0)}" style="text-align: center;height: 30px;border-radius: 3px;border: 1px;">%/天
+                红包重消支付: <input type="text" name="repeat" value="{:($data['repeat'] ? $data['repeat'] : 0)}" style="text-align: center;height: 30px;border-radius: 3px;border: 1px;">
             </div>
 
             <br/>
@@ -53,7 +55,6 @@
             <input value="{$id}" name="id" type="hidden">
             <button class="btn send" type="button">确定</button>
         </div>
-
 
     </form>
 
