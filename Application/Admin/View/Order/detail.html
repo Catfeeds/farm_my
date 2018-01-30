@@ -27,7 +27,11 @@
             <div class="form-item cf">
                 <label class="item-label">产品名称</label>
                 <div class="controls">
-                    <input type="text" class="text input-large" style="width: 420px;height: 35px" name="price" value="{$info.name}" readonly="true">
+                    <eq name="info.name" value="">
+                        <input type="text" class="text input-large" style="width: 420px;height: 35px" name="price" value="{$info.product_name}" readonly="true">
+                    <else />
+                        <input type="text" class="text input-large" style="width: 420px;height: 35px" name="price" value="{$info.name}" readonly="true">
+                    </eq>
                 </div>
             </div>
 
@@ -36,7 +40,11 @@
                 <div class="controls">
                     <input type="file" name="imgurl" class="display">
                     <div class="upload-img-box">
-                        <img src="{$info.img}" width="250" height="180">
+                        <eq name="info.img" value="">
+                            <img src="{$info.product_img}" width="250" height="180">
+                        <else />
+                            <img src="{$info.img}" width="250" height="180">
+                        </eq>
                     </div>
                 </div>
             </div>
@@ -55,14 +63,26 @@
             <div class="form-item cf">
                 <label class="item-label">所属商城</label>
                 <div class="controls">
-                    <eq name="info.type" value="1">
-                        <input type="text" class="text input-large" style="width: 420px;height: 35px" name="number" value="红包商城" readonly="true">
-                    </eq>
-                    <eq name="info.type" value="2">
-                        <input type="text" class="text input-large" style="width: 420px;height: 35px" name="number" value="报单商城" readonly="true">
-                    </eq>
-                    <eq name="info.type" value="3">
-                        <input type="text" class="text input-large" style="width: 420px;height: 35px" name="number" value="重消商城" readonly="true">
+                    <eq name="info.type" value="">
+                        <eq name="info.product_type" value="1">
+                            <input type="text" class="text input-large" style="width: 420px;height: 35px" name="number" value="红包商城" readonly="true">
+                        </eq>
+                        <eq name="info.product_type" value="2">
+                            <input type="text" class="text input-large" style="width: 420px;height: 35px" name="number" value="报单商城" readonly="true">
+                        </eq>
+                        <eq name="info.product_type" value="3">
+                            <input type="text" class="text input-large" style="width: 420px;height: 35px" name="number" value="重消商城" readonly="true">
+                        </eq>
+                    <else />
+                        <eq name="info.type" value="1">
+                            <input type="text" class="text input-large" style="width: 420px;height: 35px" name="number" value="红包商城" readonly="true">
+                        </eq>
+                        <eq name="info.type" value="2">
+                            <input type="text" class="text input-large" style="width: 420px;height: 35px" name="number" value="报单商城" readonly="true">
+                        </eq>
+                        <eq name="info.type" value="3">
+                            <input type="text" class="text input-large" style="width: 420px;height: 35px" name="number" value="重消商城" readonly="true">
+                        </eq>
                     </eq>
                 </div>
             </div>

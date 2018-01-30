@@ -47,12 +47,12 @@ class OrderController extends HomeController {
 
         $list = M()
             -> table("currency_shop_order as o")
-            -> field("o.id, o.order, o.number, o.total_money, o.time, o.status, p.name, p.img, p.price, pc.type")
+            -> field("o.id, o.order, o.number, o.total_money, o.time, o.status, o.product_name, o.product_img, o.product_price, o.product_type, p.name, p.img, p.price, pc.type")
             -> join("left join currency_product as p on p.id = o.product_id")
             -> join("left join currency_procate as pc on p.cat_id = pc.id")
             -> where($where)
             -> order("o.time desc")
-            -> limit($Page->firstRow,$Page->listRows)
+            -> limit($Page -> firstRow, $Page -> listRows)
             -> select();
 
         // dump($list);

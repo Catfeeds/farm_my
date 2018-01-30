@@ -120,11 +120,11 @@
                             <dt><strong>ID:</strong> <span id="id" class="cff3333">{$vo}</span></dt>
                             <dt><strong>总资产 :</strong>  <span id="cny" class="cff3333">{:floatval($cny['allpropertys'])}</span></dt>
                         </dl>
-                        <div class="handle">
+<!--                         <div class="handle">
                             <a href="{:U('Property/rmbrecharge?tag=1')}">充值</a>
                             <a href="{:U('Property/rmbwithdrawal?tag=2')}">提现</a>
                             <a href="{:U('Property/commissioned?tag=5')}">委托管理</a>
-                        </div>
+                        </div> -->
                         <div class="gotocenter">
                             <a href="{:U('Property/finance?tag=0')}">去财务中心</a>
                         </div>
@@ -165,65 +165,58 @@
             <img onclick="$(this).parent().hide()" class="close_hint" src="__IMG__/base_images/close_hint.png" />
         </div>
         <div class="main" >
-    <div class="wrap">
-        <div class="section group">
-            <div class=" span_2_of_3" style="margin:0 auto;">
-                <volist name="list" id="data">
-                <h2 class="head">{$data.name}<a href="{:U('Shop/lists', array('cat_id' => $data['cat_id']))}"><span style="float: right;font-size: 15px;">更多>></span></a></h2>
-
-                     <volist name="data.array" id="val">
-                    <div class="top-box">
-
-                       
-                            <volist name="val" id="val2">
-                            <div class="col_1_of_3 span_1_of_3"> 
-                                <a href="{:U('Shop/single', ['id'=>$val2['id']])}">
-                                    <div class="inner_content clearfix">
-                                        <div class="product_image">
-                                            <img style="width: 300px;height: 273px;" src="__ROOT__/{$val2['img']}" alt=""/>
-                                        </div>
-                                        <div class="price">
-                                            <div class="cart-left">
-                                                <p class="title">{$val2.name}</p>
-                                                <div class="price1">
-                                                    <eq name="val2.type" value="1">
-                                                        <span class="actual">{$val2.price_show}</span>
-                                                    </eq>
-                                                    <eq name="val2.type" value="2">
-                                                        <span class="actual">{$val2.price_show.cmc} CMC + {$val2.price_show.cny} CNY</span>
-                                                    </eq>
-                                                    <eq name="val2.type" value="3">
-                                                        <span class="actual">{$val2.price_show}</span>
-                                                    </eq>
-                                                    
+            <div class="wrap">
+                <div class="section group">
+                    <div class=" span_2_of_3" style="margin:0 auto;">
+                        <volist name="list" id="data">
+                            <h2 class="head">{$data.name}<a href="{:U('Shop/lists', array('cat_id' => $data['cat_id']))}"><span style="float: right;font-size: 15px;">更多>></span></a></h2>
+                            <volist name="data.array" id="val">
+                                <div class="top-box">
+                                    <volist name="val" id="val2">
+                                        <div class="col_1_of_3 span_1_of_3"> 
+                                            <a href="{:U('Shop/single', ['id'=>$val2['id']])}">
+                                                <div class="inner_content clearfix">
+                                                    <div class="product_image">
+                                                        <img style="width: 300px;height: 273px;" src="__ROOT__/{$val2['img']}" alt=""/>
+                                                    </div>
+                                                    <div class="price">
+                                                        <div class="cart-left">
+                                                            <p class="title">{$val2.name}</p>
+                                                            <div class="price1">
+                                                                <eq name="val2.type" value="1">
+                                                                    <span class="actual">{$val2.price_show}</span>
+                                                                </eq>
+                                                                <eq name="val2.type" value="2">
+                                                                    <span class="actual">{$val2.price_show.cmc} CMC + {$val2.price_show.cny} CNY</span>
+                                                                </eq>
+                                                                <eq name="val2.type" value="3">
+                                                                    <span class="actual">{$val2.price_show}</span>
+                                                                </eq>
+                                                                
+                                                            </div>
+                                                        </div>
+                                                        <div class="cart-right"> </div>
+                                                        <div class="clear"></div>
+                                                    </div>              
                                                 </div>
-                                            </div>
-                                            <div class="cart-right"> </div>
-                                            <div class="clear"></div>
-                                        </div>              
-                                    </div>
-                                </a>
-                            </div>
-                            
+                                            </a>
+                                        </div>
+                                    </volist>
+                                </div>
+                            </volist>
+                            <div class="clear"></div>   
                         </volist>
-                    </volist>
-                        <div class="clear"></div>
-                    </div>   
-                </volist>
-
+                    </div>
+                </div>
+                <div class="clear"></div>
             </div>
-            
-           
         </div>
-       <div class="clear"></div>
-    </div>
-    </div>
-    </div>
-    </div>
-    <div id="advantages">
-        <div class="container">
+    <!-- </div> -->
+    <!-- </div> -->
+    <!-- <div id="advantages"> -->
+        <!-- <div class="container"> -->
             <!-- <h2>专业的安全保障</h2>-->
-            <div class="panel ad_1">
+            <!-- <div class="panel ad_1">
                 <div class="bg_img"></div>
                 <h3>系统可靠</h3>
                 <p>银行级用户数据加密、动态身份验证，多级风险识别控制，保障交易安全。</p>
@@ -243,13 +236,13 @@
                 <h3>服务专业</h3>
                 <p>专业的客服团队，400电话和24小时在线QQ，VIP一对一专业服务。</p>
             </div>
-            <div class="clearfix"></div>
+            <div class="clearfix"></div> -->
             <!--<div class="notice">-->
                 <!--<p>风险提示：数字货币可能存在矿工预挖、庄家操控、团队解散、技术缺陷等问题，其价格波动较大，因此我们强烈建议您在自身能承受的风险范围内参与数字货币交易。</p>-->
                 <!--&lt;!&ndash;<img onclick="$(this).parent().hide()" class="close_hint" src="__IMG__/base_images/close_hint.png" />&ndash;&gt;-->
             <!--</div>-->
-        </div>
-    </div>
+        <!-- </div> -->
+    <!-- </div> -->
     <!--<div id="market_area">-->
         <!--<div class="container">-->
             <!--<div class="market_left">-->
@@ -396,9 +389,9 @@
                             <a href="{:U('Information/arlist')}&type={$data.id}">{$data.title}</a>
                         </h3>
                     </div>
-                    <div class="panel-body">
+                    <div class="panel-body" style="font-size: 18px;">
                         <volist name="data['information']" id="content">
-                            <p><span>[{$content.endtime|date="m-d",###}]</span><a href="{:U('Information/ardetail', 'id='.$content['id'].'&xnbid='.$content['xnbid'])}">{$content.title}</a></p>
+                            <p style="margin-bottom: 6px;"><span>[{$content.endtime|date="m-d",###}]</span><a href="{:U('Information/ardetail', 'id='.$content['id'].'&xnbid='.$content['xnbid'])}">{$content.title}</a></p>
                         </volist>
                     </div>
                     <div class="panel-footer"><a href="{:U('Information/arlist')}&type={$data.id}">查看更多&gt;&gt;</a></div>
@@ -434,6 +427,7 @@
     <!--</div>-->
 
 </main>
+
 <include file="Public:footer"/>
 
 <script src="__JS__/jquery.js"></script>

@@ -130,10 +130,17 @@ class BuyController extends HomeController {
         //根据类型扣除相应表的资金
 
         $data['product_id']    = $this -> strFilter(I("product_id")) ? I("product_id") : null;
-        $info = M("product")   -> field("name, img, price") -> where("id = ". $data['product_id']) -> find();
+
+        $info = M("product as p")   
+            -> field("p.name, p.img, p.price, pc.type") 
+            -> join("currency_procate as pc on pc.id = p.cat_id")
+            -> where("p.id = ". $data['product_id']) 
+            -> find();
+
         $data['product_name']  = $info['name'];
         $data['product_img']   = $info['img'];
         $data['product_price'] = $info['price'];
+        $data['product_type']  = $info['type'];        //所属商城
         $data['number']        = $this -> strFilter(I("number")) ? I("number") : null;
         $data['total_money']   = I("total_money") ? I("total_money") : null;
         $data['ship_id']       = $this -> strFilter(I("ship_id")) ? I("ship_id") : null;
@@ -141,9 +148,12 @@ class BuyController extends HomeController {
         $data['status']        = 1;
         $data['time']          = time();
         $data['order']         = date("Ymd", time()).session("user")['id'].rand(100,999);
+
         $deal_pwd              = I("deal_pwd") ? I("deal_pwd") : null;
         $method                = $this -> strFilter(I("method")) ? I("method") : null;
         $price                 = I("price") ? I("price") : null;
+
+        $data['method']        = $method;
 
         if ($deal_pwd == null) {
             $this -> error("交易密码不能为空");
@@ -154,6 +164,43 @@ class BuyController extends HomeController {
                 exit();
             }
         }
+
+        //判断红包商城，购买次数
+        if ($data['product_type'] == 1) {
+            $time = strtotime(date("Y-m-d", time()));
+            $count = M("shop_order")
+                -> field("sum(number) as count")
+                -> where("time >= ". $time. " AND user_id = ". session("user")['id']. " AND method = ". $method)
+                -> find();
+
+            if ($count['count'] != NULL) {
+                if ($method == 1) {
+                    $method_cn = "余额支付";
+                    $key = "cny";
+                }
+
+                if ($method == 3) {
+                    $method_cn = "红包重消支付";
+                    $key = "repeat";
+                }
+
+                $cfg = M("shop_cfg")
+                    -> field("data")
+                    -> where(['key' => $key])
+                    -> find();
+
+                if ($count['count'] >= $cfg['data']) {
+                    $this -> error("今日购买红包次数已用完");
+                    exit();
+                } else {
+                    if ($data['number'] > ($cfg['data'] - $count['count'])) {
+                        $this -> error("今日可用".$method_cn."方式购买".($cfg['data'] - $count['count'])."个");
+                        exit();
+                    }
+                }
+            }
+        }
+
         if ($method != null) {
             $user_proper = new UserpropertyModel();
             $user_proper -> startTrans();
