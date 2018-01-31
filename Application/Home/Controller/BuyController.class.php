@@ -173,22 +173,22 @@ class BuyController extends HomeController {
                 -> where("time >= ". $time. " AND user_id = ". session("user")['id']. " AND method = ". $method)
                 -> find();
 
+            
+            if ($method == 1) {
+                $method_cn = "余额支付";
+                $key = "cny";
+            }
+
+            if ($method == 3) {
+                $method_cn = "红包重消支付";
+                $key = "repeat";
+            }
+
+            $cfg = M("shop_cfg")
+                -> field("data")
+                -> where(['key' => $key])
+                -> find();
             if ($count['count'] != NULL) {
-                if ($method == 1) {
-                    $method_cn = "余额支付";
-                    $key = "cny";
-                }
-
-                if ($method == 3) {
-                    $method_cn = "红包重消支付";
-                    $key = "repeat";
-                }
-
-                $cfg = M("shop_cfg")
-                    -> field("data")
-                    -> where(['key' => $key])
-                    -> find();
-
                 if ($count['count'] >= $cfg['data']) {
                     $this -> error("今日购买红包次数已用完");
                     exit();
@@ -198,7 +198,15 @@ class BuyController extends HomeController {
                         exit();
                     }
                 }
+            } else {
+                if ($data['number'] > $cfg['data']) {
+                    $count['count'] = 0;
+                    $this -> error("今日可用".$method_cn."方式购买".($cfg['data'] - $count['count'])."个");
+                    exit();
+                }
             }
+            
+            
         }
 
         if ($method != null) {
