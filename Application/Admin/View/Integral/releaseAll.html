@@ -39,7 +39,7 @@
                 <tr>
                     <td>{$vo.id}</td>
                     <td>{$vo.number}</td>
-                    <td>{:date('Y-m-d H:m:s',$vo['time'])}</td>
+                    <td>{:date('Y-m-d H:i:s',$vo['time'])}</td>
                     <td><a href="{:U('releaseAll_info',['id'=>$vo['id']])}">详情</a></td>
                 </tr>
             </volist>

@@ -27,6 +27,7 @@ use Admin\Model\MemoryModel;
 use Admin\Model\RepeatCfgModel;
 use Admin\Model\XnbModel;
 use Home\Model\UserpropertyModel;
+use function MongoDB\BSON\toJSON;
 use Think\Controller;
 use Think\Exception;
 
@@ -45,6 +46,15 @@ class ProvideApiController  extends Controller{
             exit(TOKEN);
         }
     }
+
+
+    public function start(){
+        $this->bonus();
+        $this->integral();
+        $this->ReleaseXnb();
+        $this->integral_release();
+    }
+
 
     #红包的发放
     public function  bonus(){
@@ -163,15 +173,10 @@ class ProvideApiController  extends Controller{
     #锁定资产的发放
     public function  ReleaseXnb(){
 
-        $memoryModel =   new MemoryModel();
+        $memoryModel =   new \Admin\Model\MemoryModel();
 
         $where = ['time_end'=>['EGT',time()],'balance'=>['GT',0]];
 
-        $count = $memoryModel->getCount($where);
-
-        if (!$count){
-            return false;
-        }
 
         $xnbModel = new XnbModel();
 
@@ -182,6 +187,12 @@ class ProvideApiController  extends Controller{
         $memoryAllModel = new MemoryAllModel();
 
         $NullBonusAll = $memoryAllModel->addNullBonusAll();
+
+        $count = $memoryModel->getCount($where);
+
+        if ($count<=0){
+            return false;
+        }
 
         #虚拟币返回配置
         $back_cfg=[];
@@ -220,16 +231,10 @@ class ProvideApiController  extends Controller{
 
         $where = ['number'=>['gt',0],'water'=>['lt',$water]];
 
-        $count = $integralModel->getCount($where);
-
-        if (!$count){
-            return false;
-        }
 
         $number_all = 0;
 
         $repeats_all = 0;
-
 
 
         $integralListModel = new IntegralListModel();
@@ -237,6 +242,12 @@ class ProvideApiController  extends Controller{
         $integralAllModel = new IntegralAllModel();
 
         $NullIntegralAll= $integralAllModel->addNullIntegralAll();
+
+        $count = $integralModel->getCount($where);
+
+        if ($count<=0){
+            return $this->success('本期发放数量为0');
+        }
 
         $integral_cfg = $repeatCfgModel->getCfg('integral');
 
@@ -280,17 +291,27 @@ class ProvideApiController  extends Controller{
     #积分的释放
     public function integral_release(){
 
+        #在1号才执行
+        if ( date('d',time()) !='01' ){
+            return $this->success('不在发放日期');
+        }
+
+        #判断本月是否已经发放
+        $data = M('integral_release_all')->where( ['time'=> ['egt',strtotime(date('Y-m-d',time()))] ] )->find();
+
+        if (!empty($data['id'])){
+
+          return  $this->success('本月已释放');
+
+        }
+
         $integralModel = new IntegralModel();
 
         $repeatCfgModel = new RepeatCfgModel();
 
         $where = ['number'=>['gt',0],'time_end'=>['elt',time()]];
 
-        $count = $integralModel->getCount($where);
 
-        if (!$count){
-            $this->error($integralModel->getLastSql());
-        }
 
         $number_all = 0;
 
@@ -300,6 +321,11 @@ class ProvideApiController  extends Controller{
 
         $NullIntegralReleaseAll = $integralReleaseAll->addNullIntegralReleaseAll();
 
+        $count = $integralModel->getCount($where);
+
+        if ($count<=0){
+           return $this->success('本期发放数量为0');
+        }
         $release_cfg = $repeatCfgModel->getCfg('water_release');
 
         $integralModel->startTrans();
