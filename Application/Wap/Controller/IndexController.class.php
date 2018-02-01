@@ -14,6 +14,7 @@ namespace Wap\Controller;
 use Think\Controller;
 use Wap\Model\MarkethouseModel;
 use Wap\Model\XnbModel;
+use Wap\Controller\ShopController;
 
 class IndexController extends WapController{
     //首页
@@ -52,6 +53,10 @@ class IndexController extends WapController{
         $data['tel'] = $number[0]['value'];
         $data['mail'] = $number[1]['value'];
 
+        $shop = new ShopController();
+        $list = $shop -> index();
+
+        $this -> assign("list", $list);
         $this -> assign("ad", $ad);
 //        $this -> assign('market_data',$market_data);
 //        $this -> assign('xnb_data',$xnb_data);
