@@ -14,6 +14,7 @@
 		<script type="text/javascript" src="__JS__/fastclick.js" ></script>
 		<script type="text/javascript" src="__JS__/base.js" ></script>
 		<script type="text/javascript" src="__JS__/deal.js" ></script>
+		<script type="text/javascript" src="/Public/zz/z.js" ></script>
 
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -63,8 +64,7 @@
 								</div>
 						     </div>
 						   <div class="clear"></div>	
-				    <div class="clients">
-			     </div>
+				    <div class="clients"></div>
 			     <div class="toogle">
 			     	<h3 class="m_3">产品详情描述</h3>
 			     	<p class="m_text">{$info.description}</p>
@@ -96,27 +96,71 @@
 					   </div>
 					</div>
 		</section>
+		<div class="login-box">
+			<p style="float: left">请登录</p>
+			<p style="float: right" class="closelogin">关闭</p>
+			<form action="{:U('Public/logins')}" class="form-horizontal ajaxlogin_form" method="post" onsubmit="return false">
+				<div class="loginl">
+					<input class="login_in"  name="name" type="text" placeholder="请输入您的手机和或邮箱" />
+					<input class="login_in" name="pass" type="password" placeholder="请输入密码" />
+					<input class="login_login" type="submit"  value="登录" />
+				</div>
+				<div class="register-forget">
+					<a href="{:U('Register/Register')}">立即注册</a><a href="{:U('Public/retrievePassword')}">忘记密码</a>
+				</div>
+			</form>
+		</div>
 		<include file="Public:footer" />
 	</body>
 </html>
 <!-- <script type="text/javascript" src="__JS__/Trade/buy.js"></script> -->
 <script>
-	$("#buy").click(function() {
-		var id = $(this).attr("data");
-		$.ajax({
-            url:"{:U('Session/ifsession')}",
-            type:"get",
-            success:function(data) {
-                var href="/Home`Buy`buy?product_id="+ id;
-                if(data!=true){
-                    lock();
-                    return false
-                }
-                location.href=href
-            }
-        })
-        return false
-	});
+	$(function () {
+		$("#buy").click(function() {
+			var id = $(this).attr("data");
+			$.ajax({
+	            url:"{:U('Wap/ifsess')}",
+	            type:"get",
+	            success:function(data) {
+	                var href="/Wap`Buy`buy?product_id="+ id;
+	                if(data!=true){
+	                    $('.login-box').attr("style", "display:block");
+	                    return false
+	                }
+	                location.href=href
+	            }
+	        })
+	        return false
+		});
 
+		$('.closelogin').click(function () {
+			$('.login-box').css({"display":"none"});
+		})
+
+		//登陆
+		$('.ajaxlogin_form').find('input[type=submit]').click(function () {
+
+			var form=$(this).parents().parent('.ajaxlogin_form');
+			if (form.get(0)==undefined){
+				form=$(this).parent();
+			}
+			$.ajax({
+				url:form.attr('action'),
+				type:form.attr('method'),
+				data:form.serialize(),
+				dataType:'json',
+				success:function (data) {
+					if (data.status!=true){   //请求失败
+						ShowHintBox(data.info,false);
+						return false
+					}
+					setTimeout(function () {
+						window.location.reload();
+					}, 1500);
+				}
+			});
+
+		})
+	})
 </script>
 <!-- <script type="text/javascript" src="__JS__/slide.js" ></script> -->

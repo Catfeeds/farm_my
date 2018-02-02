@@ -1,0 +1,60 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=1">
+		<meta name="format-detection" content="telephone=no,address=no">              
+		<title></title>
+		<link rel="stylesheet" href="__CSS__/base.css" />
+		<link rel="stylesheet" href="__CSS__/personage.css" />
+		<script type="text/javascript" src="__JS__/jquery-1.12.3.min.js" ></script>
+		<script type="text/javascript" src="__JS__/fastclick.js" ></script>
+		<script type="text/javascript" src="__JS__/base.js" ></script>
+		<script type="text/javascript" src="__JS__/personage.js" ></script>
+	</head>
+	<body class="backgroundf6">
+		<header class="top">
+			<a class="top-left" id="back">
+				<img src="__IMG__/back.png"/>
+				<span>返回</span>
+			</a>
+			<h2>资产明细</h2>
+		</header>
+		<section class="currency">
+			<ul>
+				<foreach name="list" item="vo">
+					<neq name="vo['product_name']" value="">
+						<li>
+							<eq name="vo['product_name']" value="人民币">
+								<!--<a  href="{:U('Trade/buy',array('xnb'=>$vo['xnb_id'],'Marke'=>$xmarket))}">-->
+									<else/><a  href="{:U('Trade/buy')}">
+								<!--<a  href="{:U('Trade/trade',array('xnb'=>$vo['xnb_id'],'marke'=>$xmarket))}">-->
+							</eq>
+
+							<div class="currency-name">
+									<span class="currency-name-left">
+										<img src="{$vo.img}"/>
+										{$vo.product_name}
+									</span>
+							</div>
+							<dl>
+								<dt class="c1cd846" style="width: 130px;margin-right: 0px;">数量 : {$vo.number}</dt>
+								<dt class="ceb4d49" style="width: 150px;margin-left: 0px;">总价 : {$vo.total_money}</dt>
+							</dl>
+							<dl>
+								<dt>时间 : {$vo.time|date="Y-m-d",###}</dt>
+								<dt>所属商城 : <eq name="vo.product_type" value="1">红包商城</eq><eq name="vo.product_type" value="2">报单商城</eq><eq name="vo.product_type" value="3">重消商城</eq></dt>
+							</dl>
+							<dl>
+								<dt>状态 : <eq name="vo.status" value="1">已付款</eq><eq name="vo.status" value="2">确认收货</eq><eq name="vo.status" value="3">已完成</eq></dt>
+							</dl>
+							</a>
+						</li>
+					</neq>
+				</foreach>
+			</ul>
+		</section>
+		<include file="Public:footer" />
+	</body>
+</html>

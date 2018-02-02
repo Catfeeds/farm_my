@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=1">
+		<meta name="format-detection" content="telephone=no,address=no">
+		<title></title>
+		<link rel="stylesheet" href="__CSS__/base.css" />
+		<link rel="stylesheet" href="__CSS__/deal.css" />
+		<script type="text/javascript" src="__JS__/jquery-1.12.3.min.js" ></script>
+		<script type="text/javascript" src="__JS__/fastclick.js" ></script>
+		<script type="text/javascript" src="__JS__/base.js" ></script>
+		<script type="text/javascript" src="__JS__/deal.js" ></script>
+		<script type="text/javascript" src="/Public/zz/z.js" ></script>
+	</head>
+	<body class="backgroundf6">
+		<header class="top">
+			<a class="top-left" id="back">
+				<img src="__IMG__/back.png"/>
+				<span>返回</span>
+			</a>
+			<h2>支付</h2>
+			<!--<a class="top-right" id="coin_catalog"><img src="__IMG__/caidan.png"/></a>-->
+		</header>
+		<div class="transaction">
+			<div class="transaction-info">
+				<a href="#">
+					<div class="transaction-name">
+						<span>
+							收货人：{$default.name}
+						</span>
+						<span>{$default.mobile}</span>
+					</div>
+					<div class="transaction-price">
+						<span>收货地址：{$default.province}{$default.city}{$default.area}{$default.address}</span>
+					</div>
+				</a>
+			</div>
+		</div>
+		<section class="detail-content">
+				<!--买入功能-->
+
+				<div class="Switchtrading">
+
+					<div class="buy tab_a">
+						<form class="buy_b" onsubmit="return false;">
+						<div class="business-lab">
+							<div style="margin: 10px;">
+								<img class="a" style="width: 80px;height: 80px;margin-top: 10px;" id="img1" src="__ROOT__/{$info['img']}" alt="" rel="__ROOT__/{$info['img']}" />
+								<div style="float: right;width: 70%;margin-top: 10px;">
+									<h3 class="m_3" style="font-size: 22px;">{$info.name}</h3>
+									<eq name="info.type" value="1">
+										<p class="m_5">{$info.price_show} </p>
+									</eq>
+									<eq name="info.type" value="2">
+										<p class="m_5">{$info.price_show.cmc} CMC + {$info.price_show.cny} CNY </p>
+									</eq>
+									<eq name="info.type" value="3">
+										<p class="m_5">{$info.price_show} </p>
+									</eq>
+								</div>
+							</div>
+							<div class="business-labline">
+								<label>数量:</label>
+								<input id="number" name="number" value="{$number}" readonly="true" />
+							</div>
+							<div class="business-labline">
+								<label>总价:</label>
+								<eq name="info.type" value="1">
+									<input name="total_price" id="total_price"  value="{$info.price_show}元" readonly="true" />
+								</eq>
+         						<eq name="info.type" value="2">
+         							<input name="total_price" id="total_price"  value="{$info.price_show.cmc} CMC + {$info.price_show.cny} CNY" readonly="true" />
+         						</eq>
+         						<eq name="info.type" value="3">
+         							<input name="total_price" id="total_price"  value="{$default.price_show}元" readonly="true" />
+         						</eq>
+								
+							</div>
+							<div class="business-labline">
+								<label>选择支付方式:</label>
+								<!-- <input onfocus="login_l()" type="password" name="dealpassword" placeholder="请填写交易密码" /> -->
+							</div>
+							<div class="transaction-tab">
+								<volist name="method" id="data">
+									<eq name="data.method" value="1"><span class="c046ec1 pitch tab_de" data="{$data.method}">{$data.name}</span></eq>
+									<eq name="data.method" value="2"><span class="c046ec1 pitch tab_de" data="{$data.method}">{$data.name}</span></eq>
+									<eq name="data.method" value="3"><span class="c046ec1 tab_de" data="{$data.method}">{$data.name}</span></eq>
+									<eq name="data.method" value="4"><span class="c046ec1 tab_de" data="{$data.method}">{$data.name}</span></eq>
+								</volist>
+							</div>
+							<div class="business-sb">
+								<input  type="hidden" name="product_id" id="product_id"  value="{$info.id}" />
+								<!-- <input  type="hidden" name="type" id="type"  value="{$info.type}" /> -->
+								<input  type="hidden" name="price" id="price"  value="{$info.price}" />
+								<input  type="hidden" name="ship_id" id="ship_id"  value="{$default.id}" />
+								<input  type="hidden" name="method" id="method"  value="{$method.0.method}" />
+								<input  type="submit" class="send" id="confirm"  value="支付" />
+							</div>
+						</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<div class="coin-cover"></div>
+		<!--登录弹框-->
+		<div class="login-box" >
+			<p style="float: left">请登录</p>
+			<p style="float: right" class="closelogin">关闭</p>
+			<form action="{:U('Public/logins')}" class="form-horizontal ajaxlogin_form" method="post" onsubmit="return false">
+				<div class="loginl">
+					<input class="login_in"  name="name" type="text" placeholder="请输入您的手机和或邮箱" />
+					<input class="login_in" name="pass" type="password" placeholder="请输入密码" />
+					<input class="login_login" type="submit"  value="登录" />
+				</div>
+				<div class="register-forget">
+					<a href="{:U('Register/Register')}">立即注册</a><a href="{:U('Public/retrievePassword')}">忘记密码</a>
+				</div>
+			</form>
+		</div>
+		<include file="Public:footer" />
+	</body>
+</html>
+<script>
+	var logins=0;
+	function login_l() {
+		
+	}
+
+	$(function () {
+		$('.closelogin').click(function () {
+			$('.login-box').css({"display":"none"});
+		})
+		
+		//买卖功能
+		$("#confirm").click(function () {
+		        var product_id  = $("#product_id").val();
+			    var total_price = $("#total_price").val();
+			    var number      = $("#number").val();
+			    var ship_id     = $("#ship_id").val();
+			    var method      = $("#method").val();
+			    // var deal_pwd    = $("#deal_pwd").val();
+			    var price       = $("#price").val();
+			    
+			    $.ajax({
+			      url:"{:U('pay')}",
+			      type:"POST",
+			      data:{product_id:product_id,total_money:total_price,number:number,ship_id:ship_id,method:method,price:price},
+			      success:function(data) {
+			        if (data.status!=true){   //请求失败
+			            ShowHintBox(data.info);
+			            return false
+			        } else {
+			          ShowHintBox(data.info,true);
+			          // location.href = "/Home`Order`index?tag=9";
+			          // 跳转到订单详情
+			        }
+			      }
+			    })
+
+			return false; //阻止submit事件
+		})
+
+		//登陆
+		$('.ajaxlogin_form').find('input[type=submit]').click(function () {
+
+			var form=$(this).parents().parent('.ajaxlogin_form');
+			if (form.get(0)==undefined){
+				form=$(this).parent();
+			}
+			$.ajax({
+				url:form.attr('action'),
+				type:form.attr('method'),
+				data:form.serialize(),
+				dataType:'json',
+				success:function (data) {
+					if (data.status!=true){   //请求失败
+						ShowHintBox(data.info,false);
+						return false;
+					}
+					setTimeout(function () {
+						window.location.reload();
+					}, 1500);
+				}
+			});
+
+	});
+
+	$("#method").click(function() {
+	    if ($(this).val() == 4) {
+	      var total_price = $("#total_price").attr("data");
+	      $.ajax({
+	        url:"{:U('getIntegralPrice')}",
+	        type:"POST",
+	        data:{total_price:total_price},
+	        success:function(data) {
+	          // alert(data);
+	          $(".total_price").text(data + "积分");
+	        }
+	      })
+	    }
+	    if ($(this).val() == 3) {
+	      var text = $("#total_price").attr("data");
+	      $(".total_price").text(text + "红包");
+	    }
+	    if ($(this).val() == 1) {
+	      var text = $("#total_price").attr("data");
+	      $(".total_price").text(text + "元");
+	    }
+	  })
+})
+</script>
