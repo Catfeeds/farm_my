@@ -170,7 +170,7 @@ class BuyController extends HomeController {
             $time = strtotime(date("Y-m-d", time()));
             $count = M("shop_order")
                 -> field("sum(number) as count")
-                -> where("time >= ". $time. " AND user_id = ". session("user")['id']. " AND method = ". $method)
+                -> where("time >= ". $time. " AND user_id = ". session("user")['id']. " AND method = ". $method. " AND product_type = ". $data['product_type'])
                 -> find();
 
             
@@ -266,7 +266,7 @@ class BuyController extends HomeController {
                 case '3': //红包重消
                     $res3 = $user_proper -> setChangeMoney(3, $data['total_money'], session("user")['id'], "购买商品", 1);
                     if ($res3 > 1) {
-                        if ($res2_2 > 1) {
+                        
                             $res_ins = M("shop_order") -> add($data);
 
                             if ($res_ins) {
@@ -276,10 +276,11 @@ class BuyController extends HomeController {
                                 $user_proper -> rollback();
                                 $this -> error("购买失败");
                             }
-                        }
+                        
                     } else {
                         $this -> error($user_proper -> getError());
                     }
+                    break;
                 case '4': //积分 价格/cmc价格
                     $cmc = new CmcpriceController();
                     $cmc_price = $cmc -> getPrice();
@@ -310,7 +311,7 @@ class BuyController extends HomeController {
                             $this -> error("购买失败");
                         }
                     }
-                
+                    break;
                 default:
                     break;
             }
