@@ -42,7 +42,7 @@ class ShopController extends WapController {
             -> table("currency_product as p")
             -> field("p.id, p.name, p.price, p.img, p.cat_id, pc.type, pc.name as class_name") 
             -> join("left join currency_procate as pc on pc.id = p.cat_id")
-            -> where("6 > (select count(*) from currency_product as pro where p.cat_id = pro.cat_id and pro.sort > p.sort ) and p.status = 1")
+            -> where("3 > (select count(*) from currency_product as pro where p.cat_id = pro.cat_id and pro.sort > p.sort ) and p.status = 1")
             -> order("p.cat_id, p.sort")
             -> select();
 
@@ -133,6 +133,52 @@ class ShopController extends WapController {
         $this -> assign('page',$show);// 赋值分页输出
         $this -> assign("list", $list);
         $this -> display();
+    }
+
+    //产品列表页
+    public function lists_more() {
+        $this -> cat_id   = $this -> strFilter( I( 'cat_id' ) ) ? $this -> strFilter( I( 'cat_id' ) ) : null;
+        $this -> search = $this -> strFilter( I( 'search' ) ) ? $this -> strFilter( I( 'search' ) ) : "";
+
+        $product = M("product");
+        $where = "p.status = 1";
+        if ($this -> cat_id != null) {
+            $where .= " AND p.cat_id = ". $this -> cat_id;
+        } 
+
+        $count  = M()-> table("currency_product as p")->where($where)->count();// 查询满足要求的总记录数
+        $show   = $this  -> getPage( $count );
+
+        $res = M() 
+            -> table("currency_product as p")
+            -> field("p.id, p.name, p.price, p.img, p.cat_id, pc.type") 
+            -> join("left join currency_procate as pc on pc.id = p.cat_id")
+            -> where($where) 
+            -> limit( $this -> Page -> firstRow.','. $this -> Page -> listRows ) 
+            -> select();
+        // var_dump($res);
+
+        foreach ($res as $key => $value) {
+            $res[$key]['price_show'] = $this -> getPriceShow($value['type'], $value['price'], $value['id']);
+        }
+
+        $list = array();
+        for ($i=0; $i < ceil(count($res)); $i++) { 
+            if (!empty(array_slice($res, $i * 3 ,3))) {
+                $list[] = array_slice($res, $i * 3 ,3);
+            }
+        }
+
+        $cat_name = M("procate") -> field("name") -> where("id = ".$this -> cat_id) -> find();
+
+        // $this -> assign("cat_name", $cat_name);
+        // $this -> assign('page',$show);// 赋值分页输出
+        // $this -> assign("list", $list);
+        // $this -> display();
+        $fal['cat_name'] = $cat_name;
+        $fal['list'] = $list;
+
+        $this -> ajaxReturn($fal);
     }
 
     /*文章类型*/

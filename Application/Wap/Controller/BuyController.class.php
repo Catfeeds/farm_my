@@ -7,7 +7,7 @@
 // | Author: 麦当苗儿 <zuojiazi@vip.qq.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
 
-namespace Home\Controller;
+namespace Wap\Controller;
 use Home\Model\UserpropertyModel;
 use Home\Model\IntegralModel;
 use Common\Controller\CmcpriceController;
@@ -18,7 +18,7 @@ use Think\Page;
  * 前台首页控制器
  * 主要获取首页聚合数据
  */
-class BuyController extends HomeController {
+class BuyController extends WapController {
     private $cat_id = 1;
     private $search = "";
     private $Page;
@@ -26,10 +26,10 @@ class BuyController extends HomeController {
     public function __construct() {
         parent::__construct();
 
-        if (session('user')['id']==""){
-            $this->redirect('Index/index');
-            exit();
-        }
+        // if (session('user')['id']==""){
+        //     $this->redirect('Index/index');
+        //     exit();
+        // }
 
         $cate = $this -> gettree();
 
@@ -58,10 +58,11 @@ class BuyController extends HomeController {
             -> join("left join currency_shop_city as sc on sc.id = sa.province")
             -> join("left join currency_shop_city as scc on scc.id = sa.city")
             -> join("left join currency_shop_city as sccc on sccc.id = sa.area")
-            -> where("sa.user_id = ". session('user')['id'])
+            -> where("sa.user_id = ". session('user_wap')['id'])
             -> order("sa.status")
             -> select();
-
+        // var_dump($product_info);
+            // dump($default);
         $this -> assign("info", $product_info);
         $this -> assign("default", $default);
         $this -> display();
@@ -103,7 +104,7 @@ class BuyController extends HomeController {
                 $method = array(array("method" => 1, "name" => "余额账户"), array("method" => 3, "name" => "红包重消账户"));
                 break;
             case '2':
-                $method = array(array("method" => 2, "name" => "确认支付"));
+                $method = array(array("method" => 2, "name" => "报单支付方式"));
                 break;
             case '3':
                 $method = array(array("method" => 1, "name" => "余额账户"), array("method" => 4, "name" => "积分"), array("method" => 3, "name" => "红包重消账户"));
@@ -113,6 +114,17 @@ class BuyController extends HomeController {
                 break;
         }
         // var_dump($method);
+
+        $default = M()
+            -> table("currency_shop_address as sa")
+            -> field("sa.id, sa.name, sa.mobile, sa.address, sc.city_name as province, scc.city_name as city , sccc.city_name as area, sa.status")
+            -> join("left join currency_shop_city as sc on sc.id = sa.province")
+            -> join("left join currency_shop_city as scc on scc.id = sa.city")
+            -> join("left join currency_shop_city as sccc on sccc.id = sa.area")
+            -> where("sa.id = ". $ship_id)
+            -> find();
+
+        $this -> assign("default", $default);
         $this -> assign("method", $method);
         $this -> assign("number", $number);
         $this -> assign("total_price", $number * $product_info['price']);
@@ -144,35 +156,35 @@ class BuyController extends HomeController {
         $data['number']        = $this -> strFilter(I("number")) ? I("number") : null;
         $data['total_money']   = I("total_money") ? I("total_money") : null;
         $data['ship_id']       = $this -> strFilter(I("ship_id")) ? I("ship_id") : null;
-        $data['user_id']       = session("user")['id'];
+        $data['user_id']       = session("user_wap")['id'];
         $data['status']        = 1;
         $data['time']          = time();
-        $data['order']         = date("Ymd", time()).session("user")['id'].rand(100,999);
+        $data['order']         = date("Ymd", time()).session("user_wap")['id'].rand(100,999);
 
         $deal_pwd              = I("deal_pwd") ? I("deal_pwd") : null;
-        $method                = $this -> strFilter(I("method")) ? I("method") : null;
+        $method                = I("method") ? I("method") : null;
         $price                 = I("price") ? I("price") : null;
-
+        // var_dump($method);
         $data['method']        = $method;
 
-        if ($deal_pwd == null) {
-            $this -> error("交易密码不能为空");
-            exit();
-        } else {
-            if (session('user')['dealpwd']!=jiami($deal_pwd)){   //交易密码验证
-                $this->error('交易密码不正确！');
-                exit();
-            }
-        }
+        // if ($deal_pwd == null) {
+        //     $this -> error("交易密码不能为空");
+        //     exit();
+        // } else {
+        //     if (session('user_wap')['dealpwd']!=jiami($deal_pwd)){   //交易密码验证
+        //         $this->error('交易密码不正确！');
+        //         exit();
+        //     }
+        // }
 
         //判断红包商城，购买次数
         if ($data['product_type'] == 1) {
             $time = strtotime(date("Y-m-d", time()));
             $count = M("shop_order")
                 -> field("sum(number) as count")
-                -> where("time >= ". $time. " AND user_id = ". session("user")['id']. " AND method = ". $method. " AND product_type = ". $data['product_type'])
+                -> where("time >= ". $time. " AND user_id = ". session("user_wap")['id']. " AND method = ". $method. " AND product_type = ". $data['product_type'])
                 -> find();
-
+            // var_dump(M("shop_order") -> getLastsql());
             
             if ($method == 1) {
                 $method_cn = "余额支付";
@@ -208,7 +220,7 @@ class BuyController extends HomeController {
             
             
         }
-
+        
         if ($method != null) {
             $user_proper = new UserpropertyModel();
             $user_proper -> startTrans();
@@ -216,7 +228,7 @@ class BuyController extends HomeController {
             //扣钱
             switch ($method) {
                 case '1': //余额
-                    $res1 = $user_proper -> setChangeMoney(1, $data['total_money'], session("user")['id'], "购买红包", 1);
+                    $res1 = $user_proper -> setChangeMoney(1, $data['total_money'], session("user_wap")['id'], "购买红包", 1);
                     if ($res1 > 1) {
                         $res_ins = M("shop_order") -> add($data);
 
@@ -237,11 +249,11 @@ class BuyController extends HomeController {
                     //查询所需要的CMC数量
                     $price_need = $this -> getPriceShow(2, $price, $data['product_id'], $data['number'] );
                     
-                    $res2_1 = $user_proper -> setChangeMoney($cmc_id['id'], $price_need['cmc'], session("user")['id'], "报单", 1);
+                    $res2_1 = $user_proper -> setChangeMoney($cmc_id['id'], $price_need['cmc'], session("user_wap")['id'], "报单", 1);
                     
                     if ($res2_1 > 1) {
                         //扣除人民币数量
-                        $res2_2 = $user_proper -> setChangeMoney(1, $price_need['cny'], session("user")['id'], "报单", 1);
+                        $res2_2 = $user_proper -> setChangeMoney(1, $price_need['cny'], session("user_wap")['id'], "报单", 1);
                         if ($res2_2 > 1) {
                             $cmc = new CmcpriceController();
                             $cmc_price = $cmc -> getPrice();
@@ -264,7 +276,9 @@ class BuyController extends HomeController {
                     }
                     break;
                 case '3': //红包重消
-                    $res3 = $user_proper -> setChangeMoney(3, $data['total_money'], session("user")['id'], "购买商品", 1);
+                    $res3 = $user_proper -> setChangeMoney(3, $data['total_money'], session("user_wap")['id'], "购买商品", 1);
+
+                    // dump($res3);
                     if ($res3 > 1) {
                         
                             $res_ins = M("shop_order") -> add($data);
@@ -278,26 +292,27 @@ class BuyController extends HomeController {
                             }
                         
                     } else {
+                        // var_dump($user_proper -> getError());
                         $this -> error($user_proper -> getError());
                     }
                     break;
                 case '4': //积分 价格/cmc价格
                     $cmc = new CmcpriceController();
                     $cmc_price = $cmc -> getPrice();
-                    $price = $price = round($data['total_money'] / $cmc_price, 2);;
-                    $inte = new IntegralModel(session("user")['id'], $price);
+                    $price = $price = round($data['total_money'], 2);;
+                    $inte = new IntegralModel(session("user_wap")['id'], $price);
 
-                    $all_oldintegral = $inte -> getAllIntegral(session("user")['id']);
+                    $all_oldintegral = $inte -> getAllIntegral(session("user_wap")['id']);
                     // var_dump($all_oldintegral);
 
-                    $res4 = $inte -> lessintgral(session("user")['id'], $price);
+                    $res4 = $inte -> lessintgral(session("user_wap")['id'], $price);
                     // var_dump($price);
 
                     if ($res4 == "积分不足") {
                         $this -> error("积分不足");
                     } else {
                         if ($res4) {
-                            $res5 = $user_proper -> detail(['id' => session("user")['id'], "name" => ''], 0, (-1 * $price), "购买商品", $all_oldintegral);
+                            $res5 = $user_proper -> detail(['id' => session("user_wap")['id'], "name" => ''], 0, (-1 * $price), "购买商品", $all_oldintegral);
                             $res_ins = M("shop_order") -> add($data);
 
                             if ($res_ins) {

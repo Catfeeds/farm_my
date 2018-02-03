@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=1">
+		<meta name="format-detection" content="telephone=no,address=no">
+		<title></title>
+		<link rel="stylesheet" href="__CSS__/base.css" />
+		<link rel="stylesheet" href="__CSS__/index.css" />
+		<link rel="stylesheet" href="__CSS__/swiper-3.4.2.min.css" />
+		<link rel="stylesheet" href="__CSS__/dropload.css" />
+		<script type="text/javascript" src="__JS__/jquery-1.12.3.min.js" ></script>
+		<script type="text/javascript" src="__JS__/fastclick.js" ></script>
+		<!--<script type="text/javascript" src="__JS__/resize.js" ></script>-->
+		<script type="text/javascript" src="__JS__/swiper-3.4.2.jquery.min.js" ></script>
+		<!--<script type="text/javascript" src="__JS__/slide.js" ></script>-->
+		<!--<script type="text/javascript" src="__JS__/vue.min.js" ></script>-->
+		<script type="text/javascript" src="__JS__/base.js" ></script>
+		<script type="text/javascript" src="__JS__/index.js" ></script>
+
+
+		<link href="__CSS__/shop/style.css" rel="stylesheet" type="text/css" media="all" />
+		<link href="__CSS__/shop/form.css" rel="stylesheet" type="text/css" media="all" />
+		<link href='http://fonts.googleapis.com/css?family=Exo+2' rel='stylesheet' type='text/css'>
+		<!-- <script type="text/javascript" src="__JS__/shop/jquery1.min.js"></script> -->
+		<!-- start menu -->
+		<link href="__CSS__/shop/megamenu.css" rel="stylesheet" type="text/css" media="all" />
+		<!-- <script type="text/javascript" src="__JS__/shop/megamenu.js"></script> -->
+		<!-- <script>$(document).ready(function(){$(".megamenu").megamenu();});</script> -->
+		<!--start slider -->
+		<!-- <link rel="stylesheet" href="__CSS__/shop/fwslider.css" media="all"> -->
+		<!-- <script src="__JS__/shop/jquery-ui.min.js"></script> -->
+		<!-- <script src="__JS__/shop/css3-mediaqueries.js"></script> -->
+		<!-- <script src="__JS__/shop/fwslider.js"></script> -->
+
+		<!-- <script src="__JS__/shop/jquery.easydropdown.js"></script>   -->
+		<script type="text/javascript" src="__JS__/dropload.min.js"></script>
+	</head>
+
+	<body>
+		<header class="top">
+			<a class="top-logo" href="#">
+				<img src="../Public/Wap/img/logo.png"/>
+			</a>
+			<h2>商品列表</h2>
+			<!--<a class="top-right" id="remind"><img src="__IMG__/naozhong.png"/></a>-->
+			<a class="top-right" href="{:U('Communication/service')}"><img src="__IMG__/indexkf.png"/></a>
+		</header>
+		<section class="index-content">
+			<div class="main" >
+	            <div class="wrap">
+	                <div class="section group">
+	                    <div class=" span_2_of_3 inner" style="margin:0 auto;">
+	                        <h2 class="head">{$cat_name.name}</h2>
+
+					 	 	<volist name="list" id="data">
+								<div class="top-box">
+
+									<volist name="data" id="val">
+									 	<div class="col_1_of_3 span_1_of_3"> 
+									   		<a href="{:U('single', ['id'=>$val['id']])}">
+												<div class="inner_content clearfix">
+													<div class="product_image">
+														<img style="width: 300px;height: 273px;" src="__ROOT__/{$val['img']}" alt=""/>
+													</div>
+						                    		<div class="price">
+											   			<div class="cart-left">
+															<p class="title">{$val.name}</p>
+															<div class="price1">
+												  				<eq name="val.type" value="1">
+																	<span class="actual">{$val.price_show}</span>
+																</eq>
+																<eq name="val.type" value="2">
+																	<span class="actual">{$val.price_show.cmc} CMC + {$val.price_show.cny} CNY</span>
+																</eq>
+																<eq name="val.type" value="3">
+																	<span class="actual">{$val.price_show}</span>
+																</eq>
+															</div>
+														</div>
+														<div class="cart-right"> </div>
+														<div class="clear"></div>
+											 		</div>				
+						                   		</div>
+						                 	</a>
+										</div>		
+									</volist>
+
+									<div class="clear"></div>
+								</div>	
+							</volist>
+	                            <div class="clear"></div>   
+	                        </volist>
+	                    </div>
+	                </div>
+	                <div class="clear"></div>
+	            </div>
+	        </div>
+		</section>
+		<include file="Public:footer" />
+	</body>
+	<script type="text/javascript">
+			type = 0;
+			status = 0;
+
+		$(function(){
+
+				var groupNumber = 1;
+				
+				var dropload = $('.inner').dropload({
+					autoLoad:true,
+					scrollArea : window,
+					threshold:5,
+					domDown : {
+						domClass   : 'dropload-down',
+						domRefresh : '<div class="dropload-refresh">↑上拉加载更多</div>',
+						domLoad    : '<div class="dropload-load"><span class="loading"></span>加载中...</div>',
+						domNoData  : '<div class="dropload-noData">暂无数据</div>'
+					},
+					loadDownFn : function(me){
+						if (status < 0) {
+							// me.noData(true);
+							me.resetload();
+							// return false;
+						}
+						$.ajax({
+							type: 'POST',
+							url: '{:U("Shop/lists_more")}',
+							dataType: 'json',
+							data: {groupNumber:groupNumber},
+							success: function(data){
+								console.log(data);
+								// console.log(data);
+								if (data.status == 2) {
+									status = -1;
+									// me.noData(true);
+									me.resetload();
+									// return false;
+								} else {
+									var result = '';
+									$.each(data, function (i, value) {
+										time = formatDate(value.time);
+										
+									});
+									// 为了测试，延迟1秒加载
+									groupNumber ++;
+//							setTimeout(function(){
+								$('.lists').append(result);
+								// 每次数据加载完，必须重置
+								dropload.resetload();
+//							},1000);
+							}
+						},
+						error: function(xhr, type){
+							dropload.resetload();
+						}
+					});
+				}
+			});
+		});
+	</script>
+</html>

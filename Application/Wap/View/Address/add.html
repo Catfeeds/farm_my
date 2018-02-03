@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=1">
+		<meta name="format-detection" content="telephone=no,address=no">              
+		<title></title>
+		<link rel="stylesheet" href="__CSS__/base.css" />
+		<link rel="stylesheet" href="__CSS__/setting.css" />
+		<link rel="stylesheet" href="__CSS__/rmb.css" />
+		<script type="text/javascript" src="__JS__/jquery-1.12.3.min.js" ></script>
+		<script type="text/javascript" src="__JS__/fastclick.js" ></script>
+		<script type="text/javascript" src="__JS__/base.js" ></script>
+		<script type="text/javascript" src="__JS__/rmb.js" ></script>
+	</head>
+	<body>
+		<header class="top">
+			<a class="top-left" id="back">
+				<img src="__IMG__/back.png"/>
+				<span>返回</span>
+			</a>
+			<h2>添加收货地址</h2>
+		</header>
+			<form  class="form-horizontal ajaxbank_form add-bank" role="form" onsubmit="return false">
+				<input type="text"  class="form-control add-bank-name account-name" style="border: 1px solid #e6e6e6" name="name" id="name" placeholder="收货人姓名" value="{$city_list.name}">
+				<div class="select-bank">
+					<div>
+						<select id="province" size=1 class="form-control" name="province">
+							<volist	name="city" id="citys">
+								<eq name="city_list['province_id']" value="$citys.id">
+									<option value="{$citys.id}" selected>{$citys.city_name}</option>
+								<else />
+									<option value="{$citys.id}">{$citys.city_name}</option>
+								</eq>
+								
+							</volist>
+						</select>
+						<select id="city" size=1 class="form-control" name="city">
+							<volist	name="city_list.city_list" id="cityss">
+								<eq name="city_list['city_id']" value="$cityss.id">
+									<option value="{$cityss.id}" selected>{$cityss.city_name}</option>
+								<else />
+									<option value="{$cityss.id}">{$cityss.city_name}</option>
+								</eq>
+								
+							</volist>
+						</select>
+						<select id="area" size=1 class="form-control" name="area">
+							<volist	name="city_list['area_list']" id="citysss">
+								<eq name="city_list['area_id']" value="$citysss.id">
+									<option value="{$citysss.id}" selected>{$citysss.city_name}</option>
+								<else />
+									<option value="{$citysss.id}">{$citysss.city_name}</option>
+								</eq>
+								
+							</volist>
+						</select>
+					</div>
+				</div>
+				<div class="in-bank">
+					<input type="text" name="address" id="address" placeholder="详细地址" value="{$city_list.address}" />
+					<input type="text" name="mobile" id="mobile" placeholder="手机号码" value="{$city_list.mobile}" />
+					<input type="hidden" name="id" id="id" value="{$city_list.id}" />
+
+				</div>
+				<div class="affirm-add">
+					<button type="submit" value="确认" class="btn btn-default safe_center_btn" id="update">确认添加</button>
+				</div>
+			</form>
+			<!-- <script type="text/javascript" src="__JS__/verify.js"></script> -->
+			<include file="Public:footer" />
+			<script type="text/javascript">
+				//根据省份请求城市
+				$("#province").click(function() {
+					var id = $(this).val();
+
+					$.ajax({
+						url:"{:U('Address/choosecity')}",
+						data:{id:id},
+						type:"POST",
+						success:function(data) {
+							var city = data.city;
+							var html = '';
+							$.each(city,function (k,v) {
+								html += '<option value="'+ v.id +'" class="choosecity">'+ v.city_name +'</option>';
+							})
+
+							$("#city").html(html);
+						}
+					})
+				});
+				//根据城市请求地区
+				$("#city").click(function() {
+					var id = $(this).val();
+
+					$.ajax({
+						url:"{:U('Address/choosecity')}",
+						data:{id:id},
+						type:"POST",
+						success:function(data) {
+							var city = data.city;
+							var html = '';
+							$.each(city,function (k,v) {
+								html += '<option value="'+ v.id +'" class="choosecity">'+ v.city_name +'</option>';
+							})
+
+							$("#area").html(html);
+						}
+					})
+				});
+				//提交
+				$(function () {
+				    $("#update").click(function(){
+				        var province = $('#province').val();
+				        var city     = $('#city').val();
+				        var area     = $('#area').val();
+				        var address  = $('#address').val();
+				        var name     = $('#name').val();
+				        var mobile   = $('#mobile').val();
+				        var id       = $('#id').val();
+				    
+				        $.ajax({
+				            url:"/Wap`Address`update",
+				            data:{province:province,city:city,area:area,address:address,name:name,mobile:mobile,id:id},
+				            type:"post",
+				            success:function (data) {
+				            	console.log(data);
+				                if (data.status!=true){   //请求失败
+									ShowHintBox(data.info,false);
+									return false
+								}
+								ShowHintBox(data.info,true);
+				            }
+				        })
+				    });
+				})
+			</script>
+	</body>
+</html>
+ 

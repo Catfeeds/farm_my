@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=1">
+		<meta name="format-detection" content="telephone=no,address=no">              
+		<title></title>
+		<link rel="stylesheet" href="__CSS__/base.css" />
+		<link rel="stylesheet" href="__CSS__/rmb.css" />
+		<script type="text/javascript" src="__JS__/jquery-1.12.3.min.js" ></script>
+		<script type="text/javascript" src="__JS__/fastclick.js" ></script>
+		<script type="text/javascript" src="__JS__/base.js" ></script>
+		<script type="text/javascript" src="__JS__/rmb.js" ></script>
+	</head>
+	<body class="backgroundf6">
+		<header class="top">
+			<a class="top-left" id="back">
+				<img src="__IMG__/back.png"/>
+				<span>返回</span> 
+			</a>
+			<h2>银行卡管理</h2>
+		</header>
+		<section class="bank">
+			<ul>
+				<foreach name="list" item="data">
+					<li class="bank-card">
+						<div class="bank-handle">
+							<h2 class="bank-name">{$data.name}</h2>
+							<div style="float: right;margin-right: 10px;">
+								<span><a class="delete" data="{$data.id}">删除</a></span>
+								<span><a href="{:U('add', ['id' => $data['id']])}">修改</a></span>
+							</div>
+						</div>
+						<dl>
+							<dt>
+								<span>联系方式 : </span><span>{$data.mobile}</span>
+							</dt>
+							<dt>
+								<span>详细地址 : </span><span>{$data.province}{$data.city}{$data.area}{$data.address}</span>
+							</dt>
+						</dl>
+					</li>
+				</foreach>
+			</ul>
+			<div class="add-bank">
+				<a href="{:U('add')}">添加收货地址</a>
+			</div>
+	</section>
+		<include file="Public:footer" />
+		<script type="text/javascript">
+			//删除
+			$(".delete").click(function() {
+				var id = $(this).attr("data");
+				$.ajax({
+					url:"{:U('delete')}",
+					data:{id:id},
+					type:"GET",
+					success:function(data) {
+						if (data.status != true) {
+							ShowHintBox(data.info, false);
+							return false;
+						} else {
+							ShowHintBox(data.info, true);
+						}
+					}
+				})
+			})
+		</script>
+	</body>
+</html>
+ 
