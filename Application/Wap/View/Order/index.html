@@ -8,10 +8,53 @@
 		<title></title>
 		<link rel="stylesheet" href="__CSS__/base.css" />
 		<link rel="stylesheet" href="__CSS__/personage.css" />
+		<link rel="stylesheet" href="__CSS__/dropload.css" />
 		<script type="text/javascript" src="__JS__/jquery-1.12.3.min.js" ></script>
 		<script type="text/javascript" src="__JS__/fastclick.js" ></script>
 		<script type="text/javascript" src="__JS__/base.js" ></script>
 		<script type="text/javascript" src="__JS__/personage.js" ></script>
+		<script type="text/javascript" src="__JS__/dropload.min.js"></script>
+		<style type="text/css">
+			.mestab{
+				position:  fixed;
+				width: 100%;
+				top: 40px;
+				flex-flow: row;
+				color: #333;
+				height: 60px;
+				line-height: 50px;
+				background: #F6F6F6;
+				z-index: 3;
+				max-width: 640px;
+				overflow: hidden;
+				padding: 0px 10px;
+				padding-top: 10px;
+				box-sizing: border-box;
+			}
+			.mestab div{
+				width: 100%;
+				display: -webkit-box; /* Chrome 4+, Safari 3.1, iOS Safari 3.2+ */
+			    display: -moz-box; /* Firefox 17- */
+			    display: -webkit-flex; /* Chrome 21+, Safari 6.1+, iOS Safari 7+, Opera 15/16 */
+			    display: -moz-flex; /* Firefox 18+ */
+			    display: -ms-flexbox; /* IE 10 */
+			    display: flex;
+				border-radius: 4px;
+				overflow: hidden;
+			}
+			.mestab span{
+				background: #fff;
+				display: inline-block;
+				flex: 1;
+				text-align: center;
+				
+			}
+			.mestab span:nth-child(1){
+				/*margin-right: 5px;*/
+			}
+			.mestab span:nth-child(2){
+			}
+		</style>
 	</head>
 	<body class="backgroundf6">
 		<header class="top">
@@ -19,19 +62,21 @@
 				<img src="__IMG__/back.png"/>
 				<span>返回</span>
 			</a>
-			<h2>资产明细</h2>
+			<h2>订单列表</h2>
 		</header>
-		<section class="currency">
-			<ul>
-				<foreach name="list" item="vo">
+		<div class="mestab" style="margin-bottom: 10px;">
+			<div>
+				<span id="all" class="pitch tab" data="0">全部订单</span>
+				<span id="pay" class="tab" data="1">已付款</span>
+				<span id="shipped" class="tab" data="2">已发货</span>
+				<span id="finish" class="tab" data="3">已完成</span>
+			</div>
+		</div>
+		<section class="currency inner" style="margin-top: 100px;">
+			<ul class="lists">
+				<!-- <foreach name="list" item="vo">
 					<neq name="vo['product_name']" value="">
 						<li>
-							<eq name="vo['product_name']" value="人民币">
-								<!--<a  href="{:U('Trade/buy',array('xnb'=>$vo['xnb_id'],'Marke'=>$xmarket))}">-->
-									<else/><a  href="{:U('Trade/buy')}">
-								<!--<a  href="{:U('Trade/trade',array('xnb'=>$vo['xnb_id'],'marke'=>$xmarket))}">-->
-							</eq>
-
 							<div class="currency-name">
 									<span class="currency-name-left">
 										<img src="{$vo.img}"/>
@@ -47,14 +92,209 @@
 								<dt>所属商城 : <eq name="vo.product_type" value="1">红包商城</eq><eq name="vo.product_type" value="2">报单商城</eq><eq name="vo.product_type" value="3">重消商城</eq></dt>
 							</dl>
 							<dl>
-								<dt>状态 : <eq name="vo.status" value="1">已付款</eq><eq name="vo.status" value="2">确认收货</eq><eq name="vo.status" value="3">已完成</eq></dt>
+								<dt>状态 : 
+									<eq name="vo.status" value="1">已付款</eq>
+									<eq name="vo.status" value="2">已发货
+										<div><button class="receiving" style="background-color: #FF8C00;border: 0px;width: 80px;height: 30px;color: #fff;">确认收货</button></div>
+									</eq>
+									<eq name="vo.status" value="3">已完成</eq>
+								</dt>
 							</dl>
 							</a>
 						</li>
 					</neq>
-				</foreach>
+				</foreach> -->
 			</ul>
 		</section>
 		<include file="Public:footer" />
+<script>
+	type = 0;
+	status = 0;
+
+		$(function(){
+
+				var groupNumber = 1;
+				
+				var dropload = $('.inner').dropload({
+					autoLoad:true,
+					scrollArea : window,
+					threshold:5,
+					domDown : {
+						domClass   : 'dropload-down',
+						domRefresh : '<div class="dropload-refresh">↑上拉加载更多</div>',
+						domLoad    : '<div class="dropload-load"><span class="loading"></span>加载中...</div>',
+						domNoData  : '<div class="dropload-noData">暂无数据</div>'
+					},
+					loadDownFn : function(me){
+						if (status < 0) {
+							// me.noData(true);
+							me.resetload();
+							// return false;
+						}
+						$.ajax({
+							type: 'POST',
+							url: '{:U("index_more")}',
+							dataType: 'json',
+							data: {groupNumber:groupNumber,status:type},
+							success: function(data){
+								// console.log(data);
+								if (data.status == 2) {
+									status = -1;
+									// me.noData(true);
+									me.resetload();
+									// return false;
+								} else {
+									var result = '';
+									$.each(data, function (i, value) {
+										time = formatDate(value.time);
+										result += '<li><div class="currency-name"><span class="currency-name-left">';
+										if (value.img == null || value.img == "") {
+											result += '<img src="'+ value.product_img +'"/>';
+										} else {
+											result += '<img src="'+ value.img +'"/>';
+										}
+
+										if (value.name == null || value.name == "") {
+											result += value.product_name;
+										} else {
+											result += value.name;
+										}
+										result += '</span></div>'+
+												  '<dl><dt class="c1cd846" style="width: 130px;margin-right: 0px;">数量 : '+ value.number +'</dt>'+
+												  '<dt class="ceb4d49" style="width: 150px;margin-left: 0px;">总价 : '+ value.total_money +'</dt></dl>'+
+												  '<dl><dt>时间 : '+ time +'</dt><dt>所属商城 : ';
+										
+										if (value.product_type == 1) {
+											result += '红包商城';
+										}
+										if (value.product_type == 2) {
+											result += '报单商城';
+										}
+										if (value.product_type == 3) {
+											result += '重消商城';
+										}
+										result += '</dt></dl><dl><dt>状态 : ';
+										if (value.status == 1) {
+											result += '已付款';
+										}
+										if (value.status == 2) {
+											result += '已发货<div><button class="receiving" style="background-color: #FF8C00;border: 0px;width: 80px;height: 30px;color: #fff;">确认收货</button>';
+										}
+										if (value.status == 3) {
+											result += '已完成';
+										}
+										result += '</dt></dl></a></li>';
+									});
+									// 为了测试，延迟1秒加载
+									groupNumber ++;
+//							setTimeout(function(){
+								$('.lists').append(result);
+								// 每次数据加载完，必须重置
+								dropload.resetload();
+//							},1000);
+							}
+						},
+						error: function(xhr, type){
+							dropload.resetload();
+						}
+					});
+				}
+			});
+
+			$("body").on("click", ".receiving", function() {
+				var id = $(this).attr('data');
+				$.ajax({
+					url:"{:U('Buy/receiving')}",
+					data:{order_id:id},
+					type:"POST",
+					success:function(data) {
+						if (data.status != true) {
+							ShowHintBox(data.info,false);
+							return false;
+						}
+						ShowHintBox(data.info,true);
+					}
+				})
+			})
+
+			$(".tab").click(function() {
+				type = $(this).attr("data");
+				status = 0;
+				var number = 1;
+				$.ajax({
+					type: 'POST',
+					url: '{:U("index_more")}',
+					dataType: 'json',
+					data: {groupNumber:number,status:type},
+					success: function(data){
+
+						var result = '';
+						$.each(data, function (i, value) {
+							time = formatDate(value.time);
+							result += '<li><div class="currency-name"><span class="currency-name-left">';
+							if (value.img == null || value.img == "") {
+								result += '<img src="'+ value.product_img +'"/>';
+							} else {
+								result += '<img src="'+ value.img +'"/>';
+							}
+
+							if (value.name == null || value.name == "") {
+								result += value.product_name;
+							} else {
+								result += value.name;
+							}
+							result += '</span></div>'+
+									  '<dl><dt class="c1cd846" style="width: 130px;margin-right: 0px;">数量 : '+ value.number +'</dt>'+
+									  '<dt class="ceb4d49" style="width: 150px;margin-left: 0px;">总价 : '+ value.total_money +'</dt></dl>'+
+									  '<dl><dt>时间 : '+ time +'</dt><dt>所属商城 : ';
+							
+							if (value.product_type == 1) {
+								result += '红包商城';
+							}
+							if (value.product_type == 2) {
+								result += '报单商城';
+							}
+							if (value.product_type == 3) {
+								result += '重消商城';
+							}
+							result += '</dt></dl><dl><dt>状态 : ';
+							if (value.status == 1) {
+								result += '已付款';
+							}
+							if (value.status == 2) {
+								result += '已发货<div><button class="receiving" data="'+ value.id +'" style="background-color: #FF8C00;border: 0px;width: 80px;height: 30px;color: #fff;">确认收货</button>';
+							}
+							if (value.status == 3) {
+								result += '已完成';
+							}
+							result += '</dt></dl></a></li>';
+						});
+						
+						groupNumber = 2;	
+						returnTop();				
+						$('.lists').html("");
+						$('.lists').append(result);
+
+						dropload.resetload();
+						
+					},
+				});
+				$(this).attr("class", "pitch tab");
+				$(this).siblings().attr("class", "tab");
+			})
+		});
+		function   formatDate(time)   {
+			var date = new Date(time*1000);
+			var Y = date.getFullYear() + '-';
+			var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+			var D = date.getDate() + ' ';
+			return Y+M+D;
+//			return   year+"-"+month+"-"+dates+"   "+hour+":"+minute+":"+second;
+		}
+		function returnTop(){
+			$('body,html').animate({scrollTop:0},100); 
+		}
+
+	</script>
 	</body>
 </html>

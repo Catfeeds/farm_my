@@ -5,11 +5,11 @@
 		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=1">
 		<meta name="format-detection" content="telephone=no,address=no">
 		<title></title>
-		<link rel="stylesheet" href="__CSS__/swiper-3.4.2.min.css" />
+		<!-- <link rel="stylesheet" href="__CSS__/swiper-3.4.2.min.css" /> -->
 		<link rel="stylesheet" href="__CSS__/base.css" />
 		<link rel="stylesheet" href="__CSS__/deal.css" />
 		<script type="text/javascript" src="__JS__/jquery-1.12.3.min.js" ></script>
-		<script type="text/javascript" src="__JS__/swiper-3.4.2.jquery.min.js" ></script>
+		<!-- <script type="text/javascript" src="__JS__/swiper-3.4.2.jquery.min.js" ></script> -->
 
 		<script type="text/javascript" src="__JS__/fastclick.js" ></script>
 		<script type="text/javascript" src="__JS__/base.js" ></script>
@@ -34,7 +34,7 @@
 			<div class="mens">    
 			  <div class="main">
 			     <div class="wrap">
-			     	<ul class="breadcrumb breadcrumb__t" style="font-size: 15px;"><a class="home" href="{:U('Index/index')}">首页</a> / <a href="{:U('Shop/list', ['cat_id' => $info['cat_id']])}">{$info.class_name}</a></ul>
+			     	<ul class="breadcrumb breadcrumb__t" style="font-size: 15px;"><a class="home" href="{:U('Index/index')}">首页</a> / <a href="{:U('Shop/lists', ['cat_id' => $info['cat_id']])}">{$info.class_name}</a></ul>
 					<div class="cont span_2_of_3">
 					  	<div class="grid images_3_of_2">
 									<div id="container">

@@ -23,20 +23,18 @@
 			<!--<a class="top-right" id="coin_catalog"><img src="__IMG__/caidan.png"/></a>-->
 		</header>
 		<div class="transaction">
-			<div class="transaction-info">
-				<a href="{:U('market',['xnb'=>I('xnb'),'marke'=>I('marke')])}">
-					<div class="transaction-name">
-						<span>
-							收货人：{$default.name}
-						</span>
-						<span>{$default.mobile}</span>
-						<span><img src="__IMG__/right1.png"/></span>
-					</div>
-					<div class="transaction-price">
-						<span>收货地址：{$default.province}{$default.city}{$default.area}{$default.address}</span>
-					</div>
-				</a>
-			</div>
+			
+			<if condition="($default neq null)">
+              	<select id="ship_id" style="font-size: 15px;margin-left: 10px;font: inherit;width: 80%;height: 40px;">
+	                <volist name="default" id="data">
+	                  <option style="width: 100%" value="{$data.id}">联系人：{$data.name}  联系方式：{$data.mobile} 详细地址：{$data.province}{$data.city}{$data.area}{$data.address}</option>
+	                </volist>
+              	</select>
+              	或<a href="{:U('Address/index')}">添加</a>
+            <else />
+              	<div>没有收货地址请<a href="{:U('Address/add')}" style="margin-left: 20px;">添加地址</a></div>
+            </if>
+			
 		</div>
 		<section class="detail-content">
 				<!--买入功能-->
@@ -74,7 +72,7 @@
          							<input name="total_price" id="total_price"  value="{$info.price_show.cmc} CMC + {$info.price_show.cny} CNY" readonly="true" />
          						</eq>
          						<eq name="info.type" value="3">
-         							<input name="total_price" id="total_price"  value="{$default.price_show}" readonly="true" />
+         							<input name="total_price" id="total_price"  value="{$info.price_show}" readonly="true" />
          						</eq>
 								
 							</div>
@@ -86,7 +84,7 @@
 								<input  type="hidden" name="product_id" id="product_id"  value="{$info.id}" />
 								<input  type="hidden" name="type" id="type"  value="{$info.type}" />
 								<input  type="hidden" name="price" id="price"  value="{$info.price}" />
-								<input  type="hidden" name="ship_id" id="ship_id"  value="{$default.id}" />
+								<!-- <input  type="hidden" name="ship_id" id="ship_id"  value="{$default.id}" /> -->
 								<input  type="submit" class="send" id="confirm"  value="提交订单" />
 							</div>
 						</div>

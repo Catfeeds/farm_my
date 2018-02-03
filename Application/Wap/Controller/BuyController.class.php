@@ -60,7 +60,7 @@ class BuyController extends WapController {
             -> join("left join currency_shop_city as sccc on sccc.id = sa.area")
             -> where("sa.user_id = ". session('user_wap')['id'])
             -> order("sa.status")
-            -> find();
+            -> select();
         // var_dump($product_info);
             // dump($default);
         $this -> assign("info", $product_info);
@@ -162,9 +162,9 @@ class BuyController extends WapController {
         $data['order']         = date("Ymd", time()).session("user_wap")['id'].rand(100,999);
 
         $deal_pwd              = I("deal_pwd") ? I("deal_pwd") : null;
-        $method                = $this -> strFilter(I("method")) ? I("method") : null;
+        $method                = I("method") ? I("method") : null;
         $price                 = I("price") ? I("price") : null;
-
+        // var_dump($method);
         $data['method']        = $method;
 
         // if ($deal_pwd == null) {
@@ -182,9 +182,9 @@ class BuyController extends WapController {
             $time = strtotime(date("Y-m-d", time()));
             $count = M("shop_order")
                 -> field("sum(number) as count")
-                -> where("time >= ". $time. " AND user_id = ". session("user_wap")['id']. " AND method = ". $method)
+                -> where("time >= ". $time. " AND user_id = ". session("user_wap")['id']. " AND method = ". $method. " AND product_type = ". $data['product_type'])
                 -> find();
-
+            // var_dump(M("shop_order") -> getLastsql());
             
             if ($method == 1) {
                 $method_cn = "余额支付";
@@ -220,7 +220,7 @@ class BuyController extends WapController {
             
             
         }
-
+        
         if ($method != null) {
             $user_proper = new UserpropertyModel();
             $user_proper -> startTrans();
@@ -277,8 +277,10 @@ class BuyController extends WapController {
                     break;
                 case '3': //红包重消
                     $res3 = $user_proper -> setChangeMoney(3, $data['total_money'], session("user_wap")['id'], "购买商品", 1);
+
+                    // dump($res3);
                     if ($res3 > 1) {
-                        if ($res2_2 > 1) {
+                        
                             $res_ins = M("shop_order") -> add($data);
 
                             if ($res_ins) {
@@ -288,14 +290,16 @@ class BuyController extends WapController {
                                 $user_proper -> rollback();
                                 $this -> error("购买失败");
                             }
-                        }
+                        
                     } else {
+                        // var_dump($user_proper -> getError());
                         $this -> error($user_proper -> getError());
                     }
+                    break;
                 case '4': //积分 价格/cmc价格
                     $cmc = new CmcpriceController();
                     $cmc_price = $cmc -> getPrice();
-                    $price = $price = round($data['total_money'] / $cmc_price, 2);;
+                    $price = $price = round($data['total_money'], 2);;
                     $inte = new IntegralModel(session("user_wap")['id'], $price);
 
                     $all_oldintegral = $inte -> getAllIntegral(session("user_wap")['id']);
@@ -322,7 +326,7 @@ class BuyController extends WapController {
                             $this -> error("购买失败");
                         }
                     }
-                
+                    break;
                 default:
                     break;
             }

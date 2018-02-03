@@ -32,48 +32,51 @@ class OrderController extends WapController {
 
     //列表
     public function index(){
-        $where = ['o.user_id' => session("user_wap")['id']];
+        // $where = ['o.user_id' => session("user_wap")['id']];
 
-        if (!empty(I('date')) && !empty(I('dates')))  {
-            $where = ['o.time'=>[ ['egt',strtotime(I('date'))],['elt',strtotime(I('dates'))+86400] ] ];
-            $page_where['date'] = I('date');
-            $page_where['dates'] = I('dates');
-        }
+        // if (!empty(I('date')) && !empty(I('dates')))  {
+        //     $where = ['o.time'=>[ ['egt',strtotime(I('date'))],['elt',strtotime(I('dates'))+86400] ] ];
+        //     $page_where['date'] = I('date');
+        //     $page_where['dates'] = I('dates');
+        // }
 
-        $count = M("shop_order o") -> where($where) -> count();
+        // $count = M("shop_order o") -> where($where) -> count();
 
-        $Page = new Page($count, 10, $page_where);
-        $show = $Page -> show();
+        // $Page = new Page($count, 10, $page_where);
+        // $show = $Page -> show();
 
-        $list = M()
-            -> table("currency_shop_order as o")
-            -> field("o.id, o.order, o.number, o.total_money, o.time, o.status, o.product_name, o.product_img, o.product_price, o.product_type, p.name, p.img, p.price, pc.type")
-            -> join("left join currency_product as p on p.id = o.product_id")
-            -> join("left join currency_procate as pc on p.cat_id = pc.id")
-            -> where($where)
-            -> order("o.time desc")
-            -> limit($Page -> firstRow, $Page -> listRows)
-            -> select();
+        // $list = M()
+        //     -> table("currency_shop_order as o")
+        //     -> field("o.id, o.order, o.number, o.total_money, o.time, o.status, o.product_name, o.product_img, o.product_price, o.product_type, p.name, p.img, p.price, pc.type")
+        //     -> join("left join currency_product as p on p.id = o.product_id")
+        //     -> join("left join currency_procate as pc on p.cat_id = pc.id")
+        //     -> where($where)
+        //     -> order("o.time desc")
+        //     -> limit($Page -> firstRow, $Page -> listRows)
+        //     -> select();
 
-        // dump($list);
+        // // dump($list);
 
-        // $this -> ajaxReturn($list);
-        $this -> assign("list", $list);
+        // // $this -> ajaxReturn($list);
+        // $this -> assign("list", $list);
         $this -> display();
     }	//列表
     public function index_more(){
+        $groupNumber = I("groupNumber") ? I("groupNumber") : 1;
+        $status = I("status") ? I("status") : 0;
+        $ofset = 10;
         $where = ['o.user_id' => session("user_wap")['id']];
 
-        if (!empty(I('date')) && !empty(I('dates')))  {
-            $where = ['o.time'=>[ ['egt',strtotime(I('date'))],['elt',strtotime(I('dates'))+86400] ] ];
-            $page_where['date'] = I('date');
-            $page_where['dates'] = I('dates');
+        if ($status != 0)  {
+            $where = ['o.status'=> $status];
+            // $page_where['date'] = I('date');
+            // $page_where['dates'] = I('dates');
         }
 
-        $count = M("shop_order o") -> where($where) -> count();
+        // $count = M("shop_order o") -> where($where) -> count();
 
-        $Page = new Page($count, 10, $page_where);
-        $show = $Page -> show();
+        // $Page = new Page($count, 10, $page_where);
+        // $show = $Page -> show();
 
         $list = M()
             -> table("currency_shop_order as o")
@@ -82,11 +85,13 @@ class OrderController extends WapController {
             -> join("left join currency_procate as pc on p.cat_id = pc.id")
             -> where($where)
             -> order("o.time desc")
-            -> limit($Page -> firstRow, $Page -> listRows)
+            -> limit(($ofset * ($groupNumber - 1)), $ofset)
             -> select();
 
         // dump($list);
-
+        if (empty($list)) {
+            $list['status'] = 2;
+        }
         $this -> ajaxReturn($list);
         // $this -> display();
     }
