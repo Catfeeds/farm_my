@@ -149,21 +149,21 @@ class BuyController extends HomeController {
         $data['time']          = time();
         $data['order']         = date("Ymd", time()).session("user")['id'].rand(100,999);
 
-        $deal_pwd              = I("deal_pwd") ? I("deal_pwd") : null;
+        // $deal_pwd              = I("deal_pwd") ? I("deal_pwd") : null;
         $method                = $this -> strFilter(I("method")) ? I("method") : null;
         $price                 = I("price") ? I("price") : null;
 
         $data['method']        = $method;
 
-        if ($deal_pwd == null) {
-            $this -> error("交易密码不能为空");
-            exit();
-        } else {
-            if (session('user')['dealpwd']!=jiami($deal_pwd)){   //交易密码验证
-                $this->error('交易密码不正确！');
-                exit();
-            }
-        }
+        // if ($deal_pwd == null) {
+        //     $this -> error("交易密码不能为空");
+        //     exit();
+        // } else {
+        //     if (session('user')['dealpwd']!=jiami($deal_pwd)){   //交易密码验证
+        //         $this->error('交易密码不正确！');
+        //         exit();
+        //     }
+        // }
 
         //判断红包商城，购买次数
         if ($data['product_type'] == 1) {
