@@ -4,8 +4,8 @@ $("button.add").click(function () {
     var i=true;
 
     $('[type=number]').each(function () {
-            if ($(this).val()>100 || $(this).val()<=0 || $(this).val()==""){
-                set_poput_code('非法操作！',false);
+            if ($(this).val()>1000 || $(this).val()<=0 || $(this).val()==""){
+                set_poput_code('非法操作asdas！',false);
                 return  i=false;
             }
     })
