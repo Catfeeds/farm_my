@@ -27,7 +27,7 @@
 			<if condition="($default neq null)">
               	<select id="ship_id" style="font-size: 15px;margin-left: 10px;font: inherit;width: 80%;height: 40px;">
 	                <volist name="default" id="data">
-	                  <option style="width: 100%" value="{$data.id}">联系人：{$data.name}  联系方式：{$data.mobile} 详细地址：{$data.province}{$data.city}{$data.area}{$data.address}</option>
+	                  <option style="width: 50px" value="{$data.id}">{$data.name}  {$data.mobile} {$data.province}{$data.city}{$data.area}{$data.address}</option>
 	                </volist>
               	</select>
               	或<a href="{:U('Address/index')}">添加</a>

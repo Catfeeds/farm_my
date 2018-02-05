@@ -47,13 +47,48 @@
 			<a class="top-right" href="{:U('Communication/service')}"><img src="__IMG__/indexkf.png"/></a>
 		</header>
 		<section class="index-content">
+
 			<div class="main" >
 	            <div class="wrap">
-	                <div class="section group">
-	                    <div class=" span_2_of_3 inner" style="margin:0 auto;">
-	                        <h2 class="head">{$cat_name.name}</h2>
+	            	<div class="rsingle span_1_of_single" style="font-size: 15px;margin-top: 50px;">
+						<h5 class="m_1">类别</h5>	
+		              	<select id="ship_id" style="font-size: 15px;font: inherit;width: 100%;height: 40px;" onchange="top.location=this.value;" >
+		              		
+				                <volist name="cate" id="datas">
+				                	<notempty name="datas.child">
+				                	<eq name="cat_id" value="$datas['id']">
+					                  <a href=""><option value="{:U('lists', ['cat_id'=>$datas['id']])}" selected="true">{$datas.name}</option></a>
+					                 <else />
+					                 	<a href=""><option value="{:U('lists', ['cat_id'=>$datas['id']])}">{$datas.name}</option></a>
+					                </eq>
+					                  <volist name="datas.child" id="val">
+					                  	<eq name="cat_id" value="$val['id']">
+											<a href="{:U('lists', ['cat_id'=>$val['id']])}">
+												<option value="{:U('lists', ['cat_id'=>$val['id']])}" selected="true">|---{$val.name}</option>
+											</a>
+										<else />
+											<a href="{:U('lists', ['cat_id'=>$val['id']])}">
+												<option value="{:U('lists', ['cat_id'=>$val['id']])}">|---{$val.name}</option>
+											</a>
+										</eq>
+									  </volist>
+									<else />
+										<eq name="cat_id" value="$datas['id']">
+					                		<a href="{:U('lists', ['cat_id'=>$datas['id']])}"><option value="{:U('lists', ['cat_id'=>$datas['id']])}" selected="true">{$datas.name}</option></a>
+					                	<else />
+					                		<a href="{:U('lists', ['cat_id'=>$datas['id']])}"><option value="{:U('lists', ['cat_id'=>$datas['id']])}">{$datas.name}</option></a>
+					                	</eq>
+					                </notempty>
+				                </volist>
 
-					 	 	<volist name="list" id="data">
+		              	</select>						       
+				    </div>
+	                <div class="section group  inner">
+	                    <div class=" span_2_of_3 lists" style="margin:0 auto;">
+	                        <h2 class="head">{$cat_name.name}</h2>
+	                        <div style="display: none;" id="cat_id" data="{$cat_id}"></div>
+
+					 	 	<!-- <volist name="list" id="data">
 								<div class="top-box">
 
 									<volist name="data" id="val">
@@ -90,7 +125,7 @@
 								</div>	
 							</volist>
 	                            <div class="clear"></div>   
-	                        </volist>
+	                        </volist> -->
 	                    </div>
 	                </div>
 	                <div class="clear"></div>
@@ -106,6 +141,7 @@
 		$(function(){
 
 				var groupNumber = 1;
+				var cat_id = $("#cat_id").attr('data');
 				
 				var dropload = $('.inner').dropload({
 					autoLoad:true,
@@ -119,28 +155,48 @@
 					},
 					loadDownFn : function(me){
 						if (status < 0) {
-							// me.noData(true);
+							me.noData(true);
 							me.resetload();
-							// return false;
+							return false;
 						}
 						$.ajax({
 							type: 'POST',
 							url: '{:U("Shop/lists_more")}',
 							dataType: 'json',
-							data: {groupNumber:groupNumber},
+							data: {groupNumber:groupNumber,cat_id:cat_id},
 							success: function(data){
 								console.log(data);
 								// console.log(data);
 								if (data.status == 2) {
 									status = -1;
-									// me.noData(true);
+									me.noData(true);
 									me.resetload();
-									// return false;
+									return false;
 								} else {
 									var result = '';
-									$.each(data, function (i, value) {
-										time = formatDate(value.time);
-										
+									$.each(data.list, function (i, value) {
+										result += '<div class="top-box">';
+
+										$.each(value, function(key, val) {
+											result += '<div class="col_1_of_3 span_1_of_3">' +
+													  '<a href="/Wap`Shop`single?id='+ val.id +'">'+
+													  '<div class="inner_content clearfix"><div class="product_image">'+
+													  '<img style="width: 300px;height: 273px;" src="__ROOT__/'+ val.img +'" alt=""/>'+
+													  '</div><div class="price"><div class="cart-left">'+
+													  '<p class="title">'+ val.name +'</p>' +
+													  '<div class="price1">';
+											if (val.type == 1) {
+												result += '<span class="actual">'+ val.price_show +'</span>';
+											}
+											if (val.type == 2) {
+												result += '<span class="actual">'+ val.price_show.cmc +' CMC + '+ val.price_show.cny +' CNY</span>';
+											}
+											if (val.type == 3) {
+												result += '<span class="actual">'+ val.price_show +'</span>';
+											}
+											result += '</div></div><div class="cart-right"></div><div class="clear"></div></div></div></a></div>';
+										});
+										result += '<div class="clear"></div>';
 									});
 									// 为了测试，延迟1秒加载
 									groupNumber ++;
