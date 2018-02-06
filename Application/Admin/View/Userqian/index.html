@@ -37,6 +37,7 @@
                 <th class="" style="text-align:center;">真实姓名</th>
                 <th class="" style="text-align:center;">上级信息</th>
                 <th class="" style="text-align:center;">是否实名认证</th>
+                <th class="" style="text-align:center;">注册方式</th>
                 <th class="" style="text-align:center;">状态</th>
                 <th class="" style="text-align:center;">操作</th>
             </tr>
@@ -58,6 +59,8 @@
                                 <elseif condition="$vo.yanze eq 1"/>已验证
                             </if>
                         </td >
+                        <td class="titlecenter"><eq name="vo.type" value="1">新币推广<else/>交易平台</eq></td>
+
                         <td class="titlecenter">
                             <if condition="($vo.status eq 0)  "> 禁用
                                 <elseif condition="$vo.status eq 1"/>正常

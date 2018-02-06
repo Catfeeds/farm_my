@@ -13,15 +13,7 @@
         .btn-form{
             width: 300px;
         }
-        .imgs{
-            width: 30px;height: 30px;
-        }
-        .delete{
-            width: 27px;height: 27px;
-            position: absolute;
-            margin-top:2px;
-            margin-left: 10px;
-        }
+
     </style>
 </block>
 <block name="body">
@@ -31,13 +23,18 @@
     </div>
 
 <form class="ajax_form" method="post" action="">
+
     <table class="tables">
 
-        <tbody>
+        <!--<tbody>-->
 
             <tr>
-                <td><span class="span">新币名称:</span></td>
-                <td><input type="text" name="name" value="{$data.name}"></td>
+                <td>
+                    <span class="span">新币名称:</span>
+                </td>
+                <td>
+                    <input type="text" name="name" value="{$data.name}">
+                </td>
             </tr>
 
             <tr>
@@ -45,7 +42,32 @@
                 <td><input type="text" name="brief" value="{$data.brief}"></td>
             </tr>
 
-        </tbody>
+            <tr>
+                <td><span class="span">图片服务器域名:</span></td>
+                <td><input type="text" style="width: 200px!important;" name="saver_name"  value="http://{$_SERVER['HTTP_HOST']}" ></td>
+
+            </tr>
+
+            <tr>
+                <td><span class="span">微信二维码:</span></td>
+
+                <td style="padding-left: 25px">
+                    <button class="btns btns-greens change_img" type="button">选择图片</button>
+                    <input type="file" style="display: none" name="wx_img"/>
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="2">
+
+                    <img  class="wx_img"  src="{$data.img}"style="width: 150px;height: 150px;border: 1px grey solid;position: relative;left: 90px">
+
+                </td>
+
+                <input type="hidden" value="{$data.img}" name="old_url">
+            </tr>
+
+        <!--</tbody>-->
 
     </table>
 
@@ -58,9 +80,50 @@
 </block>
 <block name="script">
 
-    <script src="/Public/Admin/Motion/js/motion.js"></script>
+    <!--<script src="/Public/Admin/Motion/js/motion.js"></script>-->
     <script>
         highlight_subnav('{:U('nameInfo')}');
+
+        $('.change_img').click(function () {
+            $('[name=wx_img]').trigger('click');
+        })
+
+        $('[name=wx_img]').change(function () {
+           var file =  new FileReader();
+           var url = file.readAsDataURL(this.files[0]);
+            file.onload=function (ev) {
+                $('.wx_img').attr('src',file.result);
+            }
+
+        })
+
+
+        $("button.add").click(function () {
+
+            var formData=   new FormData($('form').get(0))
+
+            $.ajax({
+                url:"",
+                type:'post',
+                dataType: "json",
+                contentType:false,
+                processData:false,
+                data:formData,
+                success:function (data) {
+                    if (data.status!=true){   //请求失败
+                        set_poput_code(data.info,false);
+                        return false
+                    }
+                    set_poput_code(data.info,true);
+                },
+                error:function () {
+                    set_poput_code('系统错误，请联系我们！up',false);
+                    return false
+                }
+            })
+
+
+        })
 
 
 

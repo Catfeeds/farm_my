@@ -18,6 +18,15 @@
     background: #1ABC9C;
 }
 
+.btns-greens{
+    background: #27bc36;
+}
+
+.btns-greens:hover{
+    background: #17bc4a;
+}
+
+
 .btns-green:hover{
     background: #0c9e69;
 }
