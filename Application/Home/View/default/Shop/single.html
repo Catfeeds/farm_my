@@ -38,66 +38,65 @@
      	<ul class="breadcrumb breadcrumb__t" style="font-size: 15px;"><a class="home" href="{:U('Index/index')}">首页</a> / <a href="{:U('Shop/lists', ['cat_id' => $info['cat_id']])}">{$info.class_name}</a></ul>
 		<div class="cont span_2_of_3">
 		  	<div class="grid images_3_of_2">
-						<div id="container">
-							<div id="products_example">
-								<div id="products">
-									<a href="#"><img class="a" style="width: 360px;height: 300px;" id="img1" src="__ROOT__/{$info['img']}" alt="" rel="__ROOT__/{$info['img']}" /></a>
-								</div>
-							</div>
+				<div id="container">
+					<div id="products_example">
+						<div id="products">
+							<a href="#"><img class="a" style="width: 360px;height: 300px;" id="img1" src="__ROOT__/{$info['img']}" alt="" rel="__ROOT__/{$info['img']}" /></a>
 						</div>
-	            </div>
-		         <div class="desc1 span_3_of_2">
-		         	<h3 class="m_3" style="font-size: 22px;">{$info.name}</h3>
-		         	<eq name="info.type" value="1">
-		         		<p class="m_5">{$price_show} </p>
-		         	</eq>
-		         	<eq name="info.type" value="2">
-		         		<p class="m_5">{$price_show.cmc} CMC + {$price_show.cny} CNY </p>
-		         	</eq>
-		         	<eq name="info.type" value="3">
-		         		<p class="m_5">{$price_show} </p>
-		         	</eq>
-		             
-					<div class="btn_form">
-						<form onsubmit="return false">
-							<input type="submit" class="showlock" value="立即购买" id="buy" data="{$info.id}" title="">
-						</form>
 					</div>
-			     </div>
-			   <div class="clear"></div>	
-	    <div class="clients">
-     </div>
-     <div class="toogle">
-     	<h3 class="m_3">产品详情描述</h3>
-     	<p class="m_text">{$info.description}</p>
-     </div>
-      </div>
-			<div class="rsingle span_1_of_single" style="font-size: 15px;">
-				<h5 class="m_1">类别</h5>
-					<volist name="cate" id="datas">
-						<notempty name="datas.child">
-							<select onchange="window.location=this.value" class="dropdown" tabindex="8" data-settings='{"wrapperClass":"metro"}' style="font-size: 15px;">
-								<option value="{:U('lists', ['cat_id'=>$datas['id']])}">{$datas.name}</option>
-								<volist name="datas.child" id="val">
-									<option value="{:U('lists', ['cat_id'=>$val['id']])}">{$val.name}</option>
-								</volist>
-							</select>
-						<else />
-							<ul class="kids">
-								<li ><a href="{:U('lists', ['cat_id'=>$datas['id']])}">{$datas.name}</a></li>
-							</ul>
-						</notempty>
-						
-					</volist>
+				</div>
+	        </div>
+	        <div class="desc1 span_3_of_2">
+	         	<h3 class="m_3" style="font-size: 22px;">{$info.name}</h3>
+	         	<eq name="info.type" value="1">
+	         		<p class="m_5">{$price_show} </p>
+	         	</eq>
+	         	<eq name="info.type" value="2">
+	         		<p class="m_5">{$price_show.cmc} CMC + {$price_show.cny} CNY </p>
+	         	</eq>
+	         	<eq name="info.type" value="3">
+	         		<p class="m_5">{$price_show} </p>
+	         	</eq>
+	             
+				<div class="btn_form">
+					<form onsubmit="return false">
+						<input type="submit" class="showlock" value="立即购买" id="buy" data="{$info.id}" title="">
+					</form>
+				</div>
+		    </div>
+		    <div class="clear"></div>	
+	    	<div class="clients"></div>
+		    <div class="toogle">
+		     	<h3 class="m_3">产品详情描述</h3>
+		     	<p class="m_text">{$info.description}</p>
+		    </div>
+      	</div>
+		<div class="rsingle span_1_of_single" style="font-size: 15px;">
+			<h5 class="m_1">类别</h5>
+				<volist name="cate" id="datas">
+					<notempty name="datas.child">
+						<select onchange="window.location=this.value" class="dropdown" tabindex="8" data-settings='{"wrapperClass":"metro"}' style="font-size: 15px;">
+							<option value="{:U('lists', ['cat_id'=>$datas['id']])}">{$datas.name}</option>
+							<volist name="datas.child" id="val">
+								<option value="{:U('lists', ['cat_id'=>$val['id']])}">{$val.name}</option>
+							</volist>
+						</select>
+					<else />
+						<ul class="kids">
+							<li ><a href="{:U('lists', ['cat_id'=>$datas['id']])}">{$datas.name}</a></li>
+						</ul>
+					</notempty>
 					
-		       <script src="__JS__/shop/jquery.easydropdown.js"></script>
-		      </div>
-		      <div class="clear"></div>
-			</div>
-			 <div class="clear"></div>
-		   </div>
-		</div>
-	<include file="Public:footer"/>
+				</volist>
+				
+	       <script src="__JS__/shop/jquery.easydropdown.js"></script>
+	    </div>
+		<div class="clear"></div>
+	</div>
+	<div class="clear"></div>
+  </div>
+</div>
+<include file="Public:footer"/>
 <div style="display:none"></div>
 
 <script src="__JS__/jquery.js"></script>

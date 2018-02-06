@@ -32,20 +32,40 @@
 		</header>
 		<section class="deal-content">
 			<div class="mens">    
-			  <div class="main">
-			     <div class="wrap">
-			     	<ul class="breadcrumb breadcrumb__t" style="font-size: 15px;"><a class="home" href="{:U('Index/index')}">首页</a> / <a href="{:U('Shop/lists', ['cat_id' => $info['cat_id']])}">{$info.class_name}</a></ul>
-					<div class="cont span_2_of_3">
-					  	<div class="grid images_3_of_2">
-									<div id="container">
-										<div id="products_example">
-											<div id="products">
-												<a href="#"><img class="a" style="width: 360px;height: 300px;" id="img1" src="__ROOT__/{$info['img']}" alt="" rel="__ROOT__/{$info['img']}" /></a>
-											</div>
+			    <div class="main">
+			        <div class="wrap">
+			        	<script src="__JS__/shop/jquery.easydropdown.js"></script>
+			     		<div class="rsingle span_1_of_single" style="font-size: 15px;">
+							<h5 class="m_1">类别</h5>	
+			              	<select id="ship_id" style="font-size: 15px;font: inherit;width: 100%;height: 40px;" onchange="top.location=this.value;" >
+			              		
+					                <volist name="cate" id="datas">
+					                	<notempty name="datas.child">
+						                  <a href=""><option value="{:U('lists', ['cat_id'=>$datas['id']])}">{$datas.name}</option></a>
+						                  <volist name="datas.child" id="val">
+											<a href="{:U('lists', ['cat_id'=>$datas['id']])}"><option value="{:U('lists', ['cat_id'=>$val['id']])}">|---{$val.name}</option></a>
+										  </volist>
+										<else />
+						                	<a href="{:U('lists', ['cat_id'=>$datas['id']])}"><option value="{:U('lists', ['cat_id'=>$datas['id']])}">{$datas.name}</option></a>
+						                </notempty>
+					                </volist>
+
+			              	</select>						       
+					    </div>
+					    
+					    <div class="clear"></div>
+			     		<ul class="breadcrumb breadcrumb__t" style="font-size: 15px;"><a class="home" href="{:U('Index/index')}">首页</a> / <a href="{:U('Shop/lists', ['cat_id' => $info['cat_id']])}">{$info.class_name}</a></ul>
+						<div class="cont span_2_of_3">
+					  		<div class="grid images_3_of_2">
+								<div id="container">
+									<div id="products_example">
+										<div id="products">
+											<a href="#"><img class="a" style="width: 360px;height: 300px;" id="img1" src="__ROOT__/{$info['img']}" alt="" rel="__ROOT__/{$info['img']}" /></a>
 										</div>
 									</div>
+								</div>
 				            </div>
-					         <div class="desc1 span_3_of_2">
+					        <div class="desc1 span_3_of_2">
 					         	<h3 class="m_3" style="font-size: 22px;">{$info.name}</h3>
 					         	<eq name="info.type" value="1">
 					         		<p class="m_5">{$price_show} </p>
@@ -62,39 +82,18 @@
 										<input type="submit" class="showlock" value="立即购买" id="buy" data="{$info.id}" title="">
 									</form>
 								</div>
-						     </div>
+						    </div>
 						   <div class="clear"></div>	
-				    <div class="clients"></div>
-			     <div class="toogle">
-			     	<h3 class="m_3">产品详情描述</h3>
-			     	<p class="m_text">{$info.description}</p>
-			     </div>
-			      </div>
-						<div class="rsingle span_1_of_single" style="font-size: 15px;">
-							<h5 class="m_1">类别</h5>
-								<volist name="cate" id="datas">
-									<notempty name="datas.child">
-										<select onchange="window.location=this.value" class="dropdown" tabindex="8" data-settings='{"wrapperClass":"metro"}' style="font-size: 15px;">
-											<option value="{:U('lists', ['cat_id'=>$datas['id']])}">{$datas.name}</option>
-											<volist name="datas.child" id="val">
-												<option value="{:U('lists', ['cat_id'=>$val['id']])}">{$val.name}</option>
-											</volist>
-										</select>
-									<else />
-										<ul class="kids">
-											<li ><a href="{:U('lists', ['cat_id'=>$datas['id']])}">{$datas.name}</a></li>
-										</ul>
-									</notempty>
-									
-								</volist>
-								
-					       <script src="__JS__/shop/jquery.easydropdown.js"></script>
-					      </div>
-					      <div class="clear"></div>
-						</div>
-						 <div class="clear"></div>
-					   </div>
+						    <div class="clients"></div>
+						    <div class="toogle">
+						     	<h3 class="m_3">产品详情描述</h3>
+						     	<p class="m_text">{$info.description}</p>
+						    </div>
+					    </div>			
 					</div>
+					<div class="clear"></div>
+				</div>
+			</div>
 		</section>
 		<div class="login-box">
 			<p style="float: left">请登录</p>

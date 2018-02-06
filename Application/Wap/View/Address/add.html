@@ -36,6 +36,7 @@
 							</volist>
 						</select>
 						<select id="city" size=1 class="form-control" name="city">
+							<option value="choose">选择</option>
 							<volist	name="city_list.city_list" id="cityss">
 								<eq name="city_list['city_id']" value="$cityss.id">
 									<option value="{$cityss.id}" selected>{$cityss.city_name}</option>
@@ -46,6 +47,7 @@
 							</volist>
 						</select>
 						<select id="area" size=1 class="form-control" name="area">
+							<option value="choose">选择</option>
 							<volist	name="city_list['area_list']" id="citysss">
 								<eq name="city_list['area_id']" value="$citysss.id">
 									<option value="{$citysss.id}" selected>{$citysss.city_name}</option>

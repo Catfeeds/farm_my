@@ -96,47 +96,53 @@ class ShopController extends WapController {
     //产品列表页
     public function lists() {
         $this -> cat_id   = $this -> strFilter( I( 'cat_id' ) ) ? $this -> strFilter( I( 'cat_id' ) ) : null;
-        $this -> search = $this -> strFilter( I( 'search' ) ) ? $this -> strFilter( I( 'search' ) ) : "";
+        // $this -> search = $this -> strFilter( I( 'search' ) ) ? $this -> strFilter( I( 'search' ) ) : "";
 
-        $product = M("product");
-        $where = "p.status = 1";
-        if ($this -> cat_id != null) {
-            $where .= " AND p.cat_id = ". $this -> cat_id;
-        } 
+        // $product = M("product");
+        // $where = "p.status = 1";
+        // if ($this -> cat_id != null) {
+        //     $where .= " AND p.cat_id = ". $this -> cat_id;
+        // } 
 
-        $count  = M()-> table("currency_product as p")->where($where)->count();// 查询满足要求的总记录数
-        $show   = $this  -> getPage( $count );
+        // $count  = M()-> table("currency_product as p")->where($where)->count();// 查询满足要求的总记录数
+        // $show   = $this  -> getPage( $count );
 
-        $res = M() 
-            -> table("currency_product as p")
-            -> field("p.id, p.name, p.price, p.img, p.cat_id, pc.type") 
-            -> join("left join currency_procate as pc on pc.id = p.cat_id")
-            -> where($where) 
-            -> limit( $this -> Page -> firstRow.','. $this -> Page -> listRows ) 
-            -> select();
-        // var_dump($res);
+        // $res = M() 
+        //     -> table("currency_product as p")
+        //     -> field("p.id, p.name, p.price, p.img, p.cat_id, pc.type") 
+        //     -> join("left join currency_procate as pc on pc.id = p.cat_id")
+        //     -> where($where) 
+        //     -> limit( $this -> Page -> firstRow.','. $this -> Page -> listRows ) 
+        //     -> select();
+        // // var_dump($res);
 
-        foreach ($res as $key => $value) {
-            $res[$key]['price_show'] = $this -> getPriceShow($value['type'], $value['price'], $value['id']);
-        }
+        // foreach ($res as $key => $value) {
+        //     $res[$key]['price_show'] = $this -> getPriceShow($value['type'], $value['price'], $value['id']);
+        // }
 
-        $list = array();
-        for ($i=0; $i < ceil(count($res)); $i++) { 
-            if (!empty(array_slice($res, $i * 3 ,3))) {
-                $list[] = array_slice($res, $i * 3 ,3);
-            }
-        }
+        // $list = array();
+        // for ($i=0; $i < ceil(count($res)); $i++) { 
+        //     if (!empty(array_slice($res, $i * 3 ,3))) {
+        //         $list[] = array_slice($res, $i * 3 ,3);
+        //     }
+        // }
 
         $cat_name = M("procate") -> field("name") -> where("id = ".$this -> cat_id) -> find();
 
         $this -> assign("cat_name", $cat_name);
-        $this -> assign('page',$show);// 赋值分页输出
-        $this -> assign("list", $list);
+        // $this -> assign('page',$show);// 赋值分页输出
+        // $this -> assign("list", $list);
+
+        $this -> assign("cat_id", $this -> cat_id);
+
         $this -> display();
     }
 
     //产品列表页
     public function lists_more() {
+        $groupNumber = I("groupNumber") ? I("groupNumber") : 1;
+        // $status = I("status") ? I("status") : 0;
+        $ofset = 2;
         $this -> cat_id   = $this -> strFilter( I( 'cat_id' ) ) ? $this -> strFilter( I( 'cat_id' ) ) : null;
         $this -> search = $this -> strFilter( I( 'search' ) ) ? $this -> strFilter( I( 'search' ) ) : "";
 
@@ -146,15 +152,15 @@ class ShopController extends WapController {
             $where .= " AND p.cat_id = ". $this -> cat_id;
         } 
 
-        $count  = M()-> table("currency_product as p")->where($where)->count();// 查询满足要求的总记录数
-        $show   = $this  -> getPage( $count );
+        // $count  = M()-> table("currency_product as p")->where($where)->count();// 查询满足要求的总记录数
+        // $show   = $this  -> getPage( $count );
 
         $res = M() 
             -> table("currency_product as p")
             -> field("p.id, p.name, p.price, p.img, p.cat_id, pc.type") 
             -> join("left join currency_procate as pc on pc.id = p.cat_id")
             -> where($where) 
-            -> limit( $this -> Page -> firstRow.','. $this -> Page -> listRows ) 
+            -> limit(($ofset * ($groupNumber - 1)), $ofset) 
             -> select();
         // var_dump($res);
 
@@ -168,15 +174,21 @@ class ShopController extends WapController {
                 $list[] = array_slice($res, $i * 3 ,3);
             }
         }
+        $fal['cat_id'] = $this -> cat_id;
+        if (empty($res)) {
+            $fal['status'] = 2;
+        } else {
+            $fal['list'] = $list;
+        }
 
-        $cat_name = M("procate") -> field("name") -> where("id = ".$this -> cat_id) -> find();
+        // $cat_name = M("procate") -> field("name") -> where("id = ".$this -> cat_id) -> find();
 
         // $this -> assign("cat_name", $cat_name);
         // $this -> assign('page',$show);// 赋值分页输出
         // $this -> assign("list", $list);
         // $this -> display();
-        $fal['cat_name'] = $cat_name;
-        $fal['list'] = $list;
+        // $fal['cat_name'] = $cat_name;
+        // $fal['list'] = $list;
 
         $this -> ajaxReturn($fal);
     }

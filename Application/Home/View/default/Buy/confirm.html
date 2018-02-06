@@ -178,7 +178,7 @@
           </div><!-- .estimate -->
         </div><!-- .grid_4 -->
 
-        <div class="grid_4">
+<!--         <div class="grid_4">
           <div class="bottom_block discount">
             <h3 style="font: inherit;">填写交易密码</h3>
             <p></p>
@@ -188,7 +188,8 @@
         </p>
       </form>
           </div><!-- .discount -->
-        </div><!-- .grid_4 -->
+        </div>
+        <!-- .grid_4 -->
 
         <div class="grid_4">
           <div class="bottom_block total">
@@ -226,7 +227,7 @@
     var number      = $("#number").val();
     var ship_id     = $("#ship_id").attr("data");
     var method      = $("#method").val();
-    var deal_pwd    = $("#deal_pwd").val();
+    // var deal_pwd    = $("#deal_pwd").val();
     var price       = $("#price").attr("data");
     // alert(deal_pwd);
     // alert(total_price);
@@ -236,7 +237,7 @@
     $.ajax({
       url:"{:U('pay')}",
       type:"POST",
-      data:{product_id:product_id,total_money:total_price,number:number,ship_id:ship_id,method:method,deal_pwd:deal_pwd,price:price},
+      data:{product_id:product_id,total_money:total_price,number:number,ship_id:ship_id,method:method,price:price},
       success:function(data) {
         if (data.status!=true){   //请求失败
             set_poput_code(data.info);
