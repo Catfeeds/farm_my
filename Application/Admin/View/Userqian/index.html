@@ -35,6 +35,7 @@
                 <th class="" style="text-align:center;">手机</th>
                 <th class="" style="text-align:center;">注册时间</th>
                 <th class="" style="text-align:center;">真实姓名</th>
+                <th class="" style="text-align:center;">上级信息</th>
                 <th class="" style="text-align:center;">是否实名认证</th>
                 <th class="" style="text-align:center;">状态</th>
                 <th class="" style="text-align:center;">操作</th>
@@ -51,6 +52,7 @@
                         <td class="titlecenter">{$vo.phone}</td>
                         <td class="titlecenter">{$vo.addtime|time_format}</td>
                         <td class="titlecenter"><span>{$vo.username}</span></td>
+                        <td class="titlecenter">{$vo.prents}</td>
                         <td class="titlecenter">
                             <if condition="($vo.yanze eq 0)  "> 未验证
                                 <elseif condition="$vo.yanze eq 1"/>已验证

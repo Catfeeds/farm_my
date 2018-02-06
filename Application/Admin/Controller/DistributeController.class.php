@@ -40,7 +40,7 @@ class DistributeController extends AdminController
 
 
     /**
-     *
+     *新币配置
      */
     function nameInfo(){
         $distribute_m=M('distribute');
@@ -66,5 +66,6 @@ class DistributeController extends AdminController
         $this->assign('data',$set_data['data']);
         $this->display();
     }
+
 
 }

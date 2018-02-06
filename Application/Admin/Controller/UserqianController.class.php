@@ -27,16 +27,16 @@ class UserqianController extends AdminController {
 //
 //        }
         $name=$this-> strFilter(I('name'))?$this-> strFilter(I('name')):"";
-        $where['id']=array('like',"%".$name."%");;
-        $where['users'] =array('like',"%".$name."%");
+        $where['currency_users.id']=array('like',"%".$name."%");;
+        $where['currency_users.users'] =array('like',"%".$name."%");
         $where['_logic'] = "OR";
         $map['_complex'] = $where;
-        $map['status']=array("gt",-1);
+        $map['currency_users.status']=array("gt",-1);
         $count = $Data->where($map)->count();// 查询满足要求的总记录数 $map表示查询条件
         $Page = new Page($count,15,array('name'=>$name));// 实例化分页类 传入总记录数 传入状态；
         $show = $Page->show();// 分页显示输出
         // 进行分页数据查询
-        $list = $Data->where($map)->order('addtime DESC')->limit($Page->firstRow.','.$Page->listRows)->select(); // $Page->firstRow 起始条数 $Page->listRows 获取多少条
+        $list = $Data->where($map)->field('currency_users.*,prent.users as prents')->join('left join currency_users as prent on currency_users.pid = prent.id')->order('currency_users.addtime DESC')->limit($Page->firstRow.','.$Page->listRows)->select(); // $Page->firstRow 起始条数 $Page->listRows 获取多少条
         $this->assign('_list', $list);
         $this->assign('_page',$show);
         $this->meta_title = '客户信息';
