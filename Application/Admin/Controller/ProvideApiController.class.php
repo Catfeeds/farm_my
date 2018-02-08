@@ -26,6 +26,7 @@ use Admin\Model\MemoryListModel;
 use Admin\Model\MemoryModel;
 use Admin\Model\RepeatCfgModel;
 use Admin\Model\XnbModel;
+use Common\Model\UsersModel;
 use Home\Model\UserpropertyModel;
 use function MongoDB\BSON\toJSON;
 use Think\Controller;
@@ -63,8 +64,10 @@ class ProvideApiController  extends Controller{
 
         $repeatCfgModel = new RepeatCfgModel();
 
+        $usersModel = new UsersModel();
+
         #日返率
-        $date_back = $repeatCfgModel->getCfg('date_back');
+        $date_back = array_sort($repeatCfgModel->getCfg('date_back'));
 
         #红包的重消配置
         $repeat_paper = $repeatCfgModel->getCfg('repeat_paper');
@@ -102,8 +105,12 @@ class ProvideApiController  extends Controller{
 
                 foreach ($data as $k=>$v){
 
+                    $child_number = 0;
+
+                    $usersModel->countChild_all($v['user_id'],$child_number);
+
                     #应返金额(购买数量*日返金额)
-                    $money = $v['number']*$date_back;
+                    $money = $v['number']*$this->getBonusCfg($date_back,$data);
 
                     #判断出局金额与应返金额的关系
 
@@ -369,6 +376,23 @@ class ProvideApiController  extends Controller{
     }
 
 
+
+    private function getBonusCfg(array $cfg,$count){
+
+        foreach($cfg as $k=>$v){
+
+            #判断是否满足直推人数
+            if ($count >= $v['numpeople']){
+
+                    #返回日返率
+                    return $v['percentage']/100;
+
+            }
+
+        }
+
+        return false;
+    }
 
 
 }

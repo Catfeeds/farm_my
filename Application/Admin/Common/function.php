@@ -396,3 +396,21 @@ function check_number($int){
 function  positive($int){
     return preg_match("/^[1-9][0-9]*$/",$int);
 }
+
+
+function array_sort(array $data,$type){
+
+    for ($a=0;$a<count($data);$a++){
+
+        for ($i=0;$i<count($data);$i++){
+
+            if ($data[$i][$type]<$data[$i+1][$type]){
+                $old = $data[$i];
+                $data[$i] = $data[$i+1];
+                $data[$i+1] = $old;
+            }
+        }
+    }
+
+    return $data;
+}

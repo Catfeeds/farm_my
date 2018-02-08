@@ -14,7 +14,7 @@ use Think\Page;
  * @author huajie <banhuajie@163.com>
  */
 class DistributionController extends AdminController {
-    //三级分销
+    //红包三级分销
     public function index() {
         $bonus = M("bonus_distribution");
         $where = ['key'=>'deduct'];
@@ -112,6 +112,51 @@ class DistributionController extends AdminController {
             $bankedit = M("bonus_distribution") -> where(array("id" => $id)) -> field("id, name, numpeople, percentage") -> find();
             echo json_encode($bankedit);
         }
+    }
+
+    public function paper(){
+
+        $repeat_cfg_m = M('repeat_cfg');
+
+        $where = ['key'=>'date_back'];
+
+        if (IS_AJAX) {
+
+            $data = (I('data'));
+
+            for ($i=0;$i<count($data);$i++){
+
+                for ($a=0;$a<count($data);$a++){
+
+                    if ($data[$a]['numpeople'] > $data[$a+1]['numpeople'] && $a+1<count($data)){
+
+                        $v = $data[$a];
+
+                        $data[$a] = $data[$a+1];
+
+                        $data[$a+1] = $v;
+
+                    }
+                }
+
+            }
+
+            $back = $repeat_cfg_m->where($where)->save(['data'=>json_encode($data)]);
+            if ($back===false){
+                $this->error('保存失败');
+            }
+
+            $this->success('保存成功');
+
+            exit();
+
+        }
+
+        $data = $repeat_cfg_m->where($where)->find();
+
+        $this->assign('data',json_decode($data['data'],true));
+
+        $this -> display();
     }
 
 }
